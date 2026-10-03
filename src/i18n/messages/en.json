@@ -4324,7 +4324,11 @@
     "apiKeyId": "Api Key Id",
     "offset": "Offset",
     "limit": "Limit",
-    "tool": "Tool"
+    "tool": "Tool",
+    "inspectorTitle": "MCP Inspector",
+    "inspectorDesc": "Interactive debugger for this MCP server — browse tools, resources and prompts, and invoke calls live. Runs as an optional compose sidecar (profile: inspector).",
+    "inspectorAuthHint": "Paste an OmniRoute API key with the mcp:connect scope into the Inspector's connection headers.",
+    "inspectorOpen": "Open Inspector"
   },
   "a2aDashboard": {
     "loading": "Loading A2A dashboard...",

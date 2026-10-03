@@ -227,6 +227,55 @@ function DisabledPanel() {
   );
 }
 
+const INSPECTOR_URL = process.env.NEXT_PUBLIC_MCP_INSPECTOR_URL ?? "http://127.0.0.1:18080";
+
+function InspectorCard({ serverUrl }: { serverUrl: string }) {
+  const t = useTranslations("mcpDashboard");
+  // Deep-link prefills endpoint + transport only. The MCP API key is entered
+  // in the Inspector's own connection settings — never baked into a URL,
+  // which would leak it into browser history and server logs.
+  const autoConnect = encodeURIComponent(
+    JSON.stringify({
+      url: `${serverUrl}/api/mcp/stream`,
+      name: "OmniRoute",
+      transportType: "http",
+      connectionMode: "direct",
+    })
+  );
+  return (
+    <Card className="p-6">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="material-symbols-outlined text-[18px]">frame_inspect</span>
+            <h3 className="font-semibold" style={{ color: "var(--color-text-main)" }}>
+              {t("inspectorTitle")}
+            </h3>
+          </div>
+          <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>
+            {t("inspectorDesc")}
+          </p>
+          <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
+            {t("inspectorAuthHint")}
+          </p>
+        </div>
+        <a
+          href={`${INSPECTOR_URL}/?autoConnect=${autoConnect}&tab=tools`}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors"
+          style={{
+            borderColor: "var(--color-border)",
+            color: "var(--color-primary)",
+          }}
+        >
+          {t("inspectorOpen")}
+        </a>
+      </div>
+    </Card>
+  );
+}
+
 export default function McpPage() {
   const t = useTranslations("mcpDashboard");
   const [mcpStatus, setMcpStatus] = useState<ServiceStatus>({ online: false, loading: true });
@@ -359,6 +408,8 @@ export default function McpPage() {
           baseUrl={baseUrl}
         />
       )}
+
+      {mcpEnabled && <InspectorCard serverUrl={baseUrl} />}
 
       {mcpEnabled ? <McpDashboardPage /> : <DisabledPanel />}
     </div>
