@@ -118,7 +118,9 @@ export default function HomeRecentRequests({ enabled = true }: { enabled?: boole
   const rows: CallLogRow[] = Array.isArray(data)
     ? (data as CallLogRow[]).filter((row) => !isConnectionTestRow(row)).slice(0, RECENT_LIMIT)
     : [];
-  const loaded = isSuccess;
+  // Stay loaded on refetch errors — data persists in cache and a transient
+  // failure shouldn't swap the empty message for a bare empty table.
+  const loaded = isSuccess || data !== undefined;
 
   return (
     <Card padding="sm" className="flex min-w-0 flex-col overflow-hidden h-[300px] sm:h-[420px]">

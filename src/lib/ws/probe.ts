@@ -3,9 +3,10 @@
  *
  * Performs a real RFC 6455 upgrade against the live-WS sidecar and walks the
  * furthest stage reached: TCP connect → WS open → protocol exchange (ping →
- * pong, or a well-formed protocol error such as UNAUTHORIZED). A rejected
- * upgrade is still useful evidence — it proves the listener answers HTTP —
- * so stages are reported instead of collapsed into up/down.
+ * pong, or a well-formed protocol error such as UNAUTHORIZED). Stages are
+ * reported instead of collapsed into up/down; note a socket that answers
+ * HTTP but refuses the upgrade surfaces as stage "connect" + unreachable —
+ * there is no stage between TCP-open and upgrade-complete.
  */
 
 import WebSocket from "ws";

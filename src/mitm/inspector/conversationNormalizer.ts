@@ -171,6 +171,12 @@ function blocksFromPart(value: unknown): NormalizedBlock[] {
           : "";
     return text ? [{ type: "reasoning", text }] : [];
   }
+  // Gemini thought parts carry `thought: true` with no type field — surface
+  // them as reasoning rather than ordinary text.
+  if (part.thought === true && typeof part.text === "string") {
+    const text = part.text.trim();
+    return text ? [{ type: "reasoning", text }] : [];
+  }
   if (
     type === "text" ||
     type === "input_text" ||

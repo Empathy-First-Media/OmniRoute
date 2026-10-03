@@ -251,7 +251,14 @@ export function getCookieValueFromHeader(
   // Browsers serialize the Cookie header as "a=1; b=2", so the leading-cookie case
   // (auth_token preceded by another cookie) must match too (#4004 same-origin proxy auth).
   const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${escaped}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : null;
+  if (!match) return null;
+  try {
+    return decodeURIComponent(match[1]);
+  } catch {
+    // Malformed % encoding in the cookie value — treat as absent rather than
+    // letting URIError propagate out of the (awaited, unguarded) authorize path.
+    return null;
+  }
 }
 
 async function isDashboardCookieAuthenticated(
@@ -578,6 +585,9 @@ export async function startLiveDashboardServer(
   wss.on("connection", async (ws, request) => {
     const pendingMessages: string[] = [];
     let activeClientId: string | null = null;
+    // Latch so the same rejected socket doesn't inflate rejection telemetry
+    // once per frame between close(4008) and the TCP teardown completing.
+    let earlyFloodRejected = false;
 
     // Clients can send the subscribe frame immediately after the WS open event,
     // while dashboard cookie/API-key auth is still resolving. Queue those early
@@ -589,9 +599,12 @@ export async function startLiveDashboardServer(
           pendingMessages.length >= MAX_PENDING_MESSAGES_PER_CLIENT ||
           raw.length > MAX_PENDING_MESSAGE_BYTES
         ) {
-          sendTo(ws, { type: "error", code: "RATE_LIMITED", message: "Too many early messages" });
-          liveWsStats.rejected(4008);
-          ws.close(4008, "Too many early messages");
+          if (!earlyFloodRejected) {
+            earlyFloodRejected = true;
+            sendTo(ws, { type: "error", code: "RATE_LIMITED", message: "Too many early messages" });
+            liveWsStats.rejected(4008);
+            ws.close(4008, "Too many early messages");
+          }
           return;
         }
         pendingMessages.push(raw);

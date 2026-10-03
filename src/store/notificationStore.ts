@@ -14,6 +14,7 @@
 
 import { create } from "zustand";
 import { toast } from "sonner";
+import { toToastText } from "@/shared/components/NotificationToast";
 
 let idCounter = 0;
 
@@ -52,8 +53,8 @@ interface NotificationStore {
 const sonnerIds = new Map<number, string | number>();
 
 function fireSonner(entry: Notification): string | number {
-  const title = entry.title ? String(entry.title) : String(entry.message);
-  const description = entry.title ? String(entry.message) : undefined;
+  const title = entry.title ? toToastText(entry.title) : toToastText(entry.message);
+  const description = entry.title ? toToastText(entry.message) : undefined;
   const options = {
     description,
     duration: entry.duration,

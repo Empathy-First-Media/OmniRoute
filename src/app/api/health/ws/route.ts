@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { deriveLiveWsPath } from "@/shared/utils/wsPath";
+import { deriveLiveWsPath, resolveLiveWsPublicUrl } from "@/shared/utils/wsPath";
 import { probeLiveWs } from "@/lib/ws/probe";
 
 /**
@@ -29,7 +29,7 @@ export async function GET() {
   const startedAt = Date.now();
   const host = process.env.LIVE_WS_HOST || "127.0.0.1";
   const port = parseInt(process.env.LIVE_WS_PORT || "20132", 10);
-  const path = deriveLiveWsPath(process.env.NEXT_PUBLIC_LIVE_WS_PUBLIC_URL);
+  const path = deriveLiveWsPath(resolveLiveWsPublicUrl() ?? undefined);
   // When the sidecar binds 0.0.0.0 the dial target is still loopback — the
   // probe is a local liveness check, not a LAN connectivity test.
   const dialHost = host === "0.0.0.0" || host === "::" ? "127.0.0.1" : host;
