@@ -1411,6 +1411,29 @@ OmniRoute ships an embedded Model Context Protocol server with 3 transports (std
 
 > Both HTTP transports are gated by `settings.mcpEnabled` and `settings.mcpTransport` — a transport mismatch returns `400`, an MCP disabled state returns `503`.
 
+### MCP Apps (SEP-1865)
+
+The server advertises a `resources` capability and ships one interactive App view:
+
+| URI                                    | MIME                        | Description                                                                                      |
+| -------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------ |
+| `ui://omniroute/session-snapshot.html` | `text/html;profile=mcp-app` | Session metrics dashboard (request count, cost, tokens, top models/providers, errors, fallbacks) |
+
+- `omniroute_get_session_snapshot` returns `structuredContent` and links to the view via `_meta` (both nested `ui.resourceUri` and the flat `ui/resourceUri` fallback).
+- The view is fully self-contained (no external CSP) and speaks the SEP-1865 `postMessage` bridge (`ui/initialize` → `tool-result` → render), hardened to only accept messages from the hosting frame (`event.source === window.parent`).
+- `resources/list` and `resources/read` are exposed on all three transports.
+
+### MCP Inspector sidecar
+
+`docker-compose.inspector.yml` runs the official [mcp-use Inspector](https://github.com/mcp-use/mcp-use) as an optional sidecar (amd64-pinned, runs under emulation on arm64):
+
+```bash
+docker compose -f docker-compose.inspector.yml up -d
+# → http://127.0.0.1:18080
+```
+
+The dashboard's MCP page deep-links to it via `NEXT_PUBLIC_MCP_INSPECTOR_URL` (see `docs/reference/ENVIRONMENT.md`).
+
 ---
 
 ## A2A Server
