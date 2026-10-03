@@ -6,6 +6,25 @@
 > and point back here. When a rule needs to change, change it HERE — never re-fork it into an
 > assistant-specific file.
 
+## Workspace isolation (Empathy-First-Media fork)
+
+This checkout is an **isolated workspace**. Every coding agent working here MUST:
+
+- **Stay inside the repository root.** Do not read, write, execute, or reference files outside
+  this directory — no `$HOME` dotfiles, no sibling repos, no global agent state. The only
+  sanctioned exceptions are the system toolchain binaries themselves (`git`, `gh`, `node`,
+  `docker`) and package caches populated by `npm ci`.
+- **Never read or print `.env` or any secret material.** `.env` is machine-local and gitignored;
+  `.devin/config.json` denies agent `Read` access to it and to `~/.ssh`, `~/.aws`, `~/.gnupg`,
+  and `~/Library/Keychains`. If a task needs a secret, ask the human to place it in `.env`.
+- **Run workloads in containers.** Prefer `.devcontainer/` for development and
+  `docker compose --profile base up -d` for running the service. Do not install runtimes,
+  global packages, or daemons on the host to work around a missing tool — ask first.
+- **Treat GitHub Actions as disabled on this fork.** They are turned off at the repo level;
+  do not re-enable or add workflows that publish, deploy, or push artifacts without an
+  explicit human request.
+- **GitHub access goes through `gh` only.** No hand-rolled `api.github.com` clients.
+
 ## Quick Start
 
 ```bash

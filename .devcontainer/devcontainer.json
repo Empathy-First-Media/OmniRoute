@@ -1,0 +1,35 @@
+{
+  "name": "OmniRoute Dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspaces/omniroute",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/omniroute,type=bind,consistency=cached",
+  "forwardPorts": [
+    20128,
+    20129,
+    20132
+  ],
+  "portsAttributes": {
+    "20128": {
+      "label": "Dashboard"
+    },
+    "20129": {
+      "label": "API"
+    },
+    "20132": {
+      "label": "Live WS"
+    }
+  },
+  "postCreateCommand": "npm ci",
+  "remoteUser": "node",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}
