@@ -1,4 +1,4 @@
-asyncapi: "3.0.0"
+asyncapi: "3.1.0"
 info:
   title: OmniRoute Realtime API
   version: 3.8.52
@@ -8,6 +8,7 @@ info:
   contact:
     name: Empathy First Media
     url: https://github.com/Empathy-First-Media/OmniRoute
+    email: dev@empathyfirstmedia.com
   tags:
     - name: websocket
     - name: realtime
