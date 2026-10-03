@@ -106,6 +106,9 @@ const SESSION_SNAPSHOT_VIEW_HTML = `<!doctype html>
   }
 
   window.addEventListener("message", function (event) {
+    // Only the hosting frame may speak to this view. Origin is opaque in
+    // sandboxed ui:// iframes, so source identity is the correct check.
+    if (event.source !== window.parent) return;
     var msg = event.data;
     if (!msg || msg.jsonrpc !== "2.0") return;
     if (msg.method === "ui/notifications/tool-input") return;
