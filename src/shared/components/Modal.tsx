@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useId } from "react";
+import { useEffect, useRef } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { useTranslations } from "next-intl";
 import { cn } from "@/shared/utils/cn";
 import Button, { type ButtonVariant } from "./Button";
@@ -40,6 +41,14 @@ interface ConfirmModalProps {
   loading?: boolean;
 }
 
+/**
+ * Modal — Radix Dialog underneath the historical ModalProps API.
+ *
+ * Focus trap, Escape handling, scroll lock, focus restore, portal rendering,
+ * `aria-modal`/`aria-labelledby` wiring, and overlay dismissal are all owned
+ * by Radix primitives; this wrapper only preserves the OmniRoute layout
+ * (traffic-light header dots, size presets, footer slot) and prop names.
+ */
 export default function Modal({
   isOpen,
   onClose,
@@ -54,9 +63,15 @@ export default function Modal({
   compactHeader = false,
 }: ModalProps) {
   const t = useTranslations("common");
-  const titleId = useId();
-  const dialogRef = useRef(null);
+  // Radix's default focus-restore targets Dialog.Trigger, which this API
+  // doesn't use (open is controlled externally) — capture the opener the
+  // way the old hand-rolled version did and restore it on close.
   const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    if (!isOpen) return;
+    const active = document.activeElement;
+    previouslyFocusedRef.current = active instanceof HTMLElement ? active : null;
+  }, [isOpen]);
 
   const sizes = {
     sm: "max-w-sm",
@@ -66,184 +81,108 @@ export default function Modal({
     full: "max-w-4xl",
   };
 
-  // Lock body scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  // Handle escape key
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
-    };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen, onClose]);
-
-  // Return keyboard users to the control that opened the dialog.
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const activeElement = document.activeElement;
-    previouslyFocusedRef.current = activeElement instanceof HTMLElement ? activeElement : null;
-
-    return () => {
-      const previouslyFocused = previouslyFocusedRef.current;
-      previouslyFocusedRef.current = null;
-      if (previouslyFocused?.isConnected) {
-        previouslyFocused.focus();
-      }
-    };
-  }, [isOpen]);
-
-  // Focus trap
-  useEffect(() => {
-    if (!isOpen || !dialogRef.current) return;
-
-    const dialog = dialogRef.current;
-    const focusableSelector =
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-
-    // Focus first focusable element
-    const firstFocusable = dialog.querySelector(focusableSelector);
-    const focusTimer = firstFocusable
-      ? window.setTimeout(() => firstFocusable.focus(), 50)
-      : undefined;
-
-    const handleTab = (e) => {
-      if (e.key !== "Tab") return;
-
-      const focusable = [...dialog.querySelectorAll(focusableSelector)];
-      if (focusable.length === 0) return;
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-
-    dialog.addEventListener("keydown", handleTab);
-    return () => {
-      if (focusTimer !== undefined) window.clearTimeout(focusTimer);
-      dialog.removeEventListener("keydown", handleTab);
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Overlay */}
-      <div
-        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-        onClick={closeOnOverlay ? onClose : undefined}
-        aria-hidden="true"
-      />
-
-      {/* Modal content */}
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={title ? titleId : undefined}
-        className={cn(
-          "relative w-full bg-surface",
-          "border border-black/10 dark:border-white/10",
-          "rounded-card shadow-2xl",
-          "animate-in fade-in zoom-in-95 duration-200",
-          sizes[size],
-          className
-        )}
-      >
-        {/* Header */}
-        {(title || showCloseButton) && (
-          <div
-            className={cn(
-              "flex items-center justify-between border-b border-black/5 dark:border-white/5",
-              compactHeader ? "px-4 py-2.5" : "p-6"
-            )}
-          >
-            <div className="flex items-center min-w-0">
-              <div
-                className={cn(
-                  "flex items-center gap-1.5 mr-3 shrink-0",
-                  compactHeader ? "" : "gap-2 mr-4"
-                )}
-                aria-hidden="true"
-              >
+    <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm" />
+        <Dialog.Content
+          onInteractOutside={closeOnOverlay ? undefined : (e) => e.preventDefault()}
+          onCloseAutoFocus={(event) => {
+            // Prevent Radix's (null) triggerRef fallback, then restore the
+            // captured opener. Disconnected elements are skipped — a removed
+            // opener must not become a focus() no-op regression (#focus-restore).
+            event.preventDefault();
+            const previouslyFocused = previouslyFocusedRef.current;
+            previouslyFocusedRef.current = null;
+            if (previouslyFocused?.isConnected) previouslyFocused.focus();
+          }}
+          className={cn(
+            "fixed inset-0 z-50 m-auto h-fit w-full bg-surface",
+            "border border-black/10 dark:border-white/10",
+            "rounded-card shadow-2xl",
+            "animate-in fade-in zoom-in-95 duration-200",
+            sizes[size],
+            className
+          )}
+        >
+          {/* Radix requires a Title for screen readers even when the caller
+              renders no header — keep an sr-only fallback. */}
+          {!title && !showCloseButton && (
+            <Dialog.Title className="sr-only">{t("details")}</Dialog.Title>
+          )}
+          {/* Header */}
+          {(title || showCloseButton) && (
+            <div
+              className={cn(
+                "flex items-center justify-between border-b border-black/5 dark:border-white/5",
+                compactHeader ? "px-4 py-2.5" : "p-6"
+              )}
+            >
+              <div className="flex items-center min-w-0">
                 <div
                   className={cn(
-                    "rounded-full bg-[#FF5F56]",
-                    compactHeader ? "w-2.5 h-2.5" : "w-3 h-3"
+                    "flex items-center gap-1.5 mr-3 shrink-0",
+                    compactHeader ? "" : "gap-2 mr-4"
                   )}
-                />
-                <div
-                  className={cn(
-                    "rounded-full bg-[#FFBD2E]",
-                    compactHeader ? "w-2.5 h-2.5" : "w-3 h-3"
-                  )}
-                />
-                <div
-                  className={cn(
-                    "rounded-full bg-[#27C93F]",
-                    compactHeader ? "w-2.5 h-2.5" : "w-3 h-3"
-                  )}
-                />
-              </div>
-              {title && (
-                <h2
-                  id={titleId}
-                  className={cn(
-                    "font-semibold text-text-main truncate min-w-0",
-                    compactHeader ? "text-sm" : "text-lg"
-                  )}
+                  aria-hidden="true"
                 >
-                  {title}
-                </h2>
+                  <div
+                    className={cn(
+                      "rounded-full bg-[#FF5F56]",
+                      compactHeader ? "w-2.5 h-2.5" : "w-3 h-3"
+                    )}
+                  />
+                  <div
+                    className={cn(
+                      "rounded-full bg-[#FFBD2E]",
+                      compactHeader ? "w-2.5 h-2.5" : "w-3 h-3"
+                    )}
+                  />
+                  <div
+                    className={cn(
+                      "rounded-full bg-[#27C93F]",
+                      compactHeader ? "w-2.5 h-2.5" : "w-3 h-3"
+                    )}
+                  />
+                </div>
+                {title && (
+                  <Dialog.Title
+                    className={cn(
+                      "font-semibold text-text-main truncate min-w-0",
+                      compactHeader ? "text-sm" : "text-lg"
+                    )}
+                  >
+                    {title}
+                  </Dialog.Title>
+                )}
+              </div>
+              {showCloseButton && (
+                <Dialog.Close
+                  aria-label={t("close")}
+                  className="p-1.5 rounded-lg text-text-muted hover:bg-black/5 dark:hover:bg-white/5 transition-colors shrink-0"
+                >
+                  <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+                    close
+                  </span>
+                </Dialog.Close>
               )}
             </div>
-            {showCloseButton && (
-              <button
-                onClick={onClose}
-                aria-label={t("close")}
-                className="p-1.5 rounded-lg text-text-muted hover:bg-black/5 dark:hover:bg-white/5 transition-colors shrink-0"
-              >
-                <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
-                  close
-                </span>
-              </button>
-            )}
-          </div>
-        )}
+          )}
 
-        {/* Body */}
-        <div className={bodyClassName ?? "p-6 max-h-[calc(80vh-140px)] overflow-y-auto"}>
-          {children}
-        </div>
-
-        {/* Footer */}
-        {footer && (
-          <div className="flex items-center justify-end gap-3 p-6 border-t border-black/5 dark:border-white/5">
-            {footer}
+          {/* Body */}
+          <div className={bodyClassName ?? "p-6 max-h-[calc(80vh-140px)] overflow-y-auto"}>
+            {children}
           </div>
-        )}
-      </div>
-    </div>
+
+          {/* Footer */}
+          {footer && (
+            <div className="flex items-center justify-end gap-3 p-6 border-t border-black/5 dark:border-white/5">
+              {footer}
+            </div>
+          )}
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 

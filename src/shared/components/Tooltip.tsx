@@ -1,26 +1,23 @@
 "use client";
 
 /**
- * Tooltip — Lightweight hover/focus tooltip component
+ * Tooltip — hover/focus tooltip built on Radix Tooltip primitives.
  *
- * Renders a positioned tooltip on hover/focus with delayed reveal.
- * Associates trigger and tooltip through aria-describedby for a11y.
+ * Radix owns the hard parts the old hand-rolled version reimplemented:
+ * delayed reveal (delayDuration), aria-describedby wiring, Escape dismissal,
+ * focus/blur triggers, portal rendering, and Popper-based positioning with
+ * viewport collision detection (the same "clamp to screen edge" behavior
+ * the manual getBoundingClientRect math approximated).
+ *
+ * Public API is unchanged: `content`, `position`, `delayMs`, `multiline`,
+ * `className` (trigger wrapper), `tooltipClassName` (bubble).
  *
  * @module shared/components/Tooltip
  */
 
-import type { ReactElement, ReactNode } from "react";
-import {
-  cloneElement,
-  isValidElement,
-  useCallback,
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import { createPortal } from "react-dom";
+import type { ReactNode } from "react";
+import * as RadixTooltip from "@radix-ui/react-tooltip";
+import { cn } from "@/shared/utils/cn";
 
 interface TooltipProps {
   children: ReactNode;
@@ -30,22 +27,13 @@ interface TooltipProps {
   tooltipClassName?: string;
   delayMs?: number;
   /**
-   * Issue #2352: Render the tooltip in a React portal so it escapes the
-   * stacking context of any ancestor with `overflow:hidden` / `overflow:auto`
-   * (modals, scroll containers). Without this, long labels next to a modal
-   * edge are clipped. Defaults to `true` because the previous absolute
-   * positioning has been the cause of every "tooltip cut off" report.
+   * Issue #2352: tooltips render in a portal so they escape ancestors with
+   * `overflow:hidden` (modals, scroll containers). Defaults to `true`; pass
+   * `false` to render inline (Radix `Tooltip.Content` without `Portal`).
    */
   usePortal?: boolean;
-  /**
-   * Allow the tooltip text to wrap onto multiple lines instead of forcing a
-   * single-line `whitespace-nowrap` layout. Use when the label is long.
-   */
+  /** Allow the tooltip text to wrap instead of forcing one line. */
   multiline?: boolean;
-}
-
-interface AriaDescribedElement {
-  "aria-describedby"?: string;
 }
 
 export default function Tooltip({
@@ -58,141 +46,35 @@ export default function Tooltip({
   usePortal = true,
   multiline = false,
 }: TooltipProps) {
-  const [visible, setVisible] = useState(false);
-  const tooltipId = useId();
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const wrapperRef = useRef<HTMLSpanElement | null>(null);
-  const tooltipRef = useRef<HTMLDivElement | null>(null);
+  if (!content) {
+    return <span className={`relative inline-flex ${className}`}>{children}</span>;
+  }
 
-  const show = useCallback(() => {
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setVisible(true), delayMs);
-  }, [delayMs]);
-
-  const hide = useCallback(() => {
-    clearTimeout(timeoutRef.current);
-    setVisible(false);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      clearTimeout(timeoutRef.current);
-    };
-  }, []);
-
-  // Position the portal-rendered tooltip relative to the trigger by writing
-  // directly to the DOM ref instead of round-tripping through React state.
-  // Touching .style here is the canonical React-portal positioning pattern
-  // and avoids the cascading-render warning we'd get from setCoords inside
-  // a layout effect.
-  useLayoutEffect(() => {
-    if (!visible || !usePortal) return;
-    const wrap = wrapperRef.current;
-    const tt = tooltipRef.current;
-    if (!wrap || !tt) return;
-    const rect = wrap.getBoundingClientRect();
-    const tRect = tt.getBoundingClientRect();
-    let top = 0;
-    let left = 0;
-    switch (position) {
-      case "bottom":
-        top = rect.bottom + 8;
-        left = rect.left + rect.width / 2 - tRect.width / 2;
-        break;
-      case "left":
-        top = rect.top + rect.height / 2 - tRect.height / 2;
-        left = rect.left - tRect.width - 8;
-        break;
-      case "right":
-        top = rect.top + rect.height / 2 - tRect.height / 2;
-        left = rect.right + 8;
-        break;
-      case "top":
-      default:
-        top = rect.top - tRect.height - 8;
-        left = rect.left + rect.width / 2 - tRect.width / 2;
-        break;
-    }
-    // Clamp horizontally inside the viewport so a trigger near the right
-    // edge does not produce a tooltip that bleeds off the screen.
-    const margin = 8;
-    const maxLeft = window.innerWidth - tRect.width - margin;
-    const minLeft = margin;
-    if (left > maxLeft) left = maxLeft;
-    if (left < minLeft) left = minLeft;
-
-    // Lock position immediately without any slide/flying animation from (0,0).
-    tt.style.transition = "none";
-    tt.style.top = `${top}px`;
-    tt.style.left = `${left}px`;
-    tt.style.visibility = "visible";
-    tt.style.opacity = "1";
-  }, [visible, usePortal, position, content]);
-
-  const positionClasses = {
-    top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
-    bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
-    left: "right-full top-1/2 -translate-y-1/2 mr-2",
-    right: "left-full top-1/2 -translate-y-1/2 ml-2",
-  };
-
-  const describedById = content ? tooltipId : undefined;
-  const trigger = isValidElement(children) ? (
-    (() => {
-      const child = children as ReactElement<AriaDescribedElement>;
-      const existingDescribedBy = child.props["aria-describedby"];
-      const mergedDescribedBy = [existingDescribedBy, describedById].filter(Boolean).join(" ");
-      return cloneElement(child, {
-        "aria-describedby": mergedDescribedBy || undefined,
-      });
-    })()
-  ) : (
-    <span tabIndex={0} aria-describedby={describedById}>
-      {children}
-    </span>
+  const bubble = (
+    <RadixTooltip.Content
+      side={position}
+      sideOffset={8}
+      collisionPadding={8}
+      className={cn(
+        "z-50 px-3 py-2 text-xs font-medium text-white bg-[#10141e]/95 rounded-lg",
+        "shadow-xl pointer-events-none border border-white/10 backdrop-blur-sm",
+        "animate-in fade-in duration-150 motion-reduce:transition-none",
+        multiline ? "max-w-xs whitespace-normal break-words" : "whitespace-nowrap",
+        tooltipClassName
+      )}
+    >
+      {content}
+    </RadixTooltip.Content>
   );
 
-  const widthClass = multiline ? "max-w-xs whitespace-normal break-words" : "whitespace-nowrap";
-  const baseTooltipClass = `z-50 px-3 py-2 text-xs font-medium text-white bg-[#10141e]/95 rounded-lg shadow-xl pointer-events-none transition-opacity duration-150 motion-reduce:transition-none border border-white/10 backdrop-blur-sm ${tooltipClassName}`;
-
-  const portalEnabled = usePortal && typeof window !== "undefined";
-
-  const tooltipEl =
-    visible && content ? (
-      <div
-        ref={tooltipRef}
-        id={tooltipId}
-        role="tooltip"
-        className={
-          portalEnabled
-            ? `fixed ${baseTooltipClass} ${widthClass}`
-            : `absolute ${baseTooltipClass} ${widthClass} ${positionClasses[position] || positionClasses.top}`
-        }
-        // For portal-rendered tooltips, mount hidden with opacity 0 at origin so
-        // layout effect sets the exact viewport coordinates before revealing it.
-        // This prevents the tooltip from flying or sliding in from top-left.
-        style={
-          portalEnabled ? { top: -9999, left: -9999, visibility: "hidden", opacity: 0 } : undefined
-        }
-      >
-        {content}
-      </div>
-    ) : null;
-
   return (
-    <span
-      ref={wrapperRef}
-      className={`relative inline-flex ${className}`}
-      onMouseEnter={show}
-      onMouseLeave={hide}
-      onFocus={show}
-      onBlur={hide}
-      onKeyDown={(event) => {
-        if (event.key === "Escape") hide();
-      }}
-    >
-      {trigger}
-      {portalEnabled && tooltipEl ? createPortal(tooltipEl, document.body) : tooltipEl}
-    </span>
+    <RadixTooltip.Provider delayDuration={delayMs} skipDelayDuration={0}>
+      <RadixTooltip.Root>
+        <RadixTooltip.Trigger asChild>
+          <span className={`relative inline-flex ${className}`}>{children}</span>
+        </RadixTooltip.Trigger>
+        {usePortal ? <RadixTooltip.Portal>{bubble}</RadixTooltip.Portal> : bubble}
+      </RadixTooltip.Root>
+    </RadixTooltip.Provider>
   );
 }

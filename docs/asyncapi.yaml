@@ -1,0 +1,341 @@
+asyncapi: "3.0.0"
+info:
+  title: OmniRoute Realtime API
+  version: 3.8.52
+  license:
+    name: MIT
+    url: https://github.com/Empathy-First-Media/OmniRoute/blob/main/LICENSE
+  contact:
+    name: Empathy First Media
+    url: https://github.com/Empathy-First-Media/OmniRoute
+  tags:
+    - name: websocket
+    - name: realtime
+  description: >-
+    Async contract for OmniRoute's real-time surfaces: the live-dashboard
+    WebSocket sidecar, the Traffic Inspector stream, and the WebSocket
+    handshake-discovery endpoint. HTTP/REST endpoints are documented in
+    docs/openapi.yaml — this file covers only the async channels.
+defaultContentType: application/json
+servers:
+  liveWs:
+    host: localhost:20132
+    protocol: ws
+    description: >-
+      Live-dashboard WebSocket sidecar (LIVE_WS_PORT, default 20132).
+      Loopback-bound by default; set LIVE_WS_HOST to expose.
+    bindings:
+      ws:
+        protocol: ws
+        query:
+          type: object
+  dashboard:
+    host: localhost:20128
+    protocol: ws
+    description: >-
+      Next.js dashboard/API server (PORT/DASHBOARD_PORT, default 20128).
+      Hosts the traffic-inspector WS upgrade and the handshake endpoint.
+channels:
+  liveDashboard:
+    address: /live-ws
+    description: >-
+      Real-time dashboard event stream. Server greets with a `welcome`
+      frame; client subscribes to channels; server pushes `event` frames.
+      RFC 6455 ping every 15s plus application-level ping/pong.
+    messages:
+      welcome:
+        $ref: "#/components/messages/WsWelcome"
+      event:
+        $ref: "#/components/messages/WsEvent"
+      pong:
+        $ref: "#/components/messages/WsPong"
+      error:
+        $ref: "#/components/messages/WsError"
+      subscribe:
+        $ref: "#/components/messages/WsSubscribe"
+      ping:
+        $ref: "#/components/messages/WsPing"
+  trafficInspector:
+    address: /api/tools/traffic-inspector/ws
+    description: >-
+      Traffic Inspector live capture stream. LOCAL_ONLY enforced in the
+      authz pipeline. Server emits `snapshot` on connect, then `new`,
+      `update`, `clear` mutations. Protocol ping every 30s.
+    messages:
+      snapshot:
+        $ref: "#/components/messages/TrafficSnapshot"
+      new:
+        $ref: "#/components/messages/TrafficNew"
+      update:
+        $ref: "#/components/messages/TrafficUpdate"
+      clear:
+        $ref: "#/components/messages/TrafficClear"
+  wsHandshake:
+    address: /api/v1/ws
+    description: >-
+      HTTP GET handshake-discovery endpoint. `?handshake=1` returns live-WS
+      connection metadata (path, port, publicUrl, protocol); otherwise
+      responds 426 Upgrade Required. Documented here because it is the
+      client entry point into the liveDashboard channel.
+    messages:
+      handshakeResponse:
+        $ref: "#/components/messages/WsHandshakeResponse"
+operations:
+  receiveLiveDashboard:
+    action: receive
+    description: Server-to-client frames on the live-dashboard channel.
+    channel:
+      $ref: "#/channels/liveDashboard"
+    summary: Client receives welcome/event/pong/error frames
+    messages:
+      - $ref: "#/channels/liveDashboard/messages/welcome"
+      - $ref: "#/channels/liveDashboard/messages/event"
+      - $ref: "#/channels/liveDashboard/messages/pong"
+      - $ref: "#/channels/liveDashboard/messages/error"
+    security:
+      - $ref: "#/components/securitySchemes/apiKey"
+  sendLiveDashboard:
+    action: send
+    description: Client-to-server frames on the live-dashboard channel.
+    channel:
+      $ref: "#/channels/liveDashboard"
+    summary: Client sends subscribe/ping frames
+    messages:
+      - $ref: "#/channels/liveDashboard/messages/subscribe"
+      - $ref: "#/channels/liveDashboard/messages/ping"
+    security:
+      - $ref: "#/components/securitySchemes/apiKey"
+  receiveTrafficInspector:
+    action: receive
+    description: Server-to-client frames on the traffic-inspector channel.
+    channel:
+      $ref: "#/channels/trafficInspector"
+    summary: Client receives snapshot/new/update/clear frames
+    messages:
+      - $ref: "#/channels/trafficInspector/messages/snapshot"
+      - $ref: "#/channels/trafficInspector/messages/new"
+      - $ref: "#/channels/trafficInspector/messages/update"
+      - $ref: "#/channels/trafficInspector/messages/clear"
+  discoverWsHandshake:
+    action: receive
+    description: Handshake-discovery response for live-WS connection metadata.
+    channel:
+      $ref: "#/channels/wsHandshake"
+    summary: Client GETs /api/v1/ws?handshake=1 for live-WS metadata
+    messages:
+      - $ref: "#/channels/wsHandshake/messages/handshakeResponse"
+components:
+  messages:
+    WsWelcome:
+      name: WsWelcome
+      title: Session welcome frame
+      payload:
+        $ref: "#/components/schemas/WsWelcomePayload"
+    WsEvent:
+      name: WsEvent
+      title: Channel event frame
+      payload:
+        $ref: "#/components/schemas/WsEventPayload"
+    WsPong:
+      name: WsPong
+      title: Application-level pong
+      payload:
+        $ref: "#/components/schemas/WsPongPayload"
+    WsError:
+      name: WsError
+      title: Protocol error frame
+      payload:
+        $ref: "#/components/schemas/WsErrorPayload"
+    WsSubscribe:
+      name: WsSubscribe
+      title: Channel subscription request
+      payload:
+        $ref: "#/components/schemas/WsSubscribePayload"
+    WsPing:
+      name: WsPing
+      title: Application-level ping
+      payload:
+        $ref: "#/components/schemas/WsPingPayload"
+    TrafficSnapshot:
+      name: TrafficSnapshot
+      title: Full buffer snapshot on connect
+      payload:
+        $ref: "#/components/schemas/TrafficSnapshotPayload"
+    TrafficNew:
+      name: TrafficNew
+      title: New captured request
+      payload:
+        $ref: "#/components/schemas/TrafficMutationPayload"
+    TrafficUpdate:
+      name: TrafficUpdate
+      title: Updated captured request
+      payload:
+        $ref: "#/components/schemas/TrafficMutationPayload"
+    TrafficClear:
+      name: TrafficClear
+      title: Buffer cleared
+      payload:
+        $ref: "#/components/schemas/TrafficClearPayload"
+    WsHandshakeResponse:
+      name: WsHandshakeResponse
+      title: Handshake-discovery response
+      payload:
+        $ref: "#/components/schemas/WsHandshakePayload"
+  schemas:
+    LiveChannel:
+      type: string
+      enum: [requests, combo, credentials, compression, agents]
+    WsWelcomePayload:
+      type: object
+      additionalProperties: false
+      required: [type, version, sessionId, serverTime, channels, backlog]
+      properties:
+        type:
+          type: string
+          const: welcome
+        version:
+          type: string
+        sessionId:
+          type: string
+        serverTime:
+          type: integer
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/LiveChannel"
+        backlog:
+          type: integer
+          description: Buffered events since last reconnect
+    WsEventPayload:
+      type: object
+      additionalProperties: false
+      required: [type, channel, event, data]
+      properties:
+        type:
+          type: string
+          const: event
+        channel:
+          $ref: "#/components/schemas/LiveChannel"
+        event:
+          type: string
+        data: true
+    WsPongPayload:
+      type: object
+      additionalProperties: false
+      required: [type]
+      properties:
+        type:
+          type: string
+          const: pong
+    WsErrorPayload:
+      type: object
+      additionalProperties: false
+      required: [type, code, message]
+      properties:
+        type:
+          type: string
+          const: error
+        code:
+          type: string
+        message:
+          type: string
+    WsSubscribePayload:
+      type: object
+      additionalProperties: false
+      required: [type, channels]
+      properties:
+        type:
+          type: string
+          const: subscribe
+        channels:
+          type: array
+          items:
+            $ref: "#/components/schemas/LiveChannel"
+    WsPingPayload:
+      type: object
+      additionalProperties: false
+      required: [type]
+      properties:
+        type:
+          type: string
+          const: ping
+    TrafficRequest:
+      type: object
+      description: Captured HTTP exchange (shape owned by src/mitm/inspector/buffer.ts)
+      additionalProperties: true
+    TrafficSnapshotPayload:
+      type: object
+      additionalProperties: false
+      required: [type, data]
+      properties:
+        type:
+          type: string
+          const: snapshot
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrafficRequest"
+    TrafficMutationPayload:
+      type: object
+      additionalProperties: false
+      required: [type, data]
+      properties:
+        type:
+          type: string
+          enum: [new, update]
+        data:
+          $ref: "#/components/schemas/TrafficRequest"
+    TrafficClearPayload:
+      type: object
+      additionalProperties: false
+      required: [type]
+      properties:
+        type:
+          type: string
+          const: clear
+    WsHandshakePayload:
+      type: object
+      additionalProperties: true
+      required: [ok, path, live]
+      properties:
+        ok:
+          type: boolean
+        path:
+          type: string
+          description: Live WS path (default /live-ws)
+        wsAuth:
+          type: object
+          additionalProperties: true
+        authenticated:
+          type: boolean
+        authType:
+          type: string
+        live:
+          type: object
+          required: [port, path, protocol, channels, auth]
+          properties:
+            port:
+              type: integer
+            publicUrl:
+              type: [string, "null"]
+            path:
+              type: string
+            protocol:
+              type: string
+            channels:
+              type: array
+              items:
+                type: string
+            auth:
+              type: string
+            heartbeatMs:
+              type: integer
+  securitySchemes:
+    apiKey:
+      type: httpApiKey
+      in: query
+      name: api_key
+      description: >-
+        API key as query parameter on the WS upgrade; same-key auth also
+        accepts the management session cookie. Loopback-bound deployments
+        may allow unauthenticated dashboard access per liveServer policy.

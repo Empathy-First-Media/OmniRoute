@@ -49,6 +49,8 @@ import {
   isOriginAllowed as isOriginAllowedPure,
 } from "./liveServerAllowList";
 
+import { liveWsStats } from "./liveStats";
+
 // ── Config ────────────────────────────────────────────────────────────────
 
 const DEFAULT_PORT = 20132;
@@ -270,6 +272,7 @@ function extractBearerToken(request: import("http").IncomingMessage): string | n
 // ── Protocol Handler ──────────────────────────────────────────────────────
 
 function handleMessage(clientId: string, raw: string): void {
+  liveWsStats.messageReceived();
   const client = clients.get(clientId);
   if (!client) return;
 
@@ -333,6 +336,7 @@ function handleMessage(clientId: string, raw: string): void {
 function sendTo(ws: WebSocket, msg: WsServerMessage | Record<string, unknown>): void {
   if (ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify(msg));
+    liveWsStats.messageSent();
   }
 }
 
@@ -369,6 +373,7 @@ function publishDashboardEvent(
     }
   }
 
+  liveWsStats.eventPublished();
   return true;
 }
 
@@ -384,6 +389,17 @@ function isLoopbackRequest(req: IncomingMessage): boolean {
 }
 
 function handleInternalEventRequest(req: IncomingMessage, res: ServerResponse): void {
+  // Loopback-only stats probe for /api/health/ws — exposes connection lifecycle
+  // counters, never client identities or payloads.
+  if (req.method === "GET" && req.url === "/__omniroute_ws_stats") {
+    if (!isLoopbackRequest(req)) {
+      res.writeHead(403, { "content-type": "application/json" }).end(JSON.stringify({ ok: false }));
+      return;
+    }
+    res.writeHead(200, { "content-type": "application/json", "cache-control": "no-store" });
+    res.end(JSON.stringify(liveWsStats.snapshot(clients.size)));
+    return;
+  }
   if (req.method !== "POST" || req.url !== "/__omniroute_event") {
     res.writeHead(404).end();
     return;
@@ -496,6 +512,7 @@ function startHeartbeat(server: WebSocketServer): void {
       if (now - client.lastActivity > HEARTBEAT_TIMEOUT_MS) {
         client.ws.terminate();
         clients.delete(clientId);
+        liveWsStats.heartbeatReap();
         continue;
       }
       // Send the application-level heartbeat response for clients that still rely on it.
@@ -573,6 +590,7 @@ export async function startLiveDashboardServer(
           raw.length > MAX_PENDING_MESSAGE_BYTES
         ) {
           sendTo(ws, { type: "error", code: "RATE_LIMITED", message: "Too many early messages" });
+          liveWsStats.rejected(4008);
           ws.close(4008, "Too many early messages");
           return;
         }
@@ -590,6 +608,7 @@ export async function startLiveDashboardServer(
     const originStr = Array.isArray(origin) ? origin[0] : origin;
     if (!isOriginAllowed(originStr)) {
       sendTo(ws, { type: "error", code: "FORBIDDEN_ORIGIN", message: "Origin not allowed" });
+      liveWsStats.rejected(4003);
       ws.close(4003, "Forbidden origin");
       return;
     }
@@ -597,6 +616,7 @@ export async function startLiveDashboardServer(
     // Enforce max clients
     if (clients.size >= MAX_CLIENTS) {
       sendTo(ws, { type: "error", code: "SERVER_FULL", message: "Max clients reached" });
+      liveWsStats.rejected(1013);
       ws.close(1013, "Server full");
       return;
     }
@@ -605,6 +625,7 @@ export async function startLiveDashboardServer(
     const auth = await authorizeConnection(request);
     if (!auth.authorized) {
       sendTo(ws, { type: "error", code: "UNAUTHORIZED", message: auth.error || "Unauthorized" });
+      liveWsStats.rejected(4001);
       ws.close(4001, "Unauthorized");
       return;
     }
@@ -622,6 +643,7 @@ export async function startLiveDashboardServer(
     };
 
     clients.set(clientId, client);
+    liveWsStats.accepted();
 
     // Constant format string + %s args — keeps clientId / remoteAddress out
     // of the format slot so a malicious value cannot forge log lines via
@@ -639,7 +661,8 @@ export async function startLiveDashboardServer(
     }
 
     // Handle close
-    ws.on("close", () => {
+    ws.on("close", (code) => {
+      liveWsStats.closed(code);
       clients.delete(clientId);
       console.log("[LiveWS] Client disconnected: %s [%d remaining]", clientId, clients.size);
     });

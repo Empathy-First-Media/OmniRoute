@@ -1,15 +1,19 @@
 "use client";
 
 /**
- * Notification Store — FASE-07 UX & Microinteractions
+ * Notification Store — global notification API, sonner-backed.
  *
- * Zustand-based global notification system for the dashboard.
- * Replaces ad-hoc feedback patterns with a centralized toast system.
+ * The public surface (addNotification / success / error / warning / info /
+ * removeNotification / clearAll) is unchanged so all ~50 call sites keep
+ * working; rendering is delegated to sonner's <Toaster /> via
+ * NotificationToast. `notifications` is still populated for consumers and
+ * tests that read store state — sonner owns the visual stack.
  *
  * @module store/notificationStore
  */
 
 import { create } from "zustand";
+import { toast } from "sonner";
 
 let idCounter = 0;
 
@@ -44,6 +48,23 @@ interface NotificationStore {
   info: (message: string, title?: string) => number;
 }
 
+/** Store id → sonner toast id, so removeNotification can dismiss it. */
+const sonnerIds = new Map<number, string | number>();
+
+function fireSonner(entry: Notification): string | number {
+  const title = entry.title ? String(entry.title) : String(entry.message);
+  const description = entry.title ? String(entry.message) : undefined;
+  const options = {
+    description,
+    duration: entry.duration,
+    dismissible: entry.dismissible,
+    // Sonner has no whole-toast click handler; map click-to-navigate style
+    // notifications onto an action button instead.
+    action: entry.onClick ? { label: "View", onClick: entry.onClick } : undefined,
+  };
+  return toast[entry.type](title, options);
+}
+
 export const useNotificationStore = create<NotificationStore>((set, get) => ({
   notifications: [],
 
@@ -60,11 +81,13 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
       onClick: notification.onClick,
     };
 
+    sonnerIds.set(id, fireSonner(entry));
     set((s) => ({
       notifications: [...s.notifications, entry],
     }));
 
-    // Auto-dismiss
+    // Sonner auto-dismisses the visual toast; keep the store entry reaped on
+    // the same clock so `notifications` stays bounded for state readers.
     if (entry.duration > 0) {
       setTimeout(() => {
         get().removeNotification(id);
@@ -75,12 +98,21 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
   },
 
   removeNotification: (id) => {
+    const sonnerId = sonnerIds.get(id);
+    if (sonnerId !== undefined) {
+      sonnerIds.delete(id);
+      toast.dismiss(sonnerId);
+    }
     set((s) => ({
       notifications: s.notifications.filter((n) => n.id !== id),
     }));
   },
 
-  clearAll: () => set({ notifications: [] }),
+  clearAll: () => {
+    sonnerIds.clear();
+    toast.dismiss();
+    set({ notifications: [] });
+  },
 
   // ─── Convenience Methods ─────────────────
 

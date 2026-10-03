@@ -1719,11 +1719,6 @@
       "count": 1
     }
   },
-  "src/shared/components/NotificationToast.tsx": {
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
   "src/shared/components/OAuthModal.tsx": {
     "@typescript-eslint/no-unused-vars": {
       "count": 3
