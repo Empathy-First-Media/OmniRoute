@@ -1,6 +1,7 @@
 import { CORS_HEADERS } from "@/shared/utils/cors";
 import { getLiveWsPath, resolveLiveWsPublicUrl } from "@/shared/utils/wsPath";
 import { authorizeWebSocketHandshake } from "@/lib/ws/handshake";
+import { CHANNEL_EVENTS } from "@/lib/events/types";
 
 const WS_HANDSHAKE_HEADERS = {
   ...CORS_HEADERS,
@@ -31,7 +32,7 @@ function getWsProtocol() {
       publicUrl: getLivePublicUrl(),
       path: getLiveWsPath(),
       protocol: "json",
-      channels: ["requests", "combo", "credentials"],
+      channels: Object.keys(CHANNEL_EVENTS),
       auth: "api-key",
       heartbeatMs: 15000,
     },
@@ -87,7 +88,7 @@ export async function GET(request: Request) {
           publicUrl: getLivePublicUrl(),
           path: getLiveWsPath(),
           protocol: "json",
-          channels: ["requests", "combo", "credentials"],
+          channels: Object.keys(CHANNEL_EVENTS),
           auth: "api-key",
           description: "Real-time dashboard events via WebSocket",
         },

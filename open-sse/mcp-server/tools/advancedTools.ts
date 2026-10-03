@@ -883,7 +883,10 @@ export async function handleGetSessionSnapshot() {
       Date.now() - start,
       true
     );
-    return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
+    return {
+      content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }],
+      structuredContent: result,
+    };
   } catch (err) {
     const msg = toSafeMcpErrorMessage(err);
     await logToolCall("omniroute_get_session_snapshot", {}, null, Date.now() - start, false, msg);

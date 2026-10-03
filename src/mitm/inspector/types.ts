@@ -68,6 +68,7 @@ export const InterceptedRequestSchema = z.object({
 
 export type NormalizedBlock =
   | { type: "text"; text: string }
+  | { type: "reasoning"; text: string }
   | { type: "tool_use"; id: string; name: string; input: unknown }
   | { type: "tool_result"; tool_use_id: string; content: unknown }
   // A tool identity node whose display content hasn't resolved from its
