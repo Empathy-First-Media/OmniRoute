@@ -1,0 +1,34 @@
+# MCP Inspector sidecar — the official mcp-use Inspector image
+# (https://docs.mcp-use.com/inspector/self-hosting). Optional visual debugger
+# for the in-app MCP server (~110 tools over stdio/SSE/Streamable HTTP).
+#
+# Launch alongside the base stack:
+#   docker compose -f docker-compose.yml -f docker-compose.inspector.yml \
+#     --profile base --profile inspector up -d
+#
+# The dashboard renders an "Open Inspector" card on /dashboard/mcp when
+# NEXT_PUBLIC_MCP_INSPECTOR_URL is set (default http://127.0.0.1:18080).
+# Auth: paste your OmniRoute MCP API key (mcp:connect scope) into the
+# Inspector's connection headers — it is deliberately NOT baked into URLs.
+
+services:
+  mcp-inspector:
+    image: mcpuse/inspector:latest
+    # amd64-only image (no arm64 manifest) — runs under Rosetta/QEMU on
+    # Apple Silicon; functional, just slower to boot.
+    platform: linux/amd64
+    container_name: omniroute-mcp-inspector
+    restart: unless-stopped
+    ports:
+      # Loopback-only publish — anyone who can reach the Inspector can call
+      # your MCP tools. Put it behind an auth'd reverse proxy for remote use.
+      - "${INSPECTOR_BIND_HOST:-127.0.0.1}:${MCP_INSPECTOR_PORT:-18080}:8080"
+    healthcheck:
+      # Image is node:20-alpine (BusyBox wget, no curl) per upstream docs.
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/inspector"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    profiles:
+      - inspector

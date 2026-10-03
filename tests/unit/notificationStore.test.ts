@@ -9,6 +9,7 @@
 
 import { describe, it, beforeEach, afterEach, mock } from "node:test";
 import assert from "node:assert/strict";
+import { toast } from "sonner";
 import { useNotificationStore } from "../../src/store/notificationStore.ts";
 
 describe("NotificationStore", () => {
@@ -108,6 +109,41 @@ describe("NotificationStore", () => {
         0,
         "should have 0 notifications after removal"
       );
+    });
+
+    it("maps duration<=0 to sonner Infinity (persistent notifications)", () => {
+      const spy = mock.method(toast, "info", () => 1);
+      try {
+        useNotificationStore
+          .getState()
+          .addNotification({ type: "info", message: "pin", duration: 0 });
+        const options = spy.mock.calls[0].arguments[1] as { duration?: number };
+        assert.equal(
+          options.duration,
+          Infinity,
+          "duration 0 must map to Infinity, not sonner's 4s fallback"
+        );
+      } finally {
+        spy.mock.restore();
+      }
+    });
+
+    it("removes store entry when sonner fires onDismiss", () => {
+      const spy = mock.method(toast, "info", () => 1);
+      try {
+        const id = useNotificationStore
+          .getState()
+          .addNotification({ type: "info", message: "dismiss me" });
+        const options = spy.mock.calls[0].arguments[1] as { onDismiss?: () => void };
+        options.onDismiss?.();
+        assert.equal(
+          useNotificationStore.getState().notifications.some((n) => n.id === id),
+          false,
+          "sonner-dismissed toast must leave the store"
+        );
+      } finally {
+        spy.mock.restore();
+      }
     });
 
     it("should not error when removing non-existent id", () => {

@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Read(**/.env.*.local)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/Library/Keychains/**)",
+      "Exec(git push --force*)",
+      "Exec(git push -f*)",
+      "Exec(rm -rf /*)",
+      "Exec(rm -rf ~*)"
+    ],
+    "ask": [
+      "Write(**/.env*)",
+      "Exec(git push*)",
+      "Exec(npm install*)",
+      "Exec(npm publish*)"
+    ]
+  }
+}

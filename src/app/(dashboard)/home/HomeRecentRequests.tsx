@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/shared/components";
 import { fmtCompact } from "@/shared/utils/formatting";
 
@@ -88,8 +89,6 @@ const STATE_DOT: Record<RequestState, string> = {
 
 export default function HomeRecentRequests({ enabled = true }: { enabled?: boolean }) {
   const t = useTranslations("home");
-  const [rows, setRows] = useState<CallLogRow[]>([]);
-  const [loaded, setLoaded] = useState(false);
   // A ticking clock so the relative "When" column updates without re-fetching.
   const [nowMs, setNowMs] = useState(() => Date.now());
 
@@ -99,51 +98,29 @@ export default function HomeRecentRequests({ enabled = true }: { enabled?: boole
     return () => clearInterval(id);
   }, [enabled]);
 
-  const load = useCallback(async (signal: AbortSignal) => {
-    try {
+  // refetchInterval pauses automatically while the tab is backgrounded
+  // (refetchIntervalInBackground defaults to false) — same behavior as the
+  // previous visibilityState-gated setTimeout loop.
+  const { data, isSuccess } = useQuery({
+    queryKey: ["home", "recent-requests"],
+    enabled,
+    refetchInterval: POLL_INTERVAL_MS,
+    queryFn: async ({ signal }) => {
       const res = await fetch(`/api/usage/call-logs?limit=${FETCH_LIMIT}&excludeTests=1`, {
         cache: "no-store",
         signal,
       });
-      if (!res.ok) return;
-      const data = await res.json();
-      if (signal.aborted) return;
-      const filtered = Array.isArray(data)
-        ? (data as CallLogRow[]).filter((row) => !isConnectionTestRow(row)).slice(0, RECENT_LIMIT)
-        : [];
-      setRows(filtered);
-      setLoaded(true);
-    } catch (error) {
-      const isAbort = error instanceof DOMException && error.name === "AbortError";
-      if (!isAbort) console.error("Failed to load recent requests:", error);
-    }
-  }, []);
+      if (!res.ok) throw new Error(`call-logs ${res.status}`);
+      return res.json();
+    },
+  });
 
-  useEffect(() => {
-    if (!enabled) return;
-
-    let cancelled = false;
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
-    let controller: AbortController | null = null;
-
-    const tick = async () => {
-      // Pause polling while the tab is backgrounded; resume on next tick.
-      if (document.visibilityState === "visible") {
-        const currentController = new AbortController();
-        controller = currentController;
-        await load(currentController.signal);
-        if (controller === currentController) controller = null;
-      }
-      if (!cancelled) timeoutId = setTimeout(tick, POLL_INTERVAL_MS);
-    };
-
-    tick();
-    return () => {
-      cancelled = true;
-      if (timeoutId) clearTimeout(timeoutId);
-      controller?.abort();
-    };
-  }, [enabled, load]);
+  const rows: CallLogRow[] = Array.isArray(data)
+    ? (data as CallLogRow[]).filter((row) => !isConnectionTestRow(row)).slice(0, RECENT_LIMIT)
+    : [];
+  // Stay loaded on refetch errors — data persists in cache and a transient
+  // failure shouldn't swap the empty message for a bare empty table.
+  const loaded = isSuccess || data !== undefined;
 
   return (
     <Card padding="sm" className="flex min-w-0 flex-col overflow-hidden h-[300px] sm:h-[420px]">
@@ -178,10 +155,7 @@ export default function HomeRecentRequests({ enabled = true }: { enabled?: boole
                     <td className="py-1.5">
                       <span className={`block size-1.5 rounded-full ${STATE_DOT[state]}`} />
                     </td>
-                    <td
-                      className="py-1.5 font-mono truncate max-w-[140px]"
-                      title={row.model || ""}
-                    >
+                    <td className="py-1.5 font-mono truncate max-w-[140px]" title={row.model || ""}>
                       {row.model || "—"}
                     </td>
                     <td className="py-1.5 text-right whitespace-nowrap">

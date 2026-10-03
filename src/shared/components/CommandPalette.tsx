@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Command } from "cmdk";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
@@ -44,25 +45,16 @@ interface PaletteItem {
   subgroupLabel?: string;
 }
 
-interface PaletteSubgroup {
-  subgroupId: string | null;
-  subgroupLabel: string | null;
-  items: { item: PaletteItem; flatIndex: number }[];
-}
-
-interface PaletteGroup {
-  sectionId: string;
-  sectionLabel: string;
-  subgroups: PaletteSubgroup[];
-}
-
+/**
+ * cmdk owns: fuzzy filtering (better than the old substring match), arrow-key
+ * navigation, Enter selection, combobox/listbox ARIA, scroll-into-view, and
+ * hover selection. This wrapper keeps the OmniRoute shell (overlay, footer
+ * hints), the sidebar-item resolution, and i18n.
+ */
 function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
   const router = useRouter();
   const t = useTranslations("sidebar");
-  const inputRef = useRef<HTMLInputElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
   const [query, setQuery] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [hiddenItems, setHiddenItems] = useState<Set<string>>(new Set());
   const [activePreset, setActivePreset] = useState<string | null>(null);
   const [radarAdminUrl, setRadarAdminUrl] = useState<unknown>(null);
@@ -84,11 +76,6 @@ function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
         // ignore aborts and fetch failures; palette still works with empty hidden set
       });
     return () => ctrl.abort();
-  }, []);
-
-  useEffect(() => {
-    const id = setTimeout(() => inputRef.current?.focus(), 30);
-    return () => clearTimeout(id);
   }, []);
 
   const safeTranslate = useCallback(
@@ -159,52 +146,6 @@ function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
     [hiddenItems, radarAdminUrl, safeTranslate, activePreset]
   );
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return allItems;
-    return allItems.filter(
-      (item) =>
-        item.label.toLowerCase().includes(q) ||
-        item.subtitle?.toLowerCase().includes(q) ||
-        item.sectionLabel.toLowerCase().includes(q) ||
-        item.subgroupLabel?.toLowerCase().includes(q)
-    );
-  }, [allItems, query]);
-
-  const grouped = useMemo<PaletteGroup[]>(() => {
-    const groups: PaletteGroup[] = [];
-    const sectionById = new Map<string, PaletteGroup>();
-    filtered.forEach((item, flatIndex) => {
-      // Look up the section/subgroup by id across the whole list, not just the
-      // previous item — a section's children can interleave root items and
-      // groups (e.g. "omni-proxy" has a trailing root item after its groups),
-      // which would otherwise produce two separate "_root" subgroups sharing
-      // the same React key.
-      let section = sectionById.get(item.sectionId);
-      if (!section) {
-        section = {
-          sectionId: item.sectionId,
-          sectionLabel: item.sectionLabel,
-          subgroups: [],
-        };
-        sectionById.set(item.sectionId, section);
-        groups.push(section);
-      }
-      const itemSubgroupId = item.subgroupId ?? null;
-      let subgroup = section.subgroups.find((sg) => sg.subgroupId === itemSubgroupId);
-      if (!subgroup) {
-        subgroup = {
-          subgroupId: itemSubgroupId,
-          subgroupLabel: item.subgroupLabel ?? null,
-          items: [],
-        };
-        section.subgroups.push(subgroup);
-      }
-      subgroup.items.push({ item, flatIndex });
-    });
-    return groups;
-  }, [filtered]);
-
   const handleNavigate = useCallback(
     (href: string, external: boolean) => {
       onClose();
@@ -217,38 +158,25 @@ function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
     [onClose, router]
   );
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-        return;
+  // One cmdk Group per (section, subgroup) — cmdk auto-hides a group when all
+  // its items are filtered out, which keeps subgroup headings from going
+  // stale the way a flat render would.
+  const groups = useMemo(() => {
+    const seen = new Map<string, { heading: string; items: PaletteItem[] }>();
+    for (const item of allItems) {
+      const key = `${item.sectionId}::${item.subgroupId ?? "_root"}`;
+      const heading = item.subgroupLabel
+        ? `${item.sectionLabel} · ${item.subgroupLabel}`
+        : item.sectionLabel;
+      const existing = seen.get(key);
+      if (existing) {
+        existing.items.push(item);
+      } else {
+        seen.set(key, { heading, items: [item] });
       }
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        setSelectedIndex((prev) => (prev + 1) % Math.max(1, filtered.length));
-      } else if (e.key === "ArrowUp") {
-        e.preventDefault();
-        setSelectedIndex(
-          (prev) => (prev - 1 + Math.max(1, filtered.length)) % Math.max(1, filtered.length)
-        );
-      } else if (e.key === "Enter") {
-        e.preventDefault();
-        const item = filtered[selectedIndex];
-        if (item) {
-          handleNavigate(item.href, item.external);
-        }
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [filtered, selectedIndex, onClose, handleNavigate]);
-
-  useEffect(() => {
-    const list = listRef.current;
-    if (!list) return;
-    const el = list.querySelector<HTMLElement>(`[data-flat-index="${selectedIndex}"]`);
-    el?.scrollIntoView({ block: "nearest" });
-  }, [selectedIndex]);
+    }
+    return [...seen.entries()];
+  }, [allItems]);
 
   return (
     <div className="fixed inset-0 z-[60] flex items-start justify-center pt-[10vh] px-4">
@@ -257,36 +185,35 @@ function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
         onClick={onClose}
         aria-hidden="true"
       />
-      <div
+      <Command
+        label={t("commandPalette.title")}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") {
+            e.preventDefault();
+            onClose();
+          }
+        }}
         className="relative w-full max-w-3xl bg-surface border border-black/10 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200"
         role="dialog"
         aria-modal="true"
-        aria-label={t("commandPalette.title")}
       >
         <div className="flex items-center gap-3 px-6 py-4 border-b border-black/5 dark:border-white/5">
           <span className="material-symbols-outlined text-[20px] text-text-muted shrink-0">
             search
           </span>
-          <input
-            ref={inputRef}
-            type="text"
+          <Command.Input
+            autoFocus
+            value={query}
+            onValueChange={setQuery}
             className="flex-1 bg-transparent text-text placeholder:text-text-muted outline-none text-base"
             placeholder={t("commandPalette.searchPlaceholder")}
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setSelectedIndex(0);
-            }}
             autoComplete="off"
             spellCheck={false}
           />
           {query && (
             <button
               className="text-text-muted hover:text-text transition-colors"
-              onClick={() => {
-                setQuery("");
-                setSelectedIndex(0);
-              }}
+              onClick={() => setQuery("")}
               tabIndex={-1}
               aria-label={t("commandPalette.clearSearch")}
             >
@@ -298,89 +225,48 @@ function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
           </kbd>
         </div>
 
-        {grouped.length > 0 ? (
-          <ul
-            ref={listRef}
-            className="py-2 max-h-[60vh] overflow-y-auto custom-scrollbar"
-            role="listbox"
-          >
-            {grouped.map((group) => (
-              <li key={group.sectionId} role="presentation">
-                <div className="sticky top-0 z-10 bg-surface/95 backdrop-blur-sm px-6 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-text-muted border-b border-black/5 dark:border-white/5">
-                  {group.sectionLabel}
-                </div>
-                <ul role="group" aria-label={group.sectionLabel}>
-                  {group.subgroups.map((subgroup) => (
-                    <li
-                      key={`${group.sectionId}::${subgroup.subgroupId ?? "_root"}`}
-                      role="presentation"
-                    >
-                      {subgroup.subgroupLabel && (
-                        <div className="px-6 pt-2 pb-1 text-[10px] font-medium uppercase tracking-wide text-text-muted/70">
-                          {subgroup.subgroupLabel}
-                        </div>
-                      )}
-                      <ul
-                        role={subgroup.subgroupLabel ? "group" : "presentation"}
-                        aria-label={subgroup.subgroupLabel ?? undefined}
-                      >
-                        {subgroup.items.map(({ item, flatIndex }) => (
-                          <li
-                            key={item.id}
-                            role="option"
-                            aria-selected={flatIndex === selectedIndex}
-                            data-flat-index={flatIndex}
-                          >
-                            <button
-                              className={`w-full flex items-center gap-3 ${
-                                subgroup.subgroupLabel ? "pl-10 pr-6" : "px-6"
-                              } py-2.5 text-left transition-colors ${
-                                flatIndex === selectedIndex
-                                  ? "bg-accent/10 text-accent ring-1 ring-inset ring-accent/20"
-                                  : "text-text hover:bg-black/5 dark:hover:bg-white/5"
-                              }`}
-                              onClick={() => handleNavigate(item.href, item.external)}
-                              onMouseEnter={() => setSelectedIndex(flatIndex)}
-                            >
-                              <span
-                                className={`material-symbols-outlined text-[18px] shrink-0 ${
-                                  flatIndex === selectedIndex ? "text-accent" : "text-text-muted"
-                                }`}
-                              >
-                                {item.icon}
-                              </span>
-                              <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium truncate">{item.label}</p>
-                                {item.subtitle && (
-                                  <p
-                                    className={`text-xs truncate ${
-                                      flatIndex === selectedIndex
-                                        ? "text-accent/70"
-                                        : "text-text-muted"
-                                    }`}
-                                  >
-                                    {item.subtitle}
-                                  </p>
-                                )}
-                              </div>
-                              {item.external && (
-                                <span className="material-symbols-outlined text-[14px] text-text-muted shrink-0">
-                                  open_in_new
-                                </span>
-                              )}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div className="py-10 text-center text-text-muted text-sm">{t("noResults")}</div>
-        )}
+        <Command.List className="py-2 max-h-[60vh] overflow-y-auto custom-scrollbar">
+          <Command.Empty>
+            <div className="py-10 text-center text-text-muted text-sm">{t("noResults")}</div>
+          </Command.Empty>
+          {groups.map(([key, group]) => (
+            <Command.Group
+              key={key}
+              heading={group.heading}
+              className="[&_[cmdk-group-heading]]:sticky [&_[cmdk-group-heading]]:top-0 [&_[cmdk-group-heading]]:z-10 [&_[cmdk-group-heading]]:bg-surface/95 [&_[cmdk-group-heading]]:backdrop-blur-sm [&_[cmdk-group-heading]]:px-6 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-text-muted [&_[cmdk-group-heading]]:border-b [&_[cmdk-group-heading]]:border-black/5 [&_[cmdk-group-heading]]:dark:border-white/5"
+            >
+              {group.items.map((item) => (
+                <Command.Item
+                  key={item.id}
+                  value={item.id}
+                  keywords={[
+                    item.label,
+                    item.subtitle ?? "",
+                    item.sectionLabel,
+                    item.subgroupLabel ?? "",
+                  ]}
+                  onSelect={() => handleNavigate(item.href, item.external)}
+                  className="w-full flex items-center gap-3 px-6 py-2.5 text-left transition-colors cursor-pointer text-text data-[selected=true]:bg-accent/10 data-[selected=true]:text-accent data-[selected=true]:ring-1 data-[selected=true]:ring-inset data-[selected=true]:ring-accent/20"
+                >
+                  <span className="material-symbols-outlined text-[18px] shrink-0 text-text-muted">
+                    {item.icon}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{item.label}</p>
+                    {item.subtitle && (
+                      <p className="text-xs truncate text-text-muted">{item.subtitle}</p>
+                    )}
+                  </div>
+                  {item.external && (
+                    <span className="material-symbols-outlined text-[14px] text-text-muted shrink-0">
+                      open_in_new
+                    </span>
+                  )}
+                </Command.Item>
+              ))}
+            </Command.Group>
+          ))}
+        </Command.List>
 
         <div className="flex items-center gap-4 px-4 py-2 border-t border-black/5 dark:border-white/5 text-[11px] text-text-muted">
           <span className="flex items-center gap-1">
@@ -402,7 +288,7 @@ function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
             {t("commandPalette.close")}
           </span>
         </div>
-      </div>
+      </Command>
     </div>
   );
 }

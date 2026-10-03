@@ -238,6 +238,24 @@
      9px). Custom names so the default rounded-sm/md/lg/xl utilities stay untouched. */
   --radius-card: var(--radius);
   --radius-control: var(--radius-control);
+
+  /* shadcn/ai-elements token aliases — map the library naming onto the OmniRoute
+     palette so vendored components theme correctly. Aliases only: dark mode is
+     inherited from the underlying vars. */
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text-main);
+  --color-card-foreground: var(--color-text-main);
+  --color-popover: var(--color-surface);
+  --color-popover-foreground: var(--color-text-main);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--color-bg-subtle);
+  --color-secondary-foreground: var(--color-text-main);
+  --color-muted: var(--color-bg-subtle);
+  --color-muted-foreground: var(--color-text-muted);
+  --color-input: var(--color-border);
+  --color-ring: var(--color-accent);
+  --color-destructive: var(--color-error);
+  --color-destructive-foreground: #ffffff;
 }
 
 /* ── Focus Indicators (U-3) ── */

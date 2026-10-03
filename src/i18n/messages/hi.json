@@ -4324,7 +4324,11 @@
     "apiKeyId": "API कुंजी आईडी",
     "offset": "ऑफ़सेट",
     "limit": "सीमा",
-    "tool": "टूल"
+    "tool": "टूल",
+    "inspectorTitle": "__MISSING__:MCP Inspector",
+    "inspectorDesc": "__MISSING__:Interactive debugger for this MCP server — browse tools, resources and prompts, and invoke calls live. Runs as an optional compose sidecar (profile: inspector).",
+    "inspectorAuthHint": "__MISSING__:Paste an OmniRoute API key with the mcp:connect scope into the Inspector's connection headers.",
+    "inspectorOpen": "__MISSING__:Open Inspector"
   },
   "a2aDashboard": {
     "loading": "A2A डैशबोर्ड लोड हो रहा है...",

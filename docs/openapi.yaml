@@ -9941,6 +9941,20 @@ paths:
       responses:
         "200":
           description: OK
+  /api/health/ws:
+    get:
+      tags:
+        - Health
+      summary: "GET health › ws"
+      description: >-
+        Probes the live-dashboard WebSocket sidecar and reports handshake
+        stage, heartbeat latency, close codes, and connection counters.
+        Auth-gated (not a public route): returns internal telemetry.
+      responses:
+        "200":
+          description: Sidecar reachable; body reports handshake stage and counters
+        "503":
+          description: Sidecar unreachable or probe failed
   /api/intelligence/sync:
     delete:
       tags:

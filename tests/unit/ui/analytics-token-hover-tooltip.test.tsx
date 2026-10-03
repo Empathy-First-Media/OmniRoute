@@ -28,6 +28,7 @@ vi.mock("next-intl", () => ({
 
 describe("Analytics Token Hover Tooltips", () => {
   let container: HTMLElement;
+  const roots: Array<ReturnType<typeof createRoot>> = [];
 
   beforeEach(() => {
     (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
@@ -36,6 +37,12 @@ describe("Analytics Token Hover Tooltips", () => {
   });
 
   afterEach(() => {
+    // Unmount before wiping body — Radix portals live outside `container`,
+    // so React must tear them down itself or the next test reconciles
+    // against nodes innerHTML already removed (NotFoundError).
+    for (const root of roots.splice(0)) {
+      act(() => root.unmount());
+    }
     container.remove();
     document.body.innerHTML = "";
   });
@@ -43,6 +50,7 @@ describe("Analytics Token Hover Tooltips", () => {
   it("StatCard renders rich custom tooltip when provided, else falls back to value title", async () => {
     vi.useFakeTimers();
     const root = createRoot(container);
+    roots.push(root);
     await act(async () => {
       root.render(
         <div>
@@ -69,7 +77,7 @@ describe("Analytics Token Hover Tooltips", () => {
     expect(trigger).toBeDefined();
 
     await act(async () => {
-      trigger?.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
+      trigger?.dispatchEvent(new MouseEvent("pointermove", { bubbles: true }));
       await vi.advanceTimersByTimeAsync(250);
     });
 
@@ -84,6 +92,7 @@ describe("Analytics Token Hover Tooltips", () => {
   it("CompactStatGrid renders rich custom tooltip when provided", async () => {
     vi.useFakeTimers();
     const root = createRoot(container);
+    roots.push(root);
     await act(async () => {
       root.render(
         <CompactStatGrid
@@ -121,7 +130,7 @@ describe("Analytics Token Hover Tooltips", () => {
     expect(trigger).toBeDefined();
 
     await act(async () => {
-      trigger?.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
+      trigger?.dispatchEvent(new MouseEvent("pointermove", { bubbles: true }));
       await vi.advanceTimersByTimeAsync(250);
     });
 
@@ -134,6 +143,7 @@ describe("Analytics Token Hover Tooltips", () => {
 
   it("ApiKeyTable renders full token counts as title hover tooltips", async () => {
     const root = createRoot(container);
+    roots.push(root);
     const mockData = [
       {
         apiKeyId: "key-12345678",
@@ -167,6 +177,7 @@ describe("Analytics Token Hover Tooltips", () => {
 
   it("ProviderTable renders full token counts as title hover tooltips", async () => {
     const root = createRoot(container);
+    roots.push(root);
     const mockData = [
       {
         provider: "anthropic",
@@ -199,6 +210,7 @@ describe("Analytics Token Hover Tooltips", () => {
 
   it("ModelTable renders full token counts as title hover tooltips", async () => {
     const root = createRoot(container);
+    roots.push(root);
     const mockData = [
       {
         model: "claude-3-7-sonnet",
@@ -231,6 +243,7 @@ describe("Analytics Token Hover Tooltips", () => {
 
   it("RequestCountTable renders full totalTokens count as title hover tooltip", async () => {
     const root = createRoot(container);
+    roots.push(root);
     const mockData = [
       {
         date: "2026-09-03",
@@ -269,6 +282,7 @@ describe("Analytics Token Hover Tooltips", () => {
   it("MostActiveDay7d renders rich custom tooltip on hover", async () => {
     vi.useFakeTimers();
     const root = createRoot(container);
+    roots.push(root);
     // Use today's date formatted as YYYY-MM-DD
     const today = new Date();
     const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
@@ -284,7 +298,7 @@ describe("Analytics Token Hover Tooltips", () => {
     expect(trigger).toBeDefined();
 
     await act(async () => {
-      trigger?.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
+      trigger?.dispatchEvent(new MouseEvent("pointermove", { bubbles: true }));
       await vi.advanceTimersByTimeAsync(250);
     });
 

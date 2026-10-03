@@ -1,6 +1,8 @@
 "use client";
 
 import type { NormalizedBlock } from "@/mitm/inspector/types";
+import { useTranslations } from "next-intl";
+import { Reasoning } from "@/shared/components/ai-elements/Reasoning";
 import { ToolCallBlock } from "./ToolCallBlock";
 import { ToolResultBlock } from "./ToolResultBlock";
 import MarkdownMessage from "@/app/(dashboard)/dashboard/playground/components/MarkdownMessage";
@@ -10,6 +12,7 @@ interface MessageContentProps {
 }
 
 export function MessageContent({ blocks }: MessageContentProps) {
+  const t = useTranslations("settings");
   return (
     <div className="space-y-2">
       {blocks.map((block, i) => {
@@ -18,6 +21,9 @@ export function MessageContent({ blocks }: MessageContentProps) {
           return (
             <MarkdownMessage key={i} content={block.text} className="text-sm text-text-main" />
           );
+        }
+        if (block.type === "reasoning") {
+          return <Reasoning key={i} text={block.text} label={t("reasoning")} />;
         }
         if (block.type === "tool_use") {
           return <ToolCallBlock key={i} id={block.id} name={block.name} input={block.input} />;

@@ -43,3 +43,12 @@ if (typeof Promise.withResolvers === "undefined") {
 if (typeof globalThis.WebSocket === "undefined") {
   (globalThis as any).WebSocket = WebSocket;
 }
+
+// Polyfill requestAnimationFrame for non-DOM Node contexts — sonner's dismiss
+// path reaches it when stores call toast.dismiss() under node:test or in the
+// standalone server runtime.
+const g = globalThis as Record<string, unknown>;
+if (typeof g.requestAnimationFrame === "undefined") {
+  g.requestAnimationFrame = (cb: (time: number) => void) => setTimeout(() => cb(Date.now()), 0);
+  g.cancelAnimationFrame = (id: number) => clearTimeout(id);
+}

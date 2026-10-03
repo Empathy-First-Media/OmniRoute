@@ -301,3 +301,7 @@ docker-compose.yml.bak
 
 # run-translation.mjs writes the state atomically via a per-process temp file
 /.i18n-state.json.*.tmp
+
+# Devin CLI local overrides (gitignored per upstream convention)
+.devin/config.local.json
+.devin/mcp_config.local.json

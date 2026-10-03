@@ -1,6 +1,8 @@
 "use client";
 
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 
 const INTERACTIVE_ELEMENT_SELECTOR =
   'a[href], button, input, select, textarea, summary, [role="button"], [role="link"], ' +
@@ -75,6 +77,23 @@ export default function DataTable({
 }: DataTableProps) {
   const t = useTranslations("common");
   const resolvedEmptyMessage = emptyMessage ?? t("noData");
+
+  // TanStack Table owns the row model: stable row identity (getRowId honors
+  // the caller's `id`), memoized row derivation, and a ColumnDef surface the
+  // component can extend (sorting/filtering) without reworking callers.
+  const columnDefs = useMemo<ColumnDef<DataTableRow>[]>(
+    () => columns.map((col) => ({ id: col.key, accessorKey: col.key })),
+    [columns]
+  );
+  const table = useReactTable({
+    columns: columnDefs,
+    data,
+    // Prefix the index fallback so explicit ids like 0 or "" can't collide
+    // with it and produce duplicate React keys.
+    getRowId: (row, index) => (row.id != null && row.id !== "" ? String(row.id) : `__idx_${index}`),
+    getCoreRowModel: getCoreRowModel(),
+  });
+  const rows = table.getRowModel().rows;
 
   if (loading) {
     return (
@@ -168,67 +187,70 @@ export default function DataTable({
           </tr>
         </thead>
         <tbody>
-          {data.map((row, idx) => (
-            <tr
-              key={row.id || idx}
-              onClick={(event) => {
-                if (
-                  !onRowClick ||
-                  targetsNestedInteractiveElement(event.currentTarget, event.target)
-                )
-                  return;
-                onRowClick(row);
-              }}
-              onKeyDown={
-                onRowClick
-                  ? (event) => {
-                      if (event.target !== event.currentTarget) return;
-                      if (event.key !== "Enter" && event.key !== " ") return;
-                      event.preventDefault();
-                      onRowClick(row);
-                    }
-                  : undefined
-              }
-              tabIndex={onRowClick ? 0 : undefined}
-              style={{
-                cursor: onRowClick ? "pointer" : "default",
-                background:
-                  row.id === selectedId
-                    ? "var(--table-row-selected)"
-                    : idx % 2 === 0
-                      ? "transparent"
-                      : "var(--table-row-zebra)",
-                transition: "background 0.15s",
-              }}
-              onMouseEnter={(e) => {
-                if (row.id !== selectedId) {
-                  e.currentTarget.style.background = "var(--table-row-hover)";
+          {rows.map((rowModel, idx) => {
+            const row = rowModel.original;
+            return (
+              <tr
+                key={rowModel.id}
+                onClick={(event) => {
+                  if (
+                    !onRowClick ||
+                    targetsNestedInteractiveElement(event.currentTarget, event.target)
+                  )
+                    return;
+                  onRowClick(row);
+                }}
+                onKeyDown={
+                  onRowClick
+                    ? (event) => {
+                        if (event.target !== event.currentTarget) return;
+                        if (event.key !== "Enter" && event.key !== " ") return;
+                        event.preventDefault();
+                        onRowClick(row);
+                      }
+                    : undefined
                 }
-              }}
-              onMouseLeave={(e) => {
-                if (row.id !== selectedId) {
-                  e.currentTarget.style.background =
-                    idx % 2 === 0 ? "transparent" : "var(--table-row-zebra)";
-                }
-              }}
-            >
-              {columns.map((col) => (
-                <td
-                  key={col.key}
-                  style={{
-                    padding: "6px 10px",
-                    borderBottom: "1px solid var(--table-cell-border)",
-                    whiteSpace: "nowrap",
-                    maxWidth: col.maxWidth || "200px",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {renderCell(row, col)}
-                </td>
-              ))}
-            </tr>
-          ))}
+                tabIndex={onRowClick ? 0 : undefined}
+                style={{
+                  cursor: onRowClick ? "pointer" : "default",
+                  background:
+                    row.id === selectedId
+                      ? "var(--table-row-selected)"
+                      : idx % 2 === 0
+                        ? "transparent"
+                        : "var(--table-row-zebra)",
+                  transition: "background 0.15s",
+                }}
+                onMouseEnter={(e) => {
+                  if (row.id !== selectedId) {
+                    e.currentTarget.style.background = "var(--table-row-hover)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (row.id !== selectedId) {
+                    e.currentTarget.style.background =
+                      idx % 2 === 0 ? "transparent" : "var(--table-row-zebra)";
+                  }
+                }}
+              >
+                {columns.map((col) => (
+                  <td
+                    key={col.key}
+                    style={{
+                      padding: "6px 10px",
+                      borderBottom: "1px solid var(--table-cell-border)",
+                      whiteSpace: "nowrap",
+                      maxWidth: col.maxWidth || "200px",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {renderCell(row, col)}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

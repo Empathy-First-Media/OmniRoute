@@ -4324,7 +4324,11 @@
     "apiKeyId": "API-nøkkel-ID",
     "offset": "Forskyvning",
     "limit": "Grense",
-    "tool": "Verktøy"
+    "tool": "Verktøy",
+    "inspectorTitle": "__MISSING__:MCP Inspector",
+    "inspectorDesc": "__MISSING__:Interactive debugger for this MCP server — browse tools, resources and prompts, and invoke calls live. Runs as an optional compose sidecar (profile: inspector).",
+    "inspectorAuthHint": "__MISSING__:Paste an OmniRoute API key with the mcp:connect scope into the Inspector's connection headers.",
+    "inspectorOpen": "__MISSING__:Open Inspector"
   },
   "a2aDashboard": {
     "loading": "Laster A2A-dashbordet...",

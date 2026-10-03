@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import * as RadixCollapsible from "@radix-ui/react-collapsible";
 import { cn } from "@/shared/utils/cn";
 
 interface CollapsibleProps {
@@ -25,8 +26,10 @@ interface CollapsibleProps {
 /**
  * Minimal click-to-expand section. Stateless from the caller's perspective
  * (open/closed lives in local state — does NOT survive page refresh, per the
- * UX brief). Uses material-symbols-outlined chevrons to match the rest of
- * the OmniRoute UI.
+ * UX brief). Radix Collapsible owns the trigger/content ARIA wiring
+ * (aria-controls, keyboard semantics); this wrapper keeps the OmniRoute
+ * layout and prop names. Uses material-symbols-outlined chevrons to match
+ * the rest of the UI.
  */
 export default function Collapsible({
   title,
@@ -55,17 +58,12 @@ export default function Collapsible({
   );
 
   // The chevron + title region is the click target. Trailing interactive
-  // controls (Toggle, Button) live OUTSIDE the toggle button so we never nest
+  // controls (Toggle, Button) live OUTSIDE the trigger so we never nest
   // <button> inside <button> (invalid HTML; breaks keyboard nav + ARIA).
   return (
-    <div className={wrapperClasses}>
+    <RadixCollapsible.Root open={open} onOpenChange={setOpen} className={wrapperClasses}>
       <div className={headerRowClasses}>
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          className="flex items-center gap-3 flex-1 min-w-0 text-left -m-1 p-1 rounded"
-        >
+        <RadixCollapsible.Trigger className="flex items-center gap-3 flex-1 min-w-0 text-left -m-1 p-1 rounded">
           <span
             className="material-symbols-outlined text-text-muted text-[20px] shrink-0"
             aria-hidden="true"
@@ -84,10 +82,14 @@ export default function Collapsible({
             <div className="text-sm font-medium text-text-main truncate">{title}</div>
             {subtitle && <div className="text-xs text-text-muted truncate">{subtitle}</div>}
           </div>
-        </button>
+        </RadixCollapsible.Trigger>
         {trailing && <div className="flex items-center gap-2 shrink-0">{trailing}</div>}
       </div>
-      {open && <div className={variant === "default" ? "p-4" : "p-3"}>{children}</div>}
-    </div>
+      {/* Radix Content unmounts when closed (same as the old {open && ...}),
+          and emits the data-state hooks consumers/tests may key on. */}
+      <RadixCollapsible.Content className={variant === "default" ? "p-4" : "p-3"}>
+        {children}
+      </RadixCollapsible.Content>
+    </RadixCollapsible.Root>
   );
 }

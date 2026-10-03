@@ -68,6 +68,7 @@ import {
   handleOneproxyRotate,
   handleOneproxyStats,
 } from "./tools/advancedTools.ts";
+import { registerAppViews, SESSION_SNAPSHOT_TOOL_META } from "./tools/appResources.ts";
 import { handlePickFastestModel } from "./tools/pickFastestModel.ts";
 import { memoryTools } from "./tools/memoryTools.ts";
 import { skillTools } from "./tools/skillTools.ts";
@@ -1030,6 +1031,7 @@ export function createMcpServer(options?: CreateMcpServerOptions): McpServer {
       description:
         "Returns a full snapshot of the current working session: cost, tokens, top models, errors, budget status",
       inputSchema: getSessionSnapshotInput,
+      _meta: SESSION_SNAPSHOT_TOOL_META,
     },
     withScopeEnforcement("omniroute_get_session_snapshot", async (args) => {
       getSessionSnapshotInput.parse(args ?? {});
@@ -1511,6 +1513,7 @@ export function createMcpServer(options?: CreateMcpServerOptions): McpServer {
     // Skills not loaded yet — skip dynamic registration until next reconnect
   }
 
+  registerAppViews(server);
   return server;
 }
 

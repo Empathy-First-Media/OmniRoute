@@ -138,8 +138,8 @@ function reasoningBlocks(value: JsonRecord): NormalizedBlock[] {
   const summary = Array.isArray(value.summary) ? value.summary : [];
   for (const entry of summary) {
     const record = asRecord(entry);
-    const block = textBlock(record?.text);
-    if (block) blocks.push(block);
+    const text = typeof record?.text === "string" ? record.text.trim() : "";
+    if (text) blocks.push({ type: "reasoning", text });
   }
   return blocks;
 }
@@ -162,6 +162,21 @@ function blocksFromPart(value: unknown): NormalizedBlock[] {
     return block ? [block] : [];
   }
   if (type === "reasoning") return reasoningBlocks(part);
+  if (type === "thinking") {
+    const text =
+      typeof part.thinking === "string"
+        ? part.thinking.trim()
+        : typeof part.text === "string"
+          ? part.text.trim()
+          : "";
+    return text ? [{ type: "reasoning", text }] : [];
+  }
+  // Gemini thought parts carry `thought: true` with no type field — surface
+  // them as reasoning rather than ordinary text.
+  if (part.thought === true && typeof part.text === "string") {
+    const text = part.text.trim();
+    return text ? [{ type: "reasoning", text }] : [];
+  }
   if (
     type === "text" ||
     type === "input_text" ||

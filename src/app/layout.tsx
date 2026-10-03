@@ -9,6 +9,7 @@ import type { Viewport } from "next";
 import { PwaRegister } from "@/shared/components/PwaRegister";
 import { LocaleAutoDetect } from "@/shared/components/LocaleAutoDetect";
 import { BasePathNetworkProvider } from "@/shared/components/BasePathNetworkProvider";
+import QueryProvider from "@/shared/components/QueryProvider";
 
 export const viewport: Viewport = {
   themeColor: "#0b0f1a",
@@ -138,9 +139,11 @@ export default async function RootLayout({ children }) {
         </a>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <BasePathNetworkProvider>
-            <PwaRegister />
-            <LocaleAutoDetect />
-            <ThemeProvider>{children}</ThemeProvider>
+            <QueryProvider>
+              <PwaRegister />
+              <LocaleAutoDetect />
+              <ThemeProvider>{children}</ThemeProvider>
+            </QueryProvider>
           </BasePathNetworkProvider>
         </NextIntlClientProvider>
       </body>

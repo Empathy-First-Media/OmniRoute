@@ -6,13 +6,30 @@ if ! command -v npx >/dev/null 2>&1; then
   exit 1
 fi
 
-# Cheap, deterministic local gates (re-enabled). Slower checks (i18n drift,
-# openapi coverage/security-tiers, env-doc sync) run in CI to keep commits fast.
+# Cheap, deterministic local gates. Slower checks (i18n drift, openapi
+# security-tiers, duplication, cycles-vs-baseline, coverage, e2e) run in CI.
 sh scripts/check/check-git-identity.sh
-# The stash is shared by every worktree. Never let a local hook stash another
-# session's changes, and never download a missing tool during a commit.
+
+# Auto-fix staged content first (prettier + eslint --fix; toml/shell formatters
+# run when the mise shims are on PATH). --no-stash: never let a hook stash
+# another session's changes; fixes are re-staged into the same atomic commit.
 npx --no-install lint-staged --no-stash
-node scripts/quality/gate-manifest.mjs
+
+# 21-gate fast filesystem profile (~20s): gate-manifest, tracked-artifacts,
+# any-budget:t11, migration-numbering, node-runtime, provider-consistency,
+# provider-assets, pricing-freshness, provider-order-sync, public-creds,
+# error-helper, fetch-targets, api-docs-refs, deps, db-rules, file-size,
+# complexity-ratchets, known-symbols, route-guard-membership, test-discovery,
+# test-masking.
+npm run quality:scan:fast
+
+# Fast deterministic gates outside the profile (~5s combined).
+npm run check:asyncapi
+npm run check:secrets
+npm run check:lockfile
+npm run check:env-doc-sync
+npm run check:openapi-coverage
+npm run check:openapi-routes
+npm run check:forgotten-sibling-tests
+npm run check:circular-deps
 node scripts/check/check-docs-sync.mjs
-npm run check:any-budget:t11
-node scripts/check/check-tracked-artifacts.mjs

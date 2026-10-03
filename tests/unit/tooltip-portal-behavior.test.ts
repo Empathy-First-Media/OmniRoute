@@ -1,12 +1,13 @@
 /**
  * Issue #2352 — Tooltip must render in a React portal by default so it can
- * escape ancestor stacking contexts (modal `overflow-hidden`). Without the
+ * escape ancestor stacking contexts (modal `overflow:hidden`). Without the
  * portal, tooltips in the combo edit modal were clipped.
  *
- * Browser DOM is not available in this Node test runner, so this regression
- * guard verifies the source-level contract: (1) the component opts into a
- * portal by default, (2) the createPortal target is document.body, (3) the
- * `multiline` opt-out replaces the `whitespace-nowrap` clamp.
+ * The component now delegates portal + collision handling to Radix Tooltip
+ * (Popper), which portals into document.body and clamps to the viewport via
+ * `collisionPadding` — a strictly stronger version of the old manual
+ * getBoundingClientRect clamp. These source-level assertions pin that
+ * contract so the guarantees can't regress silently.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -19,16 +20,20 @@ const TOOLTIP_SRC = path.resolve(__dirname, "../../src/shared/components/Tooltip
 
 const src = fs.readFileSync(TOOLTIP_SRC, "utf8");
 
-test("#2352 Tooltip imports createPortal from react-dom", () => {
+test("#2352 Tooltip renders the bubble through Radix Tooltip", () => {
   assert.ok(
-    /createPortal\s*\}\s*from\s+"react-dom"/.test(src),
-    "Tooltip must import createPortal so it can break out of clipping ancestors"
+    /import \* as RadixTooltip from "@radix-ui\/react-tooltip"/.test(src),
+    "Tooltip must be built on @radix-ui/react-tooltip primitives"
+  );
+  assert.ok(
+    /RadixTooltip\.Content/.test(src),
+    "RadixTooltip.Content provides fixed Popper positioning inside the portal"
   );
 });
 
 test("#2352 Tooltip exposes usePortal prop defaulted to true", () => {
-  const propTrue = /usePortal\s*=\s*true/;
   const propDecl = /usePortal\s*\?:\s*boolean/;
+  const propTrue = /usePortal\s*=\s*true/;
   assert.ok(propDecl.test(src), "TooltipProps must declare optional usePortal prop");
   assert.ok(
     propTrue.test(src),
@@ -36,10 +41,12 @@ test("#2352 Tooltip exposes usePortal prop defaulted to true", () => {
   );
 });
 
-test("#2352 Tooltip portal target is document.body", () => {
+test("#2352 Tooltip portals to document.body by default", () => {
+  // RadixTooltip.Portal mounts into document.body, which is exactly where the
+  // old createPortal(tooltipEl, document.body) call rendered — the clipping fix.
   assert.ok(
-    /createPortal\([^)]+,\s*document\.body\)/.test(src),
-    "Portal target must be document.body so the tooltip escapes overflow:hidden ancestors"
+    /usePortal\s*\?\s*<RadixTooltip\.Portal>/.test(src),
+    "Portal rendering must remain the default escape hatch for overflow:hidden ancestors"
   );
 });
 
@@ -50,21 +57,15 @@ test("#2352 multiline prop swaps whitespace-nowrap for wrap-friendly classes", (
   );
 });
 
-test("#2352 portal tooltip uses fixed positioning (not absolute)", () => {
-  // When portaled to document.body, absolute positioning relative to the
-  // trigger no longer works — we need fixed coords computed from the
-  // trigger's getBoundingClientRect().
+test("#2352 portal tooltip clamps to viewport bounds (collision-aware)", () => {
+  // Popper's collision engine (collisionPadding + side) replaces the old manual
+  // maxLeft/minLeft clamp — it flips/shifts the bubble to stay on screen.
   assert.ok(
-    /portalEnabled[\s\S]{0,200}?`fixed\b/.test(src),
-    "Portal-rendered tooltip must use position:fixed to align with computed coords"
+    /collisionPadding/.test(src),
+    "Tooltip.Content must set collisionPadding so the bubble stays inside the viewport"
   );
-});
-
-test("#2352 portal tooltip clamps to viewport bounds (overflow-aware)", () => {
-  // Make sure the layout effect prevents the tooltip from running off the
-  // right or left edge of the screen — that's the user's screenshot bug.
   assert.ok(
-    /maxLeft|minLeft|window\.innerWidth/.test(src),
-    "Portal tooltip must clamp horizontally so a trigger near the viewport edge stays visible"
+    /side=\{position\}/.test(src),
+    "side must map the public `position` prop so the anchor direction is preserved"
   );
 });
