@@ -415,6 +415,7 @@
     "@eslint/compat": "^2.1.1",
     "@playwright/test": "^1.63.0",
     "@size-limit/file": "^13.0.3",
+    "@stoplight/spectral-cli": "6.17.0",
     "@stryker-mutator/core": "^10.0.0",
     "@stryker-mutator/tap-runner": "^10.0.0",
     "@tailwindcss/postcss": "^4.3.0",
@@ -480,10 +481,10 @@
       "prettier --write"
     ],
     "*.toml": [
-      "sh -c 'command -v taplo >/dev/null 2>&1 && taplo fmt \"$@\" || true' --"
+      "sh -c 'command -v taplo >/dev/null 2>&1 || exit 0; taplo fmt \"$@\"' --"
     ],
     "*.sh": [
-      "sh -c 'command -v shfmt >/dev/null 2>&1 && shfmt -w \"$@\" || true' --"
+      "sh -c 'command -v shfmt >/dev/null 2>&1 || exit 0; shfmt -w \"$@\"' --"
     ]
   },
   "pnpm": {

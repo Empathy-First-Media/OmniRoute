@@ -636,6 +636,9 @@ export async function startLiveDashboardServer(
 
     // Authorize
     const auth = await authorizeConnection(request);
+    // The flood latch may have already closed this socket while auth was
+    // resolving — do not count a rejected connection as accepted.
+    if (earlyFloodRejected || ws.readyState !== WebSocket.OPEN) return;
     if (!auth.authorized) {
       sendTo(ws, { type: "error", code: "UNAUTHORIZED", message: auth.error || "Unauthorized" });
       liveWsStats.rejected(4001);

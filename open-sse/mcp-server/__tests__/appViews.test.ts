@@ -64,6 +64,11 @@ describe("MCP App views (SEP-1865)", () => {
     expect(html).toContain("structuredContent");
     // No external network: the view must not fetch or import remote assets.
     expect(html).not.toMatch(/https?:\/\//);
+    // Sender-identity guard: ui:// frames may have opaque origins, so the
+    // bridge must require messages to come from the host frame.
+    expect(html).toContain("event.source !== window.parent");
+    // isError tool results must render as errors, not as a null snapshot.
+    expect(html).toContain("msg.params.isError");
   });
 
   it("links the tool to the view via _meta.ui.resourceUri (nested + flat)", async () => {

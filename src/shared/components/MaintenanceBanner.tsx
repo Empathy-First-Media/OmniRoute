@@ -7,8 +7,9 @@
  * is restarting or in maintenance mode. Auto-dismisses when the server
  * comes back online.
  *
- * TanStack Query owns the poll loop, abort signal, and the consecutive-
- * failure counter (failureCount resets on the first success).
+ * TanStack Query owns the poll loop and abort signal. Consecutive failures
+ * are counted locally — v5's fetchFailureCount resets on every fetch, so it
+ * can never accumulate across polls with retry: 0.
  */
 
 import { useState } from "react";
@@ -21,9 +22,10 @@ export default function MaintenanceBanner() {
   // Failure flavor for the banner copy — set inside the queryFn promise
   // callback (async context), never during render.
   const [failureKind, setFailureKind] = useState<"http" | "network">("network");
+  const [consecutiveFailures, setConsecutiveFailures] = useState(0);
   const t = useTranslations("common");
 
-  const { isSuccess, failureCount } = useQuery({
+  useQuery({
     queryKey: ["health", "ping"],
     retry: 0,
     refetchInterval: 10_000,
@@ -41,18 +43,24 @@ export default function MaintenanceBanner() {
         });
       } catch (error) {
         setFailureKind("network");
+        setConsecutiveFailures((c) => c + 1);
         throw error;
       }
       if (!res.ok) {
         setFailureKind("http");
+        setConsecutiveFailures((c) => c + 1);
         throw new Error("health ping not ok");
       }
-      return res.json();
+      const data = await res.json();
+      setConsecutiveFailures(0);
+      return data;
     },
   });
 
-  // Require at least 2 failed checks to avoid transient false positives.
-  const unreachable = !isSuccess && failureCount >= 2;
+  // Require at least 2 consecutive failed checks to avoid transient false
+  // positives. Consecutive count (not isSuccess) — a restart after success
+  // must still flag, and data stays cached while refetches fail.
+  const unreachable = consecutiveFailures >= 2;
 
   // Reset the dismiss latch when the server recovers — adjusting state
   // during render is the sanctioned alternative to setState-in-effect.

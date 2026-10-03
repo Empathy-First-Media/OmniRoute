@@ -33,14 +33,16 @@ export async function GET() {
   // When the sidecar binds 0.0.0.0 the dial target is still loopback — the
   // probe is a local liveness check, not a LAN connectivity test.
   const dialHost = host === "0.0.0.0" || host === "::" ? "127.0.0.1" : host;
+  // ws:// URLs require bracketed IPv6 literals (ws://::1:port is invalid).
+  const urlHost = dialHost.includes(":") ? `[${dialHost}]` : dialHost;
 
   try {
-    const probe = await probeLiveWs(`ws://${dialHost}:${port}${path}`, PROBE_TIMEOUT_MS);
+    const probe = await probeLiveWs(`ws://${urlHost}:${port}${path}`, PROBE_TIMEOUT_MS);
 
     let stats: unknown = null;
     if (probe.reachable) {
       try {
-        const res = await fetch(`http://${dialHost}:${port}/__omniroute_ws_stats`, {
+        const res = await fetch(`http://${urlHost}:${port}/__omniroute_ws_stats`, {
           signal: AbortSignal.timeout(STATS_TIMEOUT_MS),
         });
         if (res.ok) stats = await res.json();

@@ -17,7 +17,8 @@
     "class-variance-authority": "cva variant utility (joe-bell/cva, Apache-2.0). shadcn-style variant composition for ui/ primitives.",
     "cmdk": "pacocoursey/cmdk (MIT). Command-menu primitive backing CommandPalette.",
     "sonner": "emilkowalski/sonner (MIT). Toast renderer behind NotificationToast facade; store API preserved.",
-    "@modelcontextprotocol/ext-apps": "Official MCP Apps extension SDK (modelcontextprotocol/ext-apps, MIT). Pinned 1.x line for SDK v1 compatibility; registerAppTool/registerAppResource."
+    "@modelcontextprotocol/ext-apps": "Official MCP Apps extension SDK (modelcontextprotocol/ext-apps, MIT). Pinned 1.x line for SDK v1 compatibility; registerAppTool/registerAppResource.",
+    "@stoplight/spectral-cli": "Stoplight Spectral (stoplightio/spectral, Apache-2.0). Local ruleset binary for check:asyncapi gate; replaces ambient global shim."
   },
   "allowed": [
     "@agentclientprotocol/sdk",
@@ -42,6 +43,7 @@
     "@radix-ui/react-dialog",
     "@radix-ui/react-tooltip",
     "@size-limit/file",
+    "@stoplight/spectral-cli",
     "@stryker-mutator/core",
     "@stryker-mutator/tap-runner",
     "@swc/helpers",

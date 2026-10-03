@@ -88,7 +88,9 @@ export default function DataTable({
   const table = useReactTable({
     columns: columnDefs,
     data,
-    getRowId: (row, index) => (row.id != null ? String(row.id) : String(index)),
+    // Prefix the index fallback so explicit ids like 0 or "" can't collide
+    // with it and produce duplicate React keys.
+    getRowId: (row, index) => (row.id != null && row.id !== "" ? String(row.id) : `__idx_${index}`),
     getCoreRowModel: getCoreRowModel(),
   });
   const rows = table.getRowModel().rows;

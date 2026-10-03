@@ -15,7 +15,7 @@
  * @module shared/components/Tooltip
  */
 
-import type { ReactNode } from "react";
+import { isValidElement, type ReactNode } from "react";
 import * as RadixTooltip from "@radix-ui/react-tooltip";
 import { cn } from "@/shared/utils/cn";
 
@@ -71,7 +71,15 @@ export default function Tooltip({
     <RadixTooltip.Provider delayDuration={delayMs} skipDelayDuration={0}>
       <RadixTooltip.Root>
         <RadixTooltip.Trigger asChild>
-          <span className={`relative inline-flex ${className}`}>{children}</span>
+          {/* Radix's documented disabled-trigger pattern: the wrapper must be
+              keyboard-focusable so SR users reach the description. Only add
+              the tab stop when the child is actually disabled. */}
+          <span
+            className={`relative inline-flex ${className}`}
+            tabIndex={isValidElement(children) && children.props.disabled ? 0 : undefined}
+          >
+            {children}
+          </span>
         </RadixTooltip.Trigger>
         {usePortal ? <RadixTooltip.Portal>{bubble}</RadixTooltip.Portal> : bubble}
       </RadixTooltip.Root>

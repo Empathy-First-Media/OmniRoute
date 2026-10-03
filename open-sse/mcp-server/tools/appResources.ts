@@ -83,6 +83,13 @@ const SESSION_SNAPSHOT_VIEW_HTML = `<!doctype html>
     if (ctx && ctx.theme === "dark") document.documentElement.classList.add("dark");
   }
 
+  function renderError(text) {
+    var el = document.getElementById("app");
+    if (!el) return;
+    el.innerHTML = '<div style="padding:16px;color:#f87171;font:13px/1.5 ui-monospace,monospace">' +
+      String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</div>';
+  }
+
   function render(data) {
     if (!data || typeof data !== "object") return;
     $("empty").hidden = true;
@@ -113,6 +120,11 @@ const SESSION_SNAPSHOT_VIEW_HTML = `<!doctype html>
     if (!msg || msg.jsonrpc !== "2.0") return;
     if (msg.method === "ui/notifications/tool-input") return;
     if (msg.method === "ui/notifications/tool-result" && msg.params) {
+      if (msg.params.isError) {
+        var errText = (msg.params.content || []).map(function (c) { return c && c.text; }).filter(Boolean).join("\n");
+        renderError(errText || "Tool call failed");
+        return;
+      }
       render(msg.params.structuredContent);
       return;
     }

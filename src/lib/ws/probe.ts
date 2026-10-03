@@ -64,7 +64,7 @@ export function probeLiveWs(url: string, timeoutMs = 3000): Promise<LiveWsProbeR
       } catch {
         /* no socket yet */
       }
-      finish(result.stage === "closed" ? "closed" : result.stage, result.stage !== "connect");
+      finish(result.stage, result.stage !== "connect");
     }, timeoutMs);
     timer.unref?.();
 
@@ -102,6 +102,7 @@ export function probeLiveWs(url: string, timeoutMs = 3000): Promise<LiveWsProbeR
     });
 
     ws.once("close", (code) => {
+      if (done) return; // our own terminate() — don't write a synthetic code post-resolve
       result.closeCode = code;
       if (AUTH_CLOSE_CODES.has(code)) result.authEnforced = true;
       finish(result.stage === "protocol" ? "protocol" : "closed", result.stage !== "connect");

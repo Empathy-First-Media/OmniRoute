@@ -57,8 +57,14 @@ function fireSonner(entry: Notification): string | number {
   const description = entry.title ? toToastText(entry.message) : undefined;
   const options = {
     description,
-    duration: entry.duration,
+    // sonner treats duration:0 as falsy → falls back to 4s, breaking the
+    // store's duration<=0 persistent-notification contract. Map to Infinity.
+    duration: entry.duration > 0 ? entry.duration : Infinity,
     dismissible: entry.dismissible,
+    // Sync sonner-initiated dismissals back into the store so the
+    // notifications array doesn't grow unboundedly.
+    onDismiss: () => useNotificationStore.getState().removeNotification(entry.id),
+    onAutoClose: () => useNotificationStore.getState().removeNotification(entry.id),
     // Sonner has no whole-toast click handler; map click-to-navigate style
     // notifications onto an action button instead.
     action: entry.onClick ? { label: "View", onClick: entry.onClick } : undefined,

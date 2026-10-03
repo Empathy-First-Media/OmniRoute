@@ -185,7 +185,7 @@ components:
   schemas:
     LiveChannel:
       type: string
-      enum: [requests, combo, credentials, compression, agents]
+      enum: [requests, combo, credentials, proxy, compression, agents]
     WsWelcomePayload:
       type: object
       additionalProperties: false
