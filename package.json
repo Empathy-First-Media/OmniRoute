@@ -478,6 +478,12 @@
     ],
     "*.{json,md,yml,yaml,css}": [
       "prettier --write"
+    ],
+    "*.toml": [
+      "sh -c 'command -v taplo >/dev/null 2>&1 && taplo fmt \"$@\" || true' --"
+    ],
+    "*.sh": [
+      "sh -c 'command -v shfmt >/dev/null 2>&1 && shfmt -w \"$@\" || true' --"
     ]
   },
   "pnpm": {

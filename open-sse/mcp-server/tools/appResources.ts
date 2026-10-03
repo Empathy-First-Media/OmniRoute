@@ -4,6 +4,14 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 export const SESSION_SNAPSHOT_RESOURCE_URI = "ui://omniroute/session-snapshot.html";
 export const SESSION_SNAPSHOT_RESOURCE_NAME = "omniroute_session_snapshot_view";
 
+/** Tool-level _meta linking a tool result to the App view (SEP-1865).
+ *  Includes the flat `ui/resourceUri` fallback for hosts that predate the
+ *  nested `ui.resourceUri` form. */
+export const SESSION_SNAPSHOT_TOOL_META = {
+  ui: { resourceUri: SESSION_SNAPSHOT_RESOURCE_URI },
+  "ui/resourceUri": SESSION_SNAPSHOT_RESOURCE_URI,
+} as const;
+
 // Self-contained MCP App view (SEP-1865). No external network access is declared
 // in the resource CSP meta, so the widget receives data exclusively through the
 // host-proxied ui/notifications/tool-result channel (structuredContent).
