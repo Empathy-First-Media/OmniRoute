@@ -50,6 +50,13 @@ export default function Tooltip({
     return <span className={`relative inline-flex ${className}`}>{children}</span>;
   }
 
+  // Enabled DOM children become the trigger itself so aria-describedby lands
+  // on the element that actually receives focus. Disabled elements swallow
+  // pointer events, so they keep Radix's documented focusable-wrapper
+  // pattern; strings/fragments get the same inert wrapper without a tab stop.
+  const childIsDomElement = isValidElement(children) && typeof children.type === "string";
+  const childDisabled = childIsDomElement && Boolean(children.props.disabled);
+
   const bubble = (
     <RadixTooltip.Content
       side={position}
@@ -70,17 +77,20 @@ export default function Tooltip({
   return (
     <RadixTooltip.Provider delayDuration={delayMs} skipDelayDuration={0}>
       <RadixTooltip.Root>
-        <RadixTooltip.Trigger asChild>
-          {/* Radix's documented disabled-trigger pattern: the wrapper must be
-              keyboard-focusable so SR users reach the description. Only add
-              the tab stop when the child is actually disabled. */}
-          <span
-            className={`relative inline-flex ${className}`}
-            tabIndex={isValidElement(children) && children.props.disabled ? 0 : undefined}
-          >
+        {childIsDomElement && !childDisabled ? (
+          <RadixTooltip.Trigger asChild className={className}>
             {children}
-          </span>
-        </RadixTooltip.Trigger>
+          </RadixTooltip.Trigger>
+        ) : (
+          <RadixTooltip.Trigger asChild>
+            <span
+              className={`relative inline-flex ${className}`}
+              tabIndex={childDisabled ? 0 : undefined}
+            >
+              {children}
+            </span>
+          </RadixTooltip.Trigger>
+        )}
         {usePortal ? <RadixTooltip.Portal>{bubble}</RadixTooltip.Portal> : bubble}
       </RadixTooltip.Root>
     </RadixTooltip.Provider>

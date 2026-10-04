@@ -125,8 +125,9 @@ describe("Analytics Token Hover Tooltips", () => {
     );
     expect(statElements[1]?.getAttribute("title")).toBe("0");
 
-    // Trigger hover on the first stat item
-    const trigger = statElements[0]?.closest(".relative.inline-flex");
+    // Trigger hover on the first stat item — the stat element itself is the
+    // Radix trigger (child-as-trigger, no wrapper).
+    const trigger = statElements[0];
     expect(trigger).toBeDefined();
 
     await act(async () => {
@@ -294,7 +295,8 @@ describe("Analytics Token Hover Tooltips", () => {
       root.render(<MostActiveDay7d activityMap={mockActivityMap} />);
     });
 
-    const trigger = container.querySelector(".relative.inline-flex.w-fit");
+    // The child span is the Radix trigger; Tooltip's className merges onto it.
+    const trigger = container.querySelector(".w-fit.max-w-full");
     expect(trigger).toBeDefined();
 
     await act(async () => {
