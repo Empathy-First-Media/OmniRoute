@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Card } from "@/shared/components";
+import { Card, Select } from "@/shared/components";
 
 interface TokenLedgerEntry {
   id: number;
@@ -49,9 +49,75 @@ function isHttpUrl(value: string): boolean {
 
 export default function TokensPage() {
   const t = useTranslations("common");
+  const [keys, setKeys] = useState<{ id: string; name: string }[]>([]);
+  const [selectedKeyId, setSelectedKeyId] = useState("");
+  const [keysLoading, setKeysLoading] = useState(true);
+  const [keysError, setKeysError] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    void (async () => {
+      try {
+        const response = await fetch("/api/keys");
+        if (!active) return;
+        if (!response.ok) throw new Error("Key list unavailable");
+        const data = await response.json();
+        if (!Array.isArray(data.keys)) throw new Error("Invalid key list");
+        const metadata = data.keys.map((key: { id: string; name?: string }) => {
+          if (typeof key.id !== "string" || !key.id) throw new Error("Invalid key ID");
+          return { id: key.id, name: typeof key.name === "string" ? key.name : key.id };
+        });
+        if (active) setKeys(metadata);
+      } catch {
+        if (active) setKeysError(true);
+      } finally {
+        if (active) setKeysLoading(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Select
+        label={t("apiKey")}
+        value={selectedKeyId}
+        onChange={(event) => setSelectedKeyId(event.target.value)}
+        options={keys.map((key) => ({ value: key.id, label: key.name }))}
+        placeholder={t("selectOption")}
+        placeholderDisabled={false}
+        disabled={keysLoading || keysError || keys.length === 0}
+      />
+      {keysLoading ? (
+        <p role="status">{t("loading")}</p>
+      ) : keysError ? (
+        <p role="alert">{t("failedToLoad")}</p>
+      ) : keys.length === 0 ? (
+        <p role="status">{t("notAvailable")}</p>
+      ) : null}
+      <TokensKeyPanel key={selectedKeyId} apiKeyId={selectedKeyId} />
+    </div>
+  );
+}
+
+// A new selection remounts this panel, isolating forms, data and mutation feedback.
+function TokensKeyPanel({ apiKeyId }: { apiKeyId: string }) {
+  const t = useTranslations("common");
   const locale = useLocale();
   // Balance & History
-  const [balance, setBalance] = useState(0);
+  const [balance, setBalance] = useState<number | null>(null);
+  const [loadError, setLoadError] = useState(false);
+  const active = useRef(true);
+  const loadVersion = useRef(0);
+  useEffect(() => {
+    active.current = true;
+    return () => {
+      active.current = false;
+      loadVersion.current += 1;
+    };
+  }, []);
   const [history, setHistory] = useState<TokenLedgerEntry[]>([]);
   const [historyLoading, setHistoryLoading] = useState(true);
 
@@ -88,32 +154,48 @@ export default function TokensPage() {
   const [serverError, setServerError] = useState("");
 
   const fetchData = useCallback(async () => {
+    if (!apiKeyId || !active.current) return;
+    const version = ++loadVersion.current;
+    const isCurrent = () => active.current && version === loadVersion.current;
+    setHistoryLoading(true);
+    setLoadError(false);
     try {
+      const query = encodeURIComponent(apiKeyId);
       const [transferRes, inviteRes, serverRes] = await Promise.all([
-        fetch("/api/gamification/transfer"),
-        fetch("/api/gamification/invite"),
+        fetch(`/api/gamification/transfer?apiKeyId=${query}`),
+        fetch(`/api/gamification/invite?apiKeyId=${query}`),
         fetch("/api/gamification/servers"),
       ]);
-
-      if (transferRes.ok) {
-        const data = await transferRes.json();
-        setBalance(data.balance ?? 0);
-        setHistory(data.history ?? []);
-      }
-      if (inviteRes.ok) {
-        const data = await inviteRes.json();
-        setInvites(data.invites ?? []);
-      }
-      if (serverRes.ok) {
-        const data = await serverRes.json();
-        setServers(data.servers ?? []);
-      }
+      if (!transferRes.ok || !inviteRes.ok || !serverRes.ok) throw new Error("Data unavailable");
+      const [transfer, invite, server] = await Promise.all([
+        transferRes.json(),
+        inviteRes.json(),
+        serverRes.json(),
+      ]);
+      if (
+        typeof transfer.balance !== "number" ||
+        !Number.isFinite(transfer.balance) ||
+        !Array.isArray(transfer.history) ||
+        !Array.isArray(invite.invites) ||
+        !Array.isArray(server.servers)
+      )
+        throw new Error("Invalid data");
+      if (!isCurrent()) return;
+      setBalance(transfer.balance);
+      setHistory(transfer.history);
+      setInvites(invite.invites);
+      setServers(server.servers);
     } catch {
-      // silent fail
+      if (!isCurrent()) return;
+      setBalance(null);
+      setHistory([]);
+      setInvites([]);
+      setServers([]);
+      setLoadError(true);
     } finally {
-      setHistoryLoading(false);
+      if (isCurrent()) setHistoryLoading(false);
     }
-  }, []);
+  }, [apiKeyId]);
 
   useEffect(() => {
     const loadTimer = window.setTimeout(() => {
@@ -125,6 +207,7 @@ export default function TokensPage() {
 
   const handleTransfer = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!apiKeyId || !active.current) return;
     setTransferLoading(true);
     setTransferMsg(null);
 
@@ -133,13 +216,14 @@ export default function TokensPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fromApiKeyId: "current", // backend resolves from auth
+          fromApiKeyId: apiKeyId,
           toApiKeyId,
           amount: Number(amount),
           reason: reason || undefined,
         }),
       });
       const data = await res.json();
+      if (!active.current) return;
       if (res.ok) {
         setTransferMsg({
           type: "success",
@@ -153,16 +237,18 @@ export default function TokensPage() {
         setTransferMsg({ type: "error", text: data.error || t("tokensTransferFailed") });
       }
     } catch (err) {
+      if (!active.current) return;
       setTransferMsg({
         type: "error",
         text: err instanceof Error ? err.message : t("tokensTransferFailed"),
       });
     } finally {
-      setTransferLoading(false);
+      if (active.current) setTransferLoading(false);
     }
   };
 
   const handleCreateInvite = async () => {
+    if (!apiKeyId || !active.current) return;
     setInviteLoading(true);
     setNewInviteCode(null);
     setInviteError("");
@@ -172,11 +258,12 @@ export default function TokensPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          apiKeyId: "current",
+          apiKeyId,
           maxUses: Number(inviteMaxUses) || 1,
         }),
       });
       const data = await res.json();
+      if (!active.current) return;
       if (res.ok) {
         setNewInviteCode(data.code);
         await fetchData();
@@ -184,27 +271,32 @@ export default function TokensPage() {
         setInviteError(data.error || t("tokensCreateInviteFailed"));
       }
     } catch (error) {
+      if (!active.current) return;
       setInviteError(error instanceof Error ? error.message : t("tokensCreateInviteFailed"));
     } finally {
-      setInviteLoading(false);
+      if (active.current) setInviteLoading(false);
     }
   };
 
   const handleRevokeInvite = async (inviteId: string) => {
+    if (!apiKeyId || !active.current) return;
     setInviteError("");
     try {
       const response = await fetch(`/api/gamification/invite?id=${inviteId}`, {
         method: "DELETE",
       });
+      if (!active.current) return;
       if (!response.ok) throw new Error(t("tokensRevokeInviteFailed"));
       await fetchData();
     } catch (error) {
+      if (!active.current) return;
       setInviteError(error instanceof Error ? error.message : t("tokensRevokeInviteFailed"));
     }
   };
 
   const handleRedeem = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!apiKeyId || !active.current) return;
     setRedeemLoading(true);
     setRedeemMsg(null);
 
@@ -212,9 +304,10 @@ export default function TokensPage() {
       const res = await fetch("/api/gamification/invite/redeem", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: redeemCode, apiKeyId: "current" }),
+        body: JSON.stringify({ code: redeemCode, apiKeyId }),
       });
       const data = await res.json();
+      if (!active.current) return;
       if (res.ok) {
         setRedeemMsg({
           type: "success",
@@ -228,17 +321,19 @@ export default function TokensPage() {
         setRedeemMsg({ type: "error", text: data.error || t("tokensRedeemFailed") });
       }
     } catch (err) {
+      if (!active.current) return;
       setRedeemMsg({
         type: "error",
         text: err instanceof Error ? err.message : t("tokensRedeemFailed"),
       });
     } finally {
-      setRedeemLoading(false);
+      if (active.current) setRedeemLoading(false);
     }
   };
 
   const handleConnectServer = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!apiKeyId || !active.current) return;
     setServerLoading(true);
     setServerError("");
 
@@ -248,6 +343,7 @@ export default function TokensPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: serverName, url: serverUrl, apiKey: serverApiKey }),
       });
+      if (!active.current) return;
       if (res.ok) {
         setServerName("");
         setServerUrl("");
@@ -255,36 +351,46 @@ export default function TokensPage() {
         await fetchData();
       } else {
         const data = await res.json().catch(() => null);
+        if (!active.current) return;
         setServerError(data?.error || t("tokensConnectServerFailed"));
       }
     } catch (error) {
+      if (!active.current) return;
       setServerError(error instanceof Error ? error.message : t("tokensConnectServerFailed"));
     } finally {
-      setServerLoading(false);
+      if (active.current) setServerLoading(false);
     }
   };
 
   const handleDisconnectServer = async (serverId: string) => {
+    if (!apiKeyId || !active.current) return;
     setServerError("");
     try {
       const response = await fetch(`/api/gamification/servers?id=${serverId}`, {
         method: "DELETE",
       });
+      if (!active.current) return;
       if (!response.ok) throw new Error(t("tokensDisconnectServerFailed"));
       await fetchData();
     } catch (error) {
+      if (!active.current) return;
       setServerError(error instanceof Error ? error.message : t("tokensDisconnectServerFailed"));
     }
   };
 
   return (
     <div className="flex flex-col gap-6">
+      {loadError && <p role="alert">{t("failedToLoad")}</p>}
       {/* Balance */}
       <Card>
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-text-muted">{t("tokensTokenBalance")}</p>
-            <p className="text-4xl font-bold mt-1">{balance.toLocaleString(locale)}</p>
+            <p className="text-4xl font-bold mt-1">
+              {balance === null
+                ? t(apiKeyId && historyLoading ? "loading" : "notAvailable")
+                : balance.toLocaleString(locale)}
+            </p>
           </div>
           <div className="text-6xl opacity-20">🪙</div>
         </div>
@@ -345,7 +451,9 @@ export default function TokensPage() {
           )}
           <button
             type="submit"
-            disabled={transferLoading || !toApiKeyId.trim() || !isValidTransferAmount(amount)}
+            disabled={
+              !apiKeyId || transferLoading || !toApiKeyId.trim() || !isValidTransferAmount(amount)
+            }
             className="px-4 py-2 text-sm font-medium rounded-lg bg-violet-500 text-white hover:bg-violet-600 disabled:opacity-50 transition-colors justify-self-start"
           >
             {transferLoading ? t("tokensSending") : t("tokensSendTokens")}
@@ -355,8 +463,12 @@ export default function TokensPage() {
 
       {/* Transaction History */}
       <Card title={t("tokensTransactionHistory")} icon="history">
-        {historyLoading ? (
+        {!apiKeyId ? (
+          <p>{t("selectOption")}</p>
+        ) : historyLoading ? (
           <div className="text-center py-8 text-text-muted">{t("loading")}</div>
+        ) : loadError ? (
+          <p>{t("failedToLoad")}</p>
         ) : history.length === 0 ? (
           <div className="text-center py-8 text-text-muted">{t("tokensNoTransactionsYet")}</div>
         ) : (
@@ -374,7 +486,7 @@ export default function TokensPage() {
               </thead>
               <tbody>
                 {history.map((entry) => {
-                  const isSent = entry.fromApiKeyId !== "current";
+                  const isSent = entry.fromApiKeyId === apiKeyId;
                   return (
                     <tr key={entry.id} className="border-b border-border/50 last:border-b-0">
                       <td className="py-3">
@@ -427,7 +539,7 @@ export default function TokensPage() {
             </div>
             <button
               onClick={handleCreateInvite}
-              disabled={inviteLoading}
+              disabled={!apiKeyId || inviteLoading}
               className="px-4 py-2 text-sm font-medium rounded-lg bg-violet-500 text-white hover:bg-violet-600 disabled:opacity-50 transition-colors"
             >
               {inviteLoading ? t("tokensCreatingInvite") : t("tokensCreateInvite")}
@@ -463,7 +575,7 @@ export default function TokensPage() {
             </div>
             <button
               type="submit"
-              disabled={redeemLoading || !redeemCode}
+              disabled={!apiKeyId || redeemLoading || !redeemCode}
               className="px-4 py-2 text-sm font-medium rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 disabled:opacity-50 transition-colors"
             >
               {redeemLoading ? t("tokensRedeeming") : t("tokensRedeem")}
@@ -550,7 +662,11 @@ export default function TokensPage() {
             <button
               type="submit"
               disabled={
-                serverLoading || !serverName.trim() || !isHttpUrl(serverUrl) || !serverApiKey
+                !apiKeyId ||
+                serverLoading ||
+                !serverName.trim() ||
+                !isHttpUrl(serverUrl) ||
+                !serverApiKey
               }
               className="px-4 py-2 text-sm font-medium rounded-lg bg-violet-500 text-white hover:bg-violet-600 disabled:opacity-50 transition-colors justify-self-start"
             >
@@ -562,7 +678,7 @@ export default function TokensPage() {
             <div className="p-3 rounded-lg bg-red-500/10 text-red-400 text-sm">{serverError}</div>
           )}
 
-          {servers.length === 0 ? (
+          {!apiKeyId || historyLoading || loadError ? null : servers.length === 0 ? (
             <div className="text-center py-6 text-text-muted text-sm">
               {t("tokensNoServersConnected")}
             </div>

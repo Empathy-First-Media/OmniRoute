@@ -36,6 +36,8 @@ beforeEach(() => {
   fetchMock.mockReset();
   fetchMock.mockImplementation(async (url: string, init?: RequestInit) => {
     if (init?.method === "POST") return jsonResponse({ success: true, idempotencyKey: "k1" });
+    if (url === "/api/keys")
+      return jsonResponse({ keys: [{ id: "key-source-1", name: "Source" }] });
     if (url.includes("/transfer")) return jsonResponse({ balance: 10, history: [] });
     if (url.includes("/invite")) return jsonResponse({ invites: [] });
     if (url.includes("/servers")) return jsonResponse({ servers: [] });
@@ -52,7 +54,11 @@ afterEach(() => {
 
 async function renderPage() {
   render(<TokensPage />);
-  // initial load settles (history loading state replaced)
+  await screen.findByRole("option", { name: /Source/ });
+  fireEvent.change(screen.getByRole("combobox", { name: "apiKey" }), {
+    target: { value: "key-source-1" },
+  });
+  // initial keyed load settles
   await waitFor(() => expect(screen.getByText("tokensNoTransactionsYet")).toBeTruthy());
 }
 
@@ -198,8 +204,8 @@ describe("tokens page: client validation does not replace backend authorization/
     expect(url).toBe("/api/gamification/transfer");
     const body = JSON.parse((init as RequestInit).body as string);
     expect(body.amount).toBe(999);
-    // Preserve the existing sentinel; this UI test does not establish backend identity resolution.
-    expect(body.fromApiKeyId).toBe("current");
+    // Explicit operator selection is not a self-service ownership assertion.
+    expect(body.fromApiKeyId).toBe("key-source-1");
   });
 
   it("surfaces a backend rejection for a client-valid transfer", async () => {
@@ -207,6 +213,8 @@ describe("tokens page: client validation does not replace backend authorization/
       if (init?.method === "POST") {
         return jsonResponse({ error: "Insufficient balance" }, { ok: false, status: 400 });
       }
+      if (url === "/api/keys")
+        return jsonResponse({ keys: [{ id: "key-source-1", name: "Source" }] });
       if (url.includes("/transfer")) return jsonResponse({ balance: 10, history: [] });
       if (url.includes("/invite")) return jsonResponse({ invites: [] });
       return jsonResponse({ servers: [] });
@@ -222,6 +230,8 @@ describe("tokens page: client validation does not replace backend authorization/
       if (init?.method === "POST") {
         return jsonResponse({ error: "Invalid request" }, { ok: false, status: 400 });
       }
+      if (url === "/api/keys")
+        return jsonResponse({ keys: [{ id: "key-source-1", name: "Source" }] });
       if (url.includes("/transfer")) return jsonResponse({ balance: 0, history: [] });
       if (url.includes("/invite")) return jsonResponse({ invites: [] });
       return jsonResponse({ servers: [] });
