@@ -44,25 +44,23 @@ superfície de execução multimodelo, não uma estratégia de encaminhamento: o
    a do último membro bem-sucedido. As restantes respostas do painel não são devolvidas, pelo que
    paga N chamadas e recebe uma conclusão.
 
-## Configuração
+## Configurar
 
-1. Abra **Dashboard → Modo Caos** (`/dashboard/chaos`).
-2. **Ative-o** — o Modo Caos é disponibilizado **desativado por predefinição** (`enabled: false` em
-   `src/lib/chaos/chaosConfig.ts`). Enquanto estiver desativado, `POST /api/chaos/run` responde com
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
-3. Selecione os participantes e as predefinições (guardados por instância através do armazenamento de definições):
+1. Aberto** Painel → Modo Caos** (`/dashboard/chaos`).
+2. Vire** em** Navios do Modo Caos —** desativado por defeito** (`enabled: false` em `src/lib/chaos/chaosConfig.ts`). Enquanto desativado, `POST /api/chaos/run` responde `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Escolha os participantes e os padrões (persistidos por instância no armazenamento de definições):
 
-   | Campo               | Significado                                                               | Predefinição / limites                              |
-   | ------------------- | ------------------------------------------------------------------------- | --------------------------------------------------- |
-   | `enabled`           | Interruptor principal                                                     | `false`                                             |
-   | `defaultMode`       | `parallel` ou `collaborative` (ver abaixo)                                | `parallel`                                          |
-   | `providerOverrides` | Participação por fornecedor (`providerId`, `modelId` opcional, `enabled`) | vazio = todos os fornecedores ativos, máximo de 200 |
-   | `systemPrompt`      | Substituição do prompt de sistema integrado do Chaos                      | opcional, máximo de 10 000 caracteres               |
-   | `timeoutMs`         | Tempo máximo por chamada de modelo                                        | `120000` (5 000–600 000)                            |
-   | `maxTokens`         | `max_tokens` por chamada de modelo                                        | `4096` (256–128 000)                                |
+   | Campo               | Significado                                                              | Padrão/limites                             |
+   | ------------------- | ------------------------------------------------------------------------ | ------------------------------------------ |
+   | `enabled`           | Interruptor mestre                                                       | `false`                                    |
+   | `defaultMode`       | `parallel` ou `collaborative` (ver abaixo)                               | `parallel`                                 |
+   | `providerOverrides` | Participação por prestador (`providerId`, opcional `modelId`, `enabled`) | vazio = cada fornecedor activo, máximo 200 |
+   | `systemPrompt`      | Substituir o prompt do sistema Chaos integrado                           | opcional, máximo de 10.000 caracteres      |
+   | `timeoutMs`         | Tempo máximo por chamada de modelo                                       | `120000` (5 000–600 000)                   |
+   | `maxTokens`         | `max_tokens` por chamada de modelo                                       | `4096` (256–128 000)                       |
 
-4. Execute um **teste a partir da própria página** — o painel de resultados apresenta a resposta,
-   o estado e a duração de cada fornecedor.
+4. Dê a cada fornecedor participante um** modelo** . O modelo de um fornecedor é o `modelId` do seu override habilitado na página do Modo Caos (ele ganha), caso contrário o** modelo padrão** da sua ligação. Um ID de fornecedor nunca é utilizado como nome de modelo. Um prestador sem nenhum dos dois é** não ligou** : aparece nos resultados como `status: "error"` com a mensagem _"Nenhum modelo definido para este fornecedor. Defina um modelo para o mesmo na página Modo Caos ou um modelo padrão na ligação."_ e um `modelId` vazio, enquanto os outros fornecedores funcionam normalmente. Se nenhum fornecedor selecionado tiver um modelo, a execução falhará antes de qualquer pedido upstream com _"Nenhum fornecedor tem um modelo definido. …"_ (HTTP 500 em ambos os pontos finais).
+5. Execute um** teste na própria página** — o painel de resultados mostra a resposta, o estado e a duração de cada fornecedor.
 
 ## Modos de execução
 
@@ -126,11 +124,9 @@ Ambos os endpoints devolvem a mesma estrutura:
 }
 ```
 
-## Resolução de problemas
+## Solução de problemas
 
-- **`400 Chaos Mode is not enabled`** — consulte o passo 2 acima: o interruptor global está desativado.
-- **A chave de API é rejeitada em `/api/skills/collect/chaos`** — a chave não tem a permissão
-  `chaosModeEnabled` individual (desativada por predefinição; trata-se de uma definição, não de um erro).
-- **Um fornecedor esperado não aparece nos resultados** — verifique `providerOverrides` na página
-  do Modo Caos (uma substituição desativada exclui-o) e confirme se a ligação ao fornecedor está
-  ativa.
+- **`400 Chaos Mode is not enabled`** — passo 2 acima: o interruptor global está desligado.
+- **A chave API é rejeitada no `/api/skills/collect/chaos`** — a chave não tem a permissão `chaosModeEnabled` por chave (desativada por defeito; esta é uma configuração, não um erro).
+- **Um fornecedor mostra `No model set for this provider`** — define o seu modelo na página Chaos Mode ou um modelo padrão na sua ligação (consulte Configuração, passo 4).
+- **Um fornecedor que esperava está em falta nos resultados** — verifique `providerOverrides` na página Modo Caos (uma substituição desativada exclui-o) e se a ligação do fornecedor está ativa.

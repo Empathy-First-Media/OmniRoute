@@ -46,23 +46,21 @@ dromchla rite ilsamhla é, ní straitéis ródaithe: ní théann sé i bhfeidhm 
 
 ## Socrú
 
-1. Oscail **Painéal → Mód Anordúil** (`/dashboard/chaos`).
-2. Cuir **ar siúl** é — seoltar Mód Anordúil **díchumasaithe de réir réamhshocraithe** (`enabled: false` in
-   `src/lib/chaos/chaosConfig.ts`). Agus é díchumasaithe, freagraíonn `POST /api/chaos/run` le
-   `400 — "Níl Mód Anordúil cumasaithe. Cumasaigh é in Painéal → Mód Anordúil."`.
-3. Roghnaigh na rannpháirtithe agus na réamhshocruithe (arna gcoinneáil do gach ásc tríd an stór socruithe):
+1. Oscail** Painéal na nIonstraimí → Mód Chaos** (`/dashboard/chaos`).
+2. Cas air** ar** — Mód Chaos** díchumasaithe de réir réamhshocraithe** (`enabled: false` in `src/lib/chaos/chaosConfig.ts`). Cé go bhfuil sé díchumasaithe, freagraíonn `POST /api/chaos/run` `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Roghnaigh na rannpháirtithe agus na réamhshocruithe (leanúint ar aghaidh tríd an siopa socruithe):
 
-   | Réimse              | Brí                                                                             | Réamhshocrú / teorainneacha                     |
-   | ------------------- | ------------------------------------------------------------------------------- | ----------------------------------------------- |
-   | `enabled`           | Máistirlasc                                                                     | `false`                                         |
-   | `defaultMode`       | `parallel` nó `collaborative` (féach thíos)                                     | `parallel`                                      |
-   | `providerOverrides` | Rannpháirtíocht de réir soláthraí (`providerId`, `modelId` roghnach, `enabled`) | folamh = gach soláthraí gníomhach, uasmhéid 200 |
-   | `systemPrompt`      | Sárú ar leid chórais ionsuite Chaos                                             | roghnach, uasmhéid 10 000 carachtar             |
-   | `timeoutMs`         | Uas-am do gach glao samhla                                                      | `120000` (5 000–600 000)                        |
-   | `maxTokens`         | `max_tokens` do gach glao samhla                                                | `4096` (256–128 000)                            |
+   | Réimse              | Brí                                                                                     | Réamhshocrú / teorainneacha                     |
+   | ------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------- |
+   | `enabled`           | Máistir lasc                                                                            | `false`                                         |
+   | `defaultMode`       | `parallel` nó `collaborative` (féach thíos)                                             | `parallel`                                      |
+   | `providerOverrides` | Rannpháirtíocht in aghaidh an tsoláthraí (`providerId`, `modelId` roghnach , `enabled`) | folamh = gach soláthraí gníomhach, uasmhéid 200 |
+   | `systemPrompt`      | Sárú ar an gcóras Chaos ionsuite go pras                                                | roghnach, 10 000 chars ar a mhéad               |
+   | `timeoutMs`         | Uasmhéid ama in aghaidh an ghlao samhail                                                | `120000` (5 000–600 000)                        |
+   | `maxTokens`         | `max_tokens` le haghaidh glao samhail                                                   | `4096` (256–128 000)                            |
 
-4. Rith **tástáil ón leathanach féin** — taispeánann painéal na dtorthaí freagra,
-   stádas agus fad gach soláthraí.
+4. Tabhair do gach soláthraí rannpháirteach a** samhail** . Is éard atá i múnla soláthraí ná `modelId` dá shárú cumasaithe ar an leathanach Mód Chaos (buann sé), nó beidh an** samhail réamhshocraithe** dá nasc. Ní úsáidtear aitheantas soláthraí riamh mar shamhail-ainm. Is soláthraí nach bhfuil ceachtar acu** nach dtugtar** : taispeánann sé sna torthaí mar `status: "error"` leis an teachtaireacht _"Níl aon mhúnla socraithe don soláthraí seo. Socraigh múnla dó ar an leathanach Mód Chaos nó múnla réamhshocraithe ar an nasc."_ agus `modelId` folamh , agus ritheann na soláthraithe eile de ghnáth. Mura bhfuil múnla ag aon soláthraí roghnaithe, teipeann ar an rith roimh aon iarratas in aghaidh an tsrutha le _"Níl tacar múnla ag aon soláthraí. …"_ (HTTP 500 ar an dá chríochphointe).
+5. Rith a** tástáil ón leathanach féin** — taispeánann painéal na dtorthaí freagra, stádas agus fad gach soláthraí.
 
 ## Móid rite
 
@@ -128,9 +126,7 @@ Tugann an dá chríochphointe an struchtúr céanna ar ais:
 
 ## Fabhtcheartú
 
-- **`400 Níl Mód Anordúil cumasaithe`** — céim 2 thuas: tá an lasc domhanda múchta.
-- **Diúltaítear don eochair API ar `/api/skills/collect/chaos`** — níl an cead
-  `chaosModeEnabled` ag an eochair (múchta de réir réamhshocraithe; is socrú é seo, ní earráid).
-- **Tá soláthraí a raibh tú ag súil leis ar iarraidh ó na torthaí** — seiceáil `providerOverrides` ar leathanach
-  Mhód Anordúil (fágann sárú díchumasaithe ar lár é) agus seiceáil an bhfuil nasc an tsoláthraí
-  gníomhach.
+- **`400 Chaos Mode is not enabled`** — céim 2 thuas: tá an lasc domhanda múchta.
+- **Diúltaítear eochair API ar `/api/skills/collect/chaos`** — níl an cead per-eochair `chaosModeEnabled` an eochair (mídhleathach de réir réamhshocraithe; socrú é seo, ní earráid).
+- **Taispeánann soláthraí `No model set for this provider`** — a shamhail a shocrú ar an leathanach Mód Chaos nó samhail réamhshocraithe ar a nasc (féach Socrú, céim 4).
+- **Tá soláthraí a raibh súil agat leis ar iarraidh ó na torthaí** — seiceáil `providerOverrides` ar an leathanach Mód Chaos (ní áirítear é má sháraítear faoi mhíchumas) agus an bhfuil nasc an tsoláthraí gníomhach.

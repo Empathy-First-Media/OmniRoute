@@ -191,44 +191,16 @@ Tsarin aiki yana amfani da sirri guda biyu:
 
 `scripts/dev/sync-ui-kit.sh <commit|latest> [clone]` tana kwafin `src/` na sama a waccan ƙaddamarwa (`latest` = sabuwar `v*` tag) zuwa `packages/ui-kit/src`, tana aiwatar da sauyi ɗaya da aka yarda (yana sauke ƙarar `.js` daga shigo da dangi), kuma ya saita sigar filin aiki a cikin `packages/ui-kit/package.json` da `package-lock.json` zuwa na sama. Sa'an nan: sake duba `git diff packages/ui-kit`, yi izinin gani akan masu samarwa, saituna, combos, amfani da ƙarshen duka a cikin jigogi biyu, gudanar da `npm run check:ui-kit-snapshot` da `npm run test:vitest:ui`, kuma buɗe PR tare da canjin canji na sama.
 
-## 6. Zane-zanen README
+## 6. README zane-zane
 
-Zane-zane goma sha biyu da tushen `README.md` yake haɗawa (`docs/diagrams/*.svg`) su ne kit ɗin da aka yi amfani da shi a kan hoto marar motsi, kuma ana samar da su ne, ba a zana su da hannu ba: fayilolin samarwa 13 a `scripts/docs/gen-readme-*.mjs` (zane-zane goma sha biyu tare da direban `gen-readme-diagrams.mjs`) da gwaje-gwajen tsufa 12 a `tests/unit/docs/readme-*-svg.test.ts`, ɗaya ga kowane zane, inda kowannensu yake kwatanta fayil ɗin da aka commit baiti-da-baiti da abin da na'urar samar da shi ta fitar (aikin `test-unit`).
+Zane-zane goma sha biyu tushen `README.md` embeds (`docs/diagrams/*.svg`) su ne kit ɗin da aka yi amfani da su zuwa hoto mai tsayi, kuma an ƙirƙira su, ba a zana su da hannu ba: Fayilolin janareta 13 a `scripts/docs/gen-readme-*.mjs` (zane-zane goma sha biyu tare da direban `gen-readme-diagrams.mjs` ) da gwaje-gwaje 12 na rashin ƙarfi a `tests/unit/docs/readme-*-svg.test.ts`, ɗaya a kowane zane, kowane byte-fitarwa tare da `test-unit`.
 
-- **Tokens.** `scripts/docs/readme-diagram-theme.mjs` yana kwafe palet ɗin Editions (siffar tsoho) daga
-  `packages/ui-kit/src/ci-editions.css` (wanda aka ɗaure da wannan fayil ta hanyar
-  `tests/unit/docs/readme-diagram-theme.test.ts`, wanda kuma yake duba WCAG AA ga kowane launin rubutu a kan kowace
-  fuska a cikin tsare-tsaren biyu; banda guda ɗaya, `warn` na haske, shi ne gargaɗin kit da aka ƙara masa duhu da 10 % saboda ƙimar kit
-  ita ce 4.46:1 a kan canvas) kuma yana ayyana rawar rubutu bisa ma'aunin nau'in kit (`ci-tokens.css`): Switzer bisa nauyin kit (400/500/600, nunawa a 500) da tazara tsakanin haruffa ga
-  komai, ban da rawar lamba (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), waɗanda
-  suke amfani da IBM Plex Mono kuma ana amfani da su ne kawai ga umarni, URLs, masu ganowa da allon terminal.
-  Ƙimomin haske suna kan `:root`, ƙimomin duhu kuma suna bayan `prefers-color-scheme: dark`, a cikin fayil ɗin, don haka kowane
-  hoto yana bin tsarin mai kallo a GitHub.
-- **Fonts.** GitHub Markdown ba ya ɗauke da CSS, kuma camo proxy yana toshe duk wani ɗauko na waje, saboda haka nau'in kit
-  dole ne ya kasance a cikin fayil ɗin. `scripts/docs/readme-outline.mjs`, mataki na ƙarshe na kowace na'urar samarwa, yana fasalta
-  rawar Switzer da HarfBuzz kuma yana zana su a matsayin siffofin vector (`<defs>` paths da `<use>`), tare da kibiyoyi
-  da alamomin lissafin siffa da Switzer ba shi da su waɗanda aka zana bisa ma'aunansa. Siffofin vector ne, ba font da aka saka a ciki ba: lasisin Switzer
-  (`packages/ui-kit/src/fonts/FFL.txt`) yana hana rage font da sauya tsari ba tare da rubutacciyar
-  izini ba kuma yana ba da damar zane-zanen vector, don haka kada a sake shigar da Switzer `@font-face` ko `data:` URI. Font guda ɗaya
-  da ya rage a cikin fayil shi ne ƙaramin ɓangaren IBM Plex Mono na OFL don abin da ya ci gaba da kasancewa rubutun lamba na gaske
-  (`scripts/docs/readme-fonts.mjs`), wanda aka gina daga waɗannan haruffa; duk wani glyph da ba zai iya sakawa ba yana jefa kuskure.
-- **Sake samarwa.** `npm run docs:readme-diagrams` yana sake rubuta duk goma sha biyun bisa jerin README kuma yana buga layi ɗaya ga kowane
-  fayil tare da girmansa. Haka kuma ana iya gudanar da na'urar samarwa guda ɗaya da kanta (`node scripts/docs/gen-readme-<name>.mjs`;
-  `free-tier-budget` yana buƙatar `node --import tsx/esm` saboda alkalumansa sun fito daga mai loda katalog mai aiki a
-  `open-sse/config/freeModelCatalog.ts`; sakamakon CI na sauyin katalog yana cikin
-  `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Yi commit na na'urar samarwa da SVG tare.
-- **Tabbaci.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` yana render fayil kamar yadda GitHub yake
-  gabatar da shi (tag na `<img>`, `Content-Security-Policy` na camo, `image/svg+xml`), yana ɗaukar firam na haske da na duhu
-  sannan yana bayar da rahoton buƙatun font na waje da shafin ya yi (dole su zama 0).
-- **Kasafin girma.** Kasa da 200 KB ga kowane fayil (kowane gwajin tsufa yana tabbatar da hakan); 500 KB ita ce iyakar ƙarshe ga kowane hoton README
-  (dokar mai tantance SVG studio).
-- **Kwafi bai sauya ba, ƙididdiga daga ƙofar dubawa.** Sake fasalin alama ya sauya nau'in rubutu da palet, ba kalmomi ba: kowace na'urar samarwa
-  tana ɗauke da rubutun zanenta a cikin constant na `*_COPY` (ko kuma tana gina shi daga katalog mai aiki) wanda yake zama duka
-  rubutun da aka zana da kuma shigarwar matakin samar da siffofin vector. Alkaluma na asali suna kasancewa a cikin nodes na `<text>` (ba a gani bayan
-  an mai da su siffofin vector, `fill-opacity:0`), waɗanda `check:docs-counts`
-  (`scripts/check/check-docs-counts-sync.mjs`) yake karantawa; gwaje-gwajen tsufa na zane-zanen da wannan ƙofar dubawa take karantawa su ma suna gudanar da
-  masu tantancewarta a kan fayil ɗin da aka samar, don haka idan wani adadi ya kauce daga lambar tushe gwajin zai gaza — gyara
-  tushen da ƙofar dubawa take karantawa, kada a taɓa gyara lambar da ke cikin na'urar samarwa.
+- **Alamu.** `scripts/docs/readme-diagram-theme.mjs` yana kwafin palette ɗin Editions (ƙananan tsoho) daga `packages/ui-kit/src/ci-editions.css` (wanda aka liƙa a kan wancan fayil ta `tests/unit/docs/readme-diagram-theme.test.ts`, wanda kuma yana bincika WCAG AA ga kowane launi na rubutu akan kowane farfajiya a cikin makircin biyu; ɗayan ɗayan, `warn` mai haske, shine faɗakarwar kit ɗin ya yi duhu 10 % saboda ƙimar kit ɗin shine 4.46: 1 akan ma'auni) kuma ya bayyana ma'anar `ci-tokens.css` akan ma'aunin S. Ma'aunin kit ɗin (400/500/600, nuni a 500) da bin diddigin komai, sai dai matsayin lambar (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), waɗanda IBM Plex Mono ne kawai kuma don umarni ne, URLs, masu ganowa da tasha. Ƙimar haske suna zaune akan `:root`, darajoji masu duhu a bayan `prefers-color-scheme: dark`, cikin fayil ɗin, don haka kowane hoto yana bin tsarin mai kallo akan GitHub.
+- **Fonts.** GitHub Markdown ba ya ɗaukar CSS kuma camo proxy yana toshe duk wani abin da aka samo na waje, don haka nau'in kit ɗin dole ne ya yi tafiya cikin fayil ɗin. `scripts/docs/readme-outline.mjs`, mataki na ƙarshe na kowane janareta, yana siffanta ayyukan Switzer tare da HarfBuzz kuma ya zana su azaman fayyace fa'ida ( hanyoyin `<defs>` da `<use>`), tare da kibiyoyi da alamomin geometric Switzer ba shi da zana akan nasa awo. Shaci-fadi, ba za a taɓa shigar da rubutu ba: Lasisin Switzer (`packages/ui-kit/src/fonts/FFL.txt`) ya hana yin juzu'i da tsarin juzu'i ba tare da rubutaccen izini ba kuma yana ba da damar zana zane, don haka kar a sake gabatar da Switzer `@font-face` ko `data:` URI. Fayil ɗaya da aka bari a cikin fayil shine tsarin OFL IBM Plex Mono don abin da ke zama ainihin rubutun lambar (`scripts/docs/readme-fonts.mjs`), wanda aka gina daga waɗannan haruffa; duk wani glyph ba zai iya shigar da jifa ba.
+- **Sake haɓakawa.** `npm run docs:readme-diagrams` ya sake rubuta duka goma sha biyu a cikin tsari README kuma yana buga layi daya akan kowane fayil tare da girmansa. Haka kuma janareta guda ɗaya yana gudana da kansa (`node scripts/docs/gen-readme-<name>.mjs`; `free-tier-budget` yana buƙatar `node --import tsx/esm` saboda alkalummansa sun fito ne daga mai ɗaukar kaya mai rai a cikin `open-sse/config/freeModelCatalog.ts`; sakamakon CI na canjin kasida yana cikin `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Hada janareta da SVG tare. Tsayayyen SVG ya gaza a yanayin sakin; a cikin fasalin PR, `npm run check:generated-artifacts` yana yin hukunci ɗaya kawai SVG da gyaran PR (`docs/architecture/QUALITY_GATES.md` → "Fayillolin da aka ƙirƙira da tushen tushe").
+- **Hujja.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` tana mayar da fayil yadda GitHub ke aiki dashi (tambarin `<img>`, camo's `Content-Security-Policy`, `image/svg+xml`), yana ɗaukar haske da firam mai duhu kuma yana ba da rahoton buƙatun rubutu na waje da shafin da aka yi (dole ya zama 0).
+- **Kasafin kudi** Ƙarƙashin 200 KB kowane fayil (kowane gwajin rashin ƙarfi yana tabbatar da shi); 500 KB shine madaidaicin madauri ga kowane hoton README (dokar ingantattun studio na SVG ).
+- **Kwafi baya canzawa, ƙirga daga ƙofar.** Sake suna ya canza nau'i da palette, ba kalmomi ba: kowane janareta yana ɗaukar kwafin zanensa a cikin madaidaicin `*_COPY` (ko ya gina shi daga kasida mai rai) wanda shine duka rubutun da aka zana da shigar da matakin fayyace. Lissafi na canonical suna tsayawa a cikin nodes `<text>` (wanda ba a iya gani da zarar an tsara shi, `fill-opacity:0`), karanta ta `check:docs-counts` (`scripts/check/check-docs-counts-sync.mjs`); Gwaje-gwajen rashin daidaituwa na zane-zanen da ƙofar ke karantawa suma suna gudanar da masu tabbatarwa akan fayil ɗin da aka samar, don haka adadi da ya tashi daga lambar ya kasa gwajin — ya gyara tushen da ƙofar ke karantawa, ba lambar da ke cikin janareta ba.
 
 ## 7. Fihirisar manazarta
 

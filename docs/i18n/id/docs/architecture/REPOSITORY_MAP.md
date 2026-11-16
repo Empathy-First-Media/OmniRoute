@@ -51,63 +51,63 @@ OmniRoute/
 
 ---
 
-## File root
+## File akar
 
-| File                                        | Tujuan                                                                                        |
+| Mengajukan                                  | Tujuan                                                                                        |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| **README.md**                               | Halaman arahan pemasaran + panduan mulai cepat + matriks fitur (lihat juga `llm.txt`)         |
-| **CHANGELOG.md**                            | Log perubahan per rilis (dibuat otomatis oleh skill `/version-bump-cc`)                       |
-| **LICENSE**                                 | Teks lisensi MIT                                                                              |
-| **CLAUDE.md**                               | Aturan proyek untuk agen Claude Code (aturan wajib, konvensi, skenario)                       |
-| **AGENTS.md**                               | Sama seperti CLAUDE.md, tetapi untuk agen AI non-Claude (Codex, Cursor, dll.)                 |
-| **GEMINI.md**                               | Aturan ringkas untuk agen berbasis Gemini (subset dari CLAUDE.md)                             |
-| **CONTRIBUTING.md**                         | Panduan kontributor: penyiapan, conventional commits, pengujian, alur PR                      |
+| **README.md**                               | Halaman arahan pemasaran + mulai cepat matriks fitur + (lihat juga `llm.txt`)                 |
+| **CHANGELOG.md**                            | Changelog per rilis (dihasilkan secara otomatis oleh keterampilan `/version-bump-cc` )        |
+| **LICENSE**                                 | teks lisensi MIT                                                                              |
+| **CLAUDE.md**                               | Aturan proyek untuk agen Kode Claude (aturan keras, konvensi, skenario)                       |
+| **AGENTS.md**                               | Sama seperti CLAUDE.md tetapi untuk agen AI non-Claude (Codex, Cursor, dll.)                  |
+| **GEMINI.md**                               | Aturan ringkas untuk agen berbasis Gemini (bagian dari CLAUDE.md)                             |
+| **CONTRIBUTING.md**                         | Panduan kontributor: penyiapan, penerapan konvensional, pengujian, aliran PR                  |
 | **SECURITY.md**                             | Kebijakan pelaporan kerentanan, versi yang didukung, model ancaman                            |
-| **CODE_OF_CONDUCT.md**                      | Contributor Covenant — ekspektasi perilaku komunitas                                          |
-| **llm.txt**                                 | Halaman arahan teks biasa yang dioptimalkan untuk crawler LLM (SEO untuk asisten AI)          |
-| **package.json**                            | Manifes npm, skrip, dependensi, engine, gerbang cakupan c8                                    |
-| **package-lock.json**                       | Pohon dependensi yang dikunci                                                                 |
-| **tsconfig.json**                           | Konfigurasi TypeScript utama                                                                  |
-| **tsconfig.typecheck-core.json**            | Konfigurasi pemeriksaan tipe untuk inti `src/`                                                |
-| **tsconfig.typecheck-noimplicit-core.json** | Pemeriksaan tipe ketat (`noImplicitAny`)                                                      |
-| **tsconfig.tsbuildinfo**                    | Cache build inkremental TS (diabaikan oleh git)                                               |
-| **next.config.mjs**                         | Konfigurasi build Next.js 16 (keluaran mandiri)                                               |
-| **next-env.d.ts**                           | Tipe env yang dibuat otomatis oleh Next.js                                                    |
-| **eslint.config.mjs**                       | Konfigurasi datar ESLint (aturan per area proyek)                                             |
-| **prettier.config.mjs**                     | Aturan pemformatan Prettier                                                                   |
-| **postcss.config.mjs**                      | Konfigurasi PostCSS untuk pipeline Tailwind/CSS                                               |
-| **playwright.config.ts**                    | Konfigurasi pengujian E2E Playwright                                                          |
-| **vitest.config.ts**                        | Konfigurasi Vitest (suite default)                                                            |
-| **vitest.mcp.config.ts**                    | Konfigurasi Vitest untuk server MCP / suite autoCombo / cache                                 |
-| **sonar-project.properties**                | Konfigurasi SonarQube/SonarCloud (kualitas kode)                                              |
-| **Dockerfile**                              | Build Docker multi-tahap (builder → runner-base → runner-cli)                                 |
-| **docker-compose.yml**                      | Compose pengembangan dengan 4 profil (base, cli, host, cliproxyapi) + sidecar redis           |
-| **docker-compose.prod.yml**                 | Compose produksi (port 20130, redis, volume bernama)                                          |
-| **.dockerignore**                           | File yang dikecualikan dari konteks Docker                                                    |
-| **fly.toml**                                | Konfigurasi deployment Fly.io (region `sin`, port 20128, volume /data)                        |
-| **.env.example**                            | Templat file env (disalin otomatis ke `.env` saat instalasi pertama)                          |
-| **.gitignore**                              | Pola pengabaian Git                                                                           |
-| **.npmignore**                              | Daftar pengecualian publikasi npm                                                             |
-| **.npmrc**                                  | Konfigurasi npm (registry, kebijakan lockfile)                                                |
-| **.node-version**                           | Pin versi Node (digunakan oleh alat yang kompatibel dengan nvm)                               |
-| **.nvmrc**                                  | Pin versi Node untuk nvm                                                                      |
-| **eslint.complexity.config.mjs**            | Konfigurasi ESLint untuk ratchet kompleksitas (`scripts/check/check-complexity.mjs --config`) |
-| **eslint.sonarjs.config.mjs**               | Konfigurasi ESLint untuk aturan SonarJS (kompleksitas kognitif / duplikasi)                   |
-| **source.config.ts**                        | Konfigurasi sumber `defineDocs` Fumadocs (mengisi `.source/`)                                 |
-| **knip.json**                               | Konfigurasi Knip — file/ekspor/dependensi yang tidak digunakan (mengisi gerbang dead-code)    |
-| **stryker.conf.json**                       | Konfigurasi pengujian mutasi Stryker                                                          |
-| **.size-limit.json**                        | Konfigurasi anggaran ukuran bundle size-limit                                                 |
-| **promptfooconfig.yaml**                    | Konfigurasi evaluasi promptfoo                                                                |
-| **.gitleaks.toml**                          | Kumpulan aturan pemindaian rahasia gitleaks                                                   |
-| **.zizmor.yml**                             | Konfigurasi lint keamanan GitHub Actions zizmor                                               |
-| **socket.yml**                              | Konfigurasi rantai pasok Socket.dev                                                           |
-| **news.json**                               | Feed pengumuman v2 yang dilokalkan; item peluncuran Radar disertakan dalam keadaan nonaktif   |
-| **flake.nix** / **flake.lock**              | Definisi dev-shell Nix + lock                                                                 |
-| **.env**                                    | Rahasia lokal (diabaikan git — dibuat dari `.env.example`)                                    |
+| **CODE_OF_CONDUCT.md**                      | Kontributor Kovenan — ekspektasi perilaku komunitas                                           |
+| **llm.txt**                                 | Pendaratan teks biasa dioptimalkan untuk perayap LLM (SEO untuk asisten AI )                  |
+| **package.json**                            | manifes npm, skrip, dependensi, mesin, gerbang cakupan c8                                     |
+| **package-lock.json**                       | Pohon ketergantungan terkunci                                                                 |
+| **tsconfig.json**                           | Konfigurasi root TypeScript                                                                   |
+| **tsconfig.typecheck-core.json**            | Konfigurasi periksa ketik untuk inti `src/`                                                   |
+| **tsconfig.typecheck-noimplicit-core.json** | Pemeriksaan ketik yang ketat (`noImplicitAny`).                                               |
+| **tsconfig.tsbuildinfo**                    | TS build cache tambahan (gitignored)                                                          |
+| **Berikutnya.config.mjs**                   | konfigurasi build Next.js 16 (output mandiri)                                                 |
+| **lingkungan berikutnya.d.ts**              | Next.js tipe env yang dihasilkan secara otomatis                                              |
+| **eslint.config.mjs**                       | ESLint flat config (aturan per area proyek)                                                   |
+| **lebih cantik.config.mjs**                 | aturan pemformatan Prettier                                                                   |
+| **postcss.config.mjs**                      | konfigurasi PostCSS untuk pipa Tailwind/CSS                                                   |
+| **dramawan.config.ts**                      | konfigurasi pengujian Playwright E2E                                                          |
+| **kunjungan.config.ts**                     | konfigurasi Vitest (rangkaian default)                                                        |
+| **vitest.mcp.config.ts**                    | konfigurasi Vitest untuk server MCP / autoCombo / suite cache                                 |
+| **proyek-sonar.properti**                   | SonarQube/SonarCloud config (kualitas kode)                                                   |
+| **file buruh pelabuhan**                    | Pembuatan Docker multi-tahap (pembuat → runner-base → runner-cli)                             |
+| **docker-compose.yml**                      | Dev menulis dengan 4 profil (base, cli, host, cliproxyapi) + redis sidecar                    |
+| **komposisi buruh pelabuhan.prod.yml**      | Komposisi produksi (port 20130, redis, bernama volume)                                        |
+| **.dockerignore**                           | File dikecualikan dari konteks Docker                                                         |
+| **fly.toml**                                | Konfigurasi penerapan Fly.io (wilayah `sin`, port 20128, /volume data)                        |
+| **.env.contoh**                             | File env template (disalin otomatis ke `.env` pada instalasi pertama)                         |
+| **.gitignore**                              | Git mengabaikan pola                                                                          |
+| **.npmignore**                              | npm mempublikasikan daftar pengecualian                                                       |
+| **.npmrc**                                  | npm config (registrasi, kebijakan lockfile)                                                   |
+| **.node-version**                           | Pin versi node (digunakan oleh alat yang kompatibel dengan nvm)                               |
+| **.nvmrc**                                  | Pin versi node untuk nvm                                                                      |
+| **eslint.kompleksitas.config.mjs**          | konfigurasi ESLint untuk ratchet kompleksitas (`scripts/check/check-complexity.mjs --config`) |
+| **eslint.sonarjs.config.mjs**               | konfigurasi ESLint untuk aturan SonarJS (kompleksitas/duplikasi kognitif)                     |
+| **sumber.config.ts**                        | Konfigurasi sumber `defineDocs` Fumadocs (umpan `.source/`)                                   |
+| **knip.json**                               | Knip config — files/exports/deps yang tidak digunakan (mengumpankan gerbang kode mati)        |
+| **penyerang.conf.mjs**                      | Konfigurasi pengujian mutasi Stryker (menghitung `tap.testFiles` dari `mutate`)               |
+| **.size-limit.json**                        | konfigurasi anggaran bundel batas ukuran                                                      |
+| **promptfooconfig.yaml**                    | konfigurasi promptfoo eval                                                                    |
+| **.gitleaks.toml**                          | kumpulan aturan pemindaian rahasia gitleaks                                                   |
+| **.zizmor.yml**                             | zizmor GitHub-Actions konfigurasi serat keamanan                                              |
+| **socket.yml**                              | Konfigurasi rantai pasokan Socket.dev                                                         |
+| **news.json**                               | Umpan pengumuman v2 yang dilokalkan; Barang peluncuran radar dikirimkan tidak aktif           |
+| **serpihan.nix** /** serpihan.kunci**       | Kunci + definisi nix dev-shell                                                                |
+| **.env**                                    | Rahasia lokal (gitignored — dihasilkan dari `.env.example`)                                   |
 
-> **Dipindahkan dari root pada v3.8.26 (perapian):**
+> **Dipindahkan dari root di v3.8.26 (declutter):**
 >
-> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json`, dan `quality-metrics.json` yang dihasilkan (diabaikan git). Lihat [`## config/`](#config--static-configs--quality-gate-state).
+> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json`, dan `quality-metrics.json` yang dihasilkan (gitignored). Lihat [`## config/`](#config--static-configs--quality-gate-state).
 
 ---
 
@@ -242,12 +242,12 @@ src/
 | -------------------------------- | --------------------------------------------------------------------------------------------------- |
 | `components/`                    | Komponen dasbor API: adaptor melalui `packages/ui-kit` — lihat `docs/architecture/DESIGN_SYSTEM.md` |
 | `constants/iconMap.ts`           | `ICON_MAP`: nama ikon yang digunakan oleh layar → Komponen Lucide (`<Icon>`)                        |
-| `constants/providers.ts`         | **381 penyedia** dengan validasi Zod (sumber kebenaran)                                             |
+| `constants/providers.ts`         | **394 penyedia** dengan validasi Zod (sumber kebenaran)                                             |
 | `constants/cliTools.ts`          | Registri alat CLI eksternal                                                                         |
-| `constants/routingStrategies.ts` | **20 strategi perutean** dengan prioritas                                                           |
+| `constants/routingStrategies.ts` | **22 strategi perutean** dengan prioritas                                                           |
 | `constants/publicApiRoutes.ts`   | Rute yang memerlukan autentikasi Pembawa (vs manajemen).                                            |
 | `constants/upstreamHeaders.ts`   | Daftar penolakan header untuk permintaan upstream                                                   |
-| `validation/schemas.ts`          | skema ~ 80 Zod (satu-satunya sumber kebenaran untuk kontrak API )                                   |
+| `validation/schemas.ts`          | skema ~ 80 Zod (satu sumber kebenaran untuk kontrak API )                                           |
 | `validation/helpers.ts`          | pembantu validasi Zod (`validateBody`, dll.)                                                        |
 | `types/`                         | Jenis TS bersama                                                                                    |
 | `contracts/`                     | Kontrak API publik (digunakan oleh `files:` di `package.json`)                                      |
@@ -258,42 +258,42 @@ src/
 
 ---
 
-## `open-sse/` — Workspace Mesin Streaming
+## `open-sse/` — Ruang Kerja Mesin Streaming
 
-Workspace npm terpisah (`@omniroute/open-sse`). Menangani pemrosesan permintaan + eksekusi penyedia.
+Pisahkan ruang kerja npm (`@omniroute/open-sse`). Menangani pemrosesan permintaan eksekusi penyedia +.
 
 ```
 open-sse/
-├── handlers/            # 16 file (12 handler + 4 helper): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, dll.
-├── executors/           # 150 modul eksekutor (kelas yang memperluas BaseExecutor + helper per penyedia)
-├── translator/          # Konverter format (9 permintaan, 9 respons, 9 helper)
+├── handlers/            # 16 files (12 handlers + 4 helpers): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, etc.
+├── executors/           # 163 executor modules (classes extending BaseExecutor + per-provider helpers)
+├── translator/          # Format converters (9 request, 9 response, 9 helpers)
 ├── transformer/         # Responses API ↔ Chat Completions (TransformStream)
-├── services/            # ~80+ modul layanan (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, dll.)
-├── mcp-server/          # Server MCP (110 alat, 3 transport, 33 cakupan)
-├── config/              # Registri penyedia/model, konfigurasi header, alias model
-├── utils/               # Klien TLS, fetch/dispatcher proksi, helper jaringan
-├── index.ts             # Titik masuk workspace
-├── package.json         # Manifes workspace
-├── tsconfig.json        # Konfigurasi TS workspace
-└── types.d.ts           # Deklarasi tipe workspace
+├── services/            # ~80+ service modules (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, etc.)
+├── mcp-server/          # MCP server (110 tools, 3 transports, 33 scopes)
+├── config/              # Provider/model registries, header config, model aliases
+├── utils/               # TLS client, proxy fetch/dispatcher, network helpers
+├── index.ts             # Workspace entry
+├── package.json         # Workspace manifest
+├── tsconfig.json        # Workspace TS config
+└── types.d.ts           # Workspace type declarations
 ```
 
 ### `open-sse/mcp-server/`
 
 | Jalur                       | Tujuan                                                                             |
 | --------------------------- | ---------------------------------------------------------------------------------- |
-| `server.ts`                 | Siklus hidup server MCP (transport stdio + HTTP)                                   |
-| `httpTransport.ts`          | Transport HTTP Streamable + SSE (`/api/mcp/sse`, `/api/mcp/stream`)                |
-| `audit.ts`                  | Pencatatan audit ke tabel `mcp_tool_audit`                                         |
+| `server.ts`                 | siklus hidup server MCP (stdio + HTTP transports)                                  |
+| `httpTransport.ts`          | HTTP Transportasi + SSE yang dapat dialirkan (`/api/mcp/sse`, `/api/mcp/stream`)   |
+| `audit.ts`                  | Audit logging ke tabel `mcp_tool_audit`                                            |
 | `scopeEnforcement.ts`       | Validasi cakupan per alat                                                          |
-| `runtimeHeartbeat.ts`       | Heartbeat kesehatan ke `DATA_DIR/runtime/mcp-heartbeat.json`                       |
-| `descriptionCompressor.ts`  | Mengompresi metadata deskripsi alat untuk menghemat konteks                        |
-| `schemas/tools.ts`          | 36 definisi alat dasar + cakupan                                                   |
-| `tools/advancedTools.ts`    | Implementasi alat lanjutan                                                         |
-| `tools/memoryTools.ts`      | 3 alat memori (pencarian/penambahan/penghapusan)                                   |
-| `tools/skillTools.ts`       | 4 alat keterampilan (daftar/aktifkan/eksekusi/eksekusi yang telah dilakukan)       |
+| `runtimeHeartbeat.ts`       | Detak jantung kesehatan hingga `DATA_DIR/runtime/mcp-heartbeat.json`               |
+| `descriptionCompressor.ts`  | Kompres metadata deskripsi alat untuk menyimpan konteks                            |
+| `schemas/tools.ts`          | 36 definisi alat dasar cakupan +                                                   |
+| `tools/advancedTools.ts`    | Implementasi alat tingkat lanjut                                                   |
+| `tools/memoryTools.ts`      | 3 alat memori (search/add/clear)                                                   |
+| `tools/skillTools.ts`       | 4 alat keterampilan (list/enable/execute/executions)                               |
 | `tools/compressionTools.ts` | 5 alat kompresi                                                                    |
-| `README.md`                 | README server MCP internal (ditautkan silang dari `docs/frameworks/MCP-SERVER.md`) |
+| `README.md`                 | Server MCP internal README (terhubung silang dari `docs/frameworks/MCP-SERVER.md`) |
 
 ---
 
@@ -412,7 +412,7 @@ open-sse/
 | `CLI-TOOLS.md`              | Integrasi CLI eksternal + OmniRoute CLI internal                                          |
 | `I18N.md`                   | arsitektur i18n, menambahkan bahasa, 67 lokal                                             |
 | `UNINSTALL.md`              | Bersihkan langkah-langkah uninstall                                                       |
-| `PROVIDER_REFERENCE.md`     | **Dibuat secara otomatis** katalog 381 penyedia (regen: `npm run gen:provider-reference`) |
+| `PROVIDER_REFERENCE.md`     | **Dibuat secara otomatis** katalog 394 penyedia (regen: `npm run gen:provider-reference`) |
 
 ### Penyelaman mendalam subsistem
 

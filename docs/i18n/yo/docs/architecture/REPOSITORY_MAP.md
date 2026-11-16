@@ -51,63 +51,63 @@ OmniRoute/
 
 ---
 
-## Àwọn fáìlì gbòǹgbò
+## Awọn faili gbongbo
 
-| Fáìlì                                       | Ìdí                                                                                           |
+| Faili                                       | Idi                                                                                           |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| **README.md**                               | Ojú-ìbalẹ̀ ìpolówó + ìbẹ̀rẹ̀ kíákíá + àtẹ ìfiwéra àwọn àbùdá (tún wo `llm.txt`)                  |
-| **CHANGELOG.md**                            | Àkọsílẹ̀ àwọn ìyípadà fún ìtújáde kọ̀ọ̀kan (tí ọgbọ́n `/version-bump-cc` ń ṣẹ̀dá láìfọwọ́ṣe)        |
-| **LICENSE**                                 | Ọ̀rọ̀ ìwé-àṣẹ MIT                                                                               |
-| **CLAUDE.md**                               | Àwọn òfin iṣẹ́-àkànṣe fún àwọn aṣojú Claude Code (àwọn òfin líle, àṣà, àwọn ìṣẹ̀lẹ̀)             |
-| **AGENTS.md**                               | Kanna bí CLAUDE.md ṣùgbọ́n fún àwọn aṣojú AI tí kì í ṣe Claude (Codex, Cursor, àti bẹ́ẹ̀ bẹ́ẹ̀ lọ) |
-| **GEMINI.md**                               | Àwọn òfin ṣókí fún àwọn aṣojú tó dá lórí Gemini (apá kan nínú CLAUDE.md)                      |
-| **CONTRIBUTING.md**                         | Ìtọ́sọ́nà olùkópa: ìṣètò, àwọn commit àṣà, ìdánwò, ìṣàn PR                                      |
-| **SECURITY.md**                             | Ìlànà jíjíṣẹ́ ìròyìn àléébù, àwọn ẹ̀yà tí a ń ṣe àtìlẹ́yìn fún, àwòṣe ewu                        |
-| **CODE_OF_CONDUCT.md**                      | Contributor Covenant — àwọn ìfojúsọ́nà fún ìwà láwùjọ                                          |
-| **llm.txt**                                 | Ojú-ìbalẹ̀ ọ̀rọ̀-lásán tí a mú kí ó dára fún àwọn crawler LLM (SEO fún àwọn olùrànlọ́wọ́ AI)       |
-| **package.json**                            | Àfihàn npm, àwọn script, àwọn dependency, àwọn engine, ibodè ìborí c8                         |
-| **package-lock.json**                       | Igi dependency tí a ti dì mọ́                                                                  |
-| **tsconfig.json**                           | Ìṣètò TypeScript gbòǹgbò                                                                      |
-| **tsconfig.typecheck-core.json**            | Ìṣètò àyẹ̀wò irú fún kókó `src/`                                                               |
-| **tsconfig.typecheck-noimplicit-core.json** | Àyẹ̀wò irú tó muna (`noImplicitAny`)                                                           |
-| **tsconfig.tsbuildinfo**                    | Kaṣe ìkọ́lé TS aláfikún (gitignored)                                                           |
-| **next.config.mjs**                         | Ìṣètò ìkọ́lé Next.js 16 (àbájáde standalone)                                                   |
-| **next-env.d.ts**                           | Àwọn irú env tí Next.js ṣẹ̀dá láìfọwọ́ṣe                                                        |
-| **eslint.config.mjs**                       | Ìṣètò pẹlẹbẹ ESLint (àwọn òfin fún agbègbè iṣẹ́-àkànṣe kọ̀ọ̀kan)                                 |
-| **prettier.config.mjs**                     | Àwọn òfin ìṣàkóso ìrísí Prettier                                                              |
-| **postcss.config.mjs**                      | Ìṣètò PostCSS fún ọ̀nà-ìṣiṣẹ́ Tailwind/CSS                                                      |
-| **playwright.config.ts**                    | Ìṣètò ìdánwò E2E Playwright                                                                   |
-| **vitest.config.ts**                        | Ìṣètò Vitest (àkójọpọ̀ ìdánwò àìyẹsẹ̀)                                                          |
-| **vitest.mcp.config.ts**                    | Ìṣètò Vitest fún olupin MCP / autoCombo / àwọn àkójọpọ̀ kaṣe                                   |
-| **sonar-project.properties**                | Ìṣètò SonarQube/SonarCloud (dídára kóòdù)                                                     |
-| **Dockerfile**                              | Ìkọ́lé Docker alápele-púpọ̀ (builder → runner-base → runner-cli)                                |
-| **docker-compose.yml**                      | Compose ìdàgbàsókè pẹ̀lú àwọn prófáìlì 4 (base, cli, host, cliproxyapi) + sidecar redis        |
-| **docker-compose.prod.yml**                 | Compose iṣelọpọ (port 20130, redis, àwọn volume olórúkọ)                                      |
-| **.dockerignore**                           | Àwọn fáìlì tí a yọ kúrò nínú àyíká Docker                                                     |
-| **fly.toml**                                | Ìṣètò ìmúṣiṣẹ́ Fly.io (agbègbè `sin`, port 20128, volume /data)                                |
-| **.env.example**                            | Àdàkọ fáìlì env (tí a ń da kọ sí `.env` láìfọwọ́ṣe nígbà ìfisórí àkọ́kọ́)                        |
-| **.gitignore**                              | Àwọn àpẹẹrẹ tí Git yóò kọjá sílẹ̀                                                              |
-| **.npmignore**                              | Àkójọ àwọn ohun tí a yọ kúrò nígbà ìtẹ̀jáde npm                                                |
-| **.npmrc**                                  | Ìṣètò npm (registry, ìlànà lockfile)                                                          |
-| **.node-version**                           | Ẹ̀yà Node tí a dì mọ́ (tí àwọn irinṣẹ́ tó bá nvm mu ń lò)                                        |
-| **.nvmrc**                                  | Ẹ̀yà Node tí a dì mọ́ fún nvm                                                                   |
-| **eslint.complexity.config.mjs**            | Ìṣètò ESLint fún ratchet ìdíjú (`scripts/check/check-complexity.mjs --config`)                |
-| **eslint.sonarjs.config.mjs**               | Ìṣètò ESLint fún àwọn òfin SonarJS (ìdíjú ìrònú / àtúnsí)                                     |
-| **source.config.ts**                        | Ìṣètò orísun Fumadocs `defineDocs` (tó ń pèsè fún `.source/`)                                 |
-| **knip.json**                               | Ìṣètò Knip — àwọn fáìlì/exports/deps tí a kò lò (tó ń pèsè fún ibodè dead-code)               |
-| **stryker.conf.json**                       | Ìṣètò ìdánwò mutation Stryker                                                                 |
-| **.size-limit.json**                        | Àtòjọ ètò ìṣúná bundle size-limit                                                             |
-| **promptfooconfig.yaml**                    | Àtòjọ ètò ìṣàyẹ̀wò promptfoo                                                                   |
-| **.gitleaks.toml**                          | Àkójọpọ̀ òfin ìṣàyẹ̀wò àṣírí gitleaks                                                           |
-| **.zizmor.yml**                             | Àtòjọ ètò àyẹ̀wò-ààbò GitHub-Actions zizmor                                                    |
-| **socket.yml**                              | Àtòjọ ètò ààbò pq-chain Socket.dev                                                            |
-| **news.json**                               | Ìṣàn ìkéde v2 tí a mú bá agbègbè mu; ohun ìfilọ́lẹ̀ Radar wà láìṣiṣẹ́ nígbà tí a fi ránṣẹ́        |
-| **flake.nix** / **flake.lock**              | Ìtumọ̀ dev-shell Nix + fáìlì ìdìmọ́                                                             |
-| **.env**                                    | Àwọn àṣírí agbègbè (git kò tọpinpin wọn — a dá wọn láti `.env.example`)                       |
+| **README.md**                               | Oju-iwe ibalẹ tita + iyara ibere + matrix ẹya (wo tun `llm.txt`)                              |
+| **CHANGELOG.md**                            | Iwe iyipada-itusilẹ-kọọkan (ti ipilẹṣẹ laifọwọyi nipasẹ ọgbọn `/version-bump-cc` )            |
+| **LICENSE**                                 | MIT ọrọ iwe-aṣẹ                                                                               |
+| **CLAUDE.md**                               | Awọn ofin iṣẹ akanṣe fun awọn aṣoju koodu Claude (awọn ofin lile, awọn apejọ, awọn oju iṣẹlẹ) |
+| **AGENTS.md**                               | Kanna bi CLAUDE.md ṣugbọn fun awọn aṣoju ti kii ṣe Claude AI (Codex, Cursor, ati bẹbẹ lọ)     |
+| **GEMINI.md**                               | Awọn ofin ṣoki fun awọn aṣoju orisun Gemini (ipin ti CLAUDE.md)                               |
+| **CONTRIBUTING.md**                         | Itọsọna olùkópa: iṣeto, awọn iṣẹ iṣe deede, idanwo, ṣiṣan PR                                  |
+| **SECURITY.md**                             | Ilana ijabọ ipalara, awọn ẹya atilẹyin, awoṣe irokeke                                         |
+| **CODE_OF_CONDUCT.md**                      | Awọn ireti ihuwasi agbegbe — Olùkópa Majẹmu                                                   |
+| **llm.txt**                                 | Ibalẹ ọrọ pẹlẹbẹ iṣapeye fun awọn crawlers LLM (SEO fun awọn oluranlọwọ AI )                  |
+| **package.json**                            | npm farahan, awọn iwe afọwọkọ, awọn igbẹkẹle, awọn ẹrọ, ẹnu-ọna agbegbe c8                    |
+| **package-lock.json**                       | Igi igbẹkẹle titiipa                                                                          |
+| **tsconfig.json**                           | Gbongbo TypeScript atunto                                                                     |
+| **tsconfig.typecheck-core.json**            | Atunto Typecheck fun `src/` mojuto                                                            |
+| **tsconfig.typecheck-noimplicit-core.json** | Ti o muna (`noImplicitAny`) sọwedowo                                                          |
+| **tsconfig.tsbuildinfo**                    | cache ìkọ́ àfikún TS (ti a fọwọ́ sí)                                                            |
+| **Itele.config.mjs**                        | Next.js 16 kọ iṣeto ni (ijade adaduro)                                                        |
+| **tókàn-env.d.ts**                          | Next.js auto-ipilẹṣẹ env orisi                                                                |
+| **eslint.config.mjs**                       | atunto alapin ESLint (awọn ofin fun agbegbe iṣẹ akanṣe)                                       |
+| **lẹwa.config.mjs**                         | Prettier awọn ofin kika                                                                       |
+| **postcss.config.mjs**                      | PostCSS atunto fun opo gigun ti epo Tailwind/CSS                                              |
+| **oṣere ere.config.ts**                     | Playwright E2E igbeyewo konfigi                                                               |
+| **viest.config.ts**                         | Vitest atunto (suite aiyipada)                                                                |
+| **vitest.mcp.config.ts**                    | atunto Vitest fun olupin MCP / autoCombo / kaṣe suites                                        |
+| **sonar-project.properties**                | atunto SonarQube/SonarCloud (didara koodu)                                                    |
+| **Dockerfile**                              | Opo ipele Docker (oluṣeto → olusare-ipilẹ → olusare-cli)                                      |
+| **docker-compose.yml**                      | Dev ṣajọ pẹlu awọn profaili 4 (ipilẹ, cli, ogun, cliproxyapi) + redis sidecar                 |
+| **docker-kọ.prod.yml**                      | Ṣiṣejade iṣelọpọ (ibudo 20130, redis, awọn iwọn ti a darukọ)                                  |
+| **.dockerignor**                            | Awọn faili yọkuro lati ipo Docker                                                             |
+| **fly.toml**                                | Iṣeto imuṣiṣẹ Fly.io (agbegbe `sin`, ibudo 20128, / iwọn didun data)                          |
+| **.env.apẹẹrẹ**                             | Fáìlì env àdàkọ (adàkọ-daakọ sí `.env` ni fifi sori ẹrọ akọkọ)                                |
+| **.gitignore**                              | Git foju awọn ilana                                                                           |
+| **.npmgnore**                               | npm ṣe atẹjade atokọ iyasoto                                                                  |
+| **.npmrc**                                  | npm atunto (iforukọsilẹ, ilana titiipa faili)                                                 |
+| **.node-version**                           | PIN ẹya Node (ti a lo nipasẹ awọn irinṣẹ ibaramu nvm)                                         |
+| **.nvmrc**                                  | Node version PIN fun nvm                                                                      |
+| **eslint.complexity.config.mjs**            | atunto ESLint fun ratchet complexity (`scripts/check/check-complexity.mjs --config`)          |
+| **eslint.sonarjs.config.mjs**               | atunto ESLint fun awọn ofin SonarJS (idiju imọ / ẹda-iwe)                                     |
+| **orisun.config.ts**                        | Iṣeto orisun Fumadocs `defineDocs` (awọn kikọ sii `.source/`)                                 |
+| **knip.json**                               | Knip konfigi — ti ko lo files/exports/deps (n ṣe ifunni ẹnu-ọna koodu ti o ku)                |
+| **striker.conf.mjs**                        | Iṣeto iyipada-iyipada Stryker (awọn iṣiro `tap.testFiles` lati `mutate`)                      |
+| **.size-limit.json**                        | iwọn-iye lapapo isuna konfigi                                                                 |
+| **promptfooconfig.yaml**                    | Quickfoo eval atunto                                                                          |
+| **.gitleaks.toml**                          | gitleaks ìkọkọ-scan ruleset                                                                   |
+| **.zizmor.yml**                             | zizmor GitHub-Actions aabo-lint konfigi                                                       |
+| **socket.yml**                              | Socket.dev ipese-pq atunto                                                                    |
+| **news.json**                               | Ifiweranṣẹ ikede v2 agbegbe; Reda ifilọlẹ ohun kan ọkọ aláìṣiṣẹmọ                             |
+| **flake.nix** /** flake.titiipa**           | Nix dev-ikarahun asọye + titiipa                                                              |
+| **.env**                                    | Awọn aṣiri agbegbe (gitignored — ti ipilẹṣẹ lati `.env.example`)                              |
 
-> **Tí a gbé kúrò ní root nínú v3.8.26 (láti dín ìdàrúdàpọ̀ kù):**
+> **Ti yọ kuro ninu gbongbo ni v3.8.26 (declutter):**
 >
-> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json`, àti `quality-metrics.json` tí a ń dá sílẹ̀ (git kò tọpinpin rẹ̀). Wo [`## config/`](#config--static-configs--quality-gate-state).
+> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json`, ati `quality-metrics.json` ti a ti ipilẹṣẹ (gitignored). Wo [`## config/`](#config--static-configs--quality-gate-state).
 
 ---
 
@@ -223,7 +223,7 @@ src/
 | `fallbackPolicy.ts`    | Fallback igi ipinnu                            |
 | `costRules.ts`         | Awọn ofin iṣiro iye owo                        |
 | `lockoutPolicy.ts`     | Model/connection titiipa imulo                 |
-| `tagRouter.ts`         | afisona orisun-Tag                             |
+| `tagRouter.ts`         | afisona-orisun                                 |
 | `comboResolver.ts`     | Ipinnu konbo (ti a lo nipasẹ ẹrọ konbo)        |
 | `modelAvailability.ts` | Ṣayẹwo wiwa wiwa fun awoṣe                     |
 | `assessment/`          | Iṣayẹwo awoṣe (Ipele 1 ti RFC-AUTO-ASSESSMENT) |
@@ -242,9 +242,9 @@ src/
 | -------------------------------- | --------------------------------------------------------------------------------------------------- |
 | `components/`                    | Dasibodu paati API: awọn oluyipada lori `packages/ui-kit` — wo `docs/architecture/DESIGN_SYSTEM.md` |
 | `constants/iconMap.ts`           | `ICON_MAP`: aami awọn orukọ ti a lo nipasẹ awọn iboju → Lucide irinše (`<Icon>`)                    |
-| `constants/providers.ts`         | **381 olupese** pẹlu afọwọsi Zod (orisun otitọ)                                                     |
+| `constants/providers.ts`         | **394 olupese** pẹlu afọwọsi Zod (orisun otitọ)                                                     |
 | `constants/cliTools.ts`          | Iforukọsilẹ irinṣẹ CLI ita                                                                          |
-| `constants/routingStrategies.ts` | **20 afisona ogbon** pẹlu ayo                                                                       |
+| `constants/routingStrategies.ts` | **22 afisona ogbon** pẹlu ayo                                                                       |
 | `constants/publicApiRoutes.ts`   | Awọn ipa-ọna ti o nilo Olutọju (la iṣakoso) auth                                                    |
 | `constants/upstreamHeaders.ts`   | Akokọ akọsori fun awọn ibeere oke                                                                   |
 | `validation/schemas.ts`          | ~ 80 Zod schemas (orisun kan ti otitọ fun awọn adehun API )                                         |
@@ -258,42 +258,42 @@ src/
 
 ---
 
-## `open-sse/` — Àyè Iṣẹ́ Ẹ́ńjìnnì Ṣíṣàn
+## `open-sse/` — śiśanwọle Engine Workspace
 
-Àyè iṣẹ́ npm ọ̀tọ̀ (`@omniroute/open-sse`). Ó ń bójú tó ṣíṣe àwọn ìbéèrè àti ìmúṣẹ olùpèsè.
+Lọtọ aaye iṣẹ npm (`@omniroute/open-sse`). Kapa ìbéèrè processing + olupese ipaniyan.
 
 ```
 open-sse/
-├── handlers/            # Fáìlì 16 (olùṣàkóso 12 + olùrànlọ́wọ́ 4): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, àti bẹ́ẹ̀ bẹ́ẹ̀ lọ.
-├── executors/           # Module executor 150 (àwọn class tó ń fa BaseExecutor gùn + àwọn olùrànlọ́wọ́ fún olùpèsè kọ̀ọ̀kan)
-├── translator/          # Àwọn olùyípadà fọ́ọ̀mù (ìbéèrè 9, èsì 9, olùrànlọ́wọ́ 9)
+├── handlers/            # 16 files (12 handlers + 4 helpers): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, etc.
+├── executors/           # 163 executor modules (classes extending BaseExecutor + per-provider helpers)
+├── translator/          # Format converters (9 request, 9 response, 9 helpers)
 ├── transformer/         # Responses API ↔ Chat Completions (TransformStream)
-├── services/            # ~80+ module iṣẹ́ (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, àti bẹ́ẹ̀ bẹ́ẹ̀ lọ.)
-├── mcp-server/          # Server MCP (irinṣẹ́ 110, ọ̀nà ìbánisọ̀rọ̀ 3, ààlà àṣẹ 33)
-├── config/              # Àwọn ìforúkọsílẹ̀ olùpèsè/model, àtúnṣe header, àwọn orúkọ mìíràn fún model
-├── utils/               # Client TLS, proxy fetch/dispatcher, àwọn olùrànlọ́wọ́ nẹ́tíwọ́ọ̀kì
-├── index.ts             # Ojú-ọ̀nà ìwọlé àyè iṣẹ́
-├── package.json         # Manifest àyè iṣẹ́
-├── tsconfig.json        # Àtúnṣe TS àyè iṣẹ́
-└── types.d.ts           # Àwọn ìkéde type àyè iṣẹ́
+├── services/            # ~80+ service modules (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, etc.)
+├── mcp-server/          # MCP server (110 tools, 3 transports, 33 scopes)
+├── config/              # Provider/model registries, header config, model aliases
+├── utils/               # TLS client, proxy fetch/dispatcher, network helpers
+├── index.ts             # Workspace entry
+├── package.json         # Workspace manifest
+├── tsconfig.json        # Workspace TS config
+└── types.d.ts           # Workspace type declarations
 ```
 
 ### `open-sse/mcp-server/`
 
-| Ọ̀nà                         | Ète                                                                           |
-| --------------------------- | ----------------------------------------------------------------------------- |
-| `server.ts`                 | Ìgbésí-ayé server MCP (stdio + àwọn ọ̀nà ìbánisọ̀rọ̀ HTTP)                       |
-| `httpTransport.ts`          | Àwọn ọ̀nà ìbánisọ̀rọ̀ HTTP Streamable + SSE (`/api/mcp/sse`, `/api/mcp/stream`)  |
-| `audit.ts`                  | Ìkọ àyẹ̀wò sínú tábìlì `mcp_tool_audit`                                        |
-| `scopeEnforcement.ts`       | Ìfọwọ́sí ààlà àṣẹ fún irinṣẹ́ kọ̀ọ̀kan                                            |
-| `runtimeHeartbeat.ts`       | Ìlù-ọkàn ìlera sí `DATA_DIR/runtime/mcp-heartbeat.json`                       |
-| `descriptionCompressor.ts`  | Dín metadata àpèjúwe irinṣẹ́ kù láti fi ààyè àkóónú pamọ́                       |
-| `schemas/tools.ts`          | Àwọn ìtumọ̀ irinṣẹ́ ìpìlẹ̀ 36 + àwọn ààlà àṣẹ                                    |
-| `tools/advancedTools.ts`    | Àwọn ìmúṣẹ irinṣẹ́ onípele-gíga                                                |
-| `tools/memoryTools.ts`      | Irinṣẹ́ ìrántí 3 (ṣàwárí/ṣàfikún/pa rẹ́)                                        |
-| `tools/skillTools.ts`       | Irinṣẹ́ ọgbọ́n 4 (ṣe àkójọ/mú ṣiṣẹ́/ṣe/àwọn ìmúṣẹ)                               |
-| `tools/compressionTools.ts` | Irinṣẹ́ ìdínkù 5                                                               |
-| `README.md`                 | README abẹ́nú fún server MCP (tí a so pọ̀ láti `docs/frameworks/MCP-SERVER.md`) |
+| Ona                         | Idi                                                                    |
+| --------------------------- | ---------------------------------------------------------------------- |
+| `server.ts`                 | igbesi aye olupin MCP (awọn gbigbe stdio + HTTP )                      |
+| `httpTransport.ts`          | HTTP Gbigbe + SSE awọn gbigbe (`/api/mcp/sse`, `/api/mcp/stream`)      |
+| `audit.ts`                  | Ṣiṣayẹwo wọle si tabili `mcp_tool_audit`                               |
+| `scopeEnforcement.ts`       | Fun-irinṣẹ afọwọsi                                                     |
+| `runtimeHeartbeat.ts`       | Lilu ọkan ilera si `DATA_DIR/runtime/mcp-heartbeat.json`               |
+| `descriptionCompressor.ts`  | Tẹ metadata apejuwe irinṣẹ lati ṣafipamọ ọrọ-ọrọ pamọ                  |
+| `schemas/tools.ts`          | 36 mimọ ọpa itumo + scopes                                             |
+| `tools/advancedTools.ts`    | Awọn imuse irinṣẹ to ti ni ilọsiwaju                                   |
+| `tools/memoryTools.ts`      | Awọn irinṣẹ iranti 3 (search/add/clear)                                |
+| `tools/skillTools.ts`       | Awọn irinṣẹ ọgbọn 4 (list/enable/execute/executions)                   |
+| `tools/compressionTools.ts` | 5 funmorawon irinṣẹ                                                    |
+| `README.md`                 | Olupin MCP inu README (asopọmọra lati `docs/frameworks/MCP-SERVER.md`) |
 
 ---
 
@@ -412,7 +412,7 @@ open-sse/
 | `CLI-TOOLS.md`              | Awọn akojọpọ CLI ita + Ti abẹnu OmniRoute CLI                                                   |
 | `I18N.md`                   | i18n faaji, fifi a ede, 67 locales                                                              |
 | `UNINSTALL.md`              | Nu aifi si awọn igbesẹ                                                                          |
-| `PROVIDER_REFERENCE.md`     | **Ti ipilẹṣẹ laifọwọyi** katalogi ti awọn olupese 381 (regen: `npm run gen:provider-reference`) |
+| `PROVIDER_REFERENCE.md`     | **Ti ipilẹṣẹ laifọwọyi** katalogi ti awọn olupese 394 (regen: `npm run gen:provider-reference`) |
 
 ### Subsystem jin-dives
 
@@ -445,7 +445,7 @@ open-sse/
 | `COMPRESSION_LANGUAGE_PACKS.md` | Iṣakojọpọ akopọ ofin fun ede-ede         |
 | `RTK_COMPRESSION.md`            | opo gigun ti epo alaye RTK (awọn asẹ 56) |
 
-### Ifiranṣẹ
+### Gbigbe
 
 | Dókítà                       | Idi                                                                 |
 | ---------------------------- | ------------------------------------------------------------------- |

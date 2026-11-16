@@ -848,6 +848,43 @@ Web/search -Anbieterabstraktion (Tavily, Brave, Exa, Serper usw.).
 
 **Authentifizierung:** Inhaber API Schlüssel (`extractApiKey` + `isValidApiKey`). Suchrichtlinie wird über `enforceApiKeyPolicy`.
 
+### Benannte search/fetch -Kombinationen
+
+Sowohl `POST /v1/search` als auch `POST /v1/web/fetch` akzeptieren `model` als gespeicherten Kombinationsnamen. Verwenden Sie entweder `model` oder ein explizites `provider`; Senden beider Rückgaben `400`. Ohne eines der beiden Felder bleibt die bestehende automatische Anbieterauswahl unverändert.
+
+Sowohl der Combo Builder als auch sein Katalog „Modell hinzufügen“ stellen native Weboperationseinträge für verbundene Anbieter bereit, auch wenn diese über keine LLM -Modellliste verfügen. Serper zeigt** Websuche** ; Tavily zeigt** Websuche/Seitenextraktion** , und Nur-Abruf-Anbieter werden angezeigt** Seitenextraktion** . Wählen Sie wie gewohnt den Eintrag und das Konto aus. Ein einziger Tavily-Eintrag bedient beide Web-Endpunkte; Diese Vorgangseinträge werden nicht zu reinen Chat-Client-Selektoren oder Chat-Modell-Probes hinzugefügt.
+
+Erstellen Sie beispielsweise eine** Priorität** Combo namens `shared-free` mit diesen geordneten Zielen:
+
+1. `openai/gpt-4o`
+2. `tavily-search/web`
+3. `serper-search/web`
+4. `jina-reader/fetch`
+
+Verwenden Sie dann auf jeder Oberfläche denselben Namen:
+
+```json
+{ "model": "shared-free", "query": "Open source speech recognition", "max_results": 5 }
+```
+
+```json
+{ "model": "shared-free", "url": "https://example.com", "format": "markdown" }
+```
+
+Die Suche berücksichtigt zunächst Tavily und dann Serper. fetch denkt über Tavily nach, dann über Jina Reader; Chat überspringt die dedizierten search/fetch Anbieter und berücksichtigt OpenAI. Die Kompatibilität ergibt sich aus den search/fetch Executor-Registern, nicht aus Wörtern in einem Modellnamen. Die Filterung geht der Auswahl und dem Versand der Anmeldeinformationen voraus und bearbeitet niemals die gespeicherte Kombination.
+
+Nicht-Chat-fähige Routen unterstützen `priority`, `fill-first`, `round-robin`, `weighted`, `random`, `strict-random`, `least-used` und `p2c`. Nur-Chat-Synthesestrategien wie `fusion`, `pipeline` und `context-relay` werden auf Nicht-Chat-Routen abgelehnt und nicht stillschweigend auf Such- oder generierte Medien angewendet. Die vorhandene Combo-Engine verarbeitet geordnete Fallbacks, einschließlich Upstream-Kontingentfehler, und behält Schritt- IDs, Konto-Pins, Konto-Zulassungslisten pro Schritt, verschachtelte Referenzen, Aufrufer- connection/quota -Bereiche und Combo-Zugriffsrichtlinien bei. Die Ergebnisse behalten ihr natives search/fetch Schema, einschließlich des tatsächlichen Anbieters; `X-OmniRoute-Combo-Trace` identifiziert die Routing-Entscheidung. Unbekannte Combos geben `404` zurück; Inaktive Combos und Kombinationen ohne kompatible Ziele geben `400` zurück.
+
+Jeder Kombinationsversuch verwendet einen expliziten Anbieter. Der native automatische Anbieterpool kann nicht hinter dem Rücken der Combo aufgerufen werden. Anfragen für explizite Anbieter behalten ihr bestehendes Einzelanbieterverhalten bei. Direkte Chat-Anfragen, die auf dedizierte search/fetch Anbieter abzielen, geben einen umsetzbaren JSON `400` zurück, anstatt an einen Executor im OpenAI-Stil zu gelangen.
+
+### Funktionsspezifische Kombinationsrouten
+
+Gespeicherte Kombinationen können ein `routes` Objekt enthalten, dessen Schlüssel API -Funktionen sind. Jede Route besitzt ihre Zielliste, Strategie und Laufzeitkonfiguration. Die obersten Ebenen `models`, `strategy` und `config` bleiben der Legacy-kompatible Chat-Plan; Alte Combos ohne `routes` funktionieren unverändert weiter.
+
+Unterstützte Routenschlüssel sind `chat`, `search`, `web-fetch`, `embeddings`, `rerank`, `images`, `image-edits`, `videos`, `music`, `ocr`, `audio-speech`, `audio-transcriptions`, `audio-translations` und `audio-generation`. Die Endpunktprojektion erfolgt vor der Auswahl, Bewertung oder dem Versand von Anmeldeinformationen. Verschachtelte Combo-Referenzen wählen die Route der untergeordneten Combo für dieselbe Funktion aus.
+
+`POST /v1/music/generations` und `POST /v1/ocr` akzeptieren einen Kombinationsnamen in `model`. Der native ElevenLabs-kompatible `POST /v1/music` akzeptiert auch einen Kombinationsnamen in `model_id`, aber jedes verwendbare Ziel auf diesem nativen Endpunkt muss ein ElevenLabs Musikmodell sein, damit sein binärer Antwortvertrag erhalten bleibt. `POST /v1/sound-generation` akzeptiert eine `audio-generation` Kombination in `model_id` unter derselben nativen Binärbeschränkung. Verwenden Sie `/v1/music/generations` für heterogene Musikanbieter.
+
 **Automatische Auswahl:** ohne `provider` läuft zuerst der günstigste Anbieter mit konfigurierter Verbindung und der nächstgünstigere ist der Failover. Kostenlose Last-Resort-Anbieter (`duckduckgo-free`) werden nur verwendet, wenn nichts anderes konfiguriert ist. Ein selbstgehostetes SearXNG gilt als konfiguriert, sobald seine Verbindung ein echtes `baseUrl` (nicht das standardmäßige `http://localhost:8888/search` des Katalogs) speichert: Es wird dann als Anbieter mit 0 $ vor verschlüsselten Anbietern eingestuft, wobei der günstigste verschlüsselte Anbieter als Failover fungiert, auch wenn SearXNG mit 400, 401, 403 oder 404 antwortet. Ein `baseUrl` der kein gültiger `http(s)` URL ist oder auf eine Cloud-Metadatenadresse zeigt, zählt nicht. Eine SearXNG -Verbindung, die ein Token speichert, hat diesen Rang nur über `https://` oder Loopback `http://`. Bei Remote-Plain- `http://` kommt es nie zu einem Failover und bleibt der letzte Ausweg. Er wird nur verwendet, wenn kein anderer Anbieter konfiguriert ist oder wenn er namentlich angefordert wird. Daher wird das Token in diesen beiden Fällen im Klartext gesendet.
 
 ### Exa und Tavily `provider_options`
@@ -867,7 +904,7 @@ Das generische `time_range` erreicht nun beide Anbieter: Exa erhält `startPubli
 
 Exa-Ergebnisse behalten `id`, `highlights` (jedes Highlight, nicht nur das erste, das als `snippet` verwendet wird), `highlight_scores`, `summary`, `subpages`, `entities` und `extras` in `provider_raw`. Tavily-Ergebnisse behalten `images` und `favicon` bei.
 
-Die Linkup-Suchkosten betragen 0,005 $ für `depth` `fast` und `standard` und 0,05 $ für `deep` ( [Linkup-Preise](https://docs.linkup.so/pages/documentation/development/pricing) ), unabhängig davon, ob `depth` von `provider_options` oder den Verbindungseinstellungen stammt.
+Die Linkup-Suchkosten betragen 0,005 $ für `depth` `fast` und `standard` und 0,05 $ für `deep` ( [Linkup-Preise](https://docs.linkup.so/pages/documentation/development/pricing) ), unabhängig davon, ob `depth` von `provider_options` oder den Verbindungseinstellungen stammt.
 
 Exa `type: "lite"` (Exa 3.0) akzeptiert einen kleineren Satz von Feldern und lehnt die gesamte Anfrage ab, wenn ein anderes Feld festgelegt ist. Bei Lite werden `additionalQueries`, `systemPrompt` und alle `contents` -Tasten außer `text` und `highlights` vor dem Aufruf gelöscht. Die veralteten `subpages`, `subpageTarget`, `highlights.numSentences` und `highlights.highlightsPerUrl` werden nicht mehr weitergeleitet.
 
@@ -877,28 +914,21 @@ Bei der Kostenrechnung handelt es sich um die Pauschalregistrierung `costPerQuer
 
 ## Web Fetch API
 
-Extrahiert Inhalte aus einer URL über einen konfigurierten Web-Fetch-Provider (Firecrawl, Jina
-Reader, Tavily Extract, TinyFish Fetch, Nimble Extract, Parallel Extract).
+Extrahieren Sie Inhalte aus einem URL über einen konfigurierten Web-Fetch-Anbieter (Firecrawl, Jina Reader, Tavily Extract, TinyFish Fetch, Nimble Extract, Parallel Extract, Keenable Fetch).
 
-Parallel Extract (`parallel-search`, derselbe API-Schlüssel wie bei Parallel Search) gibt ausschließlich Markdown zurück — jedes andere `format` führt zu einem `400` — und begrenzt den Inhalt auf 100.000 Zeichen. Wenn die Zielseite selbst nicht extrahiert werden kann, meldet der Upstream dies innerhalb einer HTTP-200-Antwort; OmniRoute stellt dies als `422` mit einer festen Meldung bereit.
+Parallel Extract (`parallel-search`, gleicher API Schlüssel wie Parallel Search) gibt nur Markdown — zurück, alle anderen `format` sind `400` — und begrenzen den Inhalt auf 100.000 Zeichen. Wenn die Zielseite selbst nicht extrahiert werden kann, meldet der Upstream dies in einem HTTP 200; OmniRoute stellt dies als `422` mit einer festen Nachricht dar.
 
-| Methode | Pfad            | Beschreibung                                                                   |
-| ------- | --------------- | ------------------------------------------------------------------------------ |
-| POST    | `/v1/web/fetch` | Ruft eine URL ab bzw. extrahiert sie — Body validiert durch `v1WebFetchSchema` |
+Keenable Fetch (`keenable-search`) gibt außerdem nur Markdown zurück (jedes andere `format` ist ein `400`) und begrenzt den Inhalt auf 100.000 Zeichen. Es funktioniert ohne Schlüssel: Eine explizite `provider: "keenable-search"` Anfrage ohne Verbindung verwendet den schlüssellosen Endpunkt von Keenable (Ratenbegrenzungen pro IP). Ein konfigurierter Schlüssel hebt nur diese Grenzen auf; Die automatische Auswahl verwendet Keenable nur, wenn ein Schlüssel konfiguriert ist.
 
-**Authentifizierung:** Bearer-API-Schlüssel (`extractApiKey` + `isValidApiKey`). Die Richtlinie wird über `enforceApiKeyPolicy` durchgesetzt.
+| Verfahren | Weg             | Beschreibung                                                    |
+| --------- | --------------- | --------------------------------------------------------------- |
+| POST      | `/v1/web/fetch` | Fetch/scrape ein URL — Körper, validiert von `v1WebFetchSchema` |
 
-**Quota-bewusstes Fallback (#8297):** Wenn kein expliziter `provider` angegeben ist, wird der Pool
-(`firecrawl` → `jina-reader` → `tavily-search` → `tinyfish` → `nimble-search` →
-`parallel-search`) in fester
-Prioritätsreihenfolge (Fill-first) durchlaufen — ein rate-limitierter, aber konfigurierter Provider wird übersprungen,
-anstatt die Anfrage vorzeitig zu beenden, und ein wiederholbarer bzw. quota-bedingter Upstream-Fehler
-(HTTP 429 immer; 402/403 für quotaartige kostenlose Tarife von Firecrawl/Tavily/TinyFish —
-nicht für Jina Reader und niemals für eine einfache 400-Fehleranforderung) wird zur Laufzeit an den
-nächsten noch nicht getesteten authentifizierten Provider weitergeleitet. Wenn jeder Provider im
-Pool erschöpft ist, gibt der Endpunkt ein einzelnes `429` (mit einem `Retry-After`-Header) zurück,
-anstatt des bisherigen allgemeinen `400`. Wenn ein expliziter `provider` angefordert wird, gibt es
-kein stilles Fallback — ein rate-limitierter oder fehlschlagender expliziter Provider gibt seinen eigenen Fehler aus (`429` bei Rate-Limitierung, andernfalls den Upstream-Status).
+**Authentifizierung:** Inhaber API Schlüssel (`extractApiKey` + `isValidApiKey`). Richtlinie wird über `enforceApiKeyPolicy` durchgesetzt.
+
+Benannte Kombinationen verwenden den oben genannten [`model` -Routing-Vertrag](#named-searchfetch-combinations), wobei abrufspezifische Optionen und Antworten erhalten bleiben.
+
+**Kontingentbewusster Fallback (#8297):** Wenn weder `provider` noch `model` angegeben ist, wird der Pool (`firecrawl` → `jina-reader` → `tavily-search` → `tinyfish` → `nimble-search` → `parallel-search` → `keenable-search`) in fester Prioritätsreihenfolge durchsucht (Fill-First). Kostenlose Quoten im Kontingentstil 402/403 — für Firecrawl/Tavily/TinyFish Reader und niemals für eine einfache 400 retryable/quota Fehler-Anfrage — werden zum Zeitpunkt der Anfrage an den nächsten unerprobten Anbieter HTTP Anmeldeinformationen weitergeleitet. Wenn jeder Anbieter im Pool erschöpft ist, gibt der Endpunkt ein einzelnes `429` (mit einem `Retry-After` -Header) anstelle des vorherigen generischen `400` zurück. Wenn ein explizites `provider` angefordert wird, ist dies der Fall** NEIN** stiller Fallback — Ein ratenbegrenzter oder fehlschlagender expliziter Anbieter zeigt seinen eigenen Fehler an (`429` wenn ratenbegrenzt, andernfalls der Upstream-Status).
 
 ---
 
@@ -967,36 +997,26 @@ Die CLI wandelt `base_url + /responses` in eine WebSocket-Verbindung um, und Omn
 
 ---
 
-## Kontingente & Problemberichte
+## Quoten- und Problemberichte
 
-| Methode | Pfad                | Beschreibung                                                                                                                     |
-| ------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| GET     | `/v1/quotas/check`  | Kontingent für eine Kombination aus `provider` + `accountId` vor der Ausstellung eines registrierten Schlüssels vorab validieren |
-| POST    | `/v1/issues/report` | Einen Fehler bei der Ausstellung eines Kontingents/Schlüssels an GitHub melden (erfordert `GITHUB_ISSUES_REPO` + Token)          |
+| Verfahren | Weg                 | Beschreibung                                                                                                             |
+| --------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| GET       | `/v1/quotas/check`  | Überprüfen Sie das Kontingent für einen `provider` + `accountId` vorab, bevor Sie einen registrierten Schlüssel ausgeben |
+| POST      | `/v1/issues/report` | Einen quota/key -Ausstellungsfehler an GitHub melden (erfordert `GITHUB_ISSUES_REPO` + Token)                            |
 
-**Authentifizierung:** Bearer-API-Schlüssel (`isAuthenticated`).
+**Authentifizierung:** `/v1/quotas/check` benötigt einen Bearer API Schlüssel (`isAuthenticated`). `/v1/issues/report` dient nur der Verwaltung (`requireManagementAuth`), wie `/api/v1/registered-keys`: eine Dashboard-Sitzung, das lokale CLI Token oder ein API Schlüssel mit `manage`/`admin` -Bereich; Nur-Inferenz- API -Schlüssel erhalten `403`.
 
-### Wiederherstellung von Kontingentsitzungen (optional)
+### Kontingentsitzungswiederherstellung (Opt-in)
 
-Eine nicht gestreamte `POST /v1/chat/completions`- oder `POST /v1/responses`-Anfrage, die mit
-einem endgültigen Kontingentfehler (`402`/`429`/`503`, dessen Body besagt, dass das Kontingent oder
-die Credits erschöpft sind) fehlschlägt, kann geparkt und später erneut abgespielt werden, anstatt
-den Fehler zurückzugeben. Der Aufrufer aktiviert dies pro Anfrage mit drei Headern:
+Ein Nicht-Streaming `POST /v1/chat/completions` oder `POST /v1/responses`, das mit einem Terminalkontingentfehler (`402`/`429`/`503` dessen Hauptteil angibt, dass das Kontingent oder die Credits erschöpft sind) fehlschlägt, kann geparkt und später erneut abgespielt werden, anstatt den Fehler zurückzugeben. Der Anrufer meldet sich pro Anfrage mit drei Headern an:
 
-| Header                       | Wert                                                      |
-| ---------------------------- | --------------------------------------------------------- |
-| `x-omniroute-quota-recovery` | `auto`                                                    |
-| `x-omniroute-session`        | Sitzungs-ID, `[A-Za-z0-9._:-]{1,128}`                     |
-| `x-omniroute-recovery-turn`  | innerhalb der Sitzung eindeutige Turn-ID (dieselbe Regel) |
+| Kopfzeile                    | Wert                                                    |
+| ---------------------------- | ------------------------------------------------------- |
+| `x-omniroute-quota-recovery` | `auto`                                                  |
+| `x-omniroute-session`        | Sitzungs-ID, `[A-Za-z0-9._:-]{1,128}`                   |
+| `x-omniroute-recovery-turn`  | Turn-ID innerhalb der Sitzung eindeutig (gleiche Regel) |
 
-Nur Turns mit `stream: false`, ohne Tools, Tool-Verlauf oder `previous_response_id` sowie ohne
-`x-omniroute-connection`-Pin sind berechtigt, und `STORAGE_ENCRYPTION_KEY` muss gesetzt sein (die
-Anfrage wird bis zu 24 Stunden verschlüsselt gespeichert). Die Antwort lautet dann `202` mit
-`recovery.poll`; mit `GET /v1/quota-recoveries/{id}` kann der Status abgefragt werden (`202`,
-solange die Anfrage aussteht, `200` mit dem wiederhergestellten Body nach Abschluss), oder sie
-kann mit `DELETE` abgebrochen werden. Tickets sind nur für den API-Schlüssel sichtbar, der sie
-erstellt hat. Ein erneutes Abspielen mit ungewissem Ergebnis endet in `needs_confirmation`,
-anstatt zweimal gesendet zu werden. Quelle: `src/lib/quota/quotaSessionRecovery.ts`.
+Nur `stream: false` Turns ohne Werkzeuge, Werkzeugverlauf oder `previous_response_id` und ohne `x-omniroute-connection` Pin sind berechtigt, und `STORAGE_ENCRYPTION_KEY` muss festgelegt werden (die Anfrage wird bis zu 24 Stunden lang verschlüsselt gespeichert). Die Antwort ist dann `202` mit `recovery.poll`; `GET /v1/quota-recoveries/{id}` abfragen (`202` solange ausstehend, `200` mit dem wiederhergestellten Körper, wenn der Vorgang abgeschlossen ist) oder mit `DELETE` abbrechen. Tickets sind nur für den API Schlüssel sichtbar, der sie erstellt hat. Eine Wiederholung, deren Ausgang ungewiss ist, endet in `needs_confirmation` anstatt zweimal gesendet zu werden. Quelle: `src/lib/quota/quotaSessionRecovery.ts`.
 
 ---
 
@@ -1748,19 +1768,23 @@ Ausgehende Webhook-Abonnements für OmniRoute-Ereignisse (Anfrageabschluss, Quot
 
 ---
 
-## Registrierte Schlüssel (automatische Verwaltung)
+## Registrierte Schlüssel (Automatische Verwaltung)
 
-Wird vom Subsystem zur automatischen Schlüsselverwaltung verwendet, um API-Schlüssel bei einem zugrunde liegenden Anbieter/Konto auszustellen und zu rotieren, mit täglichen/stündlichen Quotas.
+Wird vom Auto-Key-Management-Subsystem verwendet, um API Schlüssel mit daily/hourly Kontingenten gegen einen Hintergrund provider/account auszugeben und zu rotieren.
 
-| Methode | Pfad                                  | Beschreibung                                                                                                                                                                                                                                        |
-| ------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET     | `/api/v1/registered-keys`             | Registrierte Schlüssel auflisten (nur maskiertes Präfix)                                                                                                                                                                                            |
-| POST    | `/api/v1/registered-keys`             | Einen neuen registrierten Schlüssel ausstellen — Body: `{name, provider?, accountId?, idempotencyKey?, expiresAt?, dailyBudget?, hourlyBudget?}`. Gibt den Rohschlüssel **einmalig** zurück. Gibt bei Ablehnung aufgrund eines Quotas `429` zurück. |
-| GET     | `/api/v1/registered-keys/[id]`        | Metadaten eines registrierten Schlüssels abrufen (kein Rohmaterial)                                                                                                                                                                                 |
-| DELETE  | `/api/v1/registered-keys/[id]`        | Einen registrierten Schlüssel widerrufen                                                                                                                                                                                                            |
-| POST    | `/api/v1/registered-keys/[id]/revoke` | Expliziter Widerruf-Endpunkt (gleiche Wirkung wie DELETE)                                                                                                                                                                                           |
+| Verfahren | Weg                                   | Beschreibung                                                                                                                                                                                                                                |
+| --------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET       | `/api/v1/registered-keys`             | Registrierte Schlüssel auflisten (nur maskiertes Präfix)                                                                                                                                                                                    |
+| POST      | `/api/v1/registered-keys`             | Geben Sie einen neuen registrierten Schlüssel- — Körper aus: `{name, provider?, accountId?, idempotencyKey?, expiresAt?, dailyBudget?, hourlyBudget?}`. Gibt den Rohschlüssel zurück** einmal** . Gibt `429` bei Quotenverweigerung zurück. |
+| GET       | `/api/v1/registered-keys/[id]`        | Metadaten eines registrierten Schlüssels abrufen (kein Rohmaterial)                                                                                                                                                                         |
+| DELETE    | `/api/v1/registered-keys/[id]`        | Einen registrierten Schlüssel widerrufen                                                                                                                                                                                                    |
+| POST      | `/api/v1/registered-keys/[id]/revoke` | Expliziter Widerrufendpunkt (gleicher Effekt wie DELETE)                                                                                                                                                                                    |
+| GET       | `/api/v1/providers/[provider]/limits` | Lesen Sie die Emissionsobergrenzen des Anbieters                                                                                                                                                                                            |
+| PUT       | `/api/v1/providers/[provider]/limits` | Legen Sie die Ausgabeobergrenzen des Anbieters — body fest: `{maxActiveKeys?, dailyIssueLimit?, hourlyIssueLimit?}`                                                                                                                         |
+| GET       | `/api/v1/accounts/[id]/limits`        | Lesen Sie die Emissionsobergrenzen des Kontos                                                                                                                                                                                               |
+| PUT       | `/api/v1/accounts/[id]/limits`        | Legen Sie die Ausgabeobergrenzen des Kontos — denselben Körper wie die Anbieterroute fest                                                                                                                                                   |
 
-**Authentifizierung:** Management-Sitzung/API-Schlüssel (`requireManagementAuth`) — dieselbe Zugriffskontrolle wie bei `/api/keys`: eine Dashboard-Sitzung, das lokale CLI-Token oder ein API-Schlüssel mit `manage`-/`admin`-Berechtigungsbereich; API-Schlüssel mit ausschließlich Inferenzberechtigungen erhalten `403`. Siehe auch `/v1/quotas/check` und `/v1/issues/report`.
+**Authentifizierung:** Management- session/API Schlüssel (`requireManagementAuth`) — derselbe Schutz wie `/api/keys`: eine Dashboard-Sitzung, das lokale CLI Token oder ein API Schlüssel mit `manage`/`admin` -Bereich; Nur-Inferenz- API -Schlüssel erhalten `403`. Siehe auch `/v1/quotas/check` und `/v1/issues/report`.
 
 ---
 

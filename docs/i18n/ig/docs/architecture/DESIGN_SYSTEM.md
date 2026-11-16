@@ -173,50 +173,24 @@ Usoro a na-eji ụzọ abụọ eme ihe:
 
 `scripts/dev/sync-ui-kit.sh <commit|latest> [clone]` na-eṅomi `src/` nke dị elu na ntinye ahụ (`latest` = mkpado `v*` ọhụrụ) n'ime `packages/ui-kit/src`, na-etinye mgbanwe otu ekwenyere (ọ na-ewepụ suffix `.js` site na mbubata ndị ikwu), ma debe ụdị ọrụ na `packages/ui-kit/package.json` na `package-lock.json` gaa na nke elu. Mgbe ahụ: nyochaa `git diff packages/ui-kit`, mee ihe ngosi anya na ndị na-enye, ntọala, combos, ojiji na njedebe na isiokwu abụọ ahụ, na-agba ọsọ `npm run check:ui-kit-snapshot` na `npm run test:vitest:ui`, ma mepee PR na elu mgbanwe mgbanwe.
 
-## 6. Eserese README
+## 6. README eserese
 
-Eserese iri na abụọ nke `README.md` dị na mgbọrọgwụ tinyere (`docs/diagrams/*.svg`) bụ kit ahụ etinyere n’onyonyo kwụ ọtọ, a na-emepụta ha, ọ bụghị iji aka ese ha: faịlụ generator 13 dị na `scripts/docs/gen-readme-*.mjs` (eserese iri na abụọ tinyere driver `gen-readme-diagrams.mjs`) na ule staleness 12 dị na `tests/unit/docs/readme-*-svg.test.ts`, otu maka eserese ọ bụla, nke ọ bụla na-atụnyere faịlụ e commitere na mmepụta generator ya byte n’otu n’otu (ọrụ `test-unit`).
+Eserese iri na abụọ ahụ mgbọrọgwụ `README.md` embeds (`docs/diagrams/*.svg`) bụ ngwa a na-etinye na onyonyo kwụ ọtọ, a na-emepụta ya, ọ bụghị aka ya: faịlụ generator 13 na `scripts/docs/gen-readme-*.mjs` (eserese iri na abụọ gbakwunyere `gen-readme-diagrams.mjs` ọkwọ ụgbọ ala) na 12 staleness ule na `tests/unit/docs/readme-*-svg.test.ts`, otu n'ime eserese, onye ọ bụla byte-mpụta na mmepụta nke `test-unit`.
 
-- **Tokens.** `scripts/docs/readme-diagram-theme.mjs` na-edepụtaghachi palette Editions (ọdịdị ndabara) site na
-  `packages/ui-kit/src/ci-editions.css` (nke
-  `tests/unit/docs/readme-diagram-theme.test.ts` jikọtara na faịlụ ahụ, nke na-enyochakwa WCAG AA maka agba ederede ọ bụla n’elu surface ọ bụla n’ime scheme abụọ ahụ; naanị ihe dị iche, `warn` nke light, bụ ịdọrọ ọchịchịrị n’ịdọ aka ná ntị kit ahụ site na 10 % n’ihi na uru kit ahụ bụ 4.46:1 n’elu canvas) ma kọwaa ọrụ ederede n’elu type scale nke kit ahụ (`ci-tokens.css`): Switzer na weights nke kit ahụ (400/500/600, display na 500) na tracking maka
-  ihe niile, ma e wezụga ọrụ code (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), ndị
-  bụ IBM Plex Mono ma bụrụ naanị maka command, URL, identifier na ihuenyo terminal.
-  Uru light dị na `:root`, uru dark dị n’azụ `prefers-color-scheme: dark`, n’ime faịlụ ahụ, ka onyonyo ọ bụla wee soro scheme onye na-ekiri ya na GitHub.
-- **Fonts.** GitHub Markdown enweghị CSS, proxy camo na-egbochikwa fetch mpụga ọ bụla, ya mere ụdị mkpụrụedemede kit ahụ ga-esorịrị n’ime faịlụ ahụ. `scripts/docs/readme-outline.mjs`, nzọụkwụ ikpeazụ nke generator ọ bụla, na-eji HarfBuzz emepụta ọdịdị ọrụ Switzer ma see ha dị ka vector outline (`<defs>` paths na `<use>`), ebe a na-ese akụ na akara geometric ndị Switzer na-enweghị dịka metrics nke ya si dị. Jiri outline mgbe niile, ọ bụghị font etinyere n’ime faịlụ: licence Switzer (`packages/ui-kit/src/fonts/FFL.txt`) machibidoro subsetting na conversion nke format na-enweghị nkwenye e dere ede ma kwe ka vector drawing, ya mere etinyekwala Switzer `@font-face` ma ọ bụ URI `data:` ọzọ. Naanị font fọdụrụ n’ime faịlụ bụ subset IBM Plex Mono nke OFL maka ihe ka bụ ezigbo ederede code
-  (`scripts/docs/readme-fonts.mjs`), nke e wuru site na character ndị ahụ; glyph ọ bụla ọ na-enweghị ike itinye ga-ebute error.
-- **Megharịa.** `npm run docs:readme-diagrams` na-edegharị ha iri na abụọ niile dịka usoro README si dị ma bipụta otu ahịrị maka
-  faịlụ ọ bụla ya na size ya. Otu generator nwekwara ike ịrụ ọrụ n’onwe ya (`node scripts/docs/gen-readme-<name>.mjs`;
-  `free-tier-budget` chọrọ `node --import tsx/esm` n’ihi na figure ya sitere na live catalog loader dị na
-  `open-sse/config/freeModelCatalog.ts`; mmetụta mgbanwe catalog na CI dị na
-  `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Commit generator na SVG ọnụ.
-- **Ihe akaebe.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` na-render faịlụ dịka GitHub si enye
-  ya (tag `<img>`, `Content-Security-Policy` nke camo, `image/svg+xml`), na-capture frame light na dark
-  ma kọwaa request font mpụga ibe ahụ mere (ga-abụrịrị 0).
-- **Oke size.** N’okpuru 200 KB maka faịlụ ọ bụla (ule staleness ọ bụla na-enyocha nke a); 500 KB bụ oke kachasị siri ike maka onyonyo README
-  ọ bụla (iwu validator nke studio SVG).
-- **Copy agbanweghị, count sitere na gate.** Rebrand ahụ gbanwere type na palette, ọ bụghị okwu: generator ọ bụla
-  na-ebu copy eserese ya n’ime constant `*_COPY` (ma ọ bụ wuo ya site na live catalog), nke bụ ma
-  ederede a na-ese ma input nke nzọụkwụ outlining. Figure canonical na-anọgide na node `<text>` (anaghị ahụ ya ozugbo
-  e mere outlining, `fill-opacity:0`), nke `check:docs-counts`
-  (`scripts/check/check-docs-counts-sync.mjs`) na-agụ; ule staleness nke eserese ndị gate ahụ na-agụ na-agbakwa
-  validator ya n’elu faịlụ emepụtara, ya mere figure nke si na code wezuga ga-eme ka ule daa — dozie
-  source nke gate ahụ na-agụ, emetụla nọmba dị na generator.
+- **Token.** `scripts/docs/readme-diagram-theme.mjs` na-ebipụta palette mbipụta (nleba anya nke ndabara) site na `packages/ui-kit/src/ci-editions.css` (nke na-ejikọta ya na faịlụ ahụ site na `tests/unit/docs/readme-diagram-theme.test.ts`, nke na-enyochakwa WCAG AA maka agba ederede ọ bụla n'elu n'elu atụmatụ abụọ ahụ; otu ihe dị iche, ìhè `warn`, bụ ịdọ aka ná ntị kit gbara ọchịchịrị 10% n'ihi na uru kit bụ 4.46: 1 na kwaaji) wee kọwaa ihe ederede na `ci-tokens.css`) Ihe dị arọ nke kit (400/500/600, ngosi na 500) na nsochi maka ihe ọ bụla, ma e wezụga ọrụ koodu (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), nke bụ IBM Plex Mono ma bụrụ naanị maka iwu, URLs, ihe nchọpụta na ihuenyo njedebe. Ụkpụrụ ọkụ na-anọdụ na `:root`, ụkpụrụ gbara ọchịchịrị n'azụ `prefers-color-scheme: dark`, n'ime faịlụ ahụ, ya mere onyonyo ọ bụla na-agbaso atụmatụ onye na-ekiri na GitHub.
+- **Ụdị mkpụrụedemede.** GitHub Markdown anaghị eburu CSS na camo proxy na-egbochi mbubata ọ bụla na mpụga, yabụ ụdị kit ga-aga n'ime faịlụ ahụ. `scripts/docs/readme-outline.mjs`, nzọụkwụ ikpeazụ nke onye na-emepụta ihe ọ bụla, na-akpụzi ọrụ Switzer na HarfBuzz ma dọta ha dị ka nkọwa vector (`<defs>` paths and `<use>`), na akụ na akara geometric Switzer enweghị mmasị na metric nke ya. Nkọwapụta, ọ dịghị mgbe ọ bụla font agbakwunyere: Akwụkwọ ikike Switzer (`packages/ui-kit/src/fonts/FFL.txt`) machibido ịtọ ntọala na ntụgharị usoro na-enweghị nkwenye ederede ma na-enye ohere ịse vector, yabụ eweghachila Switzer `@font-face` ma ọ bụ `data:` URI. Otu mkpụrụedemede fọdụrụ na faịlụ bụ OFL IBM Plex Mono subset maka ihe na-anọ ezigbo koodu ederede (`scripts/docs/readme-fonts.mjs`), nke sitere na mkpụrụedemede ndị ahụ; glyph ọ bụla ọ nweghị ike itinye atụba.
+- **Megharịa.** `npm run docs:readme-diagrams` degharịrị iri na abụọ niile n'usoro README wee bipụta otu ahịrị maka faịlụ na nha ya. Otu onye na-emepụta ihe na-agbakwa ọsọ n'onwe ya (`node scripts/docs/gen-readme-<name>.mjs`; `free-tier-budget` chọrọ `node --import tsx/esm` n'ihi na ọnụ ọgụgụ ya na-abịa site na onye na-ebu katalọgụ dị ndụ na `open-sse/config/freeModelCatalog.ts`; n'ihi CI nke mgbanwe katalọgụ dị na `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Jikọta generator na SVG ọnụ. SVG dị ogologo na-ada na ọnọdụ ntọhapụ; na njiri mara PR, `npm run check:generated-artifacts` na-ekpe ikpe naanị SVG ndezi PR (`docs/architecture/QUALITY_GATES.md` → "faịlụ ewepụtara na ntọala ntọala").
+- **Ihe akaebe.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` na-atụgharị faịlụ ka GitHub si enye ya (mkpado `<img>`, camo's `Content-Security-Policy`, `image/svg+xml`), na-ewepụta ọkụ na etiti gbara ọchịchịrị wee kọwapụta arịrịọ mpụta nke ibe ahụ emere (kwesịrị ịbụ 0).
+- **mmefu ego.** N'okpuru 200 KB kwa faịlụ (nnwale staleness ọ bụla na-ekwupụta ya); 500 KB bụ okpu siri ike maka onyonyo README ọ bụla (iwu SVG studio validator).
+- **Detuo na-agbanweghị, na-agụ site na ọnụ ụzọ ámá.** Ụdị rebrand gbanwere ụdị na palette, ọ bụghị okwu: onye ọ bụla na-emepụta ihe na-ebu ihe osise ya na `*_COPY` na-adịgide adịgide (ma ọ bụ na-ewu ya site na katalọgụ dị ndụ) nke ahụ bụ ma ederede eserese na ntinye nke usoro nhazi ahụ. Ọnụ ọgụgụ nke canonical na-anọ na oghere `<text>` (nke a na-adịghị ahụ anya ozugbo akọwapụtara, `fill-opacity:0`), nke `check:docs-counts` na-agụ (`scripts/check/check-docs-counts-sync.mjs`); Nnwale staleness nke eserese nke ọnụ ụzọ ámá na-agụ na-agbakwa ndị na-akwado ya na faịlụ emepụtara, ya mere ọnụ ọgụgụ nke na-esi na koodu ahụ daa ule — na-edozi isi iyi ọnụ ụzọ ahụ na-agụ, ọ dịghị mgbe ọnụọgụgụ dị na generator.
 
-## 7. Ndepụta ntụaka
+## 7. Ndekọ ntụaka
 
-- `src/app/globals.css` — njikọ token, mgbanwe `.dark`, mgbatị OmniRoute `@layer components`
-- `packages/ui-kit/UPSTREAM.md` — commit upstream a kpọgidere na ikike ikike-ojiji; `packages/ui-kit/PATCHES.md`
-- `packages/ui-kit/src/ci-tokens.css`, `packages/ui-kit/src/ci-editions.css`, `packages/ui-kit/src/ci-ui.css`,
-  `packages/ui-kit/src/keak-brand.tsx`
-- `src/shared/components/index.tsx` na adapters ndị dị ya nso; `src/shared/components/layouts/DashboardShell.tsx`,
-  `src/shared/components/Sidebar.tsx`, `src/shared/components/Header.tsx`, `src/shared/components/CommandPalette.tsx`
-- `src/shared/components/Icon.tsx`, `src/shared/constants/iconMap.ts`, `scripts/dev/gen-icon-map.mjs`,
-  `scripts/dev/codemod-material-icons.mjs`
+- `src/app/globals.css` — akara àkwà mmiri, `.dark` gafeworo, OmniRoute `@layer components` ndọtị
+- `packages/ui-kit/UPSTREAM.md` — tinye aka na ntinye aka na ikike ikike; `packages/ui-kit/PATCHES.md`
+- `packages/ui-kit/src/ci-tokens.css`, `packages/ui-kit/src/ci-editions.css`, `packages/ui-kit/src/ci-ui.css`, `packages/ui-kit/src/keak-brand.tsx`
+- `src/shared/components/index.tsx` na ihe nkwụnye n'akụkụ ya; `src/shared/components/layouts/DashboardShell.tsx`, `src/shared/components/Sidebar.tsx`, `src/shared/components/Header.tsx`, `src/shared/components/CommandPalette.tsx`
+- `src/shared/components/Icon.tsx`, `src/shared/constants/iconMap.ts`, `scripts/dev/gen-icon-map.mjs`, `scripts/dev/codemod-material-icons.mjs`
 - `src/shared/components/OmniRouteLogo.tsx`, `src/shared/constants/keakProducts.ts`
-- `src/store/themeStore.ts`, `src/shared/utils/themeBootScript.ts`, `src/shared/constants/appearancePalette.ts`,
-  `src/shared/constants/pwaThemeColors.ts`, `src/shared/constants/appConfig.ts`,
-  `src/shared/constants/statusColors.ts`
-- `tests/unit/design-kit-bridge.test.ts`, `tests/unit/dashboard-kit-sweep.test.ts`,
-  `tests/unit/icon-map-coverage.test.ts`, `tests/unit/icon-map-object-values.test.ts`,
-  `tests/unit/brand-pages-static.test.ts`, `tests/unit/ui/adapters/*.test.tsx`
+- `src/store/themeStore.ts`, `src/shared/utils/themeBootScript.ts`, `src/shared/constants/appearancePalette.ts`, `src/shared/constants/pwaThemeColors.ts`, `src/shared/constants/appConfig.ts`, `src/shared/constants/statusColors.ts`
+- `tests/unit/design-kit-bridge.test.ts`, `tests/unit/dashboard-kit-sweep.test.ts`, `tests/unit/icon-map-coverage.test.ts`, `tests/unit/icon-map-object-values.test.ts`, `tests/unit/brand-pages-static.test.ts`, `tests/unit/ui/adapters/*.test.tsx`

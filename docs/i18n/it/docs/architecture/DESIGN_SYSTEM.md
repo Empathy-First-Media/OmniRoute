@@ -86,48 +86,16 @@ Il flusso di lavoro utilizza due segreti:
 
 `scripts/dev/sync-ui-kit.sh <commit|latest> [clone]` copia lo `src/` upstream in quel commit (`latest` = il tag `v*` più recente) in `packages/ui-kit/src`, applica la singola trasformazione consentita (elimina il suffisso `.js` dalle importazioni relative) e imposta la versione dell'area di lavoro in `packages/ui-kit/package.json` e `package-lock.json` su quella upstream. Quindi: rivedi `git diff packages/ui-kit`, esegui un passaggio visivo su provider, impostazioni, combo, utilizzo ed endpoint in entrambi i temi, esegui `npm run check:ui-kit-snapshot` e `npm run test:vitest:ui` e apri PR con il registro delle modifiche upstream.
 
-## 6. Diagrammi del README
+## 6. diagrammi README
 
-I dodici diagrammi incorporati dal `README.md` radice (`docs/diagrams/*.svg`) rappresentano il kit applicato a un'immagine
-statica e sono generati, non disegnati a mano: 13 file generatori in `scripts/docs/gen-readme-*.mjs`
-(dodici diagrammi più il driver `gen-readme-diagrams.mjs`) e 12 test di obsolescenza in
-`tests/unit/docs/readme-*-svg.test.ts`, uno per diagramma, ciascuno dei quali confronta byte per byte il file sottoposto a commit con l'output del relativo
-generatore (job `test-unit`).
+I dodici diagrammi incorporati dalla root `README.md` (`docs/diagrams/*.svg`) sono il kit applicato a un'immagine statica e sono generati, non disegnati a mano: 13 file del generatore su `scripts/docs/gen-readme-*.mjs` (dodici diagrammi più il driver `gen-readme-diagrams.mjs` ) e 12 test di stallo su `tests/unit/docs/readme-*-svg.test.ts`, uno per diagramma, ciascuno confrontando byte il file impegnato con l'output del suo generatore (lavoro `test-unit`).
 
-- **Token.** `scripts/docs/readme-diagram-theme.mjs` copia la palette Editions (l'aspetto predefinito) da
-  `packages/ui-kit/src/ci-editions.css` (vincolata a tale file da
-  `tests/unit/docs/readme-diagram-theme.test.ts`, che verifica anche la conformità WCAG AA per ogni colore del testo su ogni
-  superficie in entrambi gli schemi; l'unica eccezione, `warn` chiaro, è il colore di avviso del kit scurito del 10 % perché il valore del kit
-  è 4.46:1 sulla tela) e definisce i ruoli del testo sulla scala tipografica del kit (`ci-tokens.css`): Switzer con i pesi del kit (400/500/600, titoli a 500) e spaziatura tra i caratteri per
-  ogni elemento, eccetto i ruoli del codice (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), che
-  usano IBM Plex Mono e sono riservati a comandi, URL, identificatori e schermate del terminale.
-  I valori chiari si trovano in `:root`, quelli scuri dietro `prefers-color-scheme: dark`, all'interno del file, così ogni
-  immagine segue lo schema del visualizzatore su GitHub.
-- **Font.** GitHub Markdown non include CSS e il proxy camo blocca ogni recupero esterno, quindi i caratteri tipografici del kit devono
-  essere inclusi nel file. `scripts/docs/readme-outline.mjs`, l'ultimo passaggio di ogni generatore, compone i
-  ruoli Switzer con HarfBuzz e li disegna come contorni vettoriali (percorsi `<defs>` ed elementi `<use>`), mentre le frecce
-  e i simboli geometrici non disponibili in Switzer vengono disegnati usando le sue stesse metriche. Si usano sempre contorni, mai un font incorporato: la
-  licenza di Switzer (`packages/ui-kit/src/fonts/FFL.txt`) vieta il subsetting e la conversione del formato senza consenso
-  scritto e consente i disegni vettoriali, quindi non reintrodurre un `@font-face` Switzer o un URI `data:`. L'unico
-  font lasciato in un file è il subset OFL di IBM Plex Mono per ciò che rimane vero testo di codice
-  (`scripts/docs/readme-fonts.mjs`), generato a partire da tali caratteri; qualsiasi glifo che non sia possibile incorporare provoca un errore.
-- **Rigenerazione.** `npm run docs:readme-diagrams` riscrive tutti e dodici i file nell'ordine del README e stampa una riga per
-  file con la relativa dimensione. È inoltre possibile eseguire autonomamente un singolo generatore (`node scripts/docs/gen-readme-<name>.mjs`;
-  `free-tier-budget` richiede `node --import tsx/esm` perché i relativi dati provengono dal caricatore del catalogo attivo in
-  `open-sse/config/freeModelCatalog.ts`; la conseguenza CI di una modifica al catalogo è descritta in
-  `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Includere nello stesso commit il generatore e l'SVG.
-- **Verifica.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` esegue il rendering di un file come viene servito da GitHub
-  (un tag `<img>`, la `Content-Security-Policy` di camo, `image/svg+xml`), acquisisce un fotogramma chiaro e uno scuro
-  e segnala le richieste di font esterni effettuate dalla pagina (devono essere 0).
-- **Limite.** Meno di 200 KB per file (ogni test di obsolescenza lo verifica); 500 KB è il limite assoluto per qualsiasi immagine del README
-  (la regola del validatore dello studio SVG).
-- **Testo invariato, conteggi dal gate.** Il rebranding ha modificato caratteri tipografici e palette, non le parole: ogni generatore
-  contiene il testo del proprio diagramma in una costante `*_COPY` (oppure lo costruisce dal catalogo attivo), usata sia come
-  testo disegnato sia come input del passaggio di conversione in contorni. I valori canonici rimangono nei nodi `<text>` (invisibili dopo
-  la conversione in contorni, `fill-opacity:0`), letti da `check:docs-counts`
-  (`scripts/check/check-docs-counts-sync.mjs`); i test di obsolescenza dei diagrammi letti da tale gate eseguono anche
-  i suoi validatori sul file generato, quindi se un valore diverge dal codice il test non riesce — correggere la
-  sorgente letta dal gate, mai il numero nel generatore.
+- **Gettoni.** `scripts/docs/readme-diagram-theme.mjs` copia la tavolozza Editions (l'aspetto predefinito) da `packages/ui-kit/src/ci-editions.css` (bloccata su quel file da `tests/unit/docs/readme-diagram-theme.test.ts`, che controlla anche WCAG AA per ogni colore del testo su ogni superficie in entrambi gli schemi; l'unica eccezione, `warn` chiaro, è l'avviso del kit oscurato del 10% perché il valore del kit è 4,46:1 sulla tela) e definisce i ruoli del testo sulla scala del tipo del kit (`ci-tokens.css`): Switzer ai pesi del kit (400/500/600, display at 500) e tracciamento di tutto, tranne i ruoli del codice (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), che sono IBM Plex Mono e sono solo per comandi, URLs, identificatori e schermate di terminale. I valori chiari si trovano su `:root`, i valori scuri dietro `prefers-color-scheme: dark`, all'interno del file, quindi ogni immagine segue lo schema dello spettatore su GitHub.
+- **Caratteri.** GitHub Markdown non supporta CSS e il proxy camo blocca ogni recupero esterno, quindi il tipo di kit deve viaggiare all'interno del file. `scripts/docs/readme-outline.mjs`, l'ultimo passaggio di ogni generatore, modella i ruoli di Switzer con HarfBuzz e li disegna come contorni vettoriali ( percorsi `<defs>` e `<use>`), con le frecce e i simboli geometrici che mancano a Switzer disegnati sulla propria metrica. Contorni, mai un carattere incorporato: la licenza di Switzer (`packages/ui-kit/src/fonts/FFL.txt`) vieta il sottoinsieme e la conversione del formato senza consenso scritto e consente i disegni vettoriali, quindi non reintrodurre uno Switzer `@font-face` o `data:` URI. L'unico carattere rimasto in un file è il sottoinsieme OFL IBM Plex Mono per ciò che rimane il testo del codice reale (`scripts/docs/readme-fonts.mjs`), costruito da quei caratteri; qualsiasi glifo che non può incorporare lancia.
+- **Rigenerare.** `npm run docs:readme-diagrams` li riscrive tutti e dodici in ordine README e stampa una riga per file con la sua dimensione. Un singolo generatore funziona anche da solo (`node scripts/docs/gen-readme-<name>.mjs`; `free-tier-budget` ha bisogno `node --import tsx/esm` perché le sue cifre provengono dal caricatore del catalogo live in `open-sse/config/freeModelCatalog.ts`; la conseguenza CI di una modifica del catalogo è in `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Impegna insieme il generatore e lo SVG. Un SVG obsoleto fallisce in modalità di rilascio; in una funzione PR, `npm run check:generated-artifacts` giudica solo un SVG le modifiche PR (`docs/architecture/QUALITY_GATES.md` → "File generati e linee di base derivate").
+- **Prova.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` esegue il rendering di un file nel modo in cui GitHub lo serve (un tag `<img>`, `Content-Security-Policy`, `image/svg+xml` di camo), cattura una cornice chiara e una scura e segnala le richieste di carattere esterno della pagina creata (deve essere 0).
+- **Bilancio.** Sotto i 200 KB per file (lo attesta ogni test di stantio); 500 KB è il limite massimo per qualsiasi immagine README (la regola del validatore di SVG studio).
+- **Copia invariata, conta dal cancello.** Il rebranding ha cambiato tipo e tavolozza, non parole: ogni generatore porta la copia del suo diagramma in una costante `*_COPY` (o la costruisce dal catalogo live) che è sia il testo disegnato che l'input della fase di strutturazione. Le figure canoniche stanno nei nodi `<text>` (invisibili una volta delineati, `fill-opacity:0`), letti da `check:docs-counts` (`scripts/check/check-docs-counts-sync.mjs`); i test di obsolescenza dei diagrammi letti da gate eseguono anche i suoi validatori sul file generato, quindi una figura che si allontana dal codice fallisce il test — corregge la fonte che legge il gate, mai il numero nel generatore.
 
 ## 7. Indice di riferimento
 

@@ -129,29 +129,16 @@ PRを開くことができない場合 (ターゲット リリースがフリー
 
 `scripts/dev/sync-ui-kit.sh <commit|latest> [clone]`そのコミット時に上流の`src/` (`latest` =最新の`v*`タグ) を`packages/ui-kit/src`にコピーし、単一の許可された変換を適用し (相対インポートから`.js`サフィックスを削除します)、 `packages/ui-kit/package.json`および`package-lock.json`のワークスペースのバージョンを上流のバージョンに設定します。次に、 `git diff packages/ui-kit`を確認し、両方のテーマでプロバイダー、設定、コンボ、使用法、およびエンドポイントのビジュアルパスを実行し、 `npm run check:ui-kit-snapshot`と`npm run test:vitest:ui`を実行して、アップストリームの変更ログでPR開きます。
 
-## 6. README の図
+## 6. README図
 
-ルートの `README.md` に埋め込まれている 12 個の図（`docs/diagrams/*.svg`）は、静的画像にキットを適用したものであり、手作業で描かれたものではなく生成されています。`scripts/docs/gen-readme-*.mjs` に 13 個のジェネレーターファイル
-（12 個の図に加えて `gen-readme-diagrams.mjs` ドライバー）があり、
-`tests/unit/docs/readme-*-svg.test.ts` には図ごとに 1 つ、合計 12 個の陳腐化テストがあります。各テストは、コミット済みファイルと対応する
-ジェネレーターの出力をバイト単位で比較します（ジョブ `test-unit`）。
+ルート`README.md`が埋め込む 12 個のダイアグラム (`docs/diagrams/*.svg`) は、静的イメージに適用されるキットであり、手作業で描画されるのではなく生成されます。 `scripts/docs/gen-readme-*.mjs`に 13 個のジェネレーター ファイル (12 個のダイアグラムと`gen-readme-diagrams.mjs`ドライバー) および`tests/unit/docs/readme-*-svg.test.ts`にある 12 個の失効性テスト (ダイアグラムごとに 1 つ) があり、それぞれコミットされたファイルとジェネレーターの出力 (ジョブ`test-unit`) をバイト比較します。
 
-- **トークン。** `scripts/docs/readme-diagram-theme.mjs` は Editions パレット（デフォルトの外観）を
-  `packages/ui-kit/src/ci-editions.css` からコピーします（
-  `tests/unit/docs/readme-diagram-theme.test.ts` によりそのファイルに固定されています。このテストは、両方の配色におけるすべてのサーフェス上の各テキスト色について WCAG AA への準拠も確認します。唯一の例外であるライトテーマの `warn` は、キットの値がキャンバス上で 4.46:1 であるため、キットの警告色を 10 % 暗くしたものです）。また、キットのタイプスケール（`ci-tokens.css`）に基づいてテキストの役割を定義します。コード用の役割（`.cmd`、`.term`、`.term-lg`、`.mono`、`.mono-sm`、`.mono-xs`）を除き、すべてにキットのウェイト（400/500/600、ディスプレイは 500）とトラッキングを使用した Switzer が適用されます。コード用の役割には IBM Plex Mono が使われ、コマンド、URL、識別子、ターミナル画面にのみ使用されます。
-  ライトテーマの値は `:root` に、ダークテーマの値はファイル内の `prefers-color-scheme: dark` の後ろに配置されているため、各画像は GitHub 上で閲覧者の配色に従います。
-- **フォント。** GitHub Markdown には CSS が含まれず、camo プロキシはすべての外部フェッチをブロックするため、キットの書体をファイル内に含める必要があります。各ジェネレーターの最終ステップである `scripts/docs/readme-outline.mjs` は、HarfBuzz を使用して Switzer の各役割をシェーピングし、ベクターアウトライン（`<defs>` のパスと `<use>`）として描画します。Switzer にない矢印と幾何学記号は、Switzer 独自のメトリクスに基づいて描画されます。埋め込みフォントではなく、必ずアウトラインを使用してください。Switzer のライセンス（`packages/ui-kit/src/fonts/FFL.txt`）では、書面による同意なしでのサブセット化と形式変換を禁止する一方、ベクター描画は許可されています。そのため、Switzer の `@font-face` や `data:` URI を再導入しないでください。ファイル内に残る唯一のフォントは、実際のコードテキストとして残る部分に使用される OFL ライセンスの IBM Plex Mono サブセット
-  （`scripts/docs/readme-fonts.mjs`）で、該当する文字から構築されます。埋め込めないグリフがある場合は例外が発生します。
-- **再生成。** `npm run docs:readme-diagrams` は、README の順序ですべての 12 ファイルを書き換え、ファイルごとにサイズを 1 行出力します。個別のジェネレーターを単独で実行することもできます（`node scripts/docs/gen-readme-<name>.mjs`）。
-  `free-tier-budget` の数値は
-  `open-sse/config/freeModelCatalog.ts` のライブカタログローダーから取得されるため、`node --import tsx/esm` が必要です。カタログ変更による CI への影響については、
-  `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict` を参照してください。ジェネレーターと SVG は一緒にコミットしてください。
-- **検証。** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` は、GitHub が配信する方法
-  （`<img>` タグ、camo の `Content-Security-Policy`、`image/svg+xml`）でファイルをレンダリングし、ライトテーマとダークテーマのフレームをキャプチャして、ページが行った外部フォントリクエスト数を報告します（0 でなければなりません）。
-- **容量。** 1 ファイルあたり 200 KB 未満です（各陳腐化テストでアサートされます）。README
-  画像のハード上限は 500 KB です（SVG studio バリデーターのルール）。
-- **文言は変更せず、数値はゲートから取得。** リブランドで変更されたのは書体とパレットであり、文言ではありません。各ジェネレーターは図の文言を `*_COPY` 定数として保持するか、ライブカタログから構築します。この文言は、描画されるテキストであると同時に、アウトライン化ステップへの入力でもあります。正式な数値は `<text>` ノード内に保持され（アウトライン化後は不可視、`fill-opacity:0`）、`check:docs-counts`
-  （`scripts/check/check-docs-counts-sync.mjs`）によって読み取られます。そのゲートが読み取る図の陳腐化テストでは、生成されたファイルに対してゲートのバリデーターも実行されるため、数値がコードから乖離するとテストが失敗します。ジェネレーター内の数値ではなく、必ずゲートが読み取るソースを修正してください。
+- **トークン。** `scripts/docs/readme-diagram-theme.mjs` 、 `packages/ui-kit/src/ci-editions.css`から Editions パレット (デフォルトの外観) をコピーし ( `tests/unit/docs/readme-diagram-theme.test.ts`によってそのファイルに対して固定され、両方のスキームのすべてのサーフェイスのすべてのテキスト カラーについてWCAG AAもチェックします。1 つの例外であるライト`warn`は、キットの値がキャンバス上で 4.46:1 であるため、キットの警告が 10 % 暗くなります)、キットのタイプ スケール (`ci-tokens.css`) でテキストの役割を定義します。キットの重み (400/500/600、500 で表示) と、コードの役割 (`.cmd`、 `.term`、 `.term-lg`、 `.mono`、 `.mono-sm`、 `.mono-xs`) を除くすべてのスイスの追跡。これらはIBM Plex Mono であり、コマンド、 URLs、識別子、および端末画面のみを対象とします。ファイル内の明るい値は`:root`に、暗い値は`prefers-color-scheme: dark`後ろにあるため、各イメージはGitHub上のビューアのスキームに従います。
+- **フォント。** GitHub Markdown にはCSSが含まれておらず、camo プロキシはすべての外部フェッチをブロックするため、キット タイプはファイル内で移動する必要があります。すべてのジェネレーターの最後のステップである`scripts/docs/readme-outline.mjs`、 HarfBuzzでスイスの役割を整形し、スイスにはない矢印や幾何学記号を独自のメトリックに基づいて描画したベクトル アウトライン (`<defs>`パスと`<use>`) として描画します。アウトライン。埋め込みフォントは使用しない: スイスのライセンス (`packages/ui-kit/src/fonts/FFL.txt`) では、書面による同意のないサブセット化と形式変換が禁止されており、ベクター描画が許可されているため、スイスの`@font-face`または`data:` URIを再導入しないでください。ファイルに残る 1 つのフォントは、これらの文字から構築された実際のコード テキスト (`scripts/docs/readme-fonts.mjs`) のままのOFL IBM Plex Mono サブセットです。埋め込むことができないグリフはスローされます。
+- **再生します。** `npm run docs:readme-diagrams` 12 個すべてをREADME順序で書き換え、ファイルごとに 1 行とそのサイズを出力します。単一のジェネレーターも単独で実行されます (`node scripts/docs/gen-readme-<name>.mjs`; `free-tier-budget`は`node --import tsx/esm`が必要です。その数値は`open-sse/config/freeModelCatalog.ts`のライブ カタログ ローダーから取得されるためです。カタログ変更のCI結果は`docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`にあります)。ジェネレーターとSVG一緒にコミットします。古いSVGリリース モードで失敗します。機能PRでは、 `npm run check:generated-artifacts` PRが編集するSVGのみを判断します (`docs/architecture/QUALITY_GATES.md` → "生成されたファイルと派生ベースライン")。
+- **証拠。** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` GitHub提供する方法 ( `<img>`タグ、迷彩の`Content-Security-Policy`、 `image/svg+xml`) でファイルをレンダリングし、明るいフレームと暗いフレームをキャプチャし、ページが作成した外部フォント リクエストを報告します (0 である必要があります)。
+- **予算。**ファイルあたり 200 KB未満 (各ファイルの古さテストで確認されます)。 500 KBは、 READMEイメージのハード キャップです ( SVG Studio バリデーターのルール)。
+- **コピーは変更せず、ゲートからカウントします。**ブランド変更により、単語ではなくタイプとパレットが変更されました。各ジェネレーターは、描画テキストとアウトライン ステップの入力の両方である`*_COPY`定数で図のコピーを保持します (またはライブ カタログから構築します)。正準図は`<text>`ノード (アウトライン化されると非表示、 `fill-opacity:0`) に留まり、 `check:docs-counts` (`scripts/check/check-docs-counts-sync.mjs`) によって読み取られます。ゲートが読み取る図の古さテストは、生成されたファイルに対してバリデーターも実行するため、コードからドリフトする図はテストで不合格になります—ジェネレーター内の数値ではなく、ゲートが読み取るソースを修正します。
 
 ## 7. リファレンス索引
 

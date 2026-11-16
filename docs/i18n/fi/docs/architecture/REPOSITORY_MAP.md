@@ -53,61 +53,61 @@ OmniRoute/
 
 ## Juuritiedostot
 
-| Tiedosto                                    | Tarkoitus                                                                                                |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| **README.md**                               | Markkinoinnin aloitussivu + pika-aloitus + ominaisuusmatriisi (katso myös `llm.txt`)                     |
-| **CHANGELOG.md**                            | Julkaisukohtainen muutosloki (`/version-bump-cc`-taito luo sen automaattisesti)                          |
-| **LICENSE**                                 | MIT-lisenssin teksti                                                                                     |
-| **CLAUDE.md**                               | Projektin säännöt Claude Code -agenteille (ehdottomat säännöt, käytännöt, skenaariot)                    |
-| **AGENTS.md**                               | Sama kuin CLAUDE.md, mutta muille kuin Claude-tekoälyagenteille (Codex, Cursor jne.)                     |
-| **GEMINI.md**                               | Tiiviit säännöt Gemini-pohjaisille agenteille (CLAUDE.md:n osajoukko)                                    |
-| **CONTRIBUTING.md**                         | Osallistumisopas: käyttöönotto, conventional commits -käytäntö, testaus, PR-prosessi                     |
-| **SECURITY.md**                             | Haavoittuvuuksien ilmoituskäytäntö, tuetut versiot, uhkamalli                                            |
-| **CODE_OF_CONDUCT.md**                      | Contributor Covenant — yhteisön käyttäytymistä koskevat odotukset                                        |
-| **llm.txt**                                 | LLM-indeksoijille optimoitu tekstimuotoinen aloitussivu (SEO tekoälyavustajille)                         |
-| **package.json**                            | npm-manifesti, komentosarjat, riippuvuudet, moottorit, c8-kattavuusportti                                |
-| **package-lock.json**                       | Lukittu riippuvuuspuu                                                                                    |
-| **tsconfig.json**                           | TypeScriptin juurimääritys                                                                               |
-| **tsconfig.typecheck-core.json**            | Tyypintarkistusmääritys `src/`-ytimelle                                                                  |
-| **tsconfig.typecheck-noimplicit-core.json** | Tiukka (`noImplicitAny`) tyypintarkistus                                                                 |
-| **tsconfig.tsbuildinfo**                    | TS:n inkrementaalisen koonnin välimuisti (gitignored)                                                    |
-| **next.config.mjs**                         | Next.js 16:n koontimääritys (itsenäinen tuloste)                                                         |
-| **next-env.d.ts**                           | Next.js:n automaattisesti luomat ympäristötyypit                                                         |
-| **eslint.config.mjs**                       | ESLintin flat config -määritys (säännöt projektialueittain)                                              |
-| **prettier.config.mjs**                     | Prettier-muotoilusäännöt                                                                                 |
-| **postcss.config.mjs**                      | PostCSS-määritys Tailwind/CSS-putkelle                                                                   |
-| **playwright.config.ts**                    | Playwrightin päästä päähän -testien määritys                                                             |
-| **vitest.config.ts**                        | Vitest-määritys (oletustestikokonaisuus)                                                                 |
-| **vitest.mcp.config.ts**                    | Vitest-määritys MCP-palvelimen / autoCombo- / välimuistitestikokonaisuuksille                            |
-| **sonar-project.properties**                | SonarQube-/SonarCloud-määritys (koodin laatu)                                                            |
-| **Dockerfile**                              | Monivaiheinen Docker-koonti (builder → runner-base → runner-cli)                                         |
-| **docker-compose.yml**                      | Kehityksen compose-määritys, jossa 4 profiilia (base, cli, host, cliproxyapi) + redis-sivupalvelu        |
-| **docker-compose.prod.yml**                 | Tuotannon compose-määritys (portti 20130, redis, nimetyt taltiot)                                        |
-| **.dockerignore**                           | Docker-kontekstista pois jätetyt tiedostot                                                               |
-| **fly.toml**                                | Fly.io-käyttöönoton määritys (alue `sin`, portti 20128, /data-taltio)                                    |
-| **.env.example**                            | Ympäristötiedoston malli (kopioidaan ensimmäisellä asennuskerralla automaattisesti tiedostoksi `.env`)   |
-| **.gitignore**                              | Gitin ohitusmallit                                                                                       |
-| **.npmignore**                              | npm-julkaisusta pois jätettävien tiedostojen luettelo                                                    |
-| **.npmrc**                                  | npm-määritys (rekisteri, lukkotiedostokäytäntö)                                                          |
-| **.node-version**                           | Kiinnitetty Node-versio (nvm-yhteensopivien työkalujen käyttämä)                                         |
-| **.nvmrc**                                  | nvm:lle kiinnitetty Node-versio                                                                          |
-| **eslint.complexity.config.mjs**            | ESLint-määritys monimutkaisuusratchetille (`scripts/check/check-complexity.mjs --config`)                |
-| **eslint.sonarjs.config.mjs**               | ESLint-määritys SonarJS-säännöille (kognitiivinen monimutkaisuus / päällekkäisyys)                       |
-| **source.config.ts**                        | Fumadocsin `defineDocs`-lähdemääritys (syöttää `.source/`-hakemiston)                                    |
-| **knip.json**                               | Knip-määritys — käyttämättömät tiedostot/viennit/riippuvuudet (syöttää kuolleen koodin tarkistusporttia) |
-| **stryker.conf.json**                       | Strykerin mutaatiotestauksen määritys                                                                    |
-| **.size-limit.json**                        | size-limit-pakettikoon budjettimääritys                                                                  |
-| **promptfooconfig.yaml**                    | promptfoo-arviointimääritys                                                                              |
-| **.gitleaks.toml**                          | gitleaks-salaisuustarkistuksen sääntöjoukko                                                              |
-| **.zizmor.yml**                             | zizmor GitHub Actions -tietoturvatarkistuksen määritys                                                   |
-| **socket.yml**                              | Socket.dev-toimitusketjumääritys                                                                         |
-| **news.json**                               | Lokalisoitu v2-ilmoitussyöte; Radarin julkaisumerkintä toimitetaan passiivisena                          |
-| **flake.nix** / **flake.lock**              | Nix-kehitysympäristön määritys ja lukitustiedosto                                                        |
-| **.env**                                    | Paikalliset salaisuudet (gitin ohittama — luodaan `.env.example`-tiedostosta)                            |
+| Tiedosto                                    | Tarkoitus                                                                                |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **README.md**                               | Markkinoinnin aloitussivu + pika-aloitus + -ominaisuusmatriisi (katso myös `llm.txt`)    |
+| **CHANGELOG.md**                            | Julkaisukohtainen muutosloki ( `/version-bump-cc` -taidon automaattisesti luoma)         |
+| **LICENSE**                                 | MIT lisenssiteksti                                                                       |
+| **CLAUDE.md**                               | Projektisäännöt Claude Code -agenteille (kovat säännöt, käytännöt, skenaariot)           |
+| **AGENTS.md**                               | Sama kuin CLAUDE.md mutta muille kuin Claude AI -agenteille (Codex, Cursor jne.)         |
+| **GEMINI.md**                               | Lyhyet säännöt Gemini-pohjaisille agenteille ( CLAUDE.md:n osajoukko)                    |
+| **CONTRIBUTING.md**                         | Osallistujan opas: asennus, perinteiset sitoumukset, testaus, PR -kulku                  |
+| **SECURITY.md**                             | Haavoittuvuuden raportointikäytäntö, tuetut versiot, uhkamalli                           |
+| **CODE_OF_CONDUCT.md**                      | Contributor Covenant — yhteisön käyttäytymisodotukset                                    |
+| **llm.txt**                                 | Pelkän tekstin laskeutuminen optimoitu LLM indeksoijille (SEO AI -assistenteille)        |
+| **package.json**                            | npm-luettelo, komentosarjat, riippuvuudet, moottorit, c8-peittoportti                    |
+| **package-lock.json**                       | Lukittu riippuvuuspuu                                                                    |
+| **tsconfig.json**                           | Root TypeScript config                                                                   |
+| **tsconfig.typecheck-core.json**            | Typecheck-konfiguraatio `src/` corelle                                                   |
+| **tsconfig.typecheck-noimplicit-core.json** | Tiukka (`noImplicitAny`) tyyppitarkastus                                                 |
+| **tsconfig.tsbuildinfo**                    | TS inkrementaalinen koontivälimuisti (gitignoitettu)                                     |
+| **seuraavaksi.config.mjs**                  | Next.js 16 -koontikokoonpano (erillinen lähtö)                                           |
+| **seuraava-env.d.ts**                       | Next.js automaattisesti luodut env-tyypit                                                |
+| **eslint.config.mjs**                       | ESLint flat config (säännöt projektialuekohtaisesti)                                     |
+| **kauniimpi.config.mjs**                    | Prettier -muotoilusäännöt                                                                |
+| **postcss.config.mjs**                      | PostCSS config Tailwind/CSS -putkilinjalle                                               |
+| **näytelmäkirjailija.config.ts**            | Playwright E2E testiasetus                                                               |
+| **vitest.config.ts**                        | Vitest config (oletuspaketti)                                                            |
+| **vitest.mcp.config.ts**                    | Vitest config MCP palvelimelle / autoCombo / välimuistisviiteille                        |
+| **sonar-project.properties**                | SonarQube/SonarCloud config (koodin laatu)                                               |
+| **Docker-tiedosto**                         | Monivaiheinen Docker rakennus (builder → runner-base → runner-cli)                       |
+| **docker-compose.yml**                      | Kehittäjän kirjoittaminen 4 profiililla (base, cli, host, cliproxyapi) + redis sivuvaunu |
+| **telakka-säveltäminen.prod.yml**           | Tuotanto kirjoita (portti 20130, redis, nimetyt määrät)                                  |
+| **.dockerignore**                           | Tiedostot on suljettu pois Docker kontekstista                                           |
+| **fly.toml**                                | Fly.io-käyttöönottomääritykset (alue `sin`, portti 20128, /datamäärä)                    |
+| **.env.example**                            | Mallin env-tiedosto (kopioi automaattisesti `.env` ensimmäisen asennuksen yhteydessä)    |
+| **.gitignore**                              | Git sivuuttaa malleja                                                                    |
+| **.npmignore**                              | npm julkaise poissulkemisluettelo                                                        |
+| **.npmrc**                                  | npm config (rekisteri, lukitustiedostokäytäntö)                                          |
+| **.node-versio**                            | Solmuversion PIN-koodi (nvm-yhteensopivien työkalujen käyttämä)                          |
+| **.nvmrc**                                  | Solmuversion PIN-koodi nvm:lle                                                           |
+| **eslint.monimutkaisuus.config.mjs**        | ESLint config monimutkaisuusräikkä (`scripts/check/check-complexity.mjs --config`)       |
+| **eslint.sonarjs.config.mjs**               | ESLint -asetus SonarJS -säännöille (kognitiivinen monimutkaisuus / päällekkäisyys)       |
+| **lähde.config.ts**                         | Fumadocs `defineDocs` lähdemääritys (syötteet `.source/`)                                |
+| **knip.json**                               | Knip config — unused files/exports/deps (syöttää kuolleen koodin portin)                 |
+| **hyökkääjä.conf.mjs**                      | Stryker-mutaatiotestauksen konfiguraatio (laskee `tap.testFiles` :n `mutate`)            |
+| **.size-limit.json**                        | kokorajoituspaketin budjettimääritykset                                                  |
+| **promptfooconfig.yaml**                    | promptfoo eval config                                                                    |
+| **.gitleaks.toml**                          | gitleaks salaisen skannauksen säännöt                                                    |
+| **.zizmor.yml**                             | zizmor GitHub-Actions security-lint config                                               |
+| **socket.yml**                              | Socket.dev toimitusketjun konfiguraatio                                                  |
+| **news.json**                               | Lokalisoitu v2-ilmoitussyöte; Tutkan laukaisukohde toimitetaan epäaktiivisesti           |
+| **flake.nix** /** hiutale.lukko**           | Nix dev-shell määritelmä + lock                                                          |
+| **.env**                                    | Paikalliset salaisuudet (gitifioitu — luotu `.env.example`:stä)                          |
 
-> **Siirretty pois juuresta versiossa v3.8.26 (selkeytys):**
+> **Siirretty pois juuresta versiossa 3.8.26 (declutter):**
 >
-> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json` ja luotu `quality-metrics.json` (gitin ohittama). Katso [`## config/`](#config--static-configs--quality-gate-state).
+> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json` ja luotu `quality-metrics.json` (gitignored). Katso [`## config/`](#config--static-configs--quality-gate-state).
 
 ---
 
@@ -193,7 +193,7 @@ src/
 | `memory/vectorStore.ts`                  | sqlite-vec v0.1.9 kääre — KNN brute-force + hybrid RRF (FTS5 + vektori, k = 60). Lazy-init, hajoaa sulavasti, kun sqlite-vec ei ole käytettävissä. (suunnitelma 21)                                                                                                                                                       |
 | `memory/reindex.ts`                      | `runReindexBatch()` — käsittelee muistoja `needs_reindex=1` taustalla; kutsutaan nimellä `POST /api/memory/reindex` ja lazy-backfill polku. (suunnitelma 21)                                                                                                                                                              |
 | `monitoring/`                            | Terveystarkastukset, mittauspäästöt                                                                                                                                                                                                                                                                                       |
-| `oauth/`                                 | OAuth/import virtaa 22 toimittajamoduulille (agy, antigravity, claude, cline, codebuddy-cn, codex, kohdistin, devin-desktop, ghe-copilot, github, gitlab-duo, grok-cli-oauth, grok-cli, kilocode, kimi-koodaus, traqo, xau-oference, kiro, xaioference zed-isännöity, zed)                                                |
+| `oauth/`                                 | OAuth/import virtaa 22 toimittajamoduulille (agy, antigravity, claude, cline, codebuddy-cn, codex, kohdistin, devin-desktop, ghe-copilot, github, gitlab-duo, grok-cli-oauth, grok-cli, kilocode, kimi-koodaus, traqo, xaue- oference, kiro, xaioference zed-isännöity, zed)                                              |
 | `plugins/`                               | Lisäosien rekisteri                                                                                                                                                                                                                                                                                                       |
 | `promptCache/`                           | Antrooppiset välimuistin keskeytyskohdat                                                                                                                                                                                                                                                                                  |
 | `skills/`                                | Taitokehys (sisäänrakennettu + -markkinapaikka + SkillsSH) — katso `docs/frameworks/SKILLS.md`                                                                                                                                                                                                                            |
@@ -223,7 +223,7 @@ src/
 | `fallbackPolicy.ts`    | Varapäätöspuu                                    |
 | `costRules.ts`         | Kustannuslaskentasäännöt                         |
 | `lockoutPolicy.ts`     | Model/connection työsulkupolitiikka              |
-| `tagRouter.ts`         | Tag-pohjainen reititys                           |
+| `tagRouter.ts`         | Tunnistepohjainen reititys                       |
 | `comboResolver.ts`     | Yhdistelmäresoluutio (kombomoottorin käyttämä)   |
 | `modelAvailability.ts` | Mallikohtainen saatavuuden tarkistus             |
 | `assessment/`          | Mallin arviointi (RFC-AUTO-ASSESSMENTin vaihe 1) |
@@ -238,62 +238,62 @@ src/
 
 ### `src/shared/`
 
-| Moduuli                          | Tarkoitus                                                                                                  |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `components/`                    | Kojelaudan komponentti API: sovittimet `packages/ui-kit` — yli, katso `docs/architecture/DESIGN_SYSTEM.md` |
-| `constants/iconMap.ts`           | `ICON_MAP`: näyttöjen käyttämät kuvakkeiden nimet → Lucide - komponentit (`<Icon>`)                        |
-| `constants/providers.ts`         | **381 palveluntarjoajaa** Zod -validaatiolla (totuuden lähde)                                              |
-| `constants/cliTools.ts`          | Ulkoinen CLI -työkalurekisteri                                                                             |
-| `constants/routingStrategies.ts` | **20 reititysstrategiaa** prioriteettien kanssa                                                            |
-| `constants/publicApiRoutes.ts`   | Reitit, jotka vaativat siirtotietodennuksen (vs. hallinta).                                                |
-| `constants/upstreamHeaders.ts`   | Ylävirran pyyntöjen otsikon estoluettelo                                                                   |
-| `validation/schemas.ts`          | ~ 80 Zod -skeemaa (yksi totuuden lähde API -sopimuksille)                                                  |
-| `validation/helpers.ts`          | Zod -validointiapuohjelmat (`validateBody` jne.)                                                           |
-| `types/`                         | Jaetut TS tyypit                                                                                           |
-| `contracts/`                     | Julkiset API -sopimukset ( `files:` kuluttaa `package.json`:ssä)                                           |
-| `utils/circuitBreaker.ts`        | Palveluntarjoajan katkaisija (katso `docs/architecture/RESILIENCE_GUIDE.md`)                               |
-| `utils/apiAuth.ts`               | API -avaimen validointi, laajuuden tarkistus                                                               |
-| `utils/fetchTimeout.ts`          | Timeout/abort -kääreet noutoa varten                                                                       |
-| `utils/releaseNotes.ts`          | Suljettu v2/legacy -ilmoitusten jäsentäjä, lokalisointi ja ID poistaminen                                  |
+| Moduuli                          | Tarkoitus                                                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `components/`                    | Kojelaudan komponentti API: sovittimet `packages/ui-kit` — n yli, katso `docs/architecture/DESIGN_SYSTEM.md` |
+| `constants/iconMap.ts`           | `ICON_MAP`: näyttöjen käyttämät kuvakkeiden nimet → Lucide - komponentit (`<Icon>`)                          |
+| `constants/providers.ts`         | **394 palveluntarjoajaa** Zod -validaatiolla (totuuden lähde)                                                |
+| `constants/cliTools.ts`          | Ulkoinen CLI -työkalurekisteri                                                                               |
+| `constants/routingStrategies.ts` | **22 reititysstrategiaa** prioriteettien kanssa                                                              |
+| `constants/publicApiRoutes.ts`   | Reitit, jotka vaativat siirtotietodennuksen (vs. hallinta).                                                  |
+| `constants/upstreamHeaders.ts`   | Ylävirran pyyntöjen otsikon estoluettelo                                                                     |
+| `validation/schemas.ts`          | ~ 80 Zod -skeemaa (yksi totuuden lähde API -sopimuksille)                                                    |
+| `validation/helpers.ts`          | Zod -validointiapuohjelmat (`validateBody` jne.)                                                             |
+| `types/`                         | Jaetut TS tyypit                                                                                             |
+| `contracts/`                     | Julkiset API -sopimukset ( `files:` kuluttaa `package.json`:ssä)                                             |
+| `utils/circuitBreaker.ts`        | Palveluntarjoajan katkaisija (katso `docs/architecture/RESILIENCE_GUIDE.md`)                                 |
+| `utils/apiAuth.ts`               | API -avaimen validointi, laajuuden tarkistus                                                                 |
+| `utils/fetchTimeout.ts`          | Timeout/abort -kääreet noutoa varten                                                                         |
+| `utils/releaseNotes.ts`          | Suljettu v2/legacy -ilmoitusten jäsennys, lokalisointi ja ID poistaminen                                     |
 
 ---
 
-## `open-sse/` — Suoratoistomoottorin työtila
+## `open-sse/` — Streaming Engine -työtila
 
-Erillinen npm-työtila (`@omniroute/open-sse`). Käsittelee pyyntöjen käsittelyn ja palveluntarjoajien suorituksen.
+Erillinen npm-työtila (`@omniroute/open-sse`). Käsittelee pyyntökäsittelyn + palveluntarjoajan suorittamista.
 
 ```
 open-sse/
-├── handlers/            # 16 tiedostoa (12 käsittelijää + 4 apufunktiota): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search jne.
-├── executors/           # 150 suoritusmoduulia (BaseExecutor-luokkaa laajentavat luokat + palveluntarjoajakohtaiset apufunktiot)
-├── translator/          # Muotomuuntimet (9 pyynnöille, 9 vastauksille, 9 apufunktiota)
+├── handlers/            # 16 files (12 handlers + 4 helpers): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, etc.
+├── executors/           # 163 executor modules (classes extending BaseExecutor + per-provider helpers)
+├── translator/          # Format converters (9 request, 9 response, 9 helpers)
 ├── transformer/         # Responses API ↔ Chat Completions (TransformStream)
-├── services/            # ~80+ palvelumoduulia (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM jne.)
-├── mcp-server/          # MCP-palvelin (110 työkalua, 3 siirtotapaa, 33 käyttöaluetta)
-├── config/              # Palveluntarjoaja- ja mallirekisterit, otsakemääritykset, mallien aliakset
-├── utils/               # TLS-asiakasohjelma, välityspalvelimen fetch/dispatcher, verkkoapufunktiot
-├── index.ts             # Työtilan aloituspiste
-├── package.json         # Työtilan manifesti
-├── tsconfig.json        # Työtilan TS-määritykset
-└── types.d.ts           # Työtilan tyyppimääritykset
+├── services/            # ~80+ service modules (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, etc.)
+├── mcp-server/          # MCP server (110 tools, 3 transports, 33 scopes)
+├── config/              # Provider/model registries, header config, model aliases
+├── utils/               # TLS client, proxy fetch/dispatcher, network helpers
+├── index.ts             # Workspace entry
+├── package.json         # Workspace manifest
+├── tsconfig.json        # Workspace TS config
+└── types.d.ts           # Workspace type declarations
 ```
 
 ### `open-sse/mcp-server/`
 
-| Polku                       | Tarkoitus                                                                                    |
-| --------------------------- | -------------------------------------------------------------------------------------------- |
-| `server.ts`                 | MCP-palvelimen elinkaari (stdio- ja HTTP-siirtotavat)                                        |
-| `httpTransport.ts`          | HTTP Streamable- ja SSE-siirtotavat (`/api/mcp/sse`, `/api/mcp/stream`)                      |
-| `audit.ts`                  | Tarkastuslokien tallennus `mcp_tool_audit`-tauluun                                           |
-| `scopeEnforcement.ts`       | Työkalukohtainen käyttöalueen validointi                                                     |
-| `runtimeHeartbeat.ts`       | Terveydentilan sykesignaali tiedostoon `DATA_DIR/runtime/mcp-heartbeat.json`                 |
-| `descriptionCompressor.ts`  | Pakkaa työkalukuvausten metatiedot kontekstin säästämiseksi                                  |
-| `schemas/tools.ts`          | 36 perustyökalun määritelmät ja käyttöalueet                                                 |
-| `tools/advancedTools.ts`    | Edistyneiden työkalujen toteutukset                                                          |
-| `tools/memoryTools.ts`      | 3 muistityökalua (haku/lisäys/tyhjennys)                                                     |
-| `tools/skillTools.ts`       | 4 taitotyökalua (luettelointi/käyttöönotto/suoritus/suoritukset)                             |
-| `tools/compressionTools.ts` | 5 pakkaustyökalua                                                                            |
-| `README.md`                 | Sisäinen MCP-palvelimen README (ristiinlinkitetty kohteesta `docs/frameworks/MCP-SERVER.md`) |
+| Polku                       | Tarkoitus                                                                      |
+| --------------------------- | ------------------------------------------------------------------------------ |
+| `server.ts`                 | MCP palvelimen elinkaari (stdio + HTTP -kuljetukset)                           |
+| `httpTransport.ts`          | HTTP suoratoisto + SSE kuljetukset (`/api/mcp/sse`, `/api/mcp/stream`)         |
+| `audit.ts`                  | Tarkastuskirjaus `mcp_tool_audit` -taulukkoon                                  |
+| `scopeEnforcement.ts`       | Työkalukohtainen käyttöalueen validointi                                       |
+| `runtimeHeartbeat.ts`       | Terveys syke `DATA_DIR/runtime/mcp-heartbeat.json`                             |
+| `descriptionCompressor.ts`  | Pakkaa työkalun kuvauksen metatiedot kontekstin tallentamiseksi                |
+| `schemas/tools.ts`          | 36 perustyökalun määritelmää + -kiikari                                        |
+| `tools/advancedTools.ts`    | Edistyneet työkalutoteutukset                                                  |
+| `tools/memoryTools.ts`      | 3 muistityökalua (search/add/clear)                                            |
+| `tools/skillTools.ts`       | 4 taitotyökalua (list/enable/execute/executions)                               |
+| `tools/compressionTools.ts` | 5 puristustyökalua                                                             |
+| `README.md`                 | Sisäinen MCP palvelin README (ristilinkitetty `docs/frameworks/MCP-SERVER.md`) |
 
 ---
 
@@ -412,7 +412,7 @@ open-sse/
 | `CLI-TOOLS.md`              | Ulkoiset CLI -integraatiot + Sisäiset OmniRoute CLI                                                |
 | `I18N.md`                   | i18n-arkkitehtuuri, kielen lisääminen, 67 aluetta                                                  |
 | `UNINSTALL.md`              | Puhdista asennuksen poistovaiheet                                                                  |
-| `PROVIDER_REFERENCE.md`     | **Luotu automaattisesti** 381 palveluntarjoajan luettelo (regen: `npm run gen:provider-reference`) |
+| `PROVIDER_REFERENCE.md`     | **Luotu automaattisesti** 394 palveluntarjoajan luettelo (regen: `npm run gen:provider-reference`) |
 
 ### Alajärjestelmän syväsukellukset
 
@@ -422,7 +422,7 @@ open-sse/
 | `A2A-SERVER.md`                             | A2A v0.3: JSON-RPC, 6 taitoa, REST auttajat, agenttikortti                           |
 | `AGENT_PROTOCOLS_GUIDE.md`                  | Yhtenäinen opas: A2A vs ACP vs Cloud Agents                                          |
 | `CLOUD_AGENT.md`                            | Codex Cloud / Devin / Jules -orkesteri                                               |
-| `SKILLS.md`                                 | Taitokehys (sisäänrakennettu + Marketplace + SkillsSH + sandbox)                     |
+| `SKILLS.md`                                 | Skills-kehys (sisäänrakennettu + Marketplace + SkillsSH + sandbox)                   |
 | `RADAR.md`                                  | Tutka ilmaisen mallin luettelon peittokuva (`RADAR_ENABLED`, oletuksena pois päältä) |
 | `MEMORY.md`                                 | Muistijärjestelmä (SQLite FTS5 + Qdrant)                                             |
 | `EVALS.md`                                  | Eval-kehys (sviitit, runot, rubriikit)                                               |

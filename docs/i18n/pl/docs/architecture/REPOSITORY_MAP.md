@@ -51,63 +51,63 @@ OmniRoute/
 
 ---
 
-## Pliki główne
+## Pliki root
 
-| Plik                                        | Przeznaczenie                                                                                              |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| **README.md**                               | Marketingowa strona docelowa + szybki start + macierz funkcji (zobacz też `llm.txt`)                       |
-| **CHANGELOG.md**                            | Dziennik zmian dla poszczególnych wydań (generowany automatycznie przez umiejętność `/version-bump-cc`)    |
-| **LICENSE**                                 | Tekst licencji MIT                                                                                         |
-| **CLAUDE.md**                               | Reguły projektu dla agentów Claude Code (zasady bezwzględne, konwencje, scenariusze)                       |
-| **AGENTS.md**                               | To samo co CLAUDE.md, ale dla agentów AI innych niż Claude (Codex, Cursor itp.)                            |
-| **GEMINI.md**                               | Zwięzłe reguły dla agentów opartych na Gemini (podzbiór CLAUDE.md)                                         |
-| **CONTRIBUTING.md**                         | Przewodnik dla współtwórców: konfiguracja, konwencjonalne commity, testowanie, proces PR                   |
-| **SECURITY.md**                             | Zasady zgłaszania podatności, obsługiwane wersje, model zagrożeń                                           |
-| **CODE_OF_CONDUCT.md**                      | Contributor Covenant — oczekiwania dotyczące zachowania społeczności                                       |
-| **llm.txt**                                 | Strona docelowa w zwykłym tekście, zoptymalizowana pod roboty indeksujące LLM (SEO dla asystentów AI)      |
-| **package.json**                            | Manifest npm, skrypty, zależności, silniki, próg pokrycia c8                                               |
-| **package-lock.json**                       | Zablokowane drzewo zależności                                                                              |
-| **tsconfig.json**                           | Główna konfiguracja TypeScript                                                                             |
-| **tsconfig.typecheck-core.json**            | Konfiguracja sprawdzania typów dla rdzenia `src/`                                                          |
-| **tsconfig.typecheck-noimplicit-core.json** | Rygorystyczne sprawdzanie typów (`noImplicitAny`)                                                          |
-| **tsconfig.tsbuildinfo**                    | Pamięć podręczna kompilacji przyrostowej TS (ignorowana przez Git)                                         |
-| **next.config.mjs**                         | Konfiguracja kompilacji Next.js 16 (samodzielne wyjście)                                                   |
-| **next-env.d.ts**                           | Automatycznie generowane przez Next.js typy środowiska                                                     |
-| **eslint.config.mjs**                       | Płaska konfiguracja ESLint (reguły dla poszczególnych obszarów projektu)                                   |
-| **prettier.config.mjs**                     | Reguły formatowania Prettier                                                                               |
-| **postcss.config.mjs**                      | Konfiguracja PostCSS dla potoku Tailwind/CSS                                                               |
-| **playwright.config.ts**                    | Konfiguracja testów E2E Playwright                                                                         |
-| **vitest.config.ts**                        | Konfiguracja Vitest (domyślny zestaw)                                                                      |
-| **vitest.mcp.config.ts**                    | Konfiguracja Vitest dla serwera MCP / zestawów autoCombo / pamięci podręcznej                              |
-| **sonar-project.properties**                | Konfiguracja SonarQube/SonarCloud (jakość kodu)                                                            |
-| **Dockerfile**                              | Wieloetapowa kompilacja Docker (builder → runner-base → runner-cli)                                        |
-| **docker-compose.yml**                      | Konfiguracja deweloperska Compose z 4 profilami (base, cli, host, cliproxyapi) + kontener pomocniczy Redis |
-| **docker-compose.prod.yml**                 | Konfiguracja produkcyjna Compose (port 20130, Redis, nazwane wolumeny)                                     |
-| **.dockerignore**                           | Pliki wykluczone z kontekstu Docker                                                                        |
-| **fly.toml**                                | Konfiguracja wdrożenia Fly.io (region `sin`, port 20128, wolumen /data)                                    |
-| **.env.example**                            | Szablon pliku zmiennych środowiskowych (automatycznie kopiowany do `.env` podczas pierwszej instalacji)    |
-| **.gitignore**                              | Wzorce ignorowania Git                                                                                     |
-| **.npmignore**                              | Lista wykluczeń podczas publikowania w npm                                                                 |
-| **.npmrc**                                  | Konfiguracja npm (rejestr, zasady pliku blokady)                                                           |
-| **.node-version**                           | Przypięta wersja Node (używana przez narzędzia zgodne z nvm)                                               |
-| **.nvmrc**                                  | Przypięta wersja Node dla nvm                                                                              |
-| **eslint.complexity.config.mjs**            | Konfiguracja ESLint dla mechanizmu zapadkowego złożoności (`scripts/check/check-complexity.mjs --config`)  |
-| **eslint.sonarjs.config.mjs**               | Konfiguracja ESLint dla reguł SonarJS (złożoność poznawcza / duplikacja)                                   |
-| **source.config.ts**                        | Konfiguracja źródła Fumadocs `defineDocs` (zasila `.source/`)                                              |
-| **knip.json**                               | Konfiguracja Knip — nieużywane pliki/eksporty/zależności (zasila bramkę martwego kodu)                     |
-| **stryker.conf.json**                       | Konfiguracja testów mutacyjnych Stryker                                                                    |
-| **.size-limit.json**                        | Konfiguracja budżetu rozmiaru pakietu size-limit                                                           |
-| **promptfooconfig.yaml**                    | Konfiguracja ewaluacji promptfoo                                                                           |
-| **.gitleaks.toml**                          | Zestaw reguł skanowania sekretów gitleaks                                                                  |
-| **.zizmor.yml**                             | Konfiguracja analizy bezpieczeństwa GitHub Actions za pomocą zizmor                                        |
-| **socket.yml**                              | Konfiguracja bezpieczeństwa łańcucha dostaw Socket.dev                                                     |
-| **news.json**                               | Zlokalizowany kanał ogłoszeń v2; wpis o uruchomieniu Radar jest dostarczany jako nieaktywny                |
-| **flake.nix** / **flake.lock**              | Definicja powłoki deweloperskiej Nix + plik blokady                                                        |
-| **.env**                                    | Lokalne dane poufne (ignorowane przez git — generowane z `.env.example`)                                   |
+| Plik                                        | Zamiar                                                                                                    |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| **README.md**                               | Marketingowa strona docelowa + szybki start macierz funkcji + (zobacz także `llm.txt`)                    |
+| **CHANGELOG.md**                            | Dziennik zmian poszczególnych wersji (generowany automatycznie przez umiejętności `/version-bump-cc` )    |
+| **LICENSE**                                 | tekst licencji MIT                                                                                        |
+| **CLAUDE.md**                               | Zasady projektu dla agentów Claude Code (twarde zasady, konwencje, scenariusze)                           |
+| **AGENTS.md**                               | To samo co CLAUDE.md ale dla agentów AI innych niż Claude (Codex, Cursor itp.)                            |
+| **GEMINI.md**                               | Zwięzłe zasady dla agentów opartych na Gemini (podzbiór CLAUDE.md)                                        |
+| **CONTRIBUTING.md**                         | Przewodnik dla współtwórców: konfiguracja, konwencjonalne zatwierdzenia, testowanie, przepływ PR          |
+| **SECURITY.md**                             | Polityka raportowania podatności, obsługiwane wersje, model zagrożeń                                      |
+| **CODE_OF_CONDUCT**                         | Współtwórca Porozumienie — dotyczące zachowań społeczności                                                |
+| **llm.txt**                                 | Lądowanie w postaci zwykłego tekstu zoptymalizowane dla robotów LLM (SEO dla asystentów AI )              |
+| **package.json**                            | manifest npm, skrypty, zależności, silniki, bramka pokrycia c8                                            |
+| **package-lock.json**                       | Zablokowane drzewo zależności                                                                             |
+| **tsconfig.json**                           | Zrootuj konfigurację TypeScript                                                                           |
+| **tsconfig.typecheck-core.json**            | Sprawdź konfigurację dla rdzenia `src/`                                                                   |
+| **tsconfig.typecheck-noimplicit-core.json** | Ścisła (`noImplicitAny`) kontrola typu                                                                    |
+| **tsconfig.tsbuildinfo**                    | TS przyrostowa pamięć podręczna kompilacji (gitignored)                                                   |
+| **Następny.config.mjs**                     | Konfiguracja kompilacji Next.js 16 (samodzielne wyjście)                                                  |
+| **następna-środ.d.ts**                      | Next.js automatycznie generowane typy env                                                                 |
+| **eslinta.config.mjs**                      | ESLint flat config (reguły na obszar projektu)                                                            |
+| **ładniejsza.config.mjs**                   | zasady formatowania Prettier                                                                              |
+| **postcss.config.mjs**                      | konfiguracja PostCSS dla potoku Tailwind/CSS                                                              |
+| **dramaturg.config.ts**                     | Playwright E2E konfiguracja testowa                                                                       |
+| **odwiedź.config.ts**                       | konfiguracja Vitest (pakiet domyślny)                                                                     |
+| **vitest.mcp.config.ts**                    | konfiguracja Vitest dla serwerów MCP / autoCombo / pakietów pamięci podręcznej                            |
+| **właściwości projektu sonarowego**         | konfiguracja SonarQube/SonarCloud (jakość kodu)                                                           |
+| **Plik Dockera**                            | Wieloetapowa kompilacja Docker (konstruktor → runner-base → runner-cli)                                   |
+| **docker-compose.yml**                      | Dev compose z 4 profilami (base, cli, host, Cliproxyapi) + Redis Sidecar                                  |
+| **tworzenie dokerów.prod.yml**              | Tworzenie produkcji (port 20130, redis, nazwane woluminy)                                                 |
+| **.dockerignore**                           | Pliki wykluczone z kontekstu Docker                                                                       |
+| **fly.toml**                                | Konfiguracja wdrożenia Fly.io (region `sin`, port 20128, /wolumin danych)                                 |
+| **.env.przykład**                           | Plik env szablonu (automatycznie kopiowany do `.env` przy pierwszej instalacji)                           |
+| **.gitignore**                              | Git ignoruje wzorce                                                                                       |
+| **.npmignoruj**                             | npm publikuje listę wykluczeń                                                                             |
+| **.npmrc**                                  | konfiguracja npm (rejestr, polityka plików blokujących)                                                   |
+| **wersja .node**                            | Pin wersji węzła (używany przez narzędzia kompatybilne z nvm)                                             |
+| **.nvmrc**                                  | Pin wersji węzła dla nvm                                                                                  |
+| **eslint.złożoność.config.mjs**             | konfiguracja ESLint dla mechanizmu zapadkowego złożoności (`scripts/check/check-complexity.mjs --config`) |
+| **eslint.sonarjs.config.mjs**               | konfiguracja ESLint dla reguł SonarJS (złożoność poznawcza/duplikacja)                                    |
+| **źródło.config.ts**                        | Konfiguracja źródła Fumadocs `defineDocs` (kanały `.source/`)                                             |
+| **knip.json**                               | Knip config — unused files/exports/deps (zasila bramkę martwego kodu)                                     |
+| **Stryker.conf.mjs**                        | Konfiguracja testowania mutacji firmy Stryker (oblicza `tap.testFiles` z `mutate`)                        |
+| **.size-limit.json**                        | konfiguracja budżetu pakietu z limitem rozmiaru                                                           |
+| **promptfooconfig.yaml**                    | Promptfoo ewaluacyjna konfiguracja                                                                        |
+| **.gitleaks.toml**                          | zestaw reguł skanowania tajnego gitleaks                                                                  |
+| **.zizmor.yml**                             | zizmor GitHub-Actions konfiguracja zabezpieczeń-lint                                                      |
+| **socket.yml**                              | Konfiguracja łańcucha dostaw Socket.dev                                                                   |
+| **news.json**                               | Zlokalizowany kanał ogłoszeń w wersji 2; Statki do wystrzeliwania radaru są nieaktywne                    |
+| **płatek.nix** /** zamek płatkowy**         | Blokada + definicji powłoki deweloperskiej Nix                                                            |
+| **.środka**                                 | Lokalne sekrety (gitignored — wygenerowane z `.env.example`)                                              |
 
-> **Przeniesiono z katalogu głównego w v3.8.26 (uporządkowanie):**
+> **Przeniesiono z katalogu głównego w wersji 3.8.26 (uporządkowanie):**
 >
-> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json` oraz wygenerowany plik `quality-metrics.json` (ignorowany przez git). Zobacz [`## config/`](#config--static-configs--quality-gate-state).
+> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json` i wygenerowany `quality-metrics.json` (gitignored). Zobacz [`## config/`](#config--static-configs--quality-gate-state).
 
 ---
 
@@ -172,7 +172,7 @@ src/
 | `api/`                                   | Wspólne pomocniki API (`requireManagementAuth`, walidacja)                                                                                                                                                                                                                                                                 |
 | `auth/`                                  | Sesja, hashowanie hasła, weryfikacja tokena                                                                                                                                                                                                                                                                                |
 | `batches/`                               | OpenAI Partie obsługi API                                                                                                                                                                                                                                                                                                  |
-| `catalog/`                               | Sprawdzanie poprawności katalogu dostawcy Zod i rozpoznawanie możliwości +                                                                                                                                                                                                                                                 |
+| `catalog/`                               | Katalog dostawców Sprawdzanie poprawności Zod Rozwiązywanie możliwości +                                                                                                                                                                                                                                                   |
 | `cloudAgent/`                            | Agenci w chmurze (Codex Cloud, Devin, Jules) — patrz `docs/frameworks/CLOUD_AGENT.md`                                                                                                                                                                                                                                      |
 | `combos/`                                | Pomocnicy zmiany kolejności + w rozdzielczości kombinowanej                                                                                                                                                                                                                                                                |
 | `audit/`                                 | Pomocnicy kanału aktywności: `highLevelActions.ts` (lista dozwolonych + `isHighLevelAction()`), `activityIcons.ts` (mapa akcji → icon/verb ), `timeline.ts` (groupByDay/relativeTime) — patrz `docs/architecture/MONITORING_SECTIONS.md`                                                                                   |
@@ -242,9 +242,9 @@ src/
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | `components/`                    | Komponent deski rozdzielczej API: adaptery na `packages/ui-kit` — patrz `docs/architecture/DESIGN_SYSTEM.md` |
 | `constants/iconMap.ts`           | `ICON_MAP`: nazwy ikon używane na ekranach → Komponenty Lucide (`<Icon>`)                                    |
-| `constants/providers.ts`         | **381 dostawców** z walidacją Zod (źródło prawdy)                                                            |
+| `constants/providers.ts`         | **394 dostawców** z walidacją Zod (źródło prawdy)                                                            |
 | `constants/cliTools.ts`          | Zewnętrzny rejestr narzędzi CLI                                                                              |
-| `constants/routingStrategies.ts` | **20 strategii routingu** z priorytetami                                                                     |
+| `constants/routingStrategies.ts` | **22 strategie routingu** z priorytetami                                                                     |
 | `constants/publicApiRoutes.ts`   | Trasy wymagające uwierzytelnienia okaziciela (w porównaniu z zarządzaniem).                                  |
 | `constants/upstreamHeaders.ts`   | Lista odrzuconych nagłówków dla żądań nadrzędnych                                                            |
 | `validation/schemas.ts`          | schematy ~ 80 Zod (pojedyncze źródło prawdy dla kontraktów API )                                             |
@@ -258,42 +258,42 @@ src/
 
 ---
 
-## `open-sse/` — Przestrzeń robocza silnika strumieniowego
+## `open-sse/` — Obszar roboczy silnika strumieniowego
 
-Oddzielna przestrzeń robocza npm (`@omniroute/open-sse`). Obsługuje przetwarzanie żądań i wykonywanie operacji dostawców.
+Oddzielny obszar roboczy npm (`@omniroute/open-sse`). Obsługuje przetwarzanie żądań, wykonanie dostawcy +.
 
 ```
 open-sse/
-├── handlers/            # 16 plików (12 handlerów + 4 moduły pomocnicze): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search itd.
-├── executors/           # 150 modułów wykonawczych (klasy rozszerzające BaseExecutor + moduły pomocnicze dla poszczególnych dostawców)
-├── translator/          # Konwertery formatów (9 żądań, 9 odpowiedzi, 9 modułów pomocniczych)
+├── handlers/            # 16 files (12 handlers + 4 helpers): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, etc.
+├── executors/           # 163 executor modules (classes extending BaseExecutor + per-provider helpers)
+├── translator/          # Format converters (9 request, 9 response, 9 helpers)
 ├── transformer/         # Responses API ↔ Chat Completions (TransformStream)
-├── services/            # ~80+ modułów usług (combo, accountFallback, autoCombo, reasoningCache, tryby niewykrywalne claude code/chatgpt, modelDeprecation, taskAwareRouter, workflowFSM itd.)
-├── mcp-server/          # Serwer MCP (110 narzędzi, 3 transporty, 33 zakresy)
-├── config/              # Rejestry dostawców/modeli, konfiguracja nagłówków, aliasy modeli
-├── utils/               # Klient TLS, pobieranie/dyspozytor proxy, sieciowe moduły pomocnicze
-├── index.ts             # Punkt wejścia przestrzeni roboczej
-├── package.json         # Manifest przestrzeni roboczej
-├── tsconfig.json        # Konfiguracja TS przestrzeni roboczej
-└── types.d.ts           # Deklaracje typów przestrzeni roboczej
+├── services/            # ~80+ service modules (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, etc.)
+├── mcp-server/          # MCP server (110 tools, 3 transports, 33 scopes)
+├── config/              # Provider/model registries, header config, model aliases
+├── utils/               # TLS client, proxy fetch/dispatcher, network helpers
+├── index.ts             # Workspace entry
+├── package.json         # Workspace manifest
+├── tsconfig.json        # Workspace TS config
+└── types.d.ts           # Workspace type declarations
 ```
 
 ### `open-sse/mcp-server/`
 
-| Ścieżka                     | Przeznaczenie                                                                             |
-| --------------------------- | ----------------------------------------------------------------------------------------- |
-| `server.ts`                 | Cykl życia serwera MCP (transporty stdio + HTTP)                                          |
-| `httpTransport.ts`          | Transporty HTTP Streamable + SSE (`/api/mcp/sse`, `/api/mcp/stream`)                      |
-| `audit.ts`                  | Rejestrowanie audytu w tabeli `mcp_tool_audit`                                            |
-| `scopeEnforcement.ts`       | Walidacja zakresu dla każdego narzędzia                                                   |
-| `runtimeHeartbeat.ts`       | Sygnał kondycji zapisywany w `DATA_DIR/runtime/mcp-heartbeat.json`                        |
-| `descriptionCompressor.ts`  | Kompresowanie metadanych opisów narzędzi w celu oszczędzania kontekstu                    |
-| `schemas/tools.ts`          | 36 bazowych definicji narzędzi + zakresy                                                  |
-| `tools/advancedTools.ts`    | Implementacje zaawansowanych narzędzi                                                     |
-| `tools/memoryTools.ts`      | 3 narzędzia pamięci (wyszukiwanie/dodawanie/czyszczenie)                                  |
-| `tools/skillTools.ts`       | 4 narzędzia umiejętności (lista/włączanie/wykonywanie/wykonania)                          |
-| `tools/compressionTools.ts` | 5 narzędzi do kompresji                                                                   |
-| `README.md`                 | Wewnętrzny plik README serwera MCP (powiązany krzyżowo z `docs/frameworks/MCP-SERVER.md`) |
+| Ścieżka                     | Zamiar                                                                             |
+| --------------------------- | ---------------------------------------------------------------------------------- |
+| `server.ts`                 | Cykl życia serwera MCP (transporty stdio + HTTP )                                  |
+| `httpTransport.ts`          | HTTP Przesyłanie strumieniowe + SSE transporty (`/api/mcp/sse`, `/api/mcp/stream`) |
+| `audit.ts`                  | Rejestrowanie audytu do tabeli `mcp_tool_audit`                                    |
+| `scopeEnforcement.ts`       | Walidacja zakresu dla poszczególnych narzędzi                                      |
+| `runtimeHeartbeat.ts`       | Bicie serca zdrowia do `DATA_DIR/runtime/mcp-heartbeat.json`                       |
+| `descriptionCompressor.ts`  | Kompresuj metadane opisu narzędzia, aby zapisać kontekst                           |
+| `schemas/tools.ts`          | 36 podstawowych definicji narzędzi + zakresów                                      |
+| `tools/advancedTools.ts`    | Zaawansowane wdrożenia narzędzi                                                    |
+| `tools/memoryTools.ts`      | 3 narzędzia pamięci (search/add/clear)                                             |
+| `tools/skillTools.ts`       | 4 narzędzia umiejętności (list/enable/execute/executions)                          |
+| `tools/compressionTools.ts` | 5 narzędzi do kompresji                                                            |
+| `README.md`                 | Wewnętrzny serwer MCP README (usieciowany z `docs/frameworks/MCP-SERVER.md`)       |
 
 ---
 
@@ -412,7 +412,7 @@ open-sse/
 | `CLI-TOOLS.md`              | Zewnętrzne integracje CLI + Wewnętrzne OmniRoute CLI                                           |
 | `I18N.md`                   | Architektura i18n, dodanie języka, 67 lokalizacji                                              |
 | `UNINSTALL.md`              | Wyczyść kroki dezinstalacji                                                                    |
-| `PROVIDER_REFERENCE.md`     | **Wygenerowane automatycznie** katalog 381 dostawców (regen: `npm run gen:provider-reference`) |
+| `PROVIDER_REFERENCE.md`     | **Wygenerowane automatycznie** katalog 394 dostawców (regen: `npm run gen:provider-reference`) |
 
 ### Głębokie nurkowanie podsystemów
 

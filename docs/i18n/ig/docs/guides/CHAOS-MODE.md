@@ -44,25 +44,23 @@ gị nke nkịtị ma ọlị.
    nke onye otu ikpeazụ gara nke ọma. A naghị eweghachi azịza ndị ọzọ nke panel ahụ, ya mere
    ị na-akwụ ụgwọ maka oku N ma nata otu completion.
 
-## Ntọlite
+## Melite
 
-1. Mepee **Dashboard → Ọnọdụ Chaos** (`/dashboard/chaos`).
-2. Gbanye ya — Ọnọdụ Chaos na-abịa **agbanyụrụ na ndabara** (`enabled: false` n'ime
-   `src/lib/chaos/chaosConfig.ts`). Mgbe ọ ka agbanyụrụ, `POST /api/chaos/run` na-aza
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
-3. Họrọ ndị ga-esonye na ntọala ndabara (a na-echekwa ha maka instansị ọ bụla site na ebe nchekwa ntọala):
+1. Mepee** Dashboard → Chaos Mode** (`/dashboard/chaos`).
+2. Tụgharịa ya** na** — Chaos Mode ụgbọ mmiri** nwere nkwarụ na ndabara** (`enabled: false` na `src/lib/chaos/chaosConfig.ts`). Mgbe enwere nkwarụ, `POST /api/chaos/run` na-aza `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Họrọ ndị sonyere na ndabara (na-aga n'ihu kwa ọmụmaatụ site na ụlọ ahịa ntọala):
 
-   | Oghere              | Ihe ọ pụtara                                                                   | Ndabara / oke                                                 |
-   | ------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------- |
-   | `enabled`           | Mgbanwe ukwu                                                                   | `false`                                                       |
-   | `defaultMode`       | `parallel` ma ọ bụ `collaborative` (lee n'okpuru)                              | `parallel`                                                    |
-   | `providerOverrides` | Nsonye nke onye na-eweta ọrụ ọ bụla (`providerId`, `modelId` nhọrọ, `enabled`) | tọgbọ chakoo = onye ọ bụla na-eweta ọrụ nọ n'ọrụ, kachasị 200 |
-   | `systemPrompt`      | Dochie prompt sistemụ Chaos arụnyere n'ime ya                                  | nhọrọ, kachasị mkpụrụedemede 10 000                           |
-   | `timeoutMs`         | Oge kachasị maka oku ihe nlereanya ọ bụla                                      | `120000` (5 000–600 000)                                      |
-   | `maxTokens`         | `max_tokens` maka oku ihe nlereanya ọ bụla                                     | `4096` (256–128 000)                                          |
+   | Ubi                 | Pụtara                                                              | Ihe ndabara / oke                       |
+   | ------------------- | ------------------------------------------------------------------- | --------------------------------------- |
+   | `enabled`           | Master mgba ọkụ                                                     | `false`                                 |
+   | `defaultMode`       | `parallel` ma ọ bụ `collaborative` (lee n'okpuru)                   | `parallel`                              |
+   | `providerOverrides` | Ntinye aka onye na-eweta (`providerId`, `modelId` nhọrọ, `enabled`) | efu = onye ọ bụla na-eweta ọrụ, max 200 |
+   | `systemPrompt`      | Wepụ maka ngwa ngwa sistemụ Chaos arụnyere n'ime ya                 | nhọrọ, max 10 000 chars                 |
+   | `timeoutMs`         | Oge kacha n'otu oku nlereanya                                       | `120000` (5 000–600 000)                |
+   | `maxTokens`         | `max_tokens` kwa nlereanya oku                                      | `4096` (256–128 000)                    |
 
-4. Mee **nnwale site n'ime ibe ahụ n'onwe ya** — panel nsonaazụ na-egosi azịza onye ọ bụla na-eweta ọrụ,
-   ọnọdụ ya na oge o were.
+4. Nye onye ọ bụla na-eweta ọrụ a** ihe nlereanya** . Nlereanya onye na-eweta bụ `modelId` nke enyere ya aka ịkagbu na ibe Chaos Mode (ọ na-emeri), ma ọ bụghị ya,** ụdị ndabara** nke njikọ ya. A naghị eji id onye na-eweta ọrụ dịka aha nlereanya. Onye na-eweta enweghị nke ọ bụla** akpọghị ya** : ọ na-egosi na nsonaazụ ya dị ka `status: "error"` na ozi _"Ọ dịghị ihe nlereanya setịpụrụ maka onye na-eweta ihe a. Debe ihe nlereanya maka ya na ibe Chaos Mode ma ọ bụ ihe ndabere na njikọ ahụ." _ na `modelId` efu , ebe ndị ọzọ na-enye ọrụ na-agba ọsọ. Ọ bụrụ na ọnweghị onye na-eweta ahọpụtara nwere ihe nlereanya, ọsọ ahụ ga-ada tupu arịrịọ ọ bụla dị elu na _"Ọnweghị onye na-eweta nwere setịpụrụ ihe nlereanya…"_ (HTTP 500 na njedebe abụọ ahụ).
+5. Gbaa a** nwalee site na ibe n'onwe ya** — panel rịzọlt na-egosi azịza onye ọ bụla na-eweta, ọkwa na ogologo oge.
 
 ## Ụdị arụmọrụ
 
@@ -126,11 +124,9 @@ Ebe njedebe abụọ ahụ na-eweghachi otu nhazi:
 }
 ```
 
-## Ịdozi nsogbu
+## Nchọpụta nsogbu
 
-- **`400 Chaos Mode is not enabled`** — nzọụkwụ 2 dị n'elu: mgba ọkụ zuru ụwa ọnụ agbanyụrụ.
-- **A jụrụ igodo API na `/api/skills/collect/chaos`** — igodo ahụ enweghị ikike
-  `chaosModeEnabled` nke akọwapụtara maka igodo ọ bụla (agbanyụrụ na ndabara; nke a bụ ntọala, ọ bụghị njehie).
-- **Onye na-eweta ọrụ ị tụrụ anya ya adịghị na nsonaazụ** — lelee `providerOverrides` na
-  ibe Ọnọdụ Chaos (ngbanwe agbanyụrụ na-ewepụ ya) ma leleekwa ma njikọ onye na-eweta ọrụ ahụ
-  nọ n'ọrụ.
+- **`400 Chaos Mode is not enabled`** — nzọụkwụ 2 n'elu: agbanyụrụ mgba ọkụ zuru ụwa ọnụ.
+- **a na-ajụ igodo API na `/api/skills/collect/chaos`** — igodo enweghị ikike `chaosModeEnabled` kwa-key (gbanyụọ na ndabara; nke a bụ ntọala, ọ bụghị njehie).
+- **Onye na-eweta na-egosi `No model set for this provider`** — setịpụrụ ihe nlereanya ya na ibe Chaos Mode ma ọ bụ ihe atụ nke ndabara na njikọ ya (lee Ntọala, nzọụkwụ 4).
+- **Onye na-eweta ihe ị tụrụ anya na-efu na nsonaazụ ya** — lelee `providerOverrides` na ibe Chaos Mode (nkwụsị enweghị nkwarụ na-ewepu ya) yana ma njikọ ndị na-eweta ọ na-arụ ọrụ.

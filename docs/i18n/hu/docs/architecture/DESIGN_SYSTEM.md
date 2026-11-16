@@ -193,48 +193,16 @@ A munkafolyamat két titkot használ:
 
 `scripts/dev/sync-ui-kit.sh <commit|latest> [clone]` átmásolja az upstream `src/` az adott véglegesítésnél (`latest` = a legújabb `v*` címke) `packages/ui-kit/src` be, alkalmazza az egyetlen engedélyezett átalakítást (elhagyja a `.js` utótagot a relatív importálásból), és beállítja a `packages/ui-kit/package.json` és `package-lock.json` munkaterület verzióját az upstream verzióra. Ezután tekintse át `git diff packages/ui-kit`, végezzen vizuális átadást a szolgáltatókról, a beállításokról, a kombinációkról, a használatról és a végpontról mindkét témában, futtassa `npm run check:ui-kit-snapshot` és `npm run test:vitest:ui`, és nyissa meg a PR az upstream változásnaplóval.
 
-## 6. README-diagramok
+## 6. README diagramok
 
-A gyökérszintű `README.md` által beágyazott tizenkét diagram (`docs/diagrams/*.svg`) a statikus képre alkalmazott készletet használja,
-és nem kézzel készül, hanem generált: 13 generátorfájl található a `scripts/docs/gen-readme-*.mjs`
-útvonalon (tizenkét diagram, valamint a `gen-readme-diagrams.mjs` vezérlő), továbbá 12 elavultsági teszt a
-`tests/unit/docs/readme-*-svg.test.ts` útvonalon, diagramonként egy; mindegyik bájtról bájtra összehasonlítja a verziókövetőbe mentett fájlt a
-generátor kimenetével (`test-unit` feladat).
+A `README.md` gyökér beágyazott tizenkét diagramja (`docs/diagrams/*.svg`) a statikus képre alkalmazott készlet, és generálásuk nem kézzel történik: 13 generátorfájl `scripts/docs/gen-readme-*.mjs` ben (tizenkét diagram plusz a `gen-readme-diagrams.mjs` illesztőprogram) és 12 elavultsági teszt `tests/unit/docs/readme-*-svg.test.ts` nél, diagramonként egy, minden egyes byte-com-fájl a kimeneti `test-unit` jával.
 
-- **Tokenek.** A `scripts/docs/readme-diagram-theme.mjs` átmásolja az Editions-palettát (az alapértelmezett megjelenést) a
-  `packages/ui-kit/src/ci-editions.css` fájlból (ehhez a fájlhoz a
-  `tests/unit/docs/readme-diagram-theme.test.ts` rögzíti, amely mindkét sémában minden szövegszín és minden
-  felület kombinációjára ellenőrzi a WCAG AA megfelelést is; az egyetlen kivétel a világos `warn`, amelynél a készlet
-  figyelmeztető színe 10%-kal sötétebb, mert a készlet értéke 4.46:1 a vásznon), és meghatározza a szövegszerepeket a készlet tipográfiai skáláján (`ci-tokens.css`): mindenhez Switzer betűtípust használ a készlet súlyaival (400/500/600, a kiemelt szöveghez 500) és betűközzel,
-  kivéve a kódszerepeket (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), amelyek
-  IBM Plex Mono betűtípust használnak, és kizárólag parancsokhoz, URL-ekhez, azonosítókhoz és terminálképernyőkhöz valók.
-  A világos értékek a fájlon belül a `:root` alatt, a sötét értékek pedig a `prefers-color-scheme: dark` mögött
-  találhatók, így a GitHubon minden kép követi a megtekintő színsémáját.
-- **Betűtípusok.** A GitHub Markdown nem tartalmaz CSS-t, a camo proxy pedig minden külső lekérést blokkol, ezért a készlet
-  betűtípusának magában a fájlban kell utaznia. A `scripts/docs/readme-outline.mjs`, minden generátor utolsó lépése, HarfBuzz használatával formázza meg a
-  Switzer-szerepeket, és vektorkontúrokként rajzolja meg őket (`<defs>` útvonalakkal és `<use>` elemekkel), a Switzerből
-  hiányzó nyilakat és geometriai szimbólumokat pedig a betűtípus saját metrikái alapján rajzolja meg. Mindig kontúrokat használjon, soha ne beágyazott betűtípust: a Switzer
-  licence (`packages/ui-kit/src/fonts/FFL.txt`) írásos engedély nélkül tiltja a részhalmazképzést és a formátumkonverziót,
-  de engedélyezi a vektoros rajzokat, ezért ne vezessen be újra Switzer `@font-face` szabályt vagy `data:` URI-t. A fájlban maradó egyetlen
-  betűtípus az OFL-licencű IBM Plex Mono részhalmaza a tényleges kódszövegként megmaradó tartalomhoz
-  (`scripts/docs/readme-fonts.mjs`), amely ezekből a karakterekből épül fel; ha valamely karakterjelet nem tudja beágyazni, hibát dob.
-- **Újragenerálás.** Az `npm run docs:readme-diagrams` mind a tizenkét fájlt újraírja a README sorrendjében, és fájlonként
-  egy sort ír ki a fájl méretével. Egyetlen generátor önállóan is futtatható (`node scripts/docs/gen-readme-<name>.mjs`;
-  a `free-tier-budget` esetében `node --import tsx/esm` szükséges, mert a számadatai az
-  `open-sse/config/freeModelCatalog.ts` élő katalógusbetöltőjéből származnak; egy katalógusmódosítás CI-következményét lásd:
-  `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). A generátort és az SVG-t együtt mentse a verziókövetőbe.
-- **Ellenőrzés.** A `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` úgy rendereli a fájlt, ahogyan a GitHub
-  kiszolgálja (egy `<img>` címkével, a camo `Content-Security-Policy` szabályával és `image/svg+xml` típussal), világos és sötét képkockát
-  rögzít, valamint jelenti az oldal által indított külső betűtípus-lekéréseket (az értéküknek 0-nak kell lennie).
-- **Méretkorlát.** Fájlonként 200 KB alatt (ezt minden elavultsági teszt ellenőrzi); bármely README-kép
-  abszolút felső korlátja 500 KB (az SVG studio validátor szabálya).
-- **A szöveg változatlan, a számadatok az ellenőrzési kapuból származnak.** Az arculatváltás a betűtípust és a palettát módosította, nem a szöveget: minden generátor
-  egy `*_COPY` konstansban tartalmazza a diagram szövegét (vagy az élő katalógusból építi fel), amely egyszerre
-  a kirajzolt szöveg és a kontúrozási lépés bemenete. A hiteles számadatok `<text>` csomópontokban maradnak (a kontúrozás után
-  láthatatlanul, `fill-opacity:0` értékkel), és a `check:docs-counts`
-  (`scripts/check/check-docs-counts-sync.mjs`) olvassa be őket; az ellenőrzési kapu által olvasott diagramok elavultsági tesztjei
-  a generált fájlon is futtatják a validátorait, így a kódtól eltérő számadat meghiúsítja a tesztet — mindig
-  az ellenőrzési kapu által olvasott forrást javítsa, soha ne a generátorban szereplő számot.
+- **Tokenek.** `scripts/docs/readme-diagram-theme.mjs` átmásolja a Editions palettát (az alapértelmezett megjelenést) `packages/ui-kit/src/ci-editions.css` ből (amelyet `tests/unit/docs/readme-diagram-theme.test.ts` rögzített ehhez a fájlhoz, amely mindkét sémában minden felületen ellenőrzi WCAG AA minden szövegszínhez; az egyetlen kivétel, a világos `warn`, a kit figyelmeztetés 10%-kal elsötétül, mert a kit értéke 4,46:1 a vászon szövegén és s skálán a szerepkör típusa)`ci-tokens.css`): Switzer a készlet súlyainál (400/500/600, kijelző 500-nál) és követés mindenre, kivéve a kódszerepeket (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), amelyek IBM Plex Mono, és csak az ers, URLs qp parancsokhoz és . A világos értékek `:root`, a sötét értékek `prefers-color-scheme: dark` mögött helyezkednek el a fájlon belül, így minden kép követi a néző GitHub lévő sémáját.
+- **Betűtípusok.** GitHub Markdown nem hordoz CSS, és a camo proxy blokkol minden külső letöltést, így a kit típusának a fájlon belül kell utaznia. `scripts/docs/readme-outline.mjs`, minden generátor utolsó lépése, HarfBuzz vel formálja meg a Switzer-szerepeket, és vektoros körvonalakként rajzolja meg őket (`<defs>` paths és `<use>`), a nyilak és geometriai szimbólumok pedig hiányoznak Switzerből a saját metrikái alapján. Körvonalak, soha nem beágyazott betűtípus: A Switzer licence (`packages/ui-kit/src/fonts/FFL.txt`) tiltja a részhalmazok és a formátum konvertálását írásos hozzájárulás nélkül, és engedélyezi a vektoros rajzokat, ezért ne vezessen be újra Switzer `@font-face` vagy `data:` URI betűtípust. Az egyetlen betűkészlet a fájlban a OFL IBM Plex Mono részhalmaz, amely valódi kódszöveg marad (`scripts/docs/readme-fonts.mjs`), amely ezekből a karakterekből épül fel; bármilyen karakterjelet nem tud beágyazni.
+- **Regenerátum.** `npm run docs:readme-diagrams` átírja mind a tizenkettőt README sorrendben, és fájlonként egy sort nyomtat a méretével együtt. Egyetlen generátor önállóan is fut (`node scripts/docs/gen-readme-<name>.mjs`; `free-tier-budget` `node --import tsx/esm` van szüksége, mert az adatok a `open-sse/config/freeModelCatalog.ts` élő katalógusbetöltőjéből származnak; a katalógusváltás CI következménye `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`-ben van). Kösd le a generátort és a SVG együtt. Az elavult SVG feloldási módban meghiúsul; a PR szolgáltatásban `npm run check:generated-artifacts` csak egy SVG ítél meg a PR szerkesztésében (`docs/architecture/QUALITY_GATES.md` → "Generált fájlok és származtatott alapvonalak").
+- **Bizonyíték.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` úgy jeleníti meg a fájlt, ahogyan GitHub kiszolgálja ( `<img>` címke, camo's `Content-Security-Policy`, `image/svg+xml`), rögzít egy világos és egy sötét keretet, és jelenti a külső betűtípus kéréseket az oldal elkészítéséhez (0-nak kell lennie).
+- **Költségvetés.** 200 KB alatt fájlonként (minden elévültségi teszt ezt igazolja); Az 500 KB minden README kép kemény sapkája (a SVG studio validátor szabálya).
+- **Változatlan másolat, a kaputól számítva.** Az új márka típusát és palettáját változtatta meg, nem szavakat: minden generátor a diagram másolatát egy `*_COPY` konstansban hordozza (vagy az élő katalógusból építi fel), amely egyszerre a rajzolt szöveg és a körvonalazás lépésének bemenete. A kanonikus alakzatok `<text>` csomópontokban maradnak (a körvonalazás után láthatatlanok, `fill-opacity:0`), `check:docs-counts` (`scripts/check/check-docs-counts-sync.mjs`) olvassa el; a diagramok elavultsági tesztjei, amelyeket a gate olvas, szintén a generált fájlon futtatják a validátorait, így a kódtól elsodródó figura megbukik a —.
 
 ## 7. Hivatkozási jegyzék
 

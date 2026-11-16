@@ -44,25 +44,23 @@ usean mallin suoritusympäristö, ei reititysstrategia: se ei koskaan vaikuta ta
    viimeisen onnistuneen jäsenen vastaus. Muiden paneelin jäsenten vastauksia ei palauteta, joten
    maksat N kutsusta ja saat yhden vastauksen.
 
-## Määritys
+## Asennus
 
-1. Avaa **Hallintapaneeli → Chaos Mode** (`/dashboard/chaos`).
-2. Kytke se **päälle** — Chaos Mode toimitetaan **oletusarvoisesti poistettuna käytöstä** (`enabled: false` tiedostossa
-   `src/lib/chaos/chaosConfig.ts`). Kun se on poistettu käytöstä, `POST /api/chaos/run` vastaa
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
-3. Valitse osallistujat ja oletusasetukset (tallennetaan instanssikohtaisesti asetustietovarastoon):
+1. Avata** Kojelauta → Chaos Mode** (`/dashboard/chaos`).
+2. Käännä se** päällä** — Chaos Mode toimitetaan** oletuksena pois käytöstä** (`enabled: false` in `src/lib/chaos/chaosConfig.ts`). Kun `POST /api/chaos/run` on poistettu käytöstä, se vastaa `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Valitse osallistujat ja oletusasetukset (säilyy tapauskohtaisesti asetuskaupan kautta):
 
-   | Kenttä              | Merkitys                                                                                  | Oletusarvo / rajat                                         |
-   | ------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-   | `enabled`           | Pääkytkin                                                                                 | `false`                                                    |
-   | `defaultMode`       | `parallel` tai `collaborative` (katso alta)                                               | `parallel`                                                 |
-   | `providerOverrides` | Palveluntarjoajakohtainen osallistuminen (`providerId`, valinnainen `modelId`, `enabled`) | tyhjä = jokainen aktiivinen palveluntarjoaja, enintään 200 |
-   | `systemPrompt`      | Sisäänrakennetun Chaos-järjestelmäkehotteen korvaava kehote                               | valinnainen, enintään 10 000 merkkiä                       |
-   | `timeoutMs`         | Mallikutsun enimmäiskesto                                                                 | `120000` (5 000–600 000)                                   |
-   | `maxTokens`         | `max_tokens` mallikutsua kohden                                                           | `4096` (256–128 000)                                       |
+   | Ala                 | Merkitys                                                                                  | Oletus/rajat                                  |
+   | ------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------- |
+   | `enabled`           | Pääkytkin                                                                                 | `false`                                       |
+   | `defaultMode`       | `parallel` tai `collaborative` (katso alla)                                               | `parallel`                                    |
+   | `providerOverrides` | Palveluntarjoajakohtainen osallistuminen (`providerId`, valinnainen `modelId`, `enabled`) | tyhjä = jokainen aktiivinen tarjoaja, max 200 |
+   | `systemPrompt`      | Ohita sisäänrakennettu Chaos-järjestelmäkehote                                            | valinnainen, enintään 10 000 merkkiä          |
+   | `timeoutMs`         | Max aika mallipuhelua kohden                                                              | `120000` (5 000–600 000)                      |
+   | `maxTokens`         | `max_tokens` mallin mukaan                                                                | `4096` (256–128 000)                          |
 
-4. Suorita **testi suoraan sivulta** — tulospaneeli näyttää kunkin palveluntarjoajan vastauksen,
-   tilan ja keston.
+4. Anna jokaiselle osallistuvalle palveluntarjoajalle a** malli** . Palveluntarjoajan malli on sen sallitun ohituksen `modelId` Chaos Mode -sivulla (se voittaa), muuten** oletusmalli** sen yhteydestä. Palveluntarjoajan tunnusta ei koskaan käytetä mallin nimenä. Palveluntarjoaja, jolla ei ole kumpaakaan** ei kutsuttu** : se näkyy tuloksissa muodossa `status: "error"` ja viesti _"Tälle palveluntarjoajalle ei ole asetettu mallia. Aseta sille malli Chaos Mode -sivulla tai oletusmalli yhteydelle."_ ja tyhjä `modelId`, kun muut palveluntarjoajat toimivat normaalisti. Jos millään valitulla toimittajalla ei ole mallia, ajo epäonnistuu ennen mitään ylävirran pyyntöä _"Ei toimittajalla ole mallia asetettu. …"_ (HTTP 500 molemmissa päätepisteissä).
+5. Juokse a** testi itse sivulta** — tulospaneeli näyttää kunkin palveluntarjoajan vastauksen, tilan ja keston.
 
 ## Suoritustilat
 
@@ -126,11 +124,9 @@ Molemmat päätepisteet palauttavat saman rakenteen:
 }
 ```
 
-## Vianmääritys
+## Vianetsintä
 
-- **`400 Chaos Mode is not enabled`** — katso vaihe 2 yllä: yleinen kytkin on pois päältä.
-- **API-avain hylätään päätepisteessä `/api/skills/collect/chaos`** — avaimelta puuttuu avainkohtainen
-  `chaosModeEnabled`-oikeus (oletusarvoisesti pois käytöstä; tämä on asetus, ei virhe).
-- **Odottamasi palveluntarjoaja puuttuu tuloksista** — tarkista Chaos Mode -sivun `providerOverrides`-asetukset
-  (käytöstä poistettu ohitus sulkee palveluntarjoajan pois) sekä se, onko palveluntarjoajan yhteys
-  aktiivinen.
+- **`400 Chaos Mode is not enabled`** — vaihe 2 yllä: yleinen kytkin on pois päältä.
+- **API -avain hylätään `/api/skills/collect/chaos` ssä** — avaimelta puuttuu näppäinkohtainen `chaosModeEnabled` -oikeus (oletusarvoisesti pois päältä; tämä on asetus, ei virhe).
+- **Palveluntarjoaja näyttää `No model set for this provider`** — asetti mallinsa Chaos Mode -sivulle tai oletusmallin yhteydelleen (katso Asetukset, vaihe 4).
+- **Odottamasi palveluntarjoaja puuttuu tuloksista** — tarkista `providerOverrides` Chaos Mode -sivulta (poistettu ohitus sulkee sen pois) ja onko palveluntarjoajan yhteys aktiivinen.

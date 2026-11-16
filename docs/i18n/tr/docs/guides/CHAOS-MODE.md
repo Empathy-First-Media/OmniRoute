@@ -45,25 +45,23 @@ trafiğiniz bundan hiçbir zaman etkilenmez.
    ayarlar), aksi takdirde son başarılı üyenin yanıtı. Diğer panel yanıtları
    döndürülmez; dolayısıyla N çağrı için ödeme yapar ve tek bir tamamlama alırsınız.
 
-## Kurulum
+## Kurmak
 
-1. **Kontrol Paneli → Kaos Modu** (`/dashboard/chaos`) sayfasını açın.
-2. Özelliği **açın** — Kaos Modu varsayılan olarak **devre dışı** gelir (`enabled: false`,
-   `src/lib/chaos/chaosConfig.ts` içinde). Devre dışıyken `POST /api/chaos/run`,
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."` yanıtını verir.
-3. Katılımcıları ve varsayılanları seçin (ayar deposu aracılığıyla her örnek için kalıcı olarak saklanır):
+1. Açık** Kontrol Paneli → Kaos Modu** (`/dashboard/chaos`).
+2. Çevir onu** Açık** — Kaos Modu gemileri** varsayılan olarak devre dışı** (`enabled: false`, `src/lib/chaos/chaosConfig.ts`). Devre dışıyken `POST /api/chaos/run`, `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."` yanıtını verir.
+3. Katılımcıları ve varsayılanları seçin (ayar deposu aracılığıyla örnek başına kalıcıdır):
 
-   | Alan                | Anlamı                                                                     | Varsayılan / sınırlar                      |
-   | ------------------- | -------------------------------------------------------------------------- | ------------------------------------------ |
-   | `enabled`           | Ana anahtar                                                                | `false`                                    |
-   | `defaultMode`       | `parallel` veya `collaborative` (aşağıya bakın)                            | `parallel`                                 |
-   | `providerOverrides` | Sağlayıcı başına katılım (`providerId`, isteğe bağlı `modelId`, `enabled`) | boş = tüm etkin sağlayıcılar, en fazla 200 |
-   | `systemPrompt`      | Yerleşik Chaos sistem istemini geçersiz kılar                              | isteğe bağlı, en fazla 10 000 karakter     |
-   | `timeoutMs`         | Model çağrısı başına azami süre                                            | `120000` (5 000–600 000)                   |
-   | `maxTokens`         | Model çağrısı başına `max_tokens`                                          | `4096` (256–128 000)                       |
+   | Alan                | Anlam                                                                      | Varsayılan / sınırlar                     |
+   | ------------------- | -------------------------------------------------------------------------- | ----------------------------------------- |
+   | `enabled`           | Ana anahtar                                                                | `false`                                   |
+   | `defaultMode`       | `parallel` veya `collaborative` (aşağıya bakın)                            | `parallel`                                |
+   | `providerOverrides` | Sağlayıcı başına katılım (`providerId`, isteğe bağlı `modelId`, `enabled`) | her aktif sağlayıcıda boş =, maksimum 200 |
+   | `systemPrompt`      | Yerleşik Kaos sistemi istemini geçersiz kıl                                | isteğe bağlı, maksimum 10 000 karakter    |
+   | `timeoutMs`         | Model çağrısı başına maksimum süre                                         | `120000` (5 000–600 000)                  |
+   | `maxTokens`         | model çağrısı başına `max_tokens`                                          | `4096` (256–128 000)                      |
 
-4. **Doğrudan sayfadan bir test çalıştırın** — sonuçlar paneli her sağlayıcının yanıtını,
-   durumunu ve süresini gösterir.
+4. Katılan her sağlayıcıya bir** modeli** . Bir sağlayıcının modeli, Kaos Modu sayfasında etkinleştirilmiş geçersiz kılmanın `modelId` (kazanır), aksi takdirde** varsayılan model** bağlantısından. Sağlayıcı kimliği hiçbir zaman model adı olarak kullanılmaz. Her ikisine de sahip olmayan bir sağlayıcı** çağrılmadı** : diğer sağlayıcılar normal şekilde çalışırken, sonuçlarda `status: "error"` olarak _"Bu sağlayıcı için model ayarlanmadı. Kaos Modu sayfasında bunun için bir model veya bağlantıda varsayılan bir model ayarlayın."_ ve boş bir `modelId` mesajıyla görünür. Seçilen hiçbir sağlayıcının bir modeli yoksa, çalıştırma herhangi bir yukarı akış isteğinden önce _"Hiçbir sağlayıcının model kümesi yok. …"_ (her iki uç noktada HTTP 500) ile başarısız olur.
+5. Çalıştır** sayfanın kendisinden test edin** — sonuç paneli her sağlayıcının cevabını, durumunu ve süresini gösterir.
 
 ## Yürütme modları
 
@@ -131,9 +129,7 @@ Her iki uç nokta da aynı yapıda yanıt döndürür:
 
 ## Sorun giderme
 
-- **`400 Chaos Mode is not enabled`** — yukarıdaki 2. adıma bakın: genel anahtar kapalıdır.
-- **API anahtarı `/api/skills/collect/chaos` üzerinde reddediliyor** — anahtarda, anahtara özel
-  `chaosModeEnabled` izni yoktur (varsayılan olarak kapalıdır; bu bir ayardır, hata değildir).
-- **Beklediğiniz bir sağlayıcı sonuçlarda yok** — Kaos Modu sayfasındaki `providerOverrides`
-  ayarını (devre dışı bırakılmış bir geçersiz kılma, sağlayıcıyı hariç tutar) ve sağlayıcı
-  bağlantısının etkin olup olmadığını kontrol edin.
+- **`400 Chaos Mode is not enabled`** yukarıdaki — adım 2: genel anahtar kapalı.
+- **API anahtarı `/api/skills/collect/chaos` reddediliyor** — anahtarında anahtar başına `chaosModeEnabled` izni yok (varsayılan olarak kapalı; bu bir hata değil, bir ayardır).
+- **Bir sağlayıcı `No model set for this provider` gösteriyor** — modelini Kaos Modu sayfasında veya bağlantısında varsayılan bir modeli ayarlar (bkz. Kurulum, adım 4).
+- **Beklediğiniz bir sağlayıcı sonuçlarda eksik** — Kaos Modu sayfasındaki `providerOverrides` (devre dışı bırakılmış bir geçersiz kılma bunu hariç tutar) ve sağlayıcı bağlantısının etkin olup olmadığını kontrol edin.

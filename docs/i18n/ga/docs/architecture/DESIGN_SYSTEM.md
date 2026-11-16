@@ -190,48 +190,16 @@ Nuair nach féidir aon PR a oscailt (tá an scaoileadh sprice reoite, tá an PR 
 
 Déanann `scripts/dev/sync-ui-kit.sh <commit|latest> [clone]` an `src/` in aghaidh an tsrutha a chóipeáil ag an ngealltanas sin (`latest` = an chlib `v*` is nua) go `packages/ui-kit/src`, cuireann sé an claochlú aonair ceadaithe i bhfeidhm (titeann sé an iarmhír `.js` ó allmhairí coibhneasta), agus socraíonn sé an leagan spáis oibre i `packages/ui-kit/package.json` agus `package-lock.json` chuig an gceann in aghaidh an tsrutha. Ansin: athbhreithniú `git diff packages/ui-kit`, déan pas amhairc ar sholáthraithe, socruithe, teaglama, úsáid agus críochphointe sa dá théama, reáchtáil `npm run check:ui-kit-snapshot` agus `npm run test:vitest:ui`, agus oscail an PR leis an changelog in aghaidh an tsrutha.
 
-## 6. Léaráidí README
+## 6. léaráidí README
 
-Is éard atá sa dá léaráid déag a leabaíonn an `README.md` fréimhe (`docs/diagrams/*.svg`) ná an trealamh curtha i bhfeidhm ar íomhá statach,
-agus gintear iad, ní dheartar de láimh iad: 13 chomhad ginteora ag `scripts/docs/gen-readme-*.mjs`
-(dhá léaráid déag móide an tiománaí `gen-readme-diagrams.mjs`) agus 12 thástáil seanaimsearthachta ag
-`tests/unit/docs/readme-*-svg.test.ts`, ceann amháin in aghaidh na léaráide, agus gach ceann acu ag déanamh comparáid beart ar bheart idir an comhad tiomnaithe agus
-aschur a ghineadóra (jab `test-unit`).
+Is iad na dhá léaráid déag a leabaíonn an fhréamh `README.md` (`docs/diagrams/*.svg`) an trealamh a chuirtear i bhfeidhm ar íomhá statach, agus déantar iad a ghiniúint, gan a bheith tarraingthe de láimh: 13 chomhad gineadóra ag `scripts/docs/gen-readme-*.mjs` (dhá léaráid déag móide an tiománaí `gen-readme-diagrams.mjs` ) agus 12 tástáil staleness ag `tests/unit/docs/readme-*-svg.test.ts`, ceann amháin in aghaidh na léaráide, gach beart - ag déanamh comparáide idir an comhad tiomanta lena aschur gineadóra (job `test-unit`).
 
-- **Comharthaí.** Cóipeálann `scripts/docs/readme-diagram-theme.mjs` pailéad Editions (an chuma réamhshocraithe) ó
-  `packages/ui-kit/src/ci-editions.css` (agus é ceangailte leis an gcomhad sin ag
-  `tests/unit/docs/readme-diagram-theme.test.ts`, a sheiceálann WCAG AA freisin do gach dath téacs ar gach
-  dromchla sa dá scéim; is é an t-aon eisceacht amháin, `warn` geal, rabhadh an trealaimh dorchaithe 10 % toisc gurb é luach an trealaimh
-  4.46:1 ar an gcanbhás) agus sainíonn sé na róil téacs ar scála cló an trealaimh (`ci-tokens.css`): Switzer ag meáchain an trealaimh (400/500/600, cló taispeána ag 500) agus spásáil carachtar do
-  gach rud, seachas na róil chóid (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), ar
-  IBM Plex Mono iad agus nach n-úsáidtear ach le haghaidh orduithe, URLanna, aitheantóirí agus scáileáin teirminéil.
-  Tá luachanna geala ar `:root`, agus luachanna dorcha taobh thiar de `prefers-color-scheme: dark`, laistigh den chomhad, ionas go
-  leanann gach íomhá scéim an amharcóra ar GitHub.
-- **Clónna.** Ní iompraíonn Markdown GitHub aon CSS agus cuireann an seachfhreastalaí camo bac ar gach aisghabháil sheachtrach, mar sin ní mór do chló an trealaimh
-  taisteal laistigh den chomhad. Déanann `scripts/docs/readme-outline.mjs`, an chéim dheireanach de gach gineadóir, na
-  róil Switzer a mhúnlú le HarfBuzz agus a tharraingt mar imlínte veicteora (conairí `<defs>` agus `<use>`), agus tarraingítear na saigheada
-  agus na siombailí geoiméadracha nach bhfuil ag Switzer de réir a mhéadrachtaí féin. Imlínte amháin, agus ní cló leabaithe: cuireann
-  ceadúnas Switzer (`packages/ui-kit/src/fonts/FFL.txt`) cosc ar fhothacarú agus ar thiontú formáide gan toiliú
-  i scríbhinn agus ceadaíonn sé líníochtaí veicteora, mar sin ná tabhair `@font-face` Switzer ná URI `data:` isteach arís. Is é an t-aon
-  chló a fhágtar i gcomhad ná fothacar OFL IBM Plex Mono don mhéid a fhanann mar fhíorthéacs cóid
-  (`scripts/docs/readme-fonts.mjs`), tógtha ó na carachtair sin; caitear earráid i gcás aon ghliif nach féidir leis a leabú.
-- **Athghiniúint.** Athscríobhann `npm run docs:readme-diagrams` an dá cheann déag ar fad in ord README agus priontálann sé líne amháin in aghaidh
-  an chomhaid lena mhéid. Ritheann gineadóir aonair as féin freisin (`node scripts/docs/gen-readme-<name>.mjs`;
-  teastaíonn `node --import tsx/esm` ó `free-tier-budget` toisc go dtagann a fhigiúirí ón lódálaí catalóige beo in
-  `open-sse/config/freeModelCatalog.ts`; tá iarmhairt CI a bhaineann le hathrú catalóige in
-  `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Tiomnaigh an gineadóir agus an SVG le chéile.
-- **Cruthúnas.** Rindreálann `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` comhad ar an mbealach a bhfreastalaíonn GitHub
-  air (clib `<img>`, `Content-Security-Policy` camo, `image/svg+xml`), gabhann sé fráma geal agus fráma dorcha
-  agus tuairiscíonn sé na hiarratais ar chlónna seachtracha a rinne an leathanach (ní mór dó a bheith 0).
-- **Buiséad.** Faoi bhun 200 KB in aghaidh an chomhaid (dearbhaíonn gach tástáil seanaimsearthachta é); is é 500 KB an uasteorainn dhocht d'aon íomhá
-  README (riail bhailíochtóir stiúideo SVG).
-- **Cóip gan athrú, comhairimh ón ngeata.** D'athraigh an t-athbhrandáil an cló agus an pailéad, ní na focail: tá cóip a léaráide
-  i dtairiseach `*_COPY` ag gach gineadóir (nó tógann sé í ón gcatalóg bheo), agus is í sin an téacs
-  tarraingthe agus ionchur na céime imlíne araon. Fanann figiúirí canónacha i nóid `<text>` (dofheicthe a luaithe a
-  dhéantar imlíne díobh, `fill-opacity:0`), agus léann `check:docs-counts`
-  (`scripts/check/check-docs-counts-sync.mjs`) iad; ritheann tástálacha seanaimsearthachta na léaráidí a léann an geata sin
-  a bhailíochtóirí ar an gcomhad ginte freisin, mar sin má imíonn figiúr ón gcód teipeann ar an tástáil — ceartaigh an
-  fhoinse a léann an geata, agus ná ceartaigh an uimhir sa ghineadóir riamh.
+- **Comharthaí.** Déanann `scripts/docs/readme-diagram-theme.mjs` cóip den pailéad Eagrán (an cuma réamhshocraithe) ó `packages/ui-kit/src/ci-editions.css` (pinned in aghaidh an chomhaid sin ag `tests/unit/docs/readme-diagram-theme.test.ts`, a sheiceálann freisin WCAG AA do gach dath téacs ar gach dromchla sa dá scéim; is í an eisceacht amháin, light `warn`, an rabhadh feiste dhorchaigh 10 % toisc go bhfuil luach an feiste 4.46:1 ar an chanbhás) agus sainmhíníonn sé róil an téacs ag an scála Zqzer (cineál `ci-tokens.css`): an trealamh ar scála Swizer. meáchain (400/500/600, taispeáint ag 500) agus rianú do gach rud, ach amháin na róil cód (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), atá IBM Plex Mono agus nach bhfuil ach le haghaidh orduithe, URLs, aitheantóirí agus scáileáin teirminéil. Suíonn luachanna solais ar `:root`, luachanna dorcha taobh thiar `prefers-color-scheme: dark`, taobh istigh den chomhad, mar sin leanann gach íomhá scéim an lucht féachana ar GitHub.
+- **Clónna.** Ní iompraíonn GitHub Markdown aon CSS agus blocálann an seachfhreastalaí camó gach gabháil sheachtrach, mar sin caithfidh an cineál feiste taisteal laistigh den chomhad. Cruthaíonn `scripts/docs/readme-outline.mjs`, an chéim dheireanach de gach gineadóir, róil Switzer le HarfBuzz agus tarraingíonn sé iad mar imlíne veicteoir ( cosáin `<defs>` agus `<use>`), leis na saigheada agus na siombailí geoiméadracha Níl Switzer in easnamh ar a mhéadracht féin. Achoimre, ní cló leabaithe riamh: Cuireann ceadúnas Switzer (`packages/ui-kit/src/fonts/FFL.txt`) cosc ar fho-chur agus ar thiontú formáide gan toiliú scríofa agus ceadaíonn sé líníochtaí veicteoirí, mar sin ná tabhair isteach Switzer `@font-face` nó `data:` URI. Is é an cló amháin atá fágtha i gcomhad ná an fothacar OFL IBM Plex Mono le haghaidh an méid a fhanann téacs cód réadach (`scripts/docs/readme-fonts.mjs`), tógtha ó na carachtair sin; aon glyph nach féidir é a leabú throws.
+- **Athghin.** Athscríobhann `npm run docs:readme-diagrams` an dá cheann déag in ord README agus priontaí líne amháin in aghaidh an chomhaid lena méid. Ritheann gineadóir amháin leis féin freisin (`node scripts/docs/gen-readme-<name>.mjs`; tá `free-tier-budget` ag teastáil ó `node --import tsx/esm` toisc go dtagann a fhigiúirí ón lódóir beo-chatalóg i `open-sse/config/freeModelCatalog.ts`; is é an iarmhairt CI ar athrú catalóige ná `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Cuir an gineadóir agus an SVG le chéile. Teipeann ar SVG sean i mód scaoileadh; i ngné PR, ní bhreithníonn `npm run check:generated-artifacts` ach SVG na hathruithe PR (`docs/architecture/QUALITY_GATES.md` → "Comhaid ginte agus bunlínte díorthaithe").
+- **Cruthúnas.** Déanann `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` comhad a rindreáil ar an mbealach a fhreastalaíonn GitHub air (tag `<img>`, camo's `Content-Security-Policy`, `image/svg+xml`), glacann sé solas agus fráma dorcha agus tuairiscíonn sé na hiarratais ar chló seachtrach a rinne an leathanach (ní mór 0 a bheith ann).
+- **Buiséad.** Faoi bhun 200 KB in aghaidh an chomhaid (deimhníonn gach tástáil staleness é); Is é 500 KB an caipín crua le haghaidh aon íomhá README (riail an bhailitheoir stiúideo SVG ).
+- **Cóipeáil gan athrú, comhaireamh ón geata.** D'athraigh an t-athbhrandáil cineál agus pailéad, ní focail: iompraíonn gach gineadóir a léaráid i tairiseach `*_COPY` (nó tógann sé ón gcatalóg beo é) arb é an téacs tarraingthe agus ionchur na céime imlíne é. Fanann figiúirí canónacha i nóid `<text>` (dofheicthe uair amháin, `fill-opacity:0`), arna léamh ag `check:docs-counts` (`scripts/check/check-docs-counts-sync.mjs`); ritheann tástálacha staleness na léaráidí a léann geata a bhailitheoirí ar an gcomhad ginte freisin, mar sin ní theipeann ar fhigiúr a ghluaiseann ón gcód an — tástála an fhoinse a léann an geata a shocrú, ná an uimhir sa ghineadóir riamh.
 
 ## 7. Innéacs tagartha
 

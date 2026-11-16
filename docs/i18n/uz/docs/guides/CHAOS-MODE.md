@@ -44,25 +44,23 @@ trafikingizga u hech qachon taʼsir qilmaydi.
    oxirgi muvaffaqiyatli aʼzoning javobi. Panelning boshqa javoblari qaytarilmaydi, shu sababli
    siz N ta chaqiruv uchun toʻlaysiz va bitta yakunlangan javob olasiz.
 
-## Sozlash
+## Sozlash; o'rnatish
 
-1. **Boshqaruv paneli → Chaos Mode** (`/dashboard/chaos`) sahifasini oching.
-2. Uni **yoqing** — Chaos Mode standart holatda **oʻchirilgan** (`src/lib/chaos/chaosConfig.ts`
-   ichida `enabled: false`). U oʻchirilgan paytda `POST /api/chaos/run` quyidagi javobni qaytaradi:
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
-3. Ishtirokchilar va standart qiymatlarni tanlang (sozlamalar ombori orqali har bir nusxa uchun saqlanadi):
+1. Ochiq** Boshqaruv paneli → Chaos rejimi** (`/dashboard/chaos`).
+2. Uni aylantiring** yoqilgan** — Chaos Mode kemalari** sukut bo'yicha o'chirilgan** (`enabled: false` in `src/lib/chaos/chaosConfig.ts`). O'chirilgan holda, `POST /api/chaos/run` `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."` javob beradi.
+3. Ishtirokchilarni va standart sozlamalarni tanlang (sozlamalar doʻkoni orqali har bir misolda saqlanadi):
 
-   | Maydon              | Maʼnosi                                                                                     | Standart qiymat / cheklovlar                 |
-   | ------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------- |
-   | `enabled`           | Asosiy kalit                                                                                | `false`                                      |
-   | `defaultMode`       | `parallel` yoki `collaborative` (quyiga qarang)                                             | `parallel`                                   |
-   | `providerOverrides` | Har bir provayder uchun ishtirok sozlamalari (`providerId`, ixtiyoriy `modelId`, `enabled`) | boʻsh = har bir faol provayder, maksimum 200 |
-   | `systemPrompt`      | Ichki Chaos tizim koʻrsatmasini almashtirish                                                | ixtiyoriy, maksimum 10 000 ta belgi          |
-   | `timeoutMs`         | Har bir model chaqiruvi uchun maksimal vaqt                                                 | `120000` (5 000–600 000)                     |
-   | `maxTokens`         | Har bir model chaqiruvi uchun `max_tokens`                                                  | `4096` (256–128 000)                         |
+   | Maydon              | Ma'nosi                                                                    | Standart / chegaralar                        |
+   | ------------------- | -------------------------------------------------------------------------- | -------------------------------------------- |
+   | `enabled`           | Asosiy kalit                                                               | `false`                                      |
+   | `defaultMode`       | `parallel` yoki `collaborative` (pastga qarang)                            | `parallel`                                   |
+   | `providerOverrides` | Har bir provayder ishtiroki (`providerId`, ixtiyoriy `modelId`, `enabled`) | bo'sh = har bir faol provayder, maksimal 200 |
+   | `systemPrompt`      | O'rnatilgan Chaos tizimi so'rovini bekor qilish                            | ixtiyoriy, maksimal 10 000 belgi             |
+   | `timeoutMs`         | Har bir model chaqiruvining maksimal vaqti                                 | `120000` (5 000–600 000)                     |
+   | `maxTokens`         | har bir model uchun `max_tokens`                                           | `4096` (256–128 000)                         |
 
-4. **Sinovni sahifaning oʻzidan ishga tushiring** — natijalar panelida har bir provayderning javobi,
-   holati va davomiyligi koʻrsatiladi.
+4. Har bir ishtirokchi provayderga a** model** . Provayder modeli bu Chaos Mode sahifasida yoqilgan bekor qilishning `modelId` (u g'alaba qozonadi), aks holda** standart model** uning aloqasi. Provayder identifikatori hech qachon model nomi sifatida ishlatilmaydi. Hech biriga ega bo'lmagan provayder** chaqirilmagan** : u natijalarda _"Ushbu provayder uchun hech qanday model oʻrnatilmagan. Xaos rejimi sahifasida uning modelini yoki ulanishda standart modelni oʻrnating."_ va boʻsh `modelId` xabari bilan `status: "error"` koʻrinadi, boshqa provayderlar esa normal ishlaydi. Agar tanlangan provayderda model bo'lmasa, ishga tushirish _"Hech bir provayderda modellar to'plami yo'q. …"_ (har ikki so'nggi nuqtada HTTP 500) bilan yuqori oqim so'rovi oldidan ishga tushirish muvaffaqiyatsiz tugadi.
+5. Yugurish a** sahifaning o'zidan sinov** — natijalar paneli har bir provayderning javobi, holati va davomiyligini ko'rsatadi.
 
 ## Bajarish rejimlari
 
@@ -126,11 +124,9 @@ Har ikkala endpoint bir xil tuzilishdagi javobni qaytaradi:
 }
 ```
 
-## Muammolarni bartaraf etish
+## Muammolarni bartaraf qilish; nosozliklarni TUZATISH
 
-- **`400 Chaos Mode is not enabled`** — yuqoridagi 2-bosqich: global kalit oʻchirilgan.
-- **API kaliti `/api/skills/collect/chaos` endpointida rad etilmoqda** — kalitda alohida kalit uchun
-  `chaosModeEnabled` ruxsati yoʻq (standart holatda oʻchirilgan; bu xato emas, balki sozlama).
-- **Siz kutgan provayder natijalarda yoʻq** — Chaos Mode sahifasidagi `providerOverrides`
-  sozlamasini (oʻchirilgan almashtirish uni chiqarib tashlaydi) va provayder ulanishi faol ekanini
-  tekshiring.
+- **`400 Chaos Mode is not enabled`** — yuqoridagi 2-bosqich: global kalit o'chirilgan.
+- **API kaliti `/api/skills/collect/chaos` da rad etiladi** — kalitda har bir kalit uchun `chaosModeEnabled` ruxsati yo'q (sukut bo'yicha o'chirilgan; bu sozlama, xato emas).
+- **Provayder `No model set for this provider` ko'rsatadi** — o'z modelini Chaos Mode sahifasida yoki uning ulanishida standart modelni o'rnatadi (O'rnatish, 4-bosqichga qarang).
+- **Natijalarda siz kutgan provayder etishmayapti** — Chaos Mode sahifasida `providerOverrides` tekshiring (o'chirilgan bekor qilish uni istisno qiladi) va provayder ulanishining faolligini tekshiring.

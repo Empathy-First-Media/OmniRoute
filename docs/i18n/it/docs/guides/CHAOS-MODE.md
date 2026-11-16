@@ -44,25 +44,23 @@ superficie di esecuzione multi-modello, non una strategia di instradamento: il n
    quella dell'ultimo membro che ha avuto esito positivo. Le altre risposte del pannello non vengono restituite, quindi
    si pagano N chiamate e si riceve un solo completamento.
 
-## Configurazione
+## Impostare
 
-1. Apri **Dashboard → Modalità Chaos** (`/dashboard/chaos`).
-2. **Attivala**: la Modalità Chaos è **disabilitata per impostazione predefinita** (`enabled: false` in
-   `src/lib/chaos/chaosConfig.ts`). Quando è disabilitata, `POST /api/chaos/run` restituisce
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
-3. Scegli i partecipanti e i valori predefiniti (persistenti per ogni istanza tramite l'archivio delle impostazioni):
+1. Aprire** Dashboard → Modalità caos** (`/dashboard/chaos`).
+2. Giralo** SU** — Navi in modalità Caos** disabilitato per impostazione predefinita** (`enabled: false` in `src/lib/chaos/chaosConfig.ts`). Mentre è disabilitato, `POST /api/chaos/run` risponde `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Scegli i partecipanti e le impostazioni predefinite (persistenti per istanza tramite l'archivio delle impostazioni):
 
-   | Campo               | Significato                                                                  | Valore predefinito / limiti                  |
-   | ------------------- | ---------------------------------------------------------------------------- | -------------------------------------------- |
-   | `enabled`           | Interruttore principale                                                      | `false`                                      |
-   | `defaultMode`       | `parallel` o `collaborative` (vedi sotto)                                    | `parallel`                                   |
-   | `providerOverrides` | Partecipazione per provider (`providerId`, `modelId` facoltativo, `enabled`) | vuoto = tutti i provider attivi, massimo 200 |
-   | `systemPrompt`      | Sostituzione del prompt di sistema Chaos integrato                           | facoltativo, massimo 10 000 caratteri        |
-   | `timeoutMs`         | Tempo massimo per ogni chiamata al modello                                   | `120000` (5 000–600 000)                     |
-   | `maxTokens`         | `max_tokens` per ogni chiamata al modello                                    | `4096` (256–128 000)                         |
+   | Campo               | Senso                                                                       | Predefiniti/limiti                    |
+   | ------------------- | --------------------------------------------------------------------------- | ------------------------------------- |
+   | `enabled`           | Interruttore principale                                                     | `false`                               |
+   | `defaultMode`       | `parallel` o `collaborative` (vedi sotto)                                   | `parallel`                            |
+   | `providerOverrides` | Partecipazione per fornitore (`providerId`, opzionale `modelId`, `enabled`) | = vuoti ogni provider attivo, max 200 |
+   | `systemPrompt`      | Sostituisci il prompt del sistema Chaos integrato                           | opzionale, massimo 10 000 caratteri   |
+   | `timeoutMs`         | Tempo massimo per chiamata del modello                                      | `120000` (5 000–600 000)              |
+   | `maxTokens`         | `max_tokens` per chiamata modello                                           | `4096` (256–128 000)                  |
 
-4. Esegui un **test direttamente dalla pagina**: il pannello dei risultati mostra la risposta,
-   lo stato e la durata di ogni provider.
+4. Dai a ogni fornitore partecipante un** modello** . Il modello di un provider è lo `modelId` del suo override abilitato nella pagina Modalità Caos (vince), altrimenti il** modello predefinito** della sua connessione. Un ID provider non viene mai utilizzato come nome del modello. Un fornitore senza nessuno dei due lo è** non chiamato** : viene visualizzato nei risultati come `status: "error"` con il messaggio _"Nessun modello impostato per questo provider. Imposta un modello nella pagina Modalità caos o un modello predefinito sulla connessione."_ e uno `modelId` vuoto, mentre gli altri provider funzionano normalmente. Se nessun provider selezionato dispone di un modello, l'esecuzione fallisce prima di qualsiasi richiesta upstream con _"Nessun provider ha un modello impostato. …"_ (HTTP 500 su entrambi gli endpoint).
+5. Esegui un** prova dalla pagina stessa** — il pannello dei risultati mostra la risposta, lo stato e la durata di ciascun fornitore.
 
 ## Modalità di esecuzione
 
@@ -129,9 +127,7 @@ Entrambi gli endpoint restituiscono la stessa struttura:
 
 ## Risoluzione dei problemi
 
-- **`400 Chaos Mode is not enabled`** — consulta il passaggio 2 sopra: l'interruttore globale è disattivato.
-- **La chiave API viene rifiutata su `/api/skills/collect/chaos`** — la chiave non dispone
-  dell'autorizzazione `chaosModeEnabled` specifica per la chiave (disattivata per impostazione predefinita; si tratta di un'impostazione, non di un errore).
-- **Un provider previsto non compare nei risultati** — controlla `providerOverrides` nella
-  pagina Modalità Chaos (una sostituzione disabilitata lo esclude) e verifica che la connessione al provider sia
-  attiva.
+- **`400 Chaos Mode is not enabled`** — passaggio 2 sopra: l'interruttore globale è disattivato.
+- **La chiave API viene rifiutata su `/api/skills/collect/chaos`** — la chiave non dispone dell'autorizzazione `chaosModeEnabled` per chiave (disattivata per impostazione predefinita; questa è un'impostazione, non un errore).
+- **Un fornitore mostra `No model set for this provider`** — imposta il suo modello nella pagina Modalità Caos o un modello predefinito sulla sua connessione (vedi Configurazione, passaggio 4).
+- **Nei risultati manca un fornitore previsto** — controlla `providerOverrides` nella pagina Modalità Caos (un override disabilitato lo esclude) e se la connessione al provider è attiva.

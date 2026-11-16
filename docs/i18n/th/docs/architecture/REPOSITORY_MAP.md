@@ -51,63 +51,63 @@ OmniRoute/
 
 ---
 
-## ไฟล์ในรูท
+## ไฟล์รูท
 
-| ไฟล์                                        | วัตถุประสงค์                                                                                                |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **README.md**                               | หน้าแลนดิ้งสำหรับการตลาด + การเริ่มต้นอย่างรวดเร็ว + ตารางเปรียบเทียบฟีเจอร์ (ดู `llm.txt` เพิ่มเติม)       |
-| **CHANGELOG.md**                            | บันทึกการเปลี่ยนแปลงแยกตามรีลีส (สร้างโดยอัตโนมัติด้วยสกิล `/version-bump-cc`)                              |
-| **LICENSE**                                 | ข้อความใบอนุญาต MIT                                                                                         |
-| **CLAUDE.md**                               | กฎของโปรเจกต์สำหรับเอเจนต์ Claude Code (กฎที่ต้องปฏิบัติตามอย่างเคร่งครัด แนวทางปฏิบัติ และสถานการณ์ต่าง ๆ) |
-| **AGENTS.md**                               | เหมือนกับ CLAUDE.md แต่สำหรับเอเจนต์ AI ที่ไม่ใช่ Claude (Codex, Cursor ฯลฯ)                                |
-| **GEMINI.md**                               | กฎฉบับย่อสำหรับเอเจนต์ที่ใช้ Gemini (ส่วนหนึ่งของ CLAUDE.md)                                                |
-| **CONTRIBUTING.md**                         | คู่มือผู้มีส่วนร่วม: การตั้งค่า conventional commits การทดสอบ และกระบวนการ PR                               |
-| **SECURITY.md**                             | นโยบายการรายงานช่องโหว่ เวอร์ชันที่รองรับ และโมเดลภัยคุกคาม                                                 |
-| **CODE_OF_CONDUCT.md**                      | Contributor Covenant — ความคาดหวังด้านพฤติกรรมของชุมชน                                                      |
-| **llm.txt**                                 | หน้าแลนดิ้งแบบข้อความล้วนที่ปรับให้เหมาะกับโปรแกรมรวบรวมข้อมูลของ LLM (SEO สำหรับผู้ช่วย AI)                |
-| **package.json**                            | ไฟล์ manifest ของ npm, สคริปต์, dependencies, engines และเกณฑ์ coverage ของ c8                              |
-| **package-lock.json**                       | โครงสร้าง dependencies ที่ล็อกไว้                                                                           |
-| **tsconfig.json**                           | การกำหนดค่า TypeScript ระดับราก                                                                             |
-| **tsconfig.typecheck-core.json**            | การกำหนดค่า typecheck สำหรับส่วนหลักใน `src/`                                                               |
-| **tsconfig.typecheck-noimplicit-core.json** | การกำหนดค่า typecheck แบบเข้มงวด (`noImplicitAny`)                                                          |
-| **tsconfig.tsbuildinfo**                    | แคช incremental build ของ TS (ไม่ติดตามโดย git)                                                             |
-| **next.config.mjs**                         | การกำหนดค่า build ของ Next.js 16 (เอาต์พุตแบบ standalone)                                                   |
-| **next-env.d.ts**                           | ชนิดข้อมูล env ที่ Next.js สร้างให้อัตโนมัติ                                                                |
-| **eslint.config.mjs**                       | การกำหนดค่าแบบ flat ของ ESLint (กฎแยกตามส่วนของโปรเจกต์)                                                    |
-| **prettier.config.mjs**                     | กฎการจัดรูปแบบของ Prettier                                                                                  |
-| **postcss.config.mjs**                      | การกำหนดค่า PostCSS สำหรับไปป์ไลน์ Tailwind/CSS                                                             |
-| **playwright.config.ts**                    | การกำหนดค่าการทดสอบ E2E ของ Playwright                                                                      |
-| **vitest.config.ts**                        | การกำหนดค่า Vitest (ชุดการทดสอบเริ่มต้น)                                                                    |
-| **vitest.mcp.config.ts**                    | การกำหนดค่า Vitest สำหรับชุดทดสอบเซิร์ฟเวอร์ MCP / autoCombo / แคช                                          |
-| **sonar-project.properties**                | การกำหนดค่า SonarQube/SonarCloud (คุณภาพโค้ด)                                                               |
-| **Dockerfile**                              | การ build Docker แบบหลายขั้นตอน (builder → runner-base → runner-cli)                                        |
-| **docker-compose.yml**                      | การตั้งค่า compose สำหรับการพัฒนา พร้อม 4 โปรไฟล์ (base, cli, host, cliproxyapi) + redis sidecar            |
-| **docker-compose.prod.yml**                 | การตั้งค่า compose สำหรับ production (พอร์ต 20130, redis และ named volumes)                                 |
-| **.dockerignore**                           | ไฟล์ที่ไม่รวมอยู่ใน context ของ Docker                                                                      |
-| **fly.toml**                                | การกำหนดค่าการ deploy บน Fly.io (ภูมิภาค `sin`, พอร์ต 20128, volume /data)                                  |
-| **.env.example**                            | เทมเพลตไฟล์ env (คัดลอกไปยัง `.env` โดยอัตโนมัติเมื่อติดตั้งครั้งแรก)                                       |
-| **.gitignore**                              | รูปแบบไฟล์ที่ Git ไม่ติดตาม                                                                                 |
-| **.npmignore**                              | รายการไฟล์ที่ไม่รวมเมื่อเผยแพร่ไปยัง npm                                                                    |
-| **.npmrc**                                  | การกำหนดค่า npm (registry และนโยบาย lockfile)                                                               |
-| **.node-version**                           | การตรึงเวอร์ชัน Node (ใช้โดยเครื่องมือที่เข้ากันได้กับ nvm)                                                 |
-| **.nvmrc**                                  | การตรึงเวอร์ชัน Node สำหรับ nvm                                                                             |
-| **eslint.complexity.config.mjs**            | การกำหนดค่า ESLint สำหรับเกณฑ์ควบคุม complexity (`scripts/check/check-complexity.mjs --config`)             |
-| **eslint.sonarjs.config.mjs**               | การกำหนดค่า ESLint สำหรับกฎ SonarJS (cognitive complexity / duplication)                                    |
-| **source.config.ts**                        | การกำหนดค่าแหล่งข้อมูล `defineDocs` ของ Fumadocs (ป้อนข้อมูลให้ `.source/`)                                 |
-| **knip.json**                               | การกำหนดค่า Knip — ไฟล์/exports/deps ที่ไม่ได้ใช้ (ป้อนข้อมูลให้เกณฑ์ตรวจสอบ dead code)                     |
-| **stryker.conf.json**                       | การกำหนดค่าการทดสอบ mutation ของ Stryker                                                                    |
-| **.size-limit.json**                        | การกำหนดค่างบประมาณขนาดบันเดิลของ size-limit                                                                |
-| **promptfooconfig.yaml**                    | การกำหนดค่าการประเมินผลของ promptfoo                                                                        |
-| **.gitleaks.toml**                          | ชุดกฎการสแกนข้อมูลลับของ gitleaks                                                                           |
-| **.zizmor.yml**                             | การกำหนดค่าตรวจสอบความปลอดภัยของ GitHub Actions ด้วย zizmor                                                 |
-| **socket.yml**                              | การกำหนดค่าความปลอดภัยของซัพพลายเชนสำหรับ Socket.dev                                                        |
-| **news.json**                               | ฟีดประกาศ v2 ที่แปลเป็นภาษาท้องถิ่น โดยรายการเปิดตัว Radar จัดส่งมาในสถานะไม่ทำงาน                          |
-| **flake.nix** / **flake.lock**              | ข้อกำหนด dev shell ของ Nix และไฟล์ล็อก                                                                      |
-| **.env**                                    | ข้อมูลลับภายในเครื่อง (ถูก gitignore — สร้างจาก `.env.example`)                                             |
+| ไฟล์                                            | วัตถุประสงค์                                                                                       |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **README.md**                                   | หน้า Landing Page ทางการตลาด + การเริ่มต้นอย่างรวดเร็ว เมทริกซ์คุณลักษณะ + (ดูเพิ่มเติม `llm.txt`) |
+| **CHANGELOG.md**                                | บันทึกการเปลี่ยนแปลงต่อรุ่น (สร้างอัตโนมัติโดยทักษะ `/version-bump-cc` )                           |
+| **LICENSE**                                     | ข้อความลิขสิทธิ์MIT                                                                                |
+| **CLAUDE.md**                                   | กฎของโปรเจ็กต์สำหรับเอเจนต์รหัส Claude (กฎยาก แบบแผน สถานการณ์)                                    |
+| **AGENTS.md**                                   | เช่นเดียวกับ CLAUDE.md แต่สำหรับตัวแทนที่ไม่ใช่ Claude AI (Codex, Cursor ฯลฯ )                     |
+| **GEMINI.md**                                   | กฎโดยย่อสำหรับตัวแทนที่ใช้ราศีเมถุน (ชุดย่อยของ CLAUDE.md)                                         |
+| **CONTRIBUTING.md**                             | คู่มือผู้ร่วมให้ข้อมูล: การตั้งค่า, การคอมมิตแบบทั่วไป, การทดสอบ, โฟลว์ PR                         |
+| **SECURITY.md**                                 | นโยบายการรายงานช่องโหว่ เวอร์ชันที่รองรับ โมเดลภัยคุกคาม                                           |
+| **CODE_OF_CONDUCT.md**                          | กติกาผู้ร่วมให้ข้อมูล ความคาดหวังด้านพฤติกรรมของชุมชน —                                            |
+| **llm.txt**                                     | การลงจอดด้วยข้อความธรรมดาเหมาะสำหรับโปรแกรมรวบรวมข้อมูล LLM (SEO สำหรับผู้ช่วย AI )                |
+| **package.json**                                | รายการ npm, สคริปต์, การขึ้นต่อกัน, เอ็นจิ้น, ประตูความครอบคลุม c8                                 |
+| **package-lock.json**                           | แผนผังการพึ่งพาที่ถูกล็อค                                                                          |
+| **tsconfig.json**                               | รูทการกำหนดค่า TypeScript                                                                          |
+| **tsconfig.txt typecheck-core.json**            | พิมพ์เช็คการกำหนดค่าสำหรับ `src/` core                                                             |
+| **tsconfig.txt typecheck-noimplicit-core.json** | การตรวจสอบการพิมพ์แบบเข้มงวด (`noImplicitAny`)                                                     |
+| **tsconfig.tsbuildinfo**                        | แคชบิลด์ส่วนเพิ่ม TS (gitignored)                                                                  |
+| **ต่อไป.config.mjs**                            | การกำหนดค่าบิลด์Next.js 16 (เอาต์พุตแบบสแตนด์อโลน)                                                 |
+| **สภาพแวดล้อมถัดไป d.ts**                       | ประเภท env ที่สร้างอัตโนมัติNext.js                                                                |
+| **เอสลินท์config.mjs**                          | การกำหนดค่า ESLint แบบแบน (กฎต่อพื้นที่โปรเจ็กต์)                                                  |
+| **สวยกว่า config.mjs**                          | กฎการจัดรูปแบบ Prettier                                                                            |
+| **โพสต์config.mjs**                             | กำหนดค่า PostCSS สำหรับไปป์ไลน์ Tailwind/CSS                                                       |
+| **นักเขียนบทละคร config.ts**                    | Playwright E2E ทดสอบการกำหนดค่า                                                                    |
+| **เยี่ยมชม config.ts**                          | Vitest config (ชุดเริ่มต้น)                                                                        |
+| **vitest.mcp.config.ts**                        | การกำหนดค่า Vitest สำหรับชุดเซิร์ฟเวอร์ MCP / autoCombo / cache                                    |
+| **โซนาร์-project.properties**                   | การกำหนดค่า SonarQube/SonarCloud (คุณภาพโค้ด)                                                      |
+| **Dockerfile**                                  | การสร้าง Docker แบบหลายขั้นตอน (ตัวสร้าง → runner-base → runner-cli)                               |
+| **docker-compose.yml**                          | Dev เขียนด้วย 4 โปรไฟล์ (ฐาน, cli, โฮสต์, cliproxyapi) + redis sidecar                             |
+| **นักเทียบท่าเขียน prod.yml**                   | เขียนการผลิต (พอร์ต 20130, Redis, วอลุ่มที่มีชื่อ)                                                 |
+| **.นักเทียบท่าไม่สนใจ**                         | ไฟล์ถูกแยกออกจากบริบท Docker                                                                       |
+| **fly.toml**                                    | การกำหนดค่าการปรับใช้ Fly.io (ภูมิภาค `sin`, พอร์ต 20128, /ปริมาณข้อมูล)                           |
+| **.env.ตัวอย่าง**                               | ไฟล์เทมเพลต env (คัดลอกอัตโนมัติไปยัง `.env` ในการติดตั้งครั้งแรก)                                 |
+| **.gitignore**                                  | Git ละเว้นรูปแบบ                                                                                   |
+| **.npmignore**                                  | npm เผยแพร่รายการยกเว้น                                                                            |
+| **.npmrc**                                      | การกำหนดค่า npm (รีจิสทรี, นโยบายไฟล์ล็อค)                                                         |
+| **.โหนดเวอร์ชัน**                               | พินเวอร์ชันโหนด (ใช้โดยเครื่องมือที่เข้ากันได้กับ nvm)                                             |
+| **.nvmrc**                                      | พินเวอร์ชันโหนดสำหรับ nvm                                                                          |
+| **eslint.ความซับซ้อน config.mjs**               | กำหนดค่า ESLint สำหรับวงล้อความซับซ้อน (`scripts/check/check-complexity.mjs --config`)             |
+| **eslint.sonarjs.config.mjs**                   | การกำหนดค่า ESLint สำหรับกฎ SonarJS (ความซับซ้อนทางปัญญา / การทำซ้ำ)                               |
+| **แหล่งที่มา.config.ts**                        | การกำหนดค่าแหล่งที่มา Fumadocs `defineDocs` (ฟีด `.source/`)                                       |
+| **knip.json**                                   | Knip config — files/exports/deps ที่ไม่ได้ใช้ (ฟีดประตูโค้ดที่ตายแล้ว)                             |
+| **สไตรเกอร์conf.mjs**                           | การกำหนดค่าการทดสอบการกลายพันธุ์ของสไตรเกอร์ (คำนวณ `tap.testFiles` จาก `mutate`)                  |
+| **.size-limit.json**                            | การกำหนดค่างบประมาณบันเดิลจำกัดขนาด                                                                |
+| **promptfooconfig.yaml**                        | promptfoo การกำหนดค่าการประเมิน                                                                    |
+| **.gitleaks.toml**                              | ชุดกฎการสแกนความลับของ gitleaks                                                                    |
+| **.zizmor.yml**                                 | zizmor GitHub-Actions การกำหนดค่าความปลอดภัย Lint                                                  |
+| **socket.yml**                                  | การกำหนดค่าห่วงโซ่อุปทาน Socket.dev                                                                |
+| **news.json**                                   | ฟีดประกาศ v2 ที่แปลแล้ว การจัดส่งรายการเปิดตัว Radar ไม่ทำงาน                                      |
+| **เกล็ด.นิกซ์** /** เกล็ด.ล็อค**                | Nix dev-shell นิยาม + ล็อค                                                                         |
+| **.env**                                        | ความลับท้องถิ่น (gitignored — สร้างจาก `.env.example`)                                             |
 
-> **ย้ายออกจากไดเรกทอรีรากใน v3.8.26 (เพื่อลดความรกรุงรัง):**
+> **ย้ายออกจากรูทใน v3.8.26 (declutter):**
 >
-> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json` และ `quality-metrics.json` ที่สร้างขึ้น (ถูก gitignore) ดู [`## config/`](#config--static-configs--quality-gate-state)
+> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json` และ `quality-metrics.json` ที่สร้างขึ้น (gitignored) ดู [`## config/`](#config--static-configs--quality-gate-state).
 
 ---
 
@@ -242,12 +242,12 @@ src/
 | -------------------------------- | ------------------------------------------------------------------------------------------------ |
 | `components/`                    | ส่วนประกอบแดชบอร์ด API: อะแดปเตอร์บน `packages/ui-kit` — ดู `docs/architecture/DESIGN_SYSTEM.md` |
 | `constants/iconMap.ts`           | `ICON_MAP`: ชื่อไอคอนที่ใช้โดยหน้าจอ → ส่วนประกอบ Lucide (`<Icon>`)                              |
-| `constants/providers.ts`         | **ผู้ให้บริการ 381 ราย** ด้วยการตรวจสอบ Zod (แหล่งที่มาของความจริง)                              |
+| `constants/providers.ts`         | **ผู้ให้บริการ 394 ราย** ด้วยการตรวจสอบ Zod (แหล่งที่มาของความจริง)                              |
 | `constants/cliTools.ts`          | รีจิสทรีเครื่องมือ CLI ภายนอก                                                                    |
-| `constants/routingStrategies.ts` | **20 กลยุทธ์การกำหนดเส้นทาง** มีลำดับความสำคัญ                                                   |
+| `constants/routingStrategies.ts` | **22 กลยุทธ์การกำหนดเส้นทาง** มีลำดับความสำคัญ                                                   |
 | `constants/publicApiRoutes.ts`   | เส้นทางที่ต้องมีการตรวจสอบสิทธิ์ผู้ถือ (เทียบกับการจัดการ)                                       |
 | `constants/upstreamHeaders.ts`   | รายการส่วนหัวที่ปฏิเสธสำหรับคำขออัปสตรีม                                                         |
-| `validation/schemas.ts`          | ~ 80 Zod schema (แหล่งความจริงแหล่งเดียวสำหรับสัญญา API )                                        |
+| `validation/schemas.ts`          | ~ 80 Zod schema (แหล่งความจริงเดียวสำหรับสัญญา API )                                             |
 | `validation/helpers.ts`          | ตัวช่วยตรวจสอบ Zod (`validateBody` ฯลฯ )                                                         |
 | `types/`                         | ประเภท TS ที่ใช้ร่วมกัน                                                                          |
 | `contracts/`                     | สัญญา API สาธารณะ (ใช้โดย `files:` ใน `package.json`)                                            |
@@ -258,42 +258,42 @@ src/
 
 ---
 
-## `open-sse/` — เวิร์กสเปซเอนจินสตรีมมิง
+## `open-sse/` — พื้นที่ทำงานของ Streaming Engine
 
-เวิร์กสเปซ npm แยกต่างหาก (`@omniroute/open-sse`) ทำหน้าที่ประมวลผลคำขอและดำเนินการกับผู้ให้บริการ
+แยกพื้นที่ทำงาน npm (`@omniroute/open-sse`) จัดการคำขอการประมวลผลการดำเนินการของผู้ให้บริการ +
 
 ```
 open-sse/
-├── handlers/            # 16 ไฟล์ (12 แฮนด์เลอร์ + 4 ตัวช่วย): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search ฯลฯ
-├── executors/           # โมดูล executor 150 โมดูล (คลาสที่สืบทอดจาก BaseExecutor + ตัวช่วยเฉพาะผู้ให้บริการ)
-├── translator/          # ตัวแปลงรูปแบบ (คำขอ 9 รายการ การตอบกลับ 9 รายการ ตัวช่วย 9 รายการ)
+├── handlers/            # 16 files (12 handlers + 4 helpers): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, etc.
+├── executors/           # 163 executor modules (classes extending BaseExecutor + per-provider helpers)
+├── translator/          # Format converters (9 request, 9 response, 9 helpers)
 ├── transformer/         # Responses API ↔ Chat Completions (TransformStream)
-├── services/            # โมดูลบริการ ~80+ โมดูล (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM ฯลฯ)
-├── mcp-server/          # เซิร์ฟเวอร์ MCP (110 เครื่องมือ, 3 ทรานสปอร์ต, 33 ขอบเขต)
-├── config/              # รีจิสทรีผู้ให้บริการ/โมเดล, การกำหนดค่าเฮดเดอร์, นามแฝงโมเดล
-├── utils/               # ไคลเอนต์ TLS, proxy fetch/dispatcher, ตัวช่วยด้านเครือข่าย
-├── index.ts             # จุดเข้าใช้งานเวิร์กสเปซ
-├── package.json         # แมนิเฟสต์เวิร์กสเปซ
-├── tsconfig.json        # การกำหนดค่า TS ของเวิร์กสเปซ
-└── types.d.ts           # การประกาศชนิดข้อมูลของเวิร์กสเปซ
+├── services/            # ~80+ service modules (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, etc.)
+├── mcp-server/          # MCP server (110 tools, 3 transports, 33 scopes)
+├── config/              # Provider/model registries, header config, model aliases
+├── utils/               # TLS client, proxy fetch/dispatcher, network helpers
+├── index.ts             # Workspace entry
+├── package.json         # Workspace manifest
+├── tsconfig.json        # Workspace TS config
+└── types.d.ts           # Workspace type declarations
 ```
 
 ### `open-sse/mcp-server/`
 
-| พาธ                         | วัตถุประสงค์                                                                      |
-| --------------------------- | --------------------------------------------------------------------------------- |
-| `server.ts`                 | วงจรชีวิตของเซิร์ฟเวอร์ MCP (ทรานสปอร์ต stdio + HTTP)                             |
-| `httpTransport.ts`          | ทรานสปอร์ต HTTP Streamable + SSE (`/api/mcp/sse`, `/api/mcp/stream`)              |
-| `audit.ts`                  | บันทึกการตรวจสอบลงในตาราง `mcp_tool_audit`                                        |
-| `scopeEnforcement.ts`       | ตรวจสอบขอบเขตสำหรับแต่ละเครื่องมือ                                                |
-| `runtimeHeartbeat.ts`       | ส่งสัญญาณสถานะความพร้อมใช้งานไปยัง `DATA_DIR/runtime/mcp-heartbeat.json`          |
-| `descriptionCompressor.ts`  | บีบอัดเมทาดาทาคำอธิบายเครื่องมือเพื่อประหยัดบริบท                                 |
-| `schemas/tools.ts`          | นิยามเครื่องมือพื้นฐาน 36 รายการ + ขอบเขต                                         |
-| `tools/advancedTools.ts`    | การนำเครื่องมือขั้นสูงไปใช้จริง                                                   |
-| `tools/memoryTools.ts`      | เครื่องมือหน่วยความจำ 3 รายการ (ค้นหา/เพิ่ม/ล้าง)                                 |
-| `tools/skillTools.ts`       | เครื่องมือทักษะ 4 รายการ (แสดงรายการ/เปิดใช้งาน/ดำเนินการ/การดำเนินการ)           |
-| `tools/compressionTools.ts` | เครื่องมือบีบอัด 5 รายการ                                                         |
-| `README.md`                 | README ภายในของเซิร์ฟเวอร์ MCP (เชื่อมโยงข้ามจาก `docs/frameworks/MCP-SERVER.md`) |
+| เส้นทาง                     | วัตถุประสงค์                                                                    |
+| --------------------------- | ------------------------------------------------------------------------------- |
+| `server.ts`                 | วงจรชีวิตของเซิร์ฟเวอร์MCP (การขนส่ง stdio + HTTP )                             |
+| `httpTransport.ts`          | HTTP Streamable + การขนส่ง SSE (`/api/mcp/sse`, `/api/mcp/stream`)              |
+| `audit.ts`                  | การบันทึกการตรวจสอบไปยังตาราง `mcp_tool_audit`                                  |
+| `scopeEnforcement.ts`       | การตรวจสอบขอบเขตต่อเครื่องมือ                                                   |
+| `runtimeHeartbeat.ts`       | การเต้นของหัวใจถึง `DATA_DIR/runtime/mcp-heartbeat.json`                        |
+| `descriptionCompressor.ts`  | บีบอัดข้อมูลเมตาคำอธิบายเครื่องมือเพื่อบันทึกบริบท                              |
+| `schemas/tools.ts`          | คำจำกัดความของเครื่องมือพื้นฐาน 36 รายการขอบเขต +                               |
+| `tools/advancedTools.ts`    | การใช้งานเครื่องมือขั้นสูง                                                      |
+| `tools/memoryTools.ts`      | 3 เครื่องมือหน่วยความจำ (search/add/clear)                                      |
+| `tools/skillTools.ts`       | เครื่องมือทักษะ 4 อย่าง (list/enable/execute/executions)                        |
+| `tools/compressionTools.ts` | 5 เครื่องมือบีบอัด                                                              |
+| `README.md`                 | เซิร์ฟเวอร์ MCP ภายใน README (เชื่อมโยงข้ามจาก `docs/frameworks/MCP-SERVER.md`) |
 
 ---
 
@@ -412,7 +412,7 @@ open-sse/
 | `CLI-TOOLS.md`              | การรวม CLI ภายนอก + ภายใน OmniRoute CLI                                                        |
 | `I18N.md`                   | สถาปัตยกรรม i18n เพิ่มภาษา 67 ภาษา                                                             |
 | `UNINSTALL.md`              | ล้างขั้นตอนการถอนการติดตั้ง                                                                    |
-| `PROVIDER_REFERENCE.md`     | **สร้างอัตโนมัติ** แค็ตตาล็อกของผู้ให้บริการ 381 ราย (regen: `npm run gen:provider-reference`) |
+| `PROVIDER_REFERENCE.md`     | **สร้างอัตโนมัติ** แค็ตตาล็อกของผู้ให้บริการ 394 ราย (regen: `npm run gen:provider-reference`) |
 
 ### เจาะลึกระบบย่อย
 

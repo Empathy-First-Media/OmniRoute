@@ -165,48 +165,16 @@ PR ကိုဖွင့်၍မရသောအခါ (ပစ်မှတ်ထ
 
 `scripts/dev/sync-ui-kit.sh <commit|latest> [clone]` `src/` commit တွင် (`latest` = the newest `v*` tag) ကို `packages/ui-kit/src` သို့ ကူးယူသည်၊ ခွင့်ပြုထားသော အသွင်ပြောင်းမှုကို အသုံးပြုသည် (၎င်းသည် `.js` ၏ နောက်ဆက်တွဲကို ဆက်စပ်တင်သွင်းမှုများမှ ရုပ်သိမ်းသွားသည်) နှင့် `packages/ui-kit/package.json` နှင့် `package-lock.json` တွင် workspace ဗားရှင်းကို upstream တစ်ခုသို့ သတ်မှတ်သည်။ ထို့နောက်- `git diff packages/ui-kit` ပြန်လည်သုံးသပ်ပါ၊ ပံ့ပိုးပေးသူများ၊ ဆက်တင်များ၊ ပေါင်းစပ်မှုများ၊ အသုံးပြုမှုနှင့် အဆုံးမှတ်ကို အပြင်အဆင်နှစ်ခုလုံးတွင် ပြုလုပ်ပါ၊ `npm run check:ui-kit-snapshot` နှင့် `npm run test:vitest:ui` ကိုဖွင့်ပါ၊ နှင့် PR ကို upstream changelog ဖြင့်ဖွင့်ပါ။
 
-## 6. README ဒိုင်ယာဂရမ်များ
+## 6. README ပုံချပ်များ
 
-Root `README.md` တွင် ထည့်သွင်းထားသော ဒိုင်ယာဂရမ် ဆယ့်နှစ်ခု (`docs/diagrams/*.svg`) သည် static
-ပုံတစ်ပုံတွင် kit ကို အသုံးချထားခြင်းဖြစ်ပြီး လက်ဖြင့်ရေးဆွဲထားခြင်းမဟုတ်ဘဲ generate လုပ်ထားခြင်းဖြစ်သည်။ `scripts/docs/gen-readme-*.mjs`
-တွင် generator ဖိုင် 13 ဖိုင် (ဒိုင်ယာဂရမ် ဆယ့်နှစ်ခုနှင့် `gen-readme-diagrams.mjs` driver) နှင့်
-`tests/unit/docs/readme-*-svg.test.ts` တွင် ဒိုင်ယာဂရမ်တစ်ခုစီအတွက် staleness test 12 ခုရှိပြီး တစ်ခုစီသည် commit လုပ်ထားသောဖိုင်ကို ၎င်း၏
-generator output နှင့် byte အလိုက် နှိုင်းယှဉ်စစ်ဆေးသည် (job `test-unit`)။
+အမြစ် `README.md` မြှုပ်နှံမှု (`docs/diagrams/*.svg`) ဇယား ၁၂ ခုသည် ပုံသဏ္ဍာန်တစ်ခုအတွက် အသုံးပြုထားသည့် အစုံဖြစ်ပြီး ၎င်းတို့ကို လက်ဖြင့်ရေးဆွဲခြင်းမဟုတ်ဘဲ ထုတ်ပေးသည်- `scripts/docs/gen-readme-*.mjs` တွင် ဂျင်နရေတာဖိုင် 13 ဖိုင် (12 ပုံတွဲနှင့် `gen-readme-diagrams.mjs` ဒရိုက်ဗာ) နှင့် `tests/unit/docs/readme-*-svg.test.ts` တွင် staleness စမ်းသပ်မှု 12 ခု၊ ဖိုင်တစ်ခုလျှင် တစ်ခုစီ ကတိပြုထားသည့် byte-commator ဖြင့် ၎င်း၏ပုံသေပုံတစ်ခုလျှင် တစ်ခု၊ `test-unit`)
 
-- **Tokens။** `scripts/docs/readme-diagram-theme.mjs` သည် Editions palette (မူလသတ်မှတ်ထားသော အသွင်အပြင်) ကို
-  `packages/ui-kit/src/ci-editions.css` မှ ကူးယူသည် (`tests/unit/docs/readme-diagram-theme.test.ts` ဖြင့်
-  ထိုဖိုင်နှင့် ကိုက်ညီမှုကို အတည်ပြုထားပြီး scheme နှစ်ခုစလုံးရှိ surface တစ်ခုစီပေါ်မှ စာသားအရောင်တိုင်းအတွက် WCAG AA ကိုလည်း
-  စစ်ဆေးသည်။ ခြွင်းချက်တစ်ခုတည်းဖြစ်သော အလင်း `warn` သည် canvas ပေါ်တွင် kit တန်ဖိုးက 4.46:1 သာရှိသောကြောင့် kit
-  warning ကို 10 % ပိုမှောင်စေထားခြင်းဖြစ်သည်)။ ထို့ပြင် kit ၏ type scale (`ci-tokens.css`) ပေါ်တွင် စာသား role များကို သတ်မှတ်သည်။ Switzer ကို kit ၏ weight များ (400/500/600၊ display အတွက် 500) နှင့် tracking ဖြင့်
-  အရာအားလုံးအတွက် အသုံးပြုသော်လည်း code role များ (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`) ကိုမူ
-  IBM Plex Mono အသုံးပြုပြီး command များ၊ URL များ၊ identifier များနှင့် terminal screen များအတွက်သာ အသုံးပြုသည်။
-  အလင်း theme တန်ဖိုးများကို `:root` တွင်ထားပြီး အမှောင် theme တန်ဖိုးများကို ဖိုင်အတွင်းရှိ `prefers-color-scheme: dark` နောက်တွင်ထားသောကြောင့် ပုံတစ်ပုံစီသည်
-  GitHub ပေါ်ရှိ ကြည့်ရှုသူ၏ scheme အတိုင်း လိုက်ပြောင်းသည်။
-- **ဖောင့်များ။** GitHub Markdown တွင် CSS မပါဝင်သကဲ့သို့ camo proxy ကလည်း ပြင်ပ fetch အားလုံးကို ပိတ်ဆို့ထားသောကြောင့် kit type ကို
-  ဖိုင်အတွင်း ထည့်သွင်းသယ်ဆောင်ရသည်။ Generator တစ်ခုစီ၏ နောက်ဆုံးအဆင့်ဖြစ်သော `scripts/docs/readme-outline.mjs` သည်
-  Switzer role များကို HarfBuzz ဖြင့် ပုံဖော်ပြီး vector outline များ (`<defs>` path များနှင့် `<use>`) အဖြစ် ရေးဆွဲသည်။ Switzer တွင် မပါဝင်သော မြားများ
-  နှင့် geometric symbol များကို ၎င်း၏ကိုယ်ပိုင် metric များဖြင့် ရေးဆွဲသည်။ Embedded font မဟုတ်ဘဲ outline များကိုသာ အသုံးပြုရမည်။ Switzer ၏
-  လိုင်စင် (`packages/ui-kit/src/fonts/FFL.txt`) သည် စာဖြင့်ရေးသားထားသော ခွင့်ပြုချက်မရှိဘဲ subsetting နှင့် format conversion လုပ်ခြင်းကို
-  တားမြစ်ပြီး vector drawing များကို ခွင့်ပြုထားသဖြင့် Switzer `@font-face` သို့မဟုတ် `data:` URI ကို ပြန်မထည့်ပါနှင့်။ ဖိုင်တွင်
-  ကျန်ရှိသော font တစ်ခုတည်းမှာ code text အဖြစ် အမှန်တကယ်ကျန်ရှိနေသည့်အရာများအတွက် OFL IBM Plex Mono subset
-  (`scripts/docs/readme-fonts.mjs`) ဖြစ်ပြီး ထို character များမှ တည်ဆောက်ထားသည်။ Embed မလုပ်နိုင်သော glyph တစ်ခုခုရှိပါက error ဖြစ်စေသည်။
-- **ပြန်လည် generate လုပ်ခြင်း။** `npm run docs:readme-diagrams` သည် ဆယ့်နှစ်ဖိုင်စလုံးကို README အစဉ်အတိုင်း ပြန်ရေးပြီး ဖိုင်တစ်ဖိုင်စီအတွက်
-  အရွယ်အစားပါဝင်သော စာကြောင်းတစ်ကြောင်းကို print ထုတ်သည်။ Generator တစ်ခုချင်းကိုလည်း သီးခြား run နိုင်သည် (`node scripts/docs/gen-readme-<name>.mjs`;
-  `free-tier-budget` ၏ ကိန်းဂဏန်းများသည် `open-sse/config/freeModelCatalog.ts` ရှိ လက်ရှိ catalog loader မှ လာသောကြောင့်
-  `node --import tsx/esm` လိုအပ်သည်။ Catalog ပြောင်းလဲမှု၏ CI အကျိုးသက်ရောက်မှုကို
-  `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict` တွင် ကြည့်ပါ)။ Generator နှင့် SVG ကို အတူတကွ commit လုပ်ပါ။
-- **အထောက်အထား။** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` သည် GitHub က ဖိုင်ကို ဖော်ပြပေးသည့်ပုံစံအတိုင်း
-  render လုပ်သည် (`<img>` tag၊ camo ၏ `Content-Security-Policy`၊ `image/svg+xml`)၊ အလင်း frame နှင့် အမှောင် frame တစ်ခုစီကို
-  capture လုပ်ပြီး page က ပြုလုပ်ခဲ့သည့် ပြင်ပ font request များကို report လုပ်သည် (0 ဖြစ်ရမည်)။
-- **အရွယ်အစားကန့်သတ်ချက်။** ဖိုင်တစ်ဖိုင်လျှင် 200 KB အောက်ရှိရမည် (staleness test တစ်ခုစီက စစ်ဆေးသည်)။ README
-  ပုံတစ်ပုံအတွက် 500 KB သည် အမြင့်ဆုံးသတ်မှတ်ချက်ဖြစ်သည် (SVG studio validator ၏ စည်းမျဉ်း)။
-- **စာသားကို မပြောင်းလဲပါနှင့်၊ အရေအတွက်များကို gate မှ ရယူပါ။** Rebrand သည် type နှင့် palette ကိုသာ ပြောင်းလဲခဲ့ပြီး စာလုံးများကို မပြောင်းလဲခဲ့ပါ။ Generator တစ်ခုစီတွင်
-  ၎င်း၏ဒိုင်ယာဂရမ်စာသားကို `*_COPY` constant တစ်ခုအဖြစ် ထည့်သွင်းထားသည် (သို့မဟုတ် လက်ရှိ catalog မှ တည်ဆောက်သည်)။ ၎င်းသည်
-  ရေးဆွဲထားသော စာသားလည်းဖြစ်သလို outlining အဆင့်၏ input လည်းဖြစ်သည်။ Canonical ကိန်းဂဏန်းများကို `<text>` node များတွင် ဆက်လက်ထားရှိသည် (outline ပြောင်းပြီးနောက်
-  `fill-opacity:0` ဖြင့် မမြင်ရတော့ပါ)၊ ၎င်းတို့ကို `check:docs-counts`
-  (`scripts/check/check-docs-counts-sync.mjs`) က ဖတ်သည်။ ထို gate က ဖတ်ရှုသော ဒိုင်ယာဂရမ်များ၏ staleness test များသည်လည်း
-  generate လုပ်ထားသောဖိုင်ပေါ်တွင် ၎င်း၏ validator များကို run သဖြင့် ကိန်းဂဏန်းတစ်ခုက code နှင့် ကွဲလွဲသွားပါက test မအောင်မြင်ပါ — generator ထဲရှိ
-  နံပါတ်ကို မပြင်ဘဲ gate က ဖတ်သည့် source ကိုသာ ပြင်ပါ။
+- **တိုကင်များ။** `scripts/docs/readme-diagram-theme.mjs` အစီအစဥ်နှစ်ခုလုံးရှိ မျက်နှာပြင်တိုင်းရှိ စာသားအရောင်တိုင်းအတွက် WCAG AA (မူလပုံစံ) `packages/ui-kit/src/ci-editions.css` `tests/unit/docs/readme-diagram-theme.test.ts` မူလပုံစံ) မှ ကူးယူပါသည်`ci-tokens.css`): ကိရိယာ၏အလေးချိန် ( `warn`၊ 500) ရှိ ဆွစ်ဇာသည် ကုဒ်ကဏ္ဍများ (`.cmd`,400/500/600, `.term`, `.term-lg`, `.mono`, `.mono-sm`) မှလွဲ၍ အရာအားလုံးအတွက် ခြေရာခံခြင်း ( IBM Plex `.mono-xs`) URLs အလင်းတန်ဖိုးများသည် `:root`၊ `prefers-color-scheme: dark` နောက်ကွယ်ရှိ အမှောင်တန်ဖိုးများ ၊ ဖိုင်အတွင်းတွင် ရှိနေသောကြောင့် ပုံတစ်ပုံချင်းစီသည် GitHub ပေါ်ရှိ ကြည့်ရှုသူ၏ အစီအစဉ်ကို လိုက်နာပါသည်။
+- **ဖောင့်များ။** GitHub Markdown သည် CSS မပါရှိဘဲ camo proxy သည် ပြင်ပထုတ်ယူမှုတိုင်းကို ပိတ်ဆို့ထားသောကြောင့် kit type သည် ဖိုင်အတွင်းတွင် ရှိနေရမည်ဖြစ်သည်။ `scripts/docs/readme-outline.mjs`၊ ဂျင်နရေတာတိုင်း၏နောက်ဆုံးအဆင့်သည် Switzer ၏အခန်းကဏ္ဍများကို HarfBuzz ဖြင့်ပုံဖော်ပြီး ၎င်းတို့ကို vector မျဉ်းကြောင်းများ (`<defs>` လမ်းကြောင်းများနှင့် `<use>`) အဖြစ် မြှားများနှင့် ဂျီဩမေတြီသင်္ကေတများ Switzer သည် ၎င်း၏ကိုယ်ပိုင်မက်ထရစ်များပေါ်တွင် ရေးဆွဲခြင်းမရှိပါ။ အကြမ်းဖျင်းများ၊ ထည့်သွင်းထားသောဖောင့်ကို ဘယ်သောအခါမှ- Switzer ၏လိုင်စင် (`packages/ui-kit/src/fonts/FFL.txt`) သည် စာဖြင့်ခွင့်ပြုချက်မရှိဘဲ ဖော်မတ်ပြောင်းလဲခြင်းကိုတားမြစ်ထားပြီး vector ပုံများကိုခွင့်ပြုသောကြောင့် Switzer `@font-face` သို့မဟုတ် `data:` URI ကို ပြန်လည်မိတ်ဆက်ခြင်းမပြုပါနှင့်။ ဖိုင်တစ်ခုတွင် ကျန်ခဲ့သော ဖောင့်တစ်ခုသည် အဆိုပါ စာလုံးများမှ တည်ဆောက်ထားသည့် အစစ်အမှန်ကုဒ်စာသား (`scripts/docs/readme-fonts.mjs`) အတွက် OFL IBM Plex Mono အခွဲဖြစ်သည်။ မည်သည့် glyph သည် ပစ်ခြင်းကို မြှပ်ထား၍ မရပါ။
+- **ပြန်ထုတ်ပါ။** `npm run docs:readme-diagrams` တစ်ဆယ့်နှစ်ခုလုံးကို README အမှာစာဖြင့် ပြန်လည်ရေးသားပြီး ဖိုင်တစ်ခုလျှင် စာကြောင်းတစ်ကြောင်းကို ၎င်း၏အရွယ်အစားဖြင့် ပရင့်ထုတ်သည်။ တစ်ခုတည်းသော ဂျင် `docs/architecture/QUALITY_GATES.md` → တာတစ်ခု `open-sse/config/freeModelCatalog.ts`၎င်း၏ကိုယ်ပိုင်စနစ်ဖြင့် လုပ်ဆောင်သည် (`node scripts/docs/gen-readme-<name>.mjs`; `free-tier-budget` CI `node --import tsx/esm` `docs-sync-strict` ဂျင်နရေတာ နှင့် SVG ကို အတူတကွ ချိတ်ဆက်ပါ။ stale SVG ထွက်ရှိသည့်မုဒ်တွင် ပျက်ကွက်သည်။ PR အင်္ဂါရပ်တစ်ခုတွင် `npm run check:generated-artifacts` SVG မှ PR တည်းဖြတ်မှုများကိုသာ အကဲဖြတ်သည် (`docs/architecture/QUALITY_GATES.md` → "ထုတ်လုပ်ထားသောဖိုင်များနှင့် ဆင်းသက်လာသော အခြေခံအချက်များ")။
+- **သက်သေ။** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` သည် ဖိုင်တစ်ခုကို GitHub ထမ်းဆောင်ပုံ ( `<img>` တဂ်၊ camo ၏ `Content-Security-Policy`၊ `image/svg+xml`) ၊ အလင်းနှင့် အမှောင်ဘောင်ကို ဖမ်းယူပြီး ပြင်ပဖောင့်တောင်းဆိုမှုများကို အစီရင်ခံသည် (၀ ဖြစ်ရပါမည်)။
+- **ဘတ်ဂျက်။** ဖိုင်တစ်ခုလျှင် KB 200 အောက်တွင် (staleness test တစ်ခုစီက ၎င်းကို အခိုင်အမာဖော်ပြသည်); 500 KB သည် မည်သည့် README ပုံ ( SVG studio validator ၏ စည်းမျဉ်း) အတွက် hard cap ဖြစ်သည်။
+- **မပြောင်းလဲဘဲ ကော်ပီကို ဂိတ်မှရေတွက်ပါ။** တံဆိပ်ပြောင်းထားသော အမျိုးအစားနှင့် ပျဉ်ချပ်သည် စကားလုံးများမဟုတ်ဘဲ အမျိုးအစားဖြစ်သည်- မီးစက်တစ်ခုစီသည် ၎င်း၏ပုံသေပုံ၏မိတ္တူကို `*_COPY` စဉ်ဆက်မပြတ် (သို့မဟုတ် ၎င်းကို တိုက်ရိုက်ထုတ်သည့်ကတ်တလောက်မှ တည်ဆောက်သည်) တွင် စာသားနှင့် အကြမ်းဖျဉ်းအဆင့်၏ ထည့်သွင်းချက်နှစ်ခုစလုံးကို သယ်ဆောင်သည်။ Canonical ကိန်းဂဏာန်းများသည် `<text>` node များတွင် ရှိနေသည် (တခါက မမြင်နိုင်သော၊ `fill-opacity:0`) ကို `check:docs-counts` (`scripts/check/check-docs-counts-sync.mjs`) ဖြင့်ဖတ်သည်။ gate reads ၏ staleness tests များသည် generated file တွင် ၎င်း၏ validators များကို run သည် ၊ ထို့ကြောင့် code မှ လွင့်မျောနေသော ကိန်းဂဏန်းသည် test — gate ဖတ်သော source ကို fix ပြီး generator ရှိ နံပါတ်ကို ဘယ်သောအခါမှ မဖြေရှင်းပါ။
 
 ## 7. ကိုးကားချက် အညွှန်း
 

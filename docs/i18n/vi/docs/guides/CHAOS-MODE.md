@@ -41,25 +41,23 @@ Chaos Mode gửi **một tác vụ đến nhiều nhà cung cấp cùng lúc** �
    câu trả lời của thành viên thành công cuối cùng sẽ được gửi. Các câu trả lời khác trong nhóm không được trả về, vì vậy
    bạn trả phí cho N lệnh gọi nhưng chỉ nhận được một kết quả hoàn thành.
 
-## Thiết lập
+## Cài đặt
 
-1. Mở **Bảng điều khiển → Chaos Mode** (`/dashboard/chaos`).
-2. **Bật** tính năng này — Chaos Mode được cung cấp ở trạng thái **tắt theo mặc định** (`enabled: false` trong
-   `src/lib/chaos/chaosConfig.ts`). Khi bị tắt, `POST /api/chaos/run` trả về
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
-3. Chọn các thành phần tham gia và giá trị mặc định (được lưu riêng cho từng phiên bản thông qua kho cài đặt):
+1. Mở** Bảng điều khiển → Chế độ hỗn loạn** (`/dashboard/chaos`).
+2. Xoay nó** TRÊN** tàu chế độ hỗn loạn —** bị tắt theo mặc định** (`enabled: false` trong `src/lib/chaos/chaosConfig.ts`). Khi bị tắt, `POST /api/chaos/run` trả lời `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Chọn người tham gia và mặc định (được duy trì theo từng trường hợp thông qua cửa hàng cài đặt):
 
-   | Trường              | Ý nghĩa                                                                                  | Mặc định / giới hạn                                 |
-   | ------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------- |
-   | `enabled`           | Công tắc chính                                                                           | `false`                                             |
-   | `defaultMode`       | `parallel` hoặc `collaborative` (xem bên dưới)                                           | `parallel`                                          |
-   | `providerOverrides` | Trạng thái tham gia theo từng nhà cung cấp (`providerId`, `modelId` tùy chọn, `enabled`) | trống = mọi nhà cung cấp đang hoạt động, tối đa 200 |
-   | `systemPrompt`      | Giá trị ghi đè cho lời nhắc hệ thống Chaos tích hợp sẵn                                  | tùy chọn, tối đa 10 000 ký tự                       |
-   | `timeoutMs`         | Thời gian tối đa cho mỗi lần gọi mô hình                                                 | `120000` (5 000–600 000)                            |
-   | `maxTokens`         | `max_tokens` cho mỗi lần gọi mô hình                                                     | `4096` (256–128 000)                                |
+   | Cánh đồng           | Nghĩa                                                                           | Mặc định/giới hạn                                   |
+   | ------------------- | ------------------------------------------------------------------------------- | --------------------------------------------------- |
+   | `enabled`           | Công tắc chính                                                                  | `false`                                             |
+   | `defaultMode`       | `parallel` hoặc `collaborative` (xem bên dưới)                                  | `parallel`                                          |
+   | `providerOverrides` | Sự tham gia của mỗi nhà cung cấp (`providerId`, `modelId` tùy chọn , `enabled`) | = trống mỗi nhà cung cấp đang hoạt động, tối đa 200 |
+   | `systemPrompt`      | Ghi đè cho lời nhắc hệ thống Chaos tích hợp                                     | tùy chọn, tối đa 10 000 ký tự                       |
+   | `timeoutMs`         | Thời gian tối đa cho mỗi cuộc gọi mô hình                                       | `120000` (5 000–600 000)                            |
+   | `maxTokens`         | `max_tokens` cho mỗi cuộc gọi mô hình                                           | `4096` (256–128 000)                                |
 
-4. Chạy **kiểm thử ngay trên trang** — bảng kết quả hiển thị câu trả lời,
-   trạng thái và thời lượng của từng nhà cung cấp.
+4. Cung cấp cho mỗi nhà cung cấp tham gia một** người mẫu** . Mô hình của nhà cung cấp là `modelId` của ghi đè được kích hoạt trên trang Chế độ hỗn loạn (nó thắng), nếu không thì** mô hình mặc định** kết nối của nó. Id nhà cung cấp không bao giờ được sử dụng làm tên mẫu. Một nhà cung cấp không có** không được gọi** : nó hiển thị trong kết quả dưới dạng `status: "error"` với thông báo _"Không có mô hình nào được đặt cho nhà cung cấp này. Đặt mô hình cho nó trên trang Chế độ hỗn loạn hoặc mô hình mặc định trên kết nối."_ và một `modelId` trống, trong khi các nhà cung cấp khác chạy bình thường. Nếu không có nhà cung cấp nào được chọn có mô hình thì quá trình chạy sẽ không thành công trước bất kỳ yêu cầu ngược dòng nào có _"Không có nhà cung cấp nào có bộ mô hình. ..."_ (HTTP 500 trên cả hai điểm cuối).
+5. Chạy một** kiểm tra từ chính trang đó** — bảng kết quả hiển thị câu trả lời, trạng thái và thời lượng của từng nhà cung cấp.
 
 ## Chế độ thực thi
 
@@ -125,9 +123,7 @@ Cả hai endpoint đều trả về cùng một cấu trúc:
 
 ## Khắc phục sự cố
 
-- **`400 Chaos Mode is not enabled`** — xem bước 2 ở trên: công tắc toàn cục đang tắt.
-- **Khóa API bị từ chối trên `/api/skills/collect/chaos`** — khóa thiếu quyền
-  `chaosModeEnabled` dành riêng cho từng khóa (bị tắt theo mặc định; đây là một cài đặt, không phải lỗi).
-- **Một nhà cung cấp mà bạn mong đợi không xuất hiện trong kết quả** — hãy kiểm tra `providerOverrides` trên
-  trang Chaos Mode (một giá trị ghi đè bị tắt sẽ loại trừ nhà cung cấp đó) và kiểm tra xem kết nối với nhà cung cấp có
-  đang hoạt động hay không.
+- **`400 Chaos Mode is not enabled`** — bước 2 ở trên: công tắc chung bị tắt.
+- **khóa API bị từ chối trên `/api/skills/collect/chaos`** — khóa thiếu quyền `chaosModeEnabled` cho mỗi phím (tắt theo mặc định; đây là cài đặt, không phải lỗi).
+- **Một nhà cung cấp cho thấy `No model set for this provider`** — đặt mô hình của nó trên trang Chế độ hỗn loạn hoặc mô hình mặc định trên kết nối của nó (xem Thiết lập, bước 4).
+- **Thiếu nhà cung cấp mà bạn mong đợi trong kết quả** — kiểm tra `providerOverrides` trên trang Chế độ hỗn loạn (ghi đè bị tắt sẽ loại trừ nó) và liệu kết nối nhà cung cấp có hoạt động hay không.

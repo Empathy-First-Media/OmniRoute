@@ -191,63 +191,22 @@ PR తెరవబడనప్పుడు (లక్ష్యం విడు�
 
 ## 6. README రేఖాచిత్రాలు
 
-రూట్ `README.md`లో పొందుపరిచిన పన్నెండు రేఖాచిత్రాలు (`docs/diagrams/*.svg`) స్థిర చిత్రానికి కిట్ను
-వర్తింపజేసినవి; అవి చేతితో గీసినవి కావు, జనరేట్ చేయబడినవి: `scripts/docs/gen-readme-*.mjs`లో 13 జనరేటర్ ఫైళ్లు
-(పన్నెండు రేఖాచిత్రాలతో పాటు `gen-readme-diagrams.mjs` డ్రైవర్) మరియు
-`tests/unit/docs/readme-*-svg.test.ts`లో 12 కాలదోష పరీక్షలు, ప్రతి రేఖాచిత్రానికి ఒకటి చొప్పున ఉంటాయి; ప్రతి పరీక్ష
-కమిట్ చేసిన ఫైల్ను దాని జనరేటర్ అవుట్పుట్తో బైట్ల వారీగా పోలుస్తుంది (జాబ్ `test-unit`).
+రూట్ `README.md` పొందుపరిచిన (`docs/diagrams/*.svg`) పన్నెండు రేఖాచిత్రాలు స్టాటిక్ ఇమేజ్కి వర్తింపజేయబడిన కిట్, మరియు అవి చేతితో తీయబడవు: `scripts/docs/gen-readme-*.mjs` వద్ద 13 జెనరేటర్ ఫైల్లు (పన్నెండు రేఖాచిత్రాలు మరియు `gen-readme-diagrams.mjs` డ్రైవర్) మరియు 12 స్టెల్నెస్ టెస్ట్లు `tests/unit/docs/readme-*-svg.test.ts` వద్ద ప్రతి ఒక్కటి zdiacompar ద్వారా ప్రతి ఒక్కటి. జనరేటర్ యొక్క అవుట్పుట్ (జాబ్ `test-unit`).
 
-- **టోకెన్లు.** `scripts/docs/readme-diagram-theme.mjs`, Editions పాలెట్ను (డిఫాల్ట్ రూపాన్ని)
-  `packages/ui-kit/src/ci-editions.css` నుంచి కాపీ చేస్తుంది (ఆ ఫైల్తో సరిపోలేలా
-  `tests/unit/docs/readme-diagram-theme.test.ts` ద్వారా స్థిరపరచబడింది; ఇది రెండు స్కీమ్లలోని ప్రతి ఉపరితలంపై
-  ప్రతి టెక్స్ట్ రంగుకు WCAG AAను కూడా తనిఖీ చేస్తుంది; దీనిలో ఒకే మినహాయింపు, లైట్ `warn`, కాన్వాస్పై కిట్
-  విలువ 4.46:1గా ఉన్నందున 10 % ముదురు చేసిన కిట్ హెచ్చరిక) మరియు కిట్ టైప్ స్కేల్పై (`ci-tokens.css`) టెక్స్ట్ పాత్రలను నిర్వచిస్తుంది: కిట్ వెయిట్లతో (400/500/600, డిస్ప్లే 500 వద్ద) Switzer మరియు
-  అన్నింటికీ ట్రాకింగ్, అయితే కోడ్ పాత్రలు (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`)
-  మినహాయింపు; అవి IBM Plex Monoను ఉపయోగిస్తాయి మరియు కమాండ్లు, URLలు, ఐడెంటిఫైయర్లు, టెర్మినల్ స్క్రీన్లకు
-  మాత్రమే ఉద్దేశించబడ్డాయి.
-  లైట్ విలువలు `:root`పై, డార్క్ విలువలు ఫైల్లోని `prefers-color-scheme: dark` వెనుక ఉంటాయి, కాబట్టి ప్రతి
-  చిత్రం GitHubలో వీక్షకుడి స్కీమ్ను అనుసరిస్తుంది.
-- **ఫాంట్లు.** GitHub Markdownలో CSS ఉండదు మరియు camo ప్రాక్సీ ప్రతి బాహ్య ఫెచ్ను నిరోధిస్తుంది, కాబట్టి కిట్ టైప్
-  ఫైల్లోనే ప్రయాణించాలి. ప్రతి జనరేటర్లో చివరి దశ అయిన `scripts/docs/readme-outline.mjs`,
-  HarfBuzzతో Switzer పాత్రలకు ఆకృతినిచ్చి, వాటిని వెక్టర్ అవుట్లైన్లుగా (`<defs>` పాత్లు మరియు `<use>`) గీస్తుంది;
-  Switzerలో లేని బాణాలు మరియు జ్యామితీయ చిహ్నాలు దాని స్వంత మెట్రిక్లపై గీయబడతాయి. ఎల్లప్పుడూ అవుట్లైన్లే,
-  ఎంబెడ్ చేసిన ఫాంట్ కాదు: Switzer లైసెన్స్ (`packages/ui-kit/src/fonts/FFL.txt`) లిఖితపూర్వక
-  సమ్మతి లేకుండా సబ్సెట్టింగ్ మరియు ఫార్మాట్ మార్పిడిని నిషేధిస్తుంది, కానీ వెక్టర్ డ్రాయింగ్లను అనుమతిస్తుంది;
-  కాబట్టి Switzer `@font-face` లేదా `data:` URIని తిరిగి ప్రవేశపెట్టవద్దు. ఫైల్లో మిగిలే ఏకైక
-  ఫాంట్, నిజమైన కోడ్ టెక్స్ట్గా మిగిలే వాటి కోసం ఉపయోగించే OFL IBM Plex Mono సబ్సెట్
-  (`scripts/docs/readme-fonts.mjs`); అది ఆ అక్షరాల నుంచి నిర్మించబడుతుంది, ఎంబెడ్ చేయలేని ఏ గ్లిఫ్ ఉన్నా లోపాన్ని విసురుతుంది.
-- **మళ్లీ జనరేట్ చేయడం.** `npm run docs:readme-diagrams` మొత్తం పన్నెండింటినీ README క్రమంలో తిరిగి రాసి, ప్రతి
-  ఫైల్కు దాని పరిమాణంతో ఒక లైన్ను ప్రింట్ చేస్తుంది. ఒక్క జనరేటర్ను కూడా స్వతంత్రంగా అమలు చేయవచ్చు
-  (`node scripts/docs/gen-readme-<name>.mjs`; `free-tier-budget`కు `node --import tsx/esm` అవసరం, ఎందుకంటే దాని గణాంకాలు
-  `open-sse/config/freeModelCatalog.ts`లోని లైవ్ కాటలాగ్ లోడర్ నుంచి వస్తాయి; కాటలాగ్ మార్పు వల్ల కలిగే CI పరిణామం
-  `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`లో ఉంది). జనరేటర్ను మరియు SVGని కలిపి కమిట్ చేయండి.
-- **రుజువు.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` ఫైల్ను GitHub సర్వ్ చేసే విధంగానే
-  (ఒక `<img>` ట్యాగ్, camo యొక్క `Content-Security-Policy`, `image/svg+xml`) రెండర్ చేసి, ఒక లైట్ మరియు ఒక డార్క్ ఫ్రేమ్ను
-  క్యాప్చర్ చేస్తుంది, అలాగే పేజీ చేసిన బాహ్య ఫాంట్ అభ్యర్థనలను నివేదిస్తుంది (అవి తప్పనిసరిగా 0 అయి ఉండాలి).
-- **పరిమాణ పరిమితి.** ప్రతి ఫైల్ 200 KB కంటే తక్కువగా ఉండాలి (ప్రతి కాలదోష పరీక్ష దీన్ని నిర్ధారిస్తుంది); ఏ README
-  చిత్రానికైనా 500 KB గరిష్ఠ పరిమితి (SVG studio వాలిడేటర్ నియమం).
-- **కాపీ మారదు, లెక్కలు గేట్ నుంచి వస్తాయి.** రీబ్రాండింగ్ టైప్ను మరియు పాలెట్ను మార్చింది, పదాలను కాదు: ప్రతి జనరేటర్
-  తన రేఖాచిత్రపు కాపీని ఒక `*_COPY` స్థిరాంకంలో ఉంచుతుంది (లేదా లైవ్ కాటలాగ్ నుంచి నిర్మిస్తుంది); అదే
-  గీసిన టెక్స్ట్గానూ, అవుట్లైనింగ్ దశ ఇన్పుట్గానూ ఉంటుంది. ప్రామాణిక గణాంకాలు `<text>` నోడ్లలోనే ఉంటాయి (అవుట్లైన్ చేసిన తర్వాత
-  కనిపించవు, `fill-opacity:0`), వాటిని `check:docs-counts`
-  (`scripts/check/check-docs-counts-sync.mjs`) చదువుతుంది; ఆ గేట్ చదివే రేఖాచిత్రాల కాలదోష పరీక్షలు, జనరేట్ చేసిన ఫైల్పై
-  దాని వాలిడేటర్లను కూడా అమలు చేస్తాయి, కాబట్టి కోడ్కు భిన్నంగా మారిన గణాంకం పరీక్షను విఫలం చేస్తుంది — జనరేటర్లోని
-  సంఖ్యను ఎప్పుడూ మార్చవద్దు; గేట్ చదివే సోర్స్ను సరిచేయండి.
+- **టోకెన్లు.** `scripts/docs/readme-diagram-theme.mjs` `packages/ui-kit/src/ci-editions.css` నుండి ఎడిషన్ల పాలెట్ను (డిఫాల్ట్ లుక్) కాపీ చేస్తుంది ( `tests/unit/docs/readme-diagram-theme.test.ts` ద్వారా ఆ ఫైల్కి వ్యతిరేకంగా పిన్ చేయబడింది, ఇది రెండు స్కీమ్లలోని ప్రతి ఉపరితలంపై ప్రతి టెక్స్ట్ రంగు కోసం WCAG AA కూడా తనిఖీ చేస్తుంది; ఒక మినహాయింపు, లైట్ `warn`, కిట్ హెచ్చరిక 10 % చీకటిగా ఉంటుంది, ఎందుకంటే కిట్ విలువ 10 % కిట్ వాల్యూ డిఫిన్ టెక్స్ట్ 4లో ఉంది. కిట్ యొక్క టైప్ స్కేల్ (`ci-tokens.css`): స్విట్జర్ కిట్ బరువులు (400/500/600, డిస్ప్లే వద్ద 500) మరియు కోడ్ పాత్రలు (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`) మినహా అన్నింటికీ ట్రాకింగ్, ఇవి కమాండ్లు, URLs మరియు IBM Plex కోసం మాత్రమే ఉంటాయి. టెర్మినల్ తెరలు. లైట్ విలువలు `:root`, ఫైల్ లోపల `prefers-color-scheme: dark` వెనుక ముదురు విలువలు ఉంటాయి, కాబట్టి ప్రతి చిత్రం GitHub లో వీక్షకుల స్కీమ్ను అనుసరిస్తుంది.
+- **ఫాంట్లు.** GitHub మార్క్డౌన్ CSS కలిగి ఉండదు మరియు కామో ప్రాక్సీ ప్రతి బాహ్య పొందడాన్ని బ్లాక్ చేస్తుంది, కాబట్టి కిట్ రకం ఫైల్ లోపల ప్రయాణించవలసి ఉంటుంది. `scripts/docs/readme-outline.mjs`, ప్రతి జనరేటర్ యొక్క చివరి దశ, స్విట్జర్ పాత్రలను HarfBuzz తో ఆకృతి చేస్తుంది మరియు వాటిని వెక్టార్ అవుట్లైన్లుగా (`<defs>` మార్గాలు మరియు `<use>`) గీస్తుంది, బాణాలు మరియు రేఖాగణిత చిహ్నాలతో స్విట్జర్ దాని స్వంత కొలమానాలపై గీస్తుంది. అవుట్లైన్లు, ఎప్పుడూ పొందుపరచబడిన ఫాంట్ కాదు: స్విట్జర్ లైసెన్స్ (`packages/ui-kit/src/fonts/FFL.txt`) వ్రాతపూర్వక అనుమతి లేకుండా సబ్సెట్టింగ్ మరియు ఫార్మాట్ మార్పిడిని నిషేధిస్తుంది మరియు వెక్టర్ డ్రాయింగ్లను అనుమతిస్తుంది, కాబట్టి Switzer `@font-face` లేదా `data:` URI ని మళ్లీ పరిచయం చేయవద్దు. ఫైల్లో మిగిలి ఉన్న ఒక ఫాంట్ OFL IBM ప్లెక్స్ మోనో ఉపసమితి, ఆ అక్షరాల నుండి రూపొందించబడిన నిజమైన కోడ్ టెక్స్ట్ (`scripts/docs/readme-fonts.mjs`). ఏదైనా గ్లిఫ్ త్రోలను పొందుపరచదు.
+- **పునరుత్పత్తి చేయండి.** `npm run docs:readme-diagrams` మొత్తం పన్నెండు README క్రమంలో తిరిగి వ్రాస్తుంది మరియు దాని పరిమాణంతో ఫైల్కు ఒక లైన్ను ప్రింట్ చేస్తుంది. ఒకే జనరేటర్ కూడా దాని స్వంతదానిపై నడుస్తుంది (`node scripts/docs/gen-readme-<name>.mjs`; `free-tier-budget` `node --import tsx/esm` అవసరం ఎందుకంటే దాని గణాంకాలు `open-sse/config/freeModelCatalog.ts` లోని ప్రత్యక్ష కేటలాగ్ లోడర్ నుండి వచ్చాయి; కేటలాగ్ మార్పు యొక్క CI పర్యవసానం `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict` లో ఉంటుంది). జెనరేటర్ మరియు SVG కలిసి కమిట్ చేయండి. విడుదల మోడ్లో పాత SVG విఫలమవుతుంది; PR ఫీచర్లో, `npm run check:generated-artifacts` PR సవరణలను ఒక SVG మాత్రమే నిర్ణయిస్తుంది (`docs/architecture/QUALITY_GATES.md` → "జెనరేటెడ్ ఫైల్లు మరియు ఉత్పన్నమైన బేస్లైన్లు").
+- **రుజువు.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` ఫైల్ను GitHub అందించే విధంగా రెండర్ చేస్తుంది ( `<img>` ట్యాగ్, camo's `Content-Security-Policy`, `image/svg+xml`), కాంతి మరియు చీకటి ఫ్రేమ్ను క్యాప్చర్ చేస్తుంది మరియు పేజీ చేసిన బాహ్య ఫాంట్ అభ్యర్థనలను నివేదిస్తుంది (తప్పనిసరిగా 0 ఉండాలి).
+- **బడ్జెట్.** ఒక్కో ఫైల్కు 200 KB కంటే తక్కువ (ప్రతి స్టెల్నెస్ పరీక్ష దానిని నిర్ధారిస్తుంది); 500 KB అనేది ఏదైనా README ఇమేజ్కి హార్డ్ క్యాప్ ( SVG స్టూడియో వాలిడేటర్ నియమం).
+- **కాపీ మారలేదు, గేట్ నుండి లెక్కించబడుతుంది.** రీబ్రాండ్ మార్చబడిన రకం మరియు పాలెట్ పదాలు కాదు: ప్రతి జనరేటర్ దాని రేఖాచిత్రం యొక్క కాపీని `*_COPY` స్థిరాంకం (లేదా ప్రత్యక్ష కేటలాగ్ నుండి రూపొందించడం)లో తీసుకువెళుతుంది, అది గీసిన వచనం మరియు అవుట్లైనింగ్ దశ యొక్క ఇన్పుట్ రెండూ. కానానికల్ బొమ్మలు `<text>` నోడ్లలో ఉంటాయి (ఒకసారి వివరించిన తర్వాత కనిపించదు, `fill-opacity:0`), `check:docs-counts` (`scripts/check/check-docs-counts-sync.mjs`) ద్వారా చదవబడుతుంది; గేట్ చదివే రేఖాచిత్రాల యొక్క స్టెల్నెస్ పరీక్షలు జనరేట్ చేయబడిన ఫైల్లో దాని వ్యాలిడేటర్లను కూడా అమలు చేస్తాయి, కాబట్టి కోడ్ నుండి డ్రిఫ్ట్ అయ్యే ఫిగర్ పరీక్షలో విఫలమవుతుంది — గేట్ చదివే మూలాన్ని సరిదిద్దుతుంది, జనరేటర్లోని సంఖ్యను ఎప్పటికీ కాదు.
 
 ## 7. సూచన సూచిక
 
-- `src/app/globals.css` — టోకెన్ బ్రిడ్జ్, `.dark` ఓవర్రైడ్లు, OmniRoute `@layer components` పొడిగింపులు
-- `packages/ui-kit/UPSTREAM.md` — పిన్ చేసిన అప్స్ట్రీమ్ కమిట్ మరియు లైసెన్స్ అధీకరణ; `packages/ui-kit/PATCHES.md`
-- `packages/ui-kit/src/ci-tokens.css`, `packages/ui-kit/src/ci-editions.css`, `packages/ui-kit/src/ci-ui.css`,
-  `packages/ui-kit/src/keak-brand.tsx`
-- `src/shared/components/index.tsx` మరియు దాని పక్కన ఉన్న అడాప్టర్లు; `src/shared/components/layouts/DashboardShell.tsx`,
-  `src/shared/components/Sidebar.tsx`, `src/shared/components/Header.tsx`, `src/shared/components/CommandPalette.tsx`
-- `src/shared/components/Icon.tsx`, `src/shared/constants/iconMap.ts`, `scripts/dev/gen-icon-map.mjs`,
-  `scripts/dev/codemod-material-icons.mjs`
+- `src/app/globals.css` — టోకెన్ వంతెన, `.dark` ఓవర్రైడ్లు, OmniRoute `@layer components` పొడిగింపులు
+- `packages/ui-kit/UPSTREAM.md` — పిన్ చేయబడిన అప్స్ట్రీమ్ కమిట్ మరియు లైసెన్స్ ఆథరైజేషన్; `packages/ui-kit/PATCHES.md`
+- `packages/ui-kit/src/ci-tokens.css`, `packages/ui-kit/src/ci-editions.css`, `packages/ui-kit/src/ci-ui.css`, `packages/ui-kit/src/keak-brand.tsx`
+- `src/shared/components/index.tsx` మరియు దాని ప్రక్కన ఉన్న అడాప్టర్లు; `src/shared/components/layouts/DashboardShell.tsx`, `src/shared/components/Sidebar.tsx`, `src/shared/components/Header.tsx`, `src/shared/components/CommandPalette.tsx`
+- `src/shared/components/Icon.tsx`, `src/shared/constants/iconMap.ts`, `scripts/dev/gen-icon-map.mjs`, `scripts/dev/codemod-material-icons.mjs`
 - `src/shared/components/OmniRouteLogo.tsx`, `src/shared/constants/keakProducts.ts`
-- `src/store/themeStore.ts`, `src/shared/utils/themeBootScript.ts`, `src/shared/constants/appearancePalette.ts`,
-  `src/shared/constants/pwaThemeColors.ts`, `src/shared/constants/appConfig.ts`,
-  `src/shared/constants/statusColors.ts`
-- `tests/unit/design-kit-bridge.test.ts`, `tests/unit/dashboard-kit-sweep.test.ts`,
-  `tests/unit/icon-map-coverage.test.ts`, `tests/unit/icon-map-object-values.test.ts`,
-  `tests/unit/brand-pages-static.test.ts`, `tests/unit/ui/adapters/*.test.tsx`
+- `src/store/themeStore.ts`, `src/shared/utils/themeBootScript.ts`, `src/shared/constants/appearancePalette.ts`, `src/shared/constants/pwaThemeColors.ts`, `src/shared/constants/appConfig.ts`, `src/shared/constants/statusColors.ts`
+- `tests/unit/design-kit-bridge.test.ts`, `tests/unit/dashboard-kit-sweep.test.ts`, `tests/unit/icon-map-coverage.test.ts`, `tests/unit/icon-map-object-values.test.ts`, `tests/unit/brand-pages-static.test.ts`, `tests/unit/ui/adapters/*.test.tsx`

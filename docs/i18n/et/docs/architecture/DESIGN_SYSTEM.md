@@ -188,46 +188,14 @@ Töövoog kasutab kahte saladust:
 
 ## 6. README diagrammid
 
-Kaksteist diagrammi, mille juurfail `README.md` manustab (`docs/diagrams/*.svg`), kujutavad staatilisele
-pildile rakendatud komplekti ning need genereeritakse, mitte ei joonistata käsitsi: 13 generaatorifaili asukohas `scripts/docs/gen-readme-*.mjs`
-(kaksteist diagrammi ja draiver `gen-readme-diagrams.mjs`) ning 12 aegumiskontrolli asukohas
-`tests/unit/docs/readme-*-svg.test.ts`, üks iga diagrammi kohta, millest igaüks võrdleb kinnistatud faili baidikaupa selle
-generaatori väljundiga (töö `test-unit`).
+Kaksteist skeemi, mille juur `README.md` manustab (`docs/diagrams/*.svg`), on komplekt, mida rakendatakse staatilisele kujutisele ja need genereeritakse, mitte ei joonista käsitsi: 13 generaatorifaili `scripts/docs/gen-readme-*.mjs` (kaksteist diagrammi pluss `gen-readme-diagrams.mjs` draiver) ja 12 aegumise testi `tests/unit/docs/readme-*-svg.test.ts`, üks diagrammi kohta, iga baits-faili koos väljundi `test-unit` genereerimisega.
 
-- **Tokenid.** `scripts/docs/readme-diagram-theme.mjs` kopeerib Editionsi paleti (vaikimisi välimuse) failist
-  `packages/ui-kit/src/ci-editions.css` (selle failiga seob selle
-  `tests/unit/docs/readme-diagram-theme.test.ts`, mis kontrollib mõlemas skeemis ka WCAG AA nõuetele vastavust iga tekstivärvi ja iga
-  pinna kombinatsiooni puhul; ainus erand, heleda teema `warn`, on komplekti hoiatusvärv, mida on tumendatud 10 %, sest komplekti
-  väärtuse kontrastsus lõuendil on 4.46:1), ning määratleb tekstirollid komplekti kirjasuuruste skaalal (`ci-tokens.css`): Switzer komplekti kirjapaksustega (400/500/600, esiletõstetekst 500) ja tähevahedega
-  kõige jaoks, välja arvatud koodirollid (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), mis
-  kasutavad IBM Plex Monot ning on mõeldud ainult käskude, URL-ide, identifikaatorite ja terminalikuvade jaoks.
-  Heleda teema väärtused asuvad failis selektoris `:root`, tumeda teema väärtused päringu `prefers-color-scheme: dark` taga, et iga
-  pilt järgiks GitHubis vaataja värviskeemi.
-- **Fondid.** GitHub Markdown ei edasta CSS-i ja camo-puhverserver blokeerib kõik välised päringud, seega peab komplekti kirjatüüp
-  asuma failis endas. `scripts/docs/readme-outline.mjs`, iga generaatori viimane etapp, vormib
-  Switzeri rollid HarfBuzziga ja joonistab need vektorkontuuridena (`<defs>`-i rajad ja `<use>`), kusjuures nooled
-  ja geomeetrilised sümbolid, mis Switzeris puuduvad, joonistatakse selle enda mõõdikute järgi. Kasutage kontuure, mitte kunagi manustatud fonti: Switzeri
-  litsents (`packages/ui-kit/src/fonts/FFL.txt`) keelab ilma kirjaliku
-  nõusolekuta alamhulga loomise ja vormingu teisendamise, kuid lubab vektorjooniseid, seega ärge lisage Switzeri `@font-face`-i ega `data:` URI-d uuesti. Ainus
-  faili jääv font on OFL-litsentsiga IBM Plex Mono alamhulk teksti jaoks, mis jääb tegelikuks kooditekstiks
-  (`scripts/docs/readme-fonts.mjs`) ja mis koostatakse nendest märkidest; kui mõnda glüüfi ei saa manustada, väljastatakse erind.
-- **Taasgenereerimine.** `npm run docs:readme-diagrams` kirjutab kõik kaksteist diagrammi README järjekorras uuesti ja väljastab iga
-  faili kohta ühe rea koos selle suurusega. Üksikut generaatorit saab käitada ka eraldi (`node scripts/docs/gen-readme-<name>.mjs`;
-  `free-tier-budget` vajab käsku `node --import tsx/esm`, sest selle arvud pärinevad reaalajas kataloogilaadurist failis
-  `open-sse/config/freeModelCatalog.ts`; kataloogimuudatuse mõju CI-le on kirjeldatud failis
-  `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Kinnistage generaator ja SVG koos.
-- **Kontroll.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` renderdab faili nii, nagu GitHub seda serveerib
-  (`<img>`-silt, camo `Content-Security-Policy`, `image/svg+xml`), jäädvustab heleda ja tumeda kaadri
-  ning teatab lehe tehtud välistest fondipäringutest (neid peab olema 0).
-- **Mahupiirang.** Alla 200 KB faili kohta (iga aegumiskontroll kinnitab seda); 500 KB on iga README
-  pildi range ülempiir (SVG-stuudio validaatori reegel).
-- **Tekst muutmata, arvud kontrollväravast.** Brändiuuendus muutis kirjatüüpi ja paletti, mitte sõnu: iga generaator
-  hoiab oma diagrammi teksti konstandis `*_COPY` (või koostab selle reaalajas kataloogist), mis on ühtaegu nii
-  joonistatav tekst kui ka kontuurimise etapi sisend. Kanoonilised arvud jäävad `<text>`-sõlmedesse (pärast
-  kontuurimist nähtamatud, `fill-opacity:0`) ning neid loeb `check:docs-counts`
-  (`scripts/check/check-docs-counts-sync.mjs`); diagrammide aegumiskontrollid, mida see kontrollvärav kontrollib, käitavad
-  selle validaatoreid ka genereeritud failil, seega kukub koodist erinev arv testis läbi — parandage
-  allikat, mida kontrollvärav loeb, mitte generaatoris olevat arvu.
+- **Tokenid.** `scripts/docs/readme-diagram-theme.mjs` kopeerib väljaannete paleti (vaikimisi välimus) failist `packages/ui-kit/src/ci-editions.css` (selle faili külge kinnitas `tests/unit/docs/readme-diagram-theme.test.ts`, mis kontrollib ka WCAG AA iga tekstivärvi jaoks mõlemas skeemis igal pinnal; ainuke erand, hele `warn`, on komplekti hoiatus tumenenud 10%, kuna komplekti väärtus on 4,46:1 skaalal (komplekti teksti tüüp)`ci-tokens.css`): Switzer komplekti kaalude järgi (400/500/600, ekraan 500) ja jälgimine kõige jaoks, välja arvatud koodirollid (`.cmd`, `.term`, `.term-lg`, `.mono`, `.mono-sm`, `.mono-xs`), mis on IBM Plex Mono ja on mõeldud ainult käskude, terminalide ja URLs käskude jaoks. Heledad väärtused asuvad failis `:root`, tumedad väärtused `prefers-color-scheme: dark` taga, nii et iga pilt järgib vaataja skeemi GitHub.
+- **Fondid.** GitHub Markdown ei sisalda CSS ja kamopuhverserver blokeerib iga välise toomise, seega peab komplekti tüüp liikuma faili sees. `scripts/docs/readme-outline.mjs`, iga generaatori viimane samm, kujundab Switzeri rollid HarfBuzz ja joonistab need vektorkontuuridena (`<defs>` paths ja `<use>`), kusjuures nooled ja geomeetrilised sümbolid puuduvad Switzeril enda mõõdikute põhjal. Piirjooned, mitte kunagi manustatud font: Šveitsi litsents (`packages/ui-kit/src/fonts/FFL.txt`) keelab alamkomplekti ja vormingu teisendamise ilma kirjaliku nõusolekuta ning lubab vektorjoonistusi, seega ärge taaskehtege Switzeri `@font-face` või `data:` URI. Üks faili jäetud font on OFL IBM Plex Mono alamhulk selle jaoks, mis jääb tegelikuks kooditekstiks (`scripts/docs/readme-fonts.mjs`), mis on ehitatud nendest tähemärkidest; mis tahes glüüfi see ei saa viskeid manustada.
+- **Regenereerida.** `npm run docs:readme-diagrams` kirjutab kõik kaksteist ümber README järjekorras ja prindib ühe rea faili kohta koos selle suurusega. Üks generaator töötab ka iseseisvalt (`node scripts/docs/gen-readme-<name>.mjs`; `free-tier-budget` vajab `node --import tsx/esm` kuna selle arvud pärinevad reaalajas kataloogilaadurist `open-sse/config/freeModelCatalog.ts`; kataloogi muutmise CI tagajärg on `docs/architecture/QUALITY_GATES.md` → `docs-sync-strict`). Ühendage generaator ja SVG koos. Vananenud SVG ebaõnnestub vabastamisrežiimis; funktsioonis PR hindab `npm run check:generated-artifacts` ainult SVG PR muudatusi (`docs/architecture/QUALITY_GATES.md` → "Loodud failid ja tuletatud lähtejooned").
+- **Tõestus.** `scripts/docs/readme-svg-shots.mjs <file.svg> <outdir>` renderdab faili nii, nagu GitHub seda teenindab ( `<img>` silt, camo's `Content-Security-Policy`, `image/svg+xml`), jäädvustab heleda ja tumeda raami ning teatab välise fondi päringutest lehe tehtud (peab olema 0).
+- **Eelarve.** Alla 200 KB faili kohta (iga aegumise test kinnitab seda); 500 KB on mis tahes README kujutise kõvapiir ( SVG studio validaatori reegel).
+- **Kopeeri muutmata kujul, loeb väravast.** Rebränd muutis tüüpi ja paletti, mitte sõnu: iga generaator kannab oma diagrammi koopiat `*_COPY` konstandis (või koostab selle reaalajas kataloogist), mis on nii joonistatud tekst kui ka kontuurietapi sisend. Kanoonilised figuurid jäävad `<text>` sõlmedesse (nähtamatud, kui need on välja toodud, `fill-opacity:0`), loetakse `check:docs-counts` (`scripts/check/check-docs-counts-sync.mjs`); Gate loetud diagrammide vananemise testid käivitavad ka oma validaatorid loodud failis, nii et koodist triiviv näitaja ebaõnnestub testis — parandage värav loetud allikas, mitte kunagi generaatoris olev number.
 
 ## 7. Viidete register
 

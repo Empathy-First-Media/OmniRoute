@@ -44,22 +44,23 @@ saobraćaj prema `/v1/chat/completions`.
    odgovor posljednjeg uspješnog člana. Ostali odgovori panela se ne vraćaju, tako da
    plaćate N poziva, a dobijate jedan završeni odgovor.
 
-## Podešavanje
+## Setup
 
-1. Otvorite **Kontrolna tabla → Chaos Mode** (`/dashboard/chaos`).
-2. Uključite ga (**on**) — Chaos Mode dolazi **onemogućen po podrazumijevanoj vrijednosti** (`enabled: false` u `src/lib/chaos/chaosConfig.ts`). Dok je onemogućen, `POST /api/chaos/run` odgovara sa `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
-3. Odaberite učesnike i podrazumijevane vrijednosti (trajno sačuvano po instanci putem skladišta postavki):
+1. Otvori** Kontrolna tabla → Chaos Mode** (`/dashboard/chaos`).
+2. Okreni ga** on** — Chaos Mode brodovi** onemogućeno po defaultu** (`enabled: false` u `src/lib/chaos/chaosConfig.ts`). Dok je onemogućen, `POST /api/chaos/run` odgovara `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Odaberite učesnike i zadane postavke (zadržane po instanci putem trgovine postavki):
 
-   | Polje               | Značenje                                                          | Podrazumijevano / ograničenja              |
-   | ------------------- | ----------------------------------------------------------------- | ------------------------------------------ |
-   | `enabled`           | Glavni prekidač                                                   | `false`                                    |
-   | `defaultMode`       | `parallel` ili `collaborative` (pogledajte ispod)                 | `parallel`                                 |
-   | `providerOverrides` | Učešće po provajderu (`providerId`, opcioni `modelId`, `enabled`) | prazno = svaki aktivni provajder, maks 200 |
-   | `systemPrompt`      | Zamjena za ugrađeni Chaos sistemski prompt                        | opciono, maks 10 000 znakova               |
-   | `timeoutMs`         | Maksimalno vrijeme po pozivu modela                               | `120000` (5 000–600 000)                   |
-   | `maxTokens`         | `max_tokens` po pozivu modela                                     | `4096` (256–128 000)                       |
+   | Polje               | Značenje                                                          | Zadano / ograničenja                      |
+   | ------------------- | ----------------------------------------------------------------- | ----------------------------------------- |
+   | `enabled`           | Glavni prekidač                                                   | `false`                                   |
+   | `defaultMode`       | `parallel` ili `collaborative` (vidi dolje)                       | `parallel`                                |
+   | `providerOverrides` | Učešće po provajderu (`providerId`, opciono `modelId`, `enabled`) | prazan = svaki aktivni provajder, max 200 |
+   | `systemPrompt`      | Poništi za ugrađeni Chaos sistemski prompt                        | opciono, maksimalno 10 000 znakova        |
+   | `timeoutMs`         | Maksimalno vrijeme po pozivu modela                               | `120000` (5 000–600 000)                  |
+   | `maxTokens`         | `max_tokens` po pozivu modela                                     | `4096` (256–128 000)                      |
 
-4. Pokrenite **test sa same stranice** — panel sa rezultatima prikazuje odgovor, status i trajanje svakog provajdera.
+4. Dajte svakom provajderu koji učestvuje a** model** . Model provajdera je `modelId` njegovog omogućenog nadjačavanja na stranici Chaos Mode (pobjeđuje), inače** podrazumevani model** njegove povezanosti. Id dobavljača se nikada ne koristi kao naziv modela. Provajder koji nema ni jedno ni drugo** nije pozvan** : pojavljuje se u rezultatima kao `status: "error"` sa porukom _"Nije postavljen model za ovog provajdera. Postavite model za njega na stranici Chaos Mode ili podrazumevani model na vezi."_ i prazan `modelId`, dok ostali provajderi rade normalno. Ako nijedan odabrani dobavljač nema model, izvođenje ne uspijeva prije bilo kojeg upstream zahtjeva sa _"Nijedan dobavljač nema postavljen model. ..."_ (HTTP 500 na obje krajnje točke).
+5. Pokreni a** test sa same stranice** — panel rezultata prikazuje odgovor svakog provajdera, status i trajanje.
 
 ## Načini izvršavanja
 
@@ -120,5 +121,6 @@ Oba endpointa vraćaju isti oblik:
 ## Rješavanje problema
 
 - **`400 Chaos Mode is not enabled`** — korak 2 iznad: globalni prekidač je isključen.
-- **API ključ biva odbijen na `/api/skills/collect/chaos`** — ključu nedostaje `chaosModeEnabled` dozvola po ključu (isključena po podrazumijevanoj vrijednosti; ovo je postavka, a ne greška).
-- **Provajder kojeg ste očekivali nedostaje u rezultatima** — provjerite `providerOverrides` na stranici Chaos Mode (onemogućena zamjena ga isključuje) i da li je veza sa provajderom aktivna.
+- **API ključ biva odbijen na `/api/skills/collect/chaos`** — ključu nedostaje dozvola `chaosModeEnabled` po ključu (podrazumevano isključeno; ovo je postavka, a ne greška).
+- **Provajder pokazuje `No model set for this provider`** — postavlja svoj model na stranici Chaos Mode ili podrazumevani model na svojoj vezi (pogledajte Podešavanje, korak 4).
+- **Provajder kojeg ste očekivali nedostaje u rezultatima** — provjerite `providerOverrides` na stranici Chaos Mode (onemogućeno nadjačavanje to isključuje) i da li je veza provajdera aktivna.

@@ -44,25 +44,23 @@ uitvoeringsomgeving voor meerdere modellen, geen routeringsstrategie: je normale
    dat van het laatste succesvolle lid. De andere panelantwoorden worden niet geretourneerd, dus
    je betaalt voor N aanroepen en ontvangt één aanvulling.
 
-## Configuratie
+## Installatie
 
-1. Open **Dashboard → Chaosmodus** (`/dashboard/chaos`).
-2. Schakel deze **in** — de Chaosmodus wordt standaard **uitgeschakeld geleverd** (`enabled: false` in
-   `src/lib/chaos/chaosConfig.ts`). Zolang deze is uitgeschakeld, antwoordt `POST /api/chaos/run` met
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
-3. Kies de deelnemers en standaardwaarden (per instantie opgeslagen via het instellingenarchief):
+1. Open** Dashboard → Chaos-modus** (`/dashboard/chaos`).
+2. Draai het** op** — Chaos Mode-schepen** standaard uitgeschakeld** (`enabled: false` in `src/lib/chaos/chaosConfig.ts`). Wanneer uitgeschakeld, antwoordt `POST /api/chaos/run` `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Kies de deelnemers en standaardinstellingen (per exemplaar gehandhaafd via het instellingenarchief):
 
-   | Veld                | Betekenis                                                            | Standaardwaarde / limieten             |
-   | ------------------- | -------------------------------------------------------------------- | -------------------------------------- |
-   | `enabled`           | Hoofdschakelaar                                                      | `false`                                |
-   | `defaultMode`       | `parallel` of `collaborative` (zie hieronder)                        | `parallel`                             |
-   | `providerOverrides` | Deelname per provider (`providerId`, optioneel `modelId`, `enabled`) | leeg = elke actieve provider, max. 200 |
-   | `systemPrompt`      | Overschrijving voor de ingebouwde Chaos-systeemprompt                | optioneel, max. 10.000 tekens          |
-   | `timeoutMs`         | Maximale tijd per modelaanroep                                       | `120000` (5.000–600.000)               |
-   | `maxTokens`         | `max_tokens` per modelaanroep                                        | `4096` (256–128.000)                   |
+   | Veld                | Betekenis                                                             | Standaard / limieten                   |
+   | ------------------- | --------------------------------------------------------------------- | -------------------------------------- |
+   | `enabled`           | Hoofdschakelaar                                                       | `false`                                |
+   | `defaultMode`       | `parallel` of `collaborative` (zie hieronder)                         | `parallel`                             |
+   | `providerOverrides` | Deelname per aanbieder (`providerId`, optioneel `modelId`, `enabled`) | lege = elke actieve aanbieder, max 200 |
+   | `systemPrompt`      | Overschrijf de ingebouwde Chaos-systeemprompt                         | optioneel, max. 10.000 tekens          |
+   | `timeoutMs`         | Maximale tijd per modeloproep                                         | `120000` (5 000–600 000)               |
+   | `maxTokens`         | `max_tokens` per modeloproep                                          | `4096` (256–128 000)                   |
 
-4. Voer **vanaf de pagina zelf een test uit** — het resultatenpaneel toont het antwoord,
-   de status en de duur van elke provider.
+4. Geef iedere deelnemende aanbieder een** model** . Het model van een provider is de `modelId` van de ingeschakelde overschrijving op de pagina Chaosmodus (deze wint), anders** standaardmodel** van zijn verbinding. Een provider-ID wordt nooit als modelnaam gebruikt. Een aanbieder die geen van beide heeft, is dat ook** niet gebeld** : het verschijnt in de resultaten als `status: "error"` met het bericht _"Er is geen model ingesteld voor deze provider. Stel er een model voor in op de Chaos Mode-pagina of een standaardmodel voor de verbinding."_ en een lege `modelId`, terwijl de andere providers normaal werken. Als geen enkele geselecteerde provider een model heeft, mislukt de uitvoering vóór elk upstream-verzoek met _"Geen provider heeft een model ingesteld. …"_ (HTTP 500 op beide eindpunten).
+5. Voer een uit** test vanaf de pagina zelf** — het resultatenpaneel toont het antwoord, de status en de duur van elke aanbieder.
 
 ## Uitvoeringsmodi
 
@@ -126,11 +124,9 @@ Beide endpoints retourneren dezelfde structuur:
 }
 ```
 
-## Probleemoplossing
+## Problemen oplossen
 
-- **`400 Chaos Mode is not enabled`** — zie stap 2 hierboven: de globale schakelaar staat uit.
-- **API-sleutel wordt geweigerd voor `/api/skills/collect/chaos`** — de sleutel heeft niet de
-  sleutelspecifieke machtiging `chaosModeEnabled` (standaard uitgeschakeld; dit is een instelling, geen fout).
-- **Een verwachte provider ontbreekt in de resultaten** — controleer `providerOverrides` op de
-  Chaosmoduspagina (een uitgeschakelde overschrijving sluit deze uit) en controleer of de providerverbinding
-  actief is.
+- **`400 Chaos Mode is not enabled`** — stap 2 hierboven: de globale schakelaar staat uit.
+- **API sleutel wordt afgewezen op `/api/skills/collect/chaos`** — de sleutel mist de `chaosModeEnabled` -machtiging per sleutel (standaard uitgeschakeld; dit is een instelling, geen fout).
+- **Een aanbieder toont `No model set for this provider`** — stelt zijn model in op de Chaos Mode-pagina of een standaardmodel op zijn verbinding (zie Installatie, stap 4).
+- **Een aanbieder die u verwachtte ontbreekt in de resultaten** — controleer `providerOverrides` op de pagina Chaosmodus (een uitgeschakelde overschrijving sluit dit uit) en of de providerverbinding actief is.

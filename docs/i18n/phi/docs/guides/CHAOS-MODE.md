@@ -44,25 +44,23 @@ Ang `auto/chaos` ay **hindi** isang kontrol para sa fault injection o pagsusuri 
    ang sagot ng huling matagumpay na miyembro. Hindi ibinabalik ang iba pang sagot ng panel, kaya
    nagbabayad ka para sa N call ngunit isang completion lamang ang natatanggap mo.
 
-## Pag-set up
+## Setup
 
-1. Buksan ang **Dashboard → Chaos Mode** (`/dashboard/chaos`).
-2. **I-on** ito — naka-**disable bilang default** ang Chaos Mode (`enabled: false` sa
-   `src/lib/chaos/chaosConfig.ts`). Habang naka-disable, sumasagot ang `POST /api/chaos/run` ng
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
-3. Piliin ang mga kalahok at default (naka-persist bawat instance sa pamamagitan ng settings store):
+1. Bukas** Dashboard → Chaos Mode** (`/dashboard/chaos`).
+2. Lumiko ito** sa** — Chaos Mode ships** hindi pinagana bilang default** (`enabled: false` sa `src/lib/chaos/chaosConfig.ts`). Habang naka-disable, sinasagot `POST /api/chaos/run` `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Piliin ang mga kalahok at mga default (nagpatuloy bawat pagkakataon sa pamamagitan ng tindahan ng mga setting):
 
-   | Field               | Kahulugan                                                                      | Default / mga limitasyon                        |
-   | ------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------- |
-   | `enabled`           | Pangunahing switch                                                             | `false`                                         |
-   | `defaultMode`       | `parallel` o `collaborative` (tingnan sa ibaba)                                | `parallel`                                      |
-   | `providerOverrides` | Pakikilahok ng bawat provider (`providerId`, opsyonal na `modelId`, `enabled`) | walang laman = bawat aktibong provider, max 200 |
-   | `systemPrompt`      | Override para sa built-in na Chaos system prompt                               | opsyonal, max 10 000 character                  |
-   | `timeoutMs`         | Pinakamahabang oras sa bawat model call                                        | `120000` (5 000–600 000)                        |
-   | `maxTokens`         | `max_tokens` sa bawat model call                                               | `4096` (256–128 000)                            |
+   | Patlang             | Ibig sabihin                                                                | Default / limitasyon                            |
+   | ------------------- | --------------------------------------------------------------------------- | ----------------------------------------------- |
+   | `enabled`           | Master switch                                                               | `false`                                         |
+   | `defaultMode`       | `parallel` o `collaborative` (tingnan sa ibaba)                             | `parallel`                                      |
+   | `providerOverrides` | Paglahok ng bawat provider (`providerId`, opsyonal na `modelId`, `enabled`) | walang laman = bawat aktibong provider, max 200 |
+   | `systemPrompt`      | I-override para sa built-in na Chaos system prompt                          | opsyonal, max 10 000 char                       |
+   | `timeoutMs`         | Max na oras sa bawat modelong tawag                                         | `120000` (5 000–600 000)                        |
+   | `maxTokens`         | `max_tokens` sa bawat modelong tawag                                        | `4096` (256–128 000)                            |
 
-4. Magpatakbo ng **test mula mismo sa page** — ipinapakita ng results panel ang sagot,
-   status, at tagal ng bawat provider.
+4. Bigyan ang bawat kalahok na tagapagkaloob ng a** modelo** . Ang modelo ng provider ay ang `modelId` ng pinagana nitong override sa page ng Chaos Mode (panalo ito), kung hindi, ang** default na modelo** ng koneksyon nito. Ang isang provider id ay hindi kailanman ginagamit bilang isang pangalan ng modelo. Isang provider na wala ni isa** hindi tinawag** : lumalabas ito sa mga resulta bilang `status: "error"` na may mensaheng _"Walang nakatakdang modelo para sa provider na ito. Magtakda ng modelo para dito sa page ng Chaos Mode o isang default na modelo sa koneksyon."_ at isang walang laman `modelId`, habang tumatakbo nang normal ang iba pang mga provider. Kung walang napiling provider na may modelo, mabibigo ang pagtakbo bago ang anumang upstream na kahilingan sa _"Walang provider ang may set ng modelo. ..."_ (HTTP 500 sa parehong mga endpoint).
+5. Takbo a** pagsubok mula sa mismong pahina** — ipinapakita ng panel ng mga resulta ang sagot, katayuan at tagal ng bawat provider.
 
 ## Mga mode ng execution
 
@@ -129,8 +127,6 @@ Pareho ang hugis ng ibinabalik ng dalawang endpoint:
 ## Pag-troubleshoot
 
 - **`400 Chaos Mode is not enabled`** — hakbang 2 sa itaas: naka-off ang global switch.
-- **Tinatanggihan ang API key sa `/api/skills/collect/chaos`** — wala sa key ang pahintulot na
-  `chaosModeEnabled` para sa bawat key (naka-off bilang default; isa itong setting, hindi error).
-- **Wala sa mga resulta ang isang provider na inaasahan mo** — tingnan ang `providerOverrides` sa
-  page ng Chaos Mode (hindi isinasama ng naka-disable na override ang provider) at kung aktibo ang
-  koneksyon ng provider.
+- **API key ay tinatanggihan sa `/api/skills/collect/chaos`** — ang key ay kulang sa per-key `chaosModeEnabled` na pahintulot (naka-off bilang default; ito ay isang setting, hindi isang error).
+- **Ang isang provider ay nagpapakita `No model set for this provider`** itinakda — ang modelo nito sa page ng Chaos Mode o isang default na modelo sa koneksyon nito (tingnan ang Setup, hakbang 4).
+- **Ang isang provider na iyong inaasahan ay nawawala sa mga resulta** — check `providerOverrides` sa page ng Chaos Mode (hindi kasama ang isang naka-disable na override) at kung aktibo ang koneksyon ng provider.

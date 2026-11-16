@@ -43,23 +43,21 @@ Mod Chaos menghantar **satu tugasan kepada beberapa penyedia serentak** — seti
 
 ## Persediaan
 
-1. Buka **Papan Pemuka → Mod Chaos** (`/dashboard/chaos`).
-2. **Aktifkannya** — Mod Chaos disediakan dalam keadaan **dinyahdayakan secara lalai** (`enabled: false` dalam
-   `src/lib/chaos/chaosConfig.ts`). Semasa dinyahdayakan, `POST /api/chaos/run` memberikan respons
-   `400 — "Mod Chaos tidak didayakan. Dayakannya dalam Papan Pemuka → Mod Chaos."`.
-3. Pilih peserta dan nilai lalai (disimpan bagi setiap tika melalui stor tetapan):
+1. Buka** Papan pemuka → Mod Chaos** (`/dashboard/chaos`).
+2. Pusingkan ia** pada** — Chaos Mode dihantar** dilumpuhkan secara lalai** (`enabled: false` dalam `src/lib/chaos/chaosConfig.ts`). Semasa dilumpuhkan, `POST /api/chaos/run` menjawab `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Pilih peserta dan lalai (berterusan setiap contoh melalui kedai tetapan):
 
-   | Medan               | Maksud                                                                    | Lalai / had                                  |
-   | ------------------- | ------------------------------------------------------------------------- | -------------------------------------------- |
-   | `enabled`           | Suis utama                                                                | `false`                                      |
-   | `defaultMode`       | `parallel` atau `collaborative` (lihat di bawah)                          | `parallel`                                   |
-   | `providerOverrides` | Penyertaan mengikut penyedia (`providerId`, `modelId` pilihan, `enabled`) | kosong = setiap penyedia aktif, maksimum 200 |
-   | `systemPrompt`      | Gantian bagi prom sistem Chaos terbina dalam                              | pilihan, maksimum 10 000 aksara              |
-   | `timeoutMs`         | Masa maksimum bagi setiap panggilan model                                 | `120000` (5 000–600 000)                     |
-   | `maxTokens`         | `max_tokens` bagi setiap panggilan model                                  | `4096` (256–128 000)                         |
+   | Padang              | Maknanya                                                                 | Lalai / had                              |
+   | ------------------- | ------------------------------------------------------------------------ | ---------------------------------------- |
+   | `enabled`           | Suis induk                                                               | `false`                                  |
+   | `defaultMode`       | `parallel` atau `collaborative` (lihat di bawah)                         | `parallel`                               |
+   | `providerOverrides` | Penyertaan setiap penyedia (`providerId`, `modelId` pilihan , `enabled`) | = kosong setiap pembekal aktif, maks 200 |
+   | `systemPrompt`      | Gantikan untuk gesaan sistem Chaos terbina dalam                         | pilihan, maks 10 000 aksara              |
+   | `timeoutMs`         | Masa maksimum bagi setiap panggilan model                                | `120000` (5 000–600 000)                 |
+   | `maxTokens`         | `max_tokens` setiap panggilan model                                      | `4096` (256–128 000)                     |
 
-4. Jalankan **ujian daripada halaman itu sendiri** — panel hasil menunjukkan jawapan,
-   status dan tempoh setiap penyedia.
+4. Beri setiap penyedia yang mengambil bahagian a** model** . Model pembekal ialah `modelId` bagi penggantian yang didayakan pada halaman Mod Chaos (ia menang), jika tidak,** model lalai** perkaitannya. Id pembekal tidak pernah digunakan sebagai nama model. Pembekal tanpa kedua-duanya** tidak dipanggil** : ia muncul dalam keputusan sebagai `status: "error"` dengan mesej _"Tiada model ditetapkan untuk pembekal ini. Tetapkan model untuknya pada halaman Mod Huru-hara atau model lalai pada sambungan."_ dan `modelId` kosong, manakala pembekal lain berjalan seperti biasa. Jika tiada pembekal terpilih mempunyai model, larian gagal sebelum sebarang permintaan huluan dengan _"Tiada pembekal mempunyai set model. …"_ (HTTP 500 pada kedua-dua titik akhir).
+5. Lari a** ujian dari halaman itu sendiri** — panel keputusan menunjukkan jawapan, status dan tempoh setiap pembekal.
 
 ## Mod pelaksanaan
 
@@ -123,11 +121,9 @@ Kedua-dua titik akhir mengembalikan struktur yang sama:
 }
 ```
 
-## Penyelesaian masalah
+## Menyelesaikan masalah
 
 - **`400 Chaos Mode is not enabled`** — langkah 2 di atas: suis global dimatikan.
-- **Kunci API ditolak pada `/api/skills/collect/chaos`** — kunci tersebut tidak mempunyai kebenaran khusus kunci
-  `chaosModeEnabled` (dimatikan secara lalai; ini ialah tetapan, bukannya ralat).
-- **Penyedia yang anda jangkakan tidak muncul dalam hasil** — semak `providerOverrides` pada halaman
-  Mod Chaos (gantian yang dinyahdayakan akan mengecualikannya) dan sama ada sambungan penyedia tersebut
-  aktif.
+- **kunci API ditolak pada `/api/skills/collect/chaos`** — kekunci tidak mempunyai kebenaran `chaosModeEnabled` per kekunci (dimatikan secara lalai; ini adalah tetapan, bukan ralat).
+- **Pembekal menunjukkan `No model set for this provider`** — menetapkan modelnya pada halaman Mod Chaos atau model lalai pada sambungannya (lihat Persediaan, langkah 4).
+- **Pembekal yang anda jangkakan tiada daripada hasilnya** — semak `providerOverrides` pada halaman Mod Huru-hara (penggantian yang dilumpuhkan mengecualikannya) dan sama ada sambungan pembekal aktif.

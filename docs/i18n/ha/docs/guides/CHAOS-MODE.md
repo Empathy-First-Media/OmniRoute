@@ -44,25 +44,23 @@ ta yau da kullum ba ta taɓa shafuwa da shi.
    ta mamba na ƙarshe da ya yi nasara. Ba a dawo da sauran amsoshin rukunin, don haka
    za ka biya kuɗin kira N kuma ka karɓi completion guda ɗaya.
 
-## Saitawa
+## Saita
 
-1. Buɗe **Dashboard → Yanayin Chaos** (`/dashboard/chaos`).
-2. **Kunna shi** — Yanayin Chaos yana zuwa ne **a kashe ta tsohuwa** (`enabled: false` a cikin
-   `src/lib/chaos/chaosConfig.ts`). Yayin da yake a kashe, `POST /api/chaos/run` yana amsawa da
-   `400 — "Ba a kunna Yanayin Chaos ba. Kunna shi a Dashboard → Yanayin Chaos."`.
-3. Zaɓi mahalarta da tsoffin saituna (ana adana su ga kowane instance ta wurin ma'ajin saituna):
+1. Bude** Dashboard → Yanayin Hargitsi** (`/dashboard/chaos`).
+2. Juya shi** kan** — Chaos Mode jiragen ruwa** kashe ta tsohuwa** (`enabled: false` in `src/lib/chaos/chaosConfig.ts`). Yayin da aka kashe, `POST /api/chaos/run` yana amsa `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Zaɓi mahalarta da abubuwan da ba daidai ba (an ci gaba ta kowace misali ta wurin shagon saiti):
 
-   | Fili                | Ma'ana                                                                  | Tsoho / iyakoki                                     |
-   | ------------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
-   | `enabled`           | Babban maɓallin kunnawa                                                 | `false`                                             |
-   | `defaultMode`       | `parallel` ko `collaborative` (duba ƙasa)                               | `parallel`                                          |
-   | `providerOverrides` | Shigar kowanne mai samarwa (`providerId`, `modelId` na zaɓi, `enabled`) | babu komai = kowane mai samarwa mai aiki, iyaka 200 |
-   | `systemPrompt`      | Maye gurbin umarnin tsarin Chaos da ke ciki                             | na zaɓi, iyakar haruffa 10 000                      |
-   | `timeoutMs`         | Matsakaicin lokaci ga kowane kiran ƙira                                 | `120000` (5 000–600 000)                            |
-   | `maxTokens`         | `max_tokens` ga kowane kiran ƙira                                       | `4096` (256–128 000)                                |
+   | Filin               | Ma'ana                                                            | Default / iyaka                       |
+   | ------------------- | ----------------------------------------------------------------- | ------------------------------------- |
+   | `enabled`           | Jagoran canji                                                     | `false`                               |
+   | `defaultMode`       | `parallel` ko `collaborative` (duba ƙasa)                         | `parallel`                            |
+   | `providerOverrides` | Halartar mai bayarwa (`providerId`, `modelId` na zaɓi, `enabled`) | komai = kowane mai bada aiki, max 200 |
+   | `systemPrompt`      | Haɓaka ga ginanniyar tsarin Chaos mai faɗakarwa                   | na zaɓi, max 10 000 chars             |
+   | `timeoutMs`         | Matsakaicin lokacin kowane kiran samfurin                         | `120000` (5 000–600 000)              |
+   | `maxTokens`         | `max_tokens` kowane kira model                                    | `4096` (256–128 000)                  |
 
-4. Gudanar da **gwaji daga shafin kansa** — kwamitin sakamako yana nuna amsar kowane mai samarwa,
-   matsayinta da tsawon lokacinta.
+4. Ba kowane mai bayarwa a** abin koyi** . Samfurin mai bada shi ne `modelId` na kunnawa ta sokewa akan shafin Yanayin Hargitsi (yana ci), in ba haka ba** tsoho samfurin** na alakarsa. Ba a taɓa amfani da id na mai bayarwa azaman sunan samfuri ba. Mai bada wanda ba shi da** ba a kira ba** : yana nunawa a cikin sakamakon kamar yadda `status: "error"` tare da saƙon _"Babu samfurin da aka saita don wannan mai ba da sabis. Sanya `modelId` don shi akan shafin Chaos Mode ko tsoho samfurin akan haɗin." Idan babu wani zaɓaɓɓen mai ba da sabis da ke da ƙira, gudu ya ƙare kafin kowane buƙatu na sama tare da _"Babu mai bayarwa da ke da saitin ƙira...."_ (HTTP 500 akan duka ƙarshen ƙarshen).
+5. Run a** gwada daga shafin kanta** — kwamitin sakamako yana nuna amsar kowane mai bada, matsayi da tsawon lokaci.
 
 ## Hanyoyin aiwatarwa
 
@@ -126,11 +124,9 @@ Duka endpoints ɗin suna mayar da tsari iri ɗaya:
 }
 ```
 
-## Magance matsaloli
+## Shirya matsala
 
-- **`400 Ba a kunna Yanayin Chaos ba`** — mataki na 2 a sama: babban maɓallin yana a kashe.
-- **An ƙi maɓallin API a `/api/skills/collect/chaos`** — maɓallin ba shi da izinin
-  `chaosModeEnabled` na kowane maɓalli (yana a kashe ta tsohuwa; wannan saiti ne, ba kuskure ba).
-- **Mai samarwar da kake tsammani ba ya cikin sakamakon** — bincika `providerOverrides` a shafin
-  Yanayin Chaos (mayewar da aka kashe tana cire shi) da kuma ko haɗin mai samarwar yana
-  aiki.
+- **`400 Chaos Mode is not enabled`** — mataki na 2 a sama: an kashe canjin duniya.
+- **API key samun ƙi akan `/api/skills/collect/chaos`** — maɓalli ba shi da izinin kowane-key `chaosModeEnabled` (kashe ta tsohuwa; wannan saitin ne, ba kuskure ba).
+- **Mai bayarwa yana nuna `No model set for this provider`** — ya saita ƙirar sa akan shafin Yanayin Chaos ko tsoho samfurin akan haɗin sa (duba Saita, mataki na 4).
+- **Mai bada da kuke tsammanin ya ɓace daga sakamakon** — duba `providerOverrides` a shafi na Yanayin Hargitsi (rasasshen sokewar ya ware shi) kuma ko haɗin mai bada yana aiki.

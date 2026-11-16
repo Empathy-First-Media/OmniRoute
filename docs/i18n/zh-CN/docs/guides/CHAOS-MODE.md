@@ -37,21 +37,21 @@ Chaos Mode 会将**一个任务同时发送给多个提供者**——每个参�
 
 ## 设置
 
-1. 打开**仪表板 → 混沌模式**（`/dashboard/chaos`）。
-2. 将其**开启**——混沌模式默认处于**禁用状态**（`src/lib/chaos/chaosConfig.ts` 中的 `enabled: false`）。禁用时，`POST /api/chaos/run` 会返回
-   `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`。
-3. 选择参与者和默认设置（通过设置存储按实例持久化）：
+1. 打开**仪表板→混沌模式**（`/dashboard/chaos`）。
+2. 转动它**在**—混沌模式舰船**默认禁用**（`enabled: false`中的`src/lib/chaos/chaosConfig.ts`）。禁用时， `POST /api/chaos/run`会应答`400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`。
+3. 选择参与者和默认值（通过设置存储保留每个实例）：
 
-   | 字段                | 含义                                                              | 默认值 / 限制                    |
-   | ------------------- | ----------------------------------------------------------------- | -------------------------------- |
-   | `enabled`           | 总开关                                                            | `false`                          |
-   | `defaultMode`       | `parallel` 或 `collaborative`（见下文）                           | `parallel`                       |
-   | `providerOverrides` | 每个提供者的参与配置（`providerId`、可选的 `modelId`、`enabled`） | 空 = 所有活跃提供者，最多 200 个 |
-   | `systemPrompt`      | 覆盖内置的混沌模式系统提示词                                      | 可选，最多 10,000 个字符         |
-   | `timeoutMs`         | 每次模型调用的最长时间                                            | `120000`（5,000–600,000）        |
-   | `maxTokens`         | 每次模型调用的 `max_tokens`                                       | `4096`（256–128,000）            |
+   | 场地                | 意义                                                        | 默认/限制                         |
+   | ------------------- | ----------------------------------------------------------- | --------------------------------- |
+   | `enabled`           | 主开关                                                      | `false`                           |
+   | `defaultMode`       | `parallel`或`collaborative` （见下文）                      | `parallel`                        |
+   | `providerOverrides` | 每个提供者的参与（`providerId`、可选`modelId`、 `enabled`） | 每个活跃提供者清空= ，最多 200 个 |
+   | `systemPrompt`      | 覆盖内置混沌系统提示                                        | 可选，最多 10 000 个字符          |
+   | `timeoutMs`         | 每个模型调用的最长时间                                      | `120000` (5 000–600 000)          |
+   | `maxTokens`         | 每个模型调用的`max_tokens`                                  | `4096` (256–128 000)              |
 
-4. **直接从页面运行测试**——结果面板会显示每个提供者的答案、状态和耗时。
+4. 为每个参与的提供者提供**模型**。提供者的模型是其在混沌模式页面上启用的覆盖的`modelId` （它获胜），否则**默认型号**其连接。提供者 ID 永远不会用作模型名称。两者都没有的提供者是**没有被调用**：它在结果中显示为`status: "error"` ，并显示消息 _“没有为此提供程序设置模型。在混沌模式页面上为其设置模型或连接上的默认模型。”_ 和一个空`modelId`，而其他提供程序正常运行。如果没有选定的提供程序具有模型，则在任何上游请求之前运行都会失败，并显示 _“没有提供程序有模型集。...”_（两个端点上的HTTP 500）。
+5. 运行一个**从页面本身进行测试**—结果面板显示每个提供者的答案、状态和持续时间。
 
 ## 执行模式
 
@@ -112,6 +112,7 @@ curl -X POST http://localhost:20128/api/skills/collect/chaos \
 
 ## 故障排除
 
-- **`400 Chaos Mode is not enabled`**——参见上面的第 2 步：全局开关处于关闭状态。
-- **API 密钥在 `/api/skills/collect/chaos` 上被拒绝**——该密钥缺少每个密钥单独配置的 `chaosModeEnabled` 权限（默认关闭；这是一项设置，并非错误）。
-- **预期的提供者未出现在结果中**——检查混沌模式页面上的 `providerOverrides`（禁用的覆盖配置会排除该提供者），并确认提供者连接是否处于活跃状态。
+- **`400 Chaos Mode is not enabled`** —上面第2步：全局开关关闭。
+- **API密钥在`/api/skills/collect/chaos`上被拒绝**—该密钥缺少每个密钥的`chaosModeEnabled`权限（默认情况下关闭；这是一个设置，而不是错误）。
+- **供应商展示`No model set for this provider`** —在混沌模式页面上设置其模型或在其连接上设置默认模型（请参阅设置，步骤 4）。
+- **结果中缺少您期望的提供者**—检查混沌模式页面上的`providerOverrides` （禁用覆盖排除它）以及提供者连接是否处于活动状态。

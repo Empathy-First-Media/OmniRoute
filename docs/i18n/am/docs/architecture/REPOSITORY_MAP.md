@@ -53,61 +53,61 @@ OmniRoute/
 
 ## የስር ፋይሎች
 
-| ፋይል                                         | ዓላማ                                                                          |
-| ------------------------------------------- | ---------------------------------------------------------------------------- |
-| **README.md**                               | የግብይት ማረፊያ ገጽ + ፈጣን ጅምር + የባህሪያት ማትሪክስ (`llm.txt`ንም ይመልከቱ)                   |
-| **CHANGELOG.md**                            | የእያንዳንዱ ልቀት ለውጥ ማስታወሻ (በ`/version-bump-cc` ክህሎት በራስ-ሰር የሚፈጠር)                |
-| **LICENSE**                                 | የMIT ፈቃድ ጽሑፍ                                                                 |
-| **CLAUDE.md**                               | ለClaude Code ወኪሎች የፕሮጀክት ደንቦች (ጥብቅ ደንቦች፣ ልማዶች፣ ሁኔታዎች)                        |
-| **AGENTS.md**                               | ከCLAUDE.md ጋር ተመሳሳይ፣ ነገር ግን Claude ላልሆኑ AI ወኪሎች (Codex፣ Cursor፣ ወዘተ)         |
-| **GEMINI.md**                               | በGemini ላይ ለተመሠረቱ ወኪሎች አጭር ደንቦች (የCLAUDE.md ንዑስ ስብስብ)                        |
-| **CONTRIBUTING.md**                         | የአስተዋጽዖ አድራጊ መመሪያ፦ ማዋቀር፣ መደበኛ ኮሚቶች፣ ሙከራ፣ የPR ሂደት                             |
-| **SECURITY.md**                             | የተጋላጭነት ሪፖርት ማድረጊያ ፖሊሲ፣ የሚደገፉ ስሪቶች፣ የስጋት ሞዴል                                 |
-| **CODE_OF_CONDUCT.md**                      | Contributor Covenant — የማህበረሰብ ባህሪ ተስፋዎች                                     |
-| **llm.txt**                                 | ለLLM ጎብኚዎች የተመቻቸ የግልጽ ጽሑፍ ማረፊያ (ለAI ረዳቶች SEO)                                |
-| **package.json**                            | npm ማኒፌስት፣ ስክሪፕቶች፣ ጥገኞች፣ ኤንጂኖች፣ የc8 ሽፋን መግቢያ                                 |
-| **package-lock.json**                       | የተቆለፈ የጥገኝነት ዛፍ                                                              |
-| **tsconfig.json**                           | ሥር TypeScript ውቅር                                                            |
-| **tsconfig.typecheck-core.json**            | ለ`src/` ዋና ክፍል የዓይነት ማረጋገጫ ውቅር                                               |
-| **tsconfig.typecheck-noimplicit-core.json** | ጥብቅ (`noImplicitAny`) የዓይነት ማረጋገጫ                                            |
-| **tsconfig.tsbuildinfo**                    | የTS ጭማሪያዊ ግንባታ መሸጎጫ (በgit ችላ የተባለ)                                           |
-| **next.config.mjs**                         | Next.js 16 የግንባታ ውቅር (ብቻውን የሚሠራ ውጤት)                                         |
-| **next-env.d.ts**                           | በNext.js በራስ-ሰር የተፈጠሩ የአካባቢ ዓይነቶች                                            |
-| **eslint.config.mjs**                       | ESLint ጠፍጣፋ ውቅር (ለእያንዳንዱ የፕሮጀክት ክፍል ደንቦች)                                    |
-| **prettier.config.mjs**                     | የPrettier ቅርጸት ደንቦች                                                          |
-| **postcss.config.mjs**                      | ለTailwind/CSS ቧንቧ የPostCSS ውቅር                                               |
-| **playwright.config.ts**                    | የPlaywright E2E ሙከራ ውቅር                                                      |
-| **vitest.config.ts**                        | የVitest ውቅር (ነባሪ ስብስብ)                                                       |
-| **vitest.mcp.config.ts**                    | ለMCP አገልጋይ / autoCombo / መሸጎጫ ስብስቦች የVitest ውቅር                              |
-| **sonar-project.properties**                | የSonarQube/SonarCloud ውቅር (የኮድ ጥራት)                                          |
-| **Dockerfile**                              | ባለብዙ-ደረጃ Docker ግንባታ (builder → runner-base → runner-cli)                    |
-| **docker-compose.yml**                      | 4 መገለጫዎች (base፣ cli፣ host፣ cliproxyapi) + redis sidecar ያሉት የልማት compose     |
-| **docker-compose.prod.yml**                 | የምርት compose (port 20130፣ redis፣ ስም የተሰጣቸው volumes)                          |
-| **.dockerignore**                           | ከDocker አውድ የተገለሉ ፋይሎች                                                       |
-| **fly.toml**                                | የFly.io ማሰማሪያ ውቅር (ክልል `sin`፣ port 20128፣ /data volume)                      |
-| **.env.example**                            | የአካባቢ ፋይል አብነት (በመጀመሪያ ጭነት ወደ `.env` በራስ-ሰር የሚቀዳ)                            |
-| **.gitignore**                              | የGit ችላ ማለት ጥለቶች                                                             |
-| **.npmignore**                              | የnpm ህትመት ማግለያ ዝርዝር                                                          |
-| **.npmrc**                                  | የnpm ውቅር (ሬጂስትሪ፣ የlockfile ፖሊሲ)                                              |
-| **.node-version**                           | የNode ስሪት መቆለፊያ (ከnvm ጋር ተኳሃኝ በሆኑ መሣሪያዎች የሚጠቀሙበት)                            |
-| **.nvmrc**                                  | ለnvm የNode ስሪት መቆለፊያ                                                         |
-| **eslint.complexity.config.mjs**            | ለውስብስብነት ratchet (`scripts/check/check-complexity.mjs --config`) የESLint ውቅር |
-| **eslint.sonarjs.config.mjs**               | ለSonarJS ደንቦች የESLint ውቅር (የግንዛቤ ውስብስብነት / ድግግሞሽ)                            |
-| **source.config.ts**                        | የFumadocs `defineDocs` ምንጭ ውቅር (`.source/`ን የሚመግብ)                           |
-| **knip.json**                               | የKnip ውቅር — ጥቅም ላይ ያልዋሉ ፋይሎች/exports/deps (የdead-code መግቢያውን የሚመግብ)          |
-| **stryker.conf.json**                       | የStryker ሚውቴሽን-ሙከራ ውቅር                                                       |
-| **.size-limit.json**                        | የ size-limit bundle በጀት ውቅር                                                  |
-| **promptfooconfig.yaml**                    | የ promptfoo ግምገማ ውቅር                                                         |
-| **.gitleaks.toml**                          | የ gitleaks ሚስጥር-ቅኝት ደንብ ስብስብ                                                 |
-| **.zizmor.yml**                             | የ zizmor GitHub-Actions የደህንነት-lint ውቅር                                      |
-| **socket.yml**                              | የ Socket.dev የአቅርቦት-ሰንሰለት ውቅር                                                |
-| **news.json**                               | አካባቢያዊ የተደረገ v2 የማስታወቂያ ፊድ፤ የ Radar ማስጀመሪያ ንጥል እንዳልነቃ ሆኖ ይላካል                |
-| **flake.nix** / **flake.lock**              | የ Nix dev-shell ትርጉም + ቁልፍ                                                   |
-| **.env**                                    | አካባቢያዊ ሚስጥሮች (በ gitignore የተካተቱ — ከ `.env.example` የሚመነጩ)                    |
+| ፋይል                                         | ዓላማ                                                                       |
+| ------------------------------------------- | ------------------------------------------------------------------------- |
+| **README.md**                               | የግብይት ማረፊያ ገጽ + ፈጣን ጅምር + ባህሪ ማትሪክስ (በተጨማሪ `llm.txt` ይመልከቱ)               |
+| **CHANGELOG.md**                            | በየልቀት መለወጫ (በራስ-ሰር የመነጨ በ `/version-bump-cc` ችሎታ)                         |
+| **LICENSE**                                 | MIT ፈቃድ ጽሑፍ                                                               |
+| **CLAUDE.md**                               | Claude ኮድ ወኪሎች የፕሮጀክት ህጎች (አስቸጋሪ ህጎች፣ ስምምነቶች፣ ሁኔታዎች)                      |
+| **AGENTS.md**                               | ልክ እንደ CLAUDE.md ግን ለክላውድ AI ወኪሎች (Codex፣ Cursor፣ ወዘተ.)                   |
+| **GEMINI.md**                               | በጌሚኒ ላይ ለተመሰረቱ ወኪሎች ( CLAUDE.md ንዑስ ስብስብ)                                 |
+| **CONTRIBUTING.md**                         | የአስተዋጽዖ አድራጊ መመሪያ፡ ማዋቀር፣ የተለመዱ ድርጊቶች፣ ሙከራ፣ PR ፍሰት                         |
+| **SECURITY.md**                             | የተጋላጭነት ሪፖርት ማድረጊያ ፖሊሲ፣ የሚደገፉ ስሪቶች፣ የማስፈራሪያ ሞዴል                           |
+| **CODE_OF_CONDUCT.md**                      | አበርካች ቃል ኪዳን — የማህበረሰብ ባህሪ የሚጠበቁ                                          |
+| **llm.txt**                                 | LLM ተሳቢዎች (SEO ለ AI ረዳቶች) የተስተካከለ የጽሑፍ ማረፍ                                |
+| **package.json**                            | npm አንጸባራቂ፣ ስክሪፕቶች፣ ጥገኞች፣ ሞተሮች፣ c8 የሽፋን በር                                |
+| **package-lock.json**                       | የተቆለፈ ጥገኛ ዛፍ                                                              |
+| **tsconfig.json**                           | Root TypeScript ውቅር                                                       |
+| **tsconfig.typecheck-core.json**            | ለ `src/` ኮር ውቅረትን ይተይቡ                                                    |
+| **tsconfig.typecheck-noimplicit-core.json** | ጥብቅ (`noImplicitAny`) የጽሕፈት መኪና                                           |
+| **tsconfig.tsbuildinfo**                    | TS ተጨማሪ የግንባታ መሸጎጫ (የተገለለ)                                                |
+| **ቀጥሎ።config.mjs**                          | Next.js 16 የግንባታ ውቅር (ብቻ ውፅዓት)                                            |
+| **ቀጣይ-env.d.ts**                            | Next.js በራስ-የተፈጠሩ የኢንቪ ዓይነቶች                                              |
+| **እስሊንት config.mjs**                        | ESLint ጠፍጣፋ ውቅር (በፕሮጀክት አካባቢ ህጎች)                                         |
+| **የበለጠ ቆንጆ።config.mjs**                     | Prettier ቅርጸት ደንቦች                                                        |
+| **postcss.config.mjs**                      | PostCSS ውቅር ለ Tailwind/CSS ቧንቧ መስመር                                       |
+| **ፀሐፌ ተውኔት።config.ts**                      | Playwright E2E የሙከራ ውቅር                                                   |
+| **vitest.config.ts**                        | Vitest ውቅር (ነባሪ ስብስብ)                                                     |
+| **vitest.mcp.config.ts**                    | Vitest ማዋቀር ለ MCP አገልጋይ / autoCombo / መሸጎጫ ስብስቦች                          |
+| **sonar-project.properties**                | SonarQube/SonarCloud ውቅር (የኮድ ጥራት)                                        |
+| **ዶከርፋይል**                                  | ባለብዙ ደረጃ Docker ግንባታ (ገንቢ → runner-base → runner-cli)                     |
+| **docker-compose.yml**                      | Dev በ4 መገለጫዎች (ቤዝ፣ ክሊ፣ አስተናጋጅ፣ ክሊፕሮክሲያፒ) አዘጋጅ + redis sidecar             |
+| **ዶከር-አቀናብር.prod.yml**                      | የምርት ቅንብር (ወደብ 20130፣ ሬዲስ፣ የተሰየሙ ጥራዞች)                                    |
+| **.dockergnore**                            | ፋይሎች ከ Docker አውድ የተገለሉ ናቸው።                                              |
+| **fly.toml**                                | የFly.io ማሰማራት ውቅረት (ክልል `sin`፣ ወደብ 20128 ፣ / የውሂብ መጠን)                    |
+| **.env.ምሳሌ**                                | አብነት env ፋይል (በመጀመሪያ ሲጫን ወደ `.env` በራስ-ሰር ተቀድቷል)                          |
+| **.gitignore**                              | Git ቅጦችን ችላ ይበሉ                                                           |
+| **.npmgno**                                 | npm የማግለል ዝርዝርን አትም።                                                      |
+| **.npmrc**                                  | npm ውቅር (መዝገብ ቤት፣ የመቆለፊያ ፋይል ፖሊሲ)                                         |
+| **.node-ስሪት**                               | የመስቀለኛ ስሪት ፒን (በ nvm-ተኳሃኝ መሳሪያዎች ጥቅም ላይ ይውላል)                             |
+| **.nvmrc**                                  | የመስቀለኛ መንገድ ስሪት ፒን ለ nvm                                                  |
+| **eslint.complexity.config.mjs**            | ESLint ውቅር ለ ውስብስብነት ራትቼት (`scripts/check/check-complexity.mjs --config`) |
+| **eslint.sonarjs.config.mjs**               | ESLint ውቅር ለ SonarJS ህጎች (የእውቀት ውስብስብነት / ብዜት)                            |
+| **ምንጭ።config.ts**                           | Fumadocs `defineDocs` የምንጭ ውቅረት (ምግቦች `.source/`)                         |
+| **knip.json**                               | Knip config — ጥቅም ላይ ያልዋለ files/exports/deps (የሞተውን ኮድ በር ይመገባል)          |
+| **ስትሮከር conf.mjs**                          | Styker ሚውቴሽን-ሙከራ ውቅር ( `tap.testFiles` ከ `mutate` ያሰላል)                   |
+| **.size-limit.json**                        | የመጠን-ገደብ ጥቅል የበጀት ውቅር                                                     |
+| **promptfooconfig.yaml**                    | Quickfoo ኢቫል ውቅር                                                          |
+| **.gitleaks.toml**                          | gitleaks ሚስጥራዊ-መቃኘት ደንቦች                                                  |
+| **.zizmor.yml**                             | zizmor GitHub-እርምጃዎች ደህንነት-lint ውቅር                                       |
+| **socket.yml**                              | Socket.dev አቅርቦት-ሰንሰለት ውቅር                                                |
+| **news.json**                               | አካባቢያዊ v2 ማስታወቂያ ምግብ; የራዳር ማስጀመሪያ ንጥል ነገር ቦዘኗል                            |
+| **flake.nix** /** flake.መቆለፊያ**             | Nix dev-shell ፍቺ + መቆለፊያ                                                  |
+| **.ኢንቭ**                                    | የአካባቢ ሚስጥሮች (ከ `.env.example` የመነጨ — )                                    |
 
-> **በ v3.8.26 ከስር ማውጫው ወጥቷል (ለማደራጀት):**
+> **ከሥሩ የተወሰደ በ v3.8.26 (ማዳከም)፡**
 >
-> - **→ `config/quality/`:** `quality-baseline.json`፣ `complexity-baseline.json`፣ `duplication-baseline.json`፣ `file-size-baseline.json`፣ `test-discovery-baseline.json`፣ `dependency-allowlist.json`፣ `.license-allowlist.json`፣ እና የሚመነጨው `quality-metrics.json` (በ gitignore የተካተተ)። [`## config/`](#config--static-configs--quality-gate-state)ን ይመልከቱ።
+> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json`, እና የመነጨ `quality-metrics.json` (gitignored)። [`## config/`](#config--static-configs--quality-gate-state) ተመልከት.
 
 ---
 
@@ -223,7 +223,7 @@ src/
 | `fallbackPolicy.ts`    | የመውደቅ ውሳኔ ዛፍ                            |
 | `costRules.ts`         | የወጪ ስሌት ደንቦች                            |
 | `lockoutPolicy.ts`     | Model/connection የመቆለፊያ ፖሊሲ             |
-| `tagRouter.ts`         | መለያ-ተኮር ማዘዋወር                           |
+| `tagRouter.ts`         | መለያ ላይ የተመሠረተ ማዘዋወር                     |
 | `comboResolver.ts`     | ጥምር ጥራት (በጥምር ሞተር ጥቅም ላይ ይውላል)          |
 | `modelAvailability.ts` | በየሞዴል የመገኘት ማረጋገጫ                       |
 | `assessment/`          | የሞዴል ግምገማ (የ RFC-AUTO-ASSESSMENT ደረጃ 1) |
@@ -242,9 +242,9 @@ src/
 | -------------------------------- | ------------------------------------------------------------------------------------------- |
 | `components/`                    | ዳሽቦርድ መለዋወጫ API: አስማሚዎች በ `packages/ui-kit` — ላይ `docs/architecture/DESIGN_SYSTEM.md` ይመልከቱ |
 | `constants/iconMap.ts`           | `ICON_MAP`: በስክሪኖቹ ጥቅም ላይ የዋሉ የአዶ ስሞች → የሉሲድ ክፍሎች (`<Icon>`)                                |
-| `constants/providers.ts`         | **381 አቅራቢዎች** በ Zod ማረጋገጫ (የእውነት ምንጭ)                                                      |
+| `constants/providers.ts`         | **394 አቅራቢዎች** በ Zod ማረጋገጫ (የእውነት ምንጭ)                                                      |
 | `constants/cliTools.ts`          | ውጫዊ CLI መሣሪያ መዝገብ                                                                           |
-| `constants/routingStrategies.ts` | **20 የማዞሪያ ስልቶች** ቅድሚያ ከሚሰጣቸው ነገሮች ጋር                                                       |
+| `constants/routingStrategies.ts` | **22 የማዞሪያ ስልቶች** ቅድሚያ ከሚሰጣቸው ነገሮች ጋር                                                       |
 | `constants/publicApiRoutes.ts`   | ተሸካሚ (ከአስተዳደር ጋር) ማረጋገጫ የሚያስፈልጋቸው መስመሮች                                                     |
 | `constants/upstreamHeaders.ts`   | ለላይ ለሚደረጉ ጥያቄዎች የራስጌ ውድቅ ዝርዝር                                                               |
 | `validation/schemas.ts`          | ~ 80 Zod schemas (ለ API ኮንትራቶች አንድ የእውነት ምንጭ)                                               |
@@ -258,42 +258,42 @@ src/
 
 ---
 
-## `open-sse/` — የዥረት ሞተር የሥራ ቦታ
+## `open-sse/` — የዥረት ሞተር የስራ ቦታ
 
-የተለየ npm የሥራ ቦታ (`@omniroute/open-sse`)። የጥያቄ ሂደትን + የአቅራቢ አፈጻጸምን ያስተናግዳል።
+የተለየ npm የስራ ቦታ (`@omniroute/open-sse`)። + አቅራቢ አፈጻጸምን በማካሄድ ላይ ያለውን ጥያቄ ያስተናግዳል።
 
 ```
 open-sse/
-├── handlers/            # 16 ፋይሎች (12 አስተናጋጆች + 4 ረዳቶች): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, ወዘተ።
-├── executors/           # 150 የአስፈጻሚ ሞጁሎች (BaseExecutorን የሚያራዝሙ ክፍሎች + ለየአቅራቢው ረዳቶች)
-├── translator/          # የቅርጸት መቀየሪያዎች (9 ጥያቄ፣ 9 ምላሽ፣ 9 ረዳቶች)
+├── handlers/            # 16 files (12 handlers + 4 helpers): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, etc.
+├── executors/           # 163 executor modules (classes extending BaseExecutor + per-provider helpers)
+├── translator/          # Format converters (9 request, 9 response, 9 helpers)
 ├── transformer/         # Responses API ↔ Chat Completions (TransformStream)
-├── services/            # ~80+ የአገልግሎት ሞጁሎች (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, ወዘተ።)
-├── mcp-server/          # MCP አገልጋይ (110 መሣሪያዎች፣ 3 ማጓጓዣዎች፣ 33 ወሰኖች)
-├── config/              # የአቅራቢ/ሞዴል መዝገቦች፣ የራስጌ ውቅር፣ የሞዴል ተለዋጭ ስሞች
-├── utils/               # TLS ደንበኛ፣ የፕሮክሲ ሰርስሮ ማምጣት/አሰራጭ፣ የአውታረ መረብ ረዳቶች
-├── index.ts             # የሥራ ቦታ መግቢያ
-├── package.json         # የሥራ ቦታ ማኒፌስት
-├── tsconfig.json        # የሥራ ቦታ TS ውቅር
-└── types.d.ts           # የሥራ ቦታ ዓይነት መግለጫዎች
+├── services/            # ~80+ service modules (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, etc.)
+├── mcp-server/          # MCP server (110 tools, 3 transports, 33 scopes)
+├── config/              # Provider/model registries, header config, model aliases
+├── utils/               # TLS client, proxy fetch/dispatcher, network helpers
+├── index.ts             # Workspace entry
+├── package.json         # Workspace manifest
+├── tsconfig.json        # Workspace TS config
+└── types.d.ts           # Workspace type declarations
 ```
 
 ### `open-sse/mcp-server/`
 
-| ዱካ                          | ዓላማ                                                                        |
-| --------------------------- | -------------------------------------------------------------------------- |
-| `server.ts`                 | የMCP አገልጋይ የሕይወት ዑደት (stdio + HTTP ማጓጓዣዎች)                                 |
-| `httpTransport.ts`          | HTTP Streamable + SSE ማጓጓዣዎች (`/api/mcp/sse`, `/api/mcp/stream`)           |
-| `audit.ts`                  | የኦዲት ምዝግብ ወደ `mcp_tool_audit` ሰንጠረዥ                                        |
-| `scopeEnforcement.ts`       | ለእያንዳንዱ መሣሪያ የወሰን ማረጋገጫ                                                    |
-| `runtimeHeartbeat.ts`       | የጤና የልብ ምት ወደ `DATA_DIR/runtime/mcp-heartbeat.json`                        |
-| `descriptionCompressor.ts`  | ዐውድን ለመቆጠብ የመሣሪያ መግለጫ ሜታዳታን ይጨመቃል                                          |
-| `schemas/tools.ts`          | 36 መሠረታዊ የመሣሪያ ትርጓሜዎች + ወሰኖች                                               |
-| `tools/advancedTools.ts`    | የላቁ የመሣሪያ ትግበራዎች                                                           |
-| `tools/memoryTools.ts`      | 3 የማህደረ ትውስታ መሣሪያዎች (ፍለጋ/መጨመር/ማጽዳት)                                        |
-| `tools/skillTools.ts`       | 4 የክህሎት መሣሪያዎች (ዝርዝር/ማንቃት/ማስፈጸም/አፈጻጸሞች)                                    |
-| `tools/compressionTools.ts` | 5 የመጭመቂያ መሣሪያዎች                                                            |
-| `README.md`                 | ውስጣዊ የMCP አገልጋይ README (ከ`docs/frameworks/MCP-SERVER.md` ጋር ተሻጋሪ አገናኝ ያለው) |
+| መንገድ                        | ዓላማ                                                              |
+| --------------------------- | ---------------------------------------------------------------- |
+| `server.ts`                 | MCP አገልጋይ የሕይወት ዑደት (stdio + HTTP ማጓጓዣዎች)                        |
+| `httpTransport.ts`          | HTTP ሊተላለፍ የሚችል + SSE ማጓጓዣዎች (`/api/mcp/sse`፣ `/api/mcp/stream`) |
+| `audit.ts`                  | የኦዲት ምዝግብ ማስታወሻ ወደ `mcp_tool_audit` ጠረጴዛ                         |
+| `scopeEnforcement.ts`       | በመሳሪያ ወሰን ማረጋገጥ                                                  |
+| `runtimeHeartbeat.ts`       | የጤና የልብ ምት ወደ `DATA_DIR/runtime/mcp-heartbeat.json`              |
+| `descriptionCompressor.ts`  | አውድ ለማስቀመጥ የመሣሪያ መግለጫ ዲበ ውሂብን ጨመቁ                                |
+| `schemas/tools.ts`          | 36 የመሠረት መሣሪያ ትርጓሜዎች + ወሰኖች                                      |
+| `tools/advancedTools.ts`    | የላቀ የመሳሪያ አተገባበር                                                 |
+| `tools/memoryTools.ts`      | 3 የማህደረ ትውስታ መሳሪያዎች (search/add/clear)                           |
+| `tools/skillTools.ts`       | 4 የክህሎት መሳሪያዎች (list/enable/execute/executions)                  |
+| `tools/compressionTools.ts` | 5 መጭመቂያ መሳሪያዎች                                                   |
+| `README.md`                 | የውስጥ MCP አገልጋይ README (የተሻገረ ከ `docs/frameworks/MCP-SERVER.md`)  |
 
 ---
 
@@ -412,7 +412,7 @@ open-sse/
 | `CLI-TOOLS.md`              | ውጫዊ CLI ውህደቶች + ውስጣዊ OmniRoute CLI                                      |
 | `I18N.md`                   | i18n architecture, ቋንቋ መጨመር, 67 አካባቢዎች                                  |
 | `UNINSTALL.md`              | የማራገፍ ደረጃዎችን ያጽዱ                                                        |
-| `PROVIDER_REFERENCE.md`     | **በራስ የመነጨ** የ381 አቅራቢዎች ካታሎግ (regen: `npm run gen:provider-reference`) |
+| `PROVIDER_REFERENCE.md`     | **በራስ የመነጨ** የ394 አቅራቢዎች ካታሎግ (regen: `npm run gen:provider-reference`) |
 
 ### ሥርዓተ-ጥልቅ-ጠልቆዎች
 
@@ -428,7 +428,7 @@ open-sse/
 | `EVALS.md`                                | የኢቫል ማዕቀፍ (ስብስብ፣ ሩጫዎች፣ ቃላቶች)                              |
 | `GUARDRAILS.md`                           | PII masker፣ ፈጣን መርፌ፣ የእይታ ድልድይ                            |
 | `COMPLIANCE.md`                           | የኦዲት ምዝግብ ማስታወሻ፣ ማቆየት፣ noLog መርጦ ውጣ                       |
-| `WEBHOOKS.md`                             | በHMAC የተፈረመ የድር መንጠቆ ማድረስ                                 |
+| `WEBHOOKS.md`                             | በHMAC የተፈረመ የድር መንጠቆ ማቅረቢያ                                |
 | `REASONING_REPLAY.md`                     | ድብልቅ memory/SQLite መሸጎጫ ለ `reasoning_content`             |
 | `AUTHZ_GUIDE.md`                          | የፍቃድ መስመር (`classify` → `policies` → `enforce`)           |
 | `RESILIENCE_GUIDE.md`                     | የወረዳ የሚላተም + cooldown + ሞዴል መቆለፊያ                         |

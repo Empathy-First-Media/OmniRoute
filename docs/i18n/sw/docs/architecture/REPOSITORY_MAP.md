@@ -51,63 +51,63 @@ OmniRoute/
 
 ---
 
-## Faili za mzizi
+## Faili za mizizi
 
-| Faili                                       | Madhumuni                                                                                             |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| **README.md**                               | Ukurasa wa kutua wa uuzaji + mwanzo wa haraka + jedwali la vipengele (tazama pia `llm.txt`)           |
-| **CHANGELOG.md**                            | Kumbukumbu ya mabadiliko kwa kila toleo (inazalishwa kiotomatiki na ujuzi wa `/version-bump-cc`)      |
-| **LICENSE**                                 | Maandishi ya leseni ya MIT                                                                            |
-| **CLAUDE.md**                               | Kanuni za mradi kwa mawakala wa Claude Code (kanuni madhubuti, makubaliano, matukio)                  |
-| **AGENTS.md**                               | Sawa na CLAUDE.md lakini kwa mawakala wa AI wasio wa Claude (Codex, Cursor, n.k.)                     |
-| **GEMINI.md**                               | Kanuni fupi kwa mawakala wanaotumia Gemini (sehemu ndogo ya CLAUDE.md)                                |
-| **CONTRIBUTING.md**                         | Mwongozo wa wachangiaji: usanidi, commit za kawaida, majaribio, mtiririko wa PR                       |
-| **SECURITY.md**                             | Sera ya kuripoti udhaifu, matoleo yanayotumika, modeli ya vitisho                                     |
-| **CODE_OF_CONDUCT.md**                      | Mkataba wa Wachangiaji — matarajio ya tabia ya jumuiya                                                |
-| **llm.txt**                                 | Ukurasa wa kutua wa maandishi wazi ulioboreshwa kwa vitambazaji vya LLM (SEO kwa wasaidizi wa AI)     |
-| **package.json**                            | Manifesti ya npm, hati, vitegemezi, injini, kizuizi cha ufunikaji cha c8                              |
-| **package-lock.json**                       | Mti wa vitegemezi uliofungwa                                                                          |
-| **tsconfig.json**                           | Usanidi mkuu wa TypeScript                                                                            |
-| **tsconfig.typecheck-core.json**            | Usanidi wa ukaguzi wa aina kwa msingi wa `src/`                                                       |
-| **tsconfig.typecheck-noimplicit-core.json** | Ukaguzi madhubuti wa aina (`noImplicitAny`)                                                           |
-| **tsconfig.tsbuildinfo**                    | Akiba ya ujenzi wa nyongeza wa TS (inapuuzwa na git)                                                  |
-| **next.config.mjs**                         | Usanidi wa ujenzi wa Next.js 16 (tokeo linalojitegemea)                                               |
-| **next-env.d.ts**                           | Aina za mazingira zinazozalishwa kiotomatiki na Next.js                                               |
-| **eslint.config.mjs**                       | Usanidi tambarare wa ESLint (kanuni kwa kila eneo la mradi)                                           |
-| **prettier.config.mjs**                     | Kanuni za uumbizaji za Prettier                                                                       |
-| **postcss.config.mjs**                      | Usanidi wa PostCSS kwa mchakato wa Tailwind/CSS                                                       |
-| **playwright.config.ts**                    | Usanidi wa majaribio ya E2E ya Playwright                                                             |
-| **vitest.config.ts**                        | Usanidi wa Vitest (mkusanyiko chaguo-msingi)                                                          |
-| **vitest.mcp.config.ts**                    | Usanidi wa Vitest kwa seva ya MCP / autoCombo / mikusanyiko ya akiba                                  |
-| **sonar-project.properties**                | Usanidi wa SonarQube/SonarCloud (ubora wa msimbo)                                                     |
-| **Dockerfile**                              | Ujenzi wa Docker wa hatua nyingi (builder → runner-base → runner-cli)                                 |
-| **docker-compose.yml**                      | Compose ya uendelezaji yenye wasifu 4 (base, cli, host, cliproxyapi) + sidecar ya redis               |
-| **docker-compose.prod.yml**                 | Compose ya uzalishaji (mlango 20130, redis, volume zenye majina)                                      |
-| **.dockerignore**                           | Faili zisizojumuishwa katika muktadha wa Docker                                                       |
-| **fly.toml**                                | Usanidi wa upelekaji wa Fly.io (eneo `sin`, mlango 20128, volume ya /data)                            |
-| **.env.example**                            | Faili kiolezo ya mazingira (inakiliwa kiotomatiki kwenda `.env` wakati wa usakinishaji wa kwanza)     |
-| **.gitignore**                              | Miundo ya kupuuzwa na Git                                                                             |
-| **.npmignore**                              | Orodha ya kutengwa wakati wa uchapishaji wa npm                                                       |
-| **.npmrc**                                  | Usanidi wa npm (hazina, sera ya lockfile)                                                             |
-| **.node-version**                           | Uwekaji thabiti wa toleo la Node (hutumiwa na zana zinazoendana na nvm)                               |
-| **.nvmrc**                                  | Uwekaji thabiti wa toleo la Node kwa nvm                                                              |
-| **eslint.complexity.config.mjs**            | Usanidi wa ESLint kwa kikomo cha utata (`scripts/check/check-complexity.mjs --config`)                |
-| **eslint.sonarjs.config.mjs**               | Usanidi wa ESLint kwa kanuni za SonarJS (utata wa kiutambuzi / urudufu)                               |
-| **source.config.ts**                        | Usanidi wa chanzo wa Fumadocs `defineDocs` (hulisha `.source/`)                                       |
-| **knip.json**                               | Usanidi wa Knip — faili/exports/vitegemezi visivyotumika (hulisha kizuizi cha msimbo mfu)             |
-| **stryker.conf.json**                       | Usanidi wa majaribio ya mabadiliko wa Stryker                                                         |
-| **.size-limit.json**                        | usanidi wa bajeti ya kifurushi cha size-limit                                                         |
-| **promptfooconfig.yaml**                    | usanidi wa tathmini ya promptfoo                                                                      |
-| **.gitleaks.toml**                          | mkusanyiko wa kanuni za gitleaks za kuchanganua siri                                                  |
-| **.zizmor.yml**                             | usanidi wa zizmor wa kukagua usalama wa GitHub-Actions                                                |
-| **socket.yml**                              | usanidi wa mnyororo wa ugavi wa Socket.dev                                                            |
-| **news.json**                               | Mtiririko wa matangazo ya v2 uliotafsiriwa; kipengee cha uzinduzi wa Radar hutolewa kikiwa hakitumiki |
-| **flake.nix** / **flake.lock**              | ufafanuzi wa ganda la usanidi la Nix + faili ya kufunga                                               |
-| **.env**                                    | Siri za ndani (hazifuatiliwi na git — huzalishwa kutoka `.env.example`)                               |
+| Faili                                       | Kusudi                                                                                         |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **README.md**                               | Ukurasa wa kutua kwa uuzaji + anza haraka kipengele cha + (tazama pia `llm.txt`)               |
+| **CHANGELOG.md**                            | logi ya mabadiliko ya kila toleo (inayotengenezwa kiotomatiki na ujuzi wa `/version-bump-cc` ) |
+| **LICENSE**                                 | MIT maandishi ya leseni                                                                        |
+| **CLAUDE.md**                               | Sheria za mradi kwa mawakala wa Claude Code (sheria ngumu, mikataba, matukio)                  |
+| **AGENTS.md**                               | Sawa na CLAUDE.md lakini kwa mawakala wasio wa Claude AI (Codex, Cursor, n.k.)                 |
+| **GEMINI.md**                               | Sheria mafupi kwa mawakala wa Gemini (seti ndogo ya CLAUDE.md)                                 |
+| **CONTRIBUTING.md**                         | Mwongozo wa mchangiaji: usanidi, ahadi za kawaida, majaribio, mtiririko PR                     |
+| **SECURITY.md**                             | Sera ya kuripoti athari, matoleo yanayotumika, muundo wa tishio                                |
+| **CODE_OF_CONDUCT.md**                      | Agano la Mchangiaji — matarajio ya tabia ya jamii                                              |
+| **llm.txt**                                 | Utuaji wa maandishi wazi umeboreshwa kwa kutambaa LLM (SEO kwa wasaidizi wa AI )               |
+| **package.json**                            | maelezo ya npm, hati, vitegemezi, injini, lango la chanjo la c8                                |
+| **package-lock.json**                       | Mti wa utegemezi uliofungwa                                                                    |
+| **tsconfig.json**                           | Mizizi TypeScript usanidi                                                                      |
+| **tsconfig.typecheck-core.json**            | Chapa usanidi wa msingi wa `src/`                                                              |
+| **tsconfig.typecheck-noimplicit-core.json** | Chapa kali (`noImplicitAny`)                                                                   |
+| **tsconfig.tsbuildinfo**                    | TS kache ya ujenzi wa nyongeza (imepuuzwa)                                                     |
+| **ijayo.config.mjs**                        | usanidi wa ujenzi wa Next.js 16 (matokeo ya pekee)                                             |
+| **inayofuata-env.d.ts**                     | Next.js aina za env zinazozalishwa kiotomatiki                                                 |
+| **mwamba.config.mjs**                       | usanidi wa ESLint gorofa (sheria kwa kila eneo la mradi)                                       |
+| **mrembo zaidi.config.mjs**                 | Prettier sheria za uumbizaji                                                                   |
+| **postcss.config.mjs**                      | PostCSS usanidi wa bomba la Tailwind/CSS                                                       |
+| **mwandishi wa tamthilia.config.ts**        | usanidi wa mtihani wa Playwright E2E                                                           |
+| **vitest.config.ts**                        | usanidi Vitest (seti chaguomsingi)                                                             |
+| **vitest.mcp.config.ts**                    | Vitest usanidi wa seva MCP / autoCombo / cache suites                                          |
+| **mali-mradi**                              | usanidi wa SonarQube/SonarCloud (ubora wa nambari)                                             |
+| **Dockerfile**                              | Jengo Docker hatua nyingi (mjenzi → mkimbiaji-msingi → runner-cli)                             |
+| **docker-compose.yml**                      | Dev inatunga na wasifu 4 (msingi, cli, mwenyeji, cliproxyapi) + redis sidecar                  |
+| **docker-tunga.prod.yml**                   | Utungaji wa uzalishaji (bandari 20130, redis, kiasi kilichotajwa)                              |
+| **.dockerignore**                           | Faili hazijajumuishwa katika muktadha Docker                                                   |
+| **fly.toml**                                | Usanidi wa uwekaji wa Fly.io (eneo `sin`, bandari 20128, /kiasi cha data)                      |
+| **.env.mfano**                              | Faili ya env ya kiolezo (imenakiliwa kiotomatiki kwa `.env` kwenye usakinishaji wa kwanza)     |
+| **.gitignore**                              | Git kupuuza mifumo                                                                             |
+| **.npmignore**                              | npm kuchapisha orodha ya kutengwa                                                              |
+| **.npmrc**                                  | usanidi wa npm (usajili, sera ya kufuli)                                                       |
+| **.toleo la nodi**                          | Pini ya toleo la nodi (inayotumiwa na zana zinazoendana na nvm)                                |
+| **.nvmrc**                                  | Pini ya toleo la nodi ya nvm                                                                   |
+| **eslint.utata.config.mjs**                 | ESLint usanidi wa ratchet ya ugumu (`scripts/check/check-complexity.mjs --config`)             |
+| **eslint.sonarjs.config.mjs**               | usanidi wa ESLint kwa sheria za SonarJS (utata wa utambuzi / marudio)                          |
+| **chanzo.config.ts**                        | Usanidi wa chanzo wa Fumadocs `defineDocs` (milisho `.source/`)                                |
+| **knip.json**                               | Knip config — isiyotumika files/exports/deps (hulisha lango la msimbo uliokufa)                |
+| **mchezaji.conf.mjs**                       | Usanidi wa majaribio ya mabadiliko ya Stryker (inajumuisha `tap.testFiles` kutoka `mutate`)    |
+| **.size-limit.json**                        | usanidi wa kifurushi cha kikomo cha ukubwa                                                     |
+| **promptfooconfig.yaml**                    | promptfoo eval usanidi                                                                         |
+| **.gitleaks.toml**                          | gitleaks siri-scan kanuni kanuni                                                               |
+| **.zizmor.yml**                             | usanidi wa zizmor GitHub-Actions security-lint                                                 |
+| **socket.yml**                              | Usanidi wa mnyororo wa usambazaji wa Socket.dev                                                |
+| **news.json**                               | Mlisho wa tangazo wa v2 uliojanibishwa; Bidhaa ya uzinduzi wa rada haifanyi kazi               |
+| **flake.nix** /** flake.lock**              | Nix dev-shell ufafanuzi + lock                                                                 |
+| **.env**                                    | Siri za ndani ( — iliyopuuzwa inayotokana na `.env.example`)                                   |
 
-> **Ziliondolewa kwenye mzizi katika v3.8.26 (kupunguza msongamano):**
+> **Imehamishwa kutoka kwenye mzizi katika v3.8.26 (declutter):**
 >
-> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json`, na `quality-metrics.json` inayozalishwa (haifuatiliwi na git). Tazama [`## config/`](#config--static-configs--quality-gate-state).
+> - **→ `config/quality/`:** `quality-baseline.json`, `complexity-baseline.json`, `duplication-baseline.json`, `file-size-baseline.json`, `test-discovery-baseline.json`, `dependency-allowlist.json`, `.license-allowlist.json`, na `quality-metrics.json` zinazozalishwa (zilizopuuzwa). Angalia [`## config/`](#config--static-configs--quality-gate-state).
 
 ---
 
@@ -182,7 +182,7 @@ src/
 | `db/`                                    | 120 + kikoa DB moduli + 168 uhamiaji (daima pitia hapa kwa SQLite)                                                                                                                                                                                                                                                                    |
 | `quota/`                                 | Injini ya Kushiriki Nukuu: `dimensions.ts` (types/Zod), `types.ts` ( kiolesura cha QuotaStore ), `sqliteQuotaStore.ts`, `redisQuotaStore.ts`, `storeFactory.ts`, `fairShare.ts`, `burnRate.ts`, `planResolver.ts`, `planRegistry.ts`, `saturationSignals.ts`, `enforce.ts`, `spendRecorder.ts` — tazama `docs/routing/QUOTA_SHARE.md` |
 | `radar/`                                 | Mteja wa katalogi ya muundo usiolipishwa wa rada: `feedSchema.ts`, `pinnedKeys.ts`, `verify.ts`, `sync.ts`, `applyFeed.ts`, `index.ts` (`getRadarCatalog()`) — tazama `docs/frameworks/RADAR.md`                                                                                                                                      |
-| `display/`                               | UI wasaidizi wa uumbizaji (gharama, muda wa kusubiri, n.k.)                                                                                                                                                                                                                                                                           |
+| `display/`                               | wasaidizi wa uumbizaji wa UI (gharama, muda wa kusubiri, n.k.)                                                                                                                                                                                                                                                                        |
 | `embeddings/`                            | Wasaidizi wa huduma ya upachikaji                                                                                                                                                                                                                                                                                                     |
 | `env/`                                   | Uthibitishaji wa uchanganuzi wa + wa env                                                                                                                                                                                                                                                                                              |
 | `evals/`                                 | Mfumo wa Eval (vyumba, mkimbiaji, wakati wa kukimbia) — tazama `docs/frameworks/EVALS.md`                                                                                                                                                                                                                                             |
@@ -192,7 +192,7 @@ src/
 | `memory/embedding/`                      | Safu ya upachikaji wa vyanzo vingi: `index.ts` (kitatuzi), `remote.ts`, `staticPotion.ts`, `transformersLocal.ts`, `cache.ts`, `types.ts` (mpango 21)                                                                                                                                                                                 |
 | `memory/vectorStore.ts`                  | sqlite-vec v0.1.9 wrapper — KNN brute-force + mseto RRF (FTS5 + vekta, k = 60). Uvivu-init, huharibika kwa uzuri wakati sqlite-vec haipatikani. (mpango 21)                                                                                                                                                                           |
 | `memory/reindex.ts`                      | `runReindexBatch()` — huchakata kumbukumbu na `needs_reindex=1` nyuma; inayoitwa na `POST /api/memory/reindex` na njia ya uvivu ya kujaza nyuma. (mpango 21)                                                                                                                                                                          |
-| `monitoring/`                            | Ukaguzi wa afya, utoaji wa metrics                                                                                                                                                                                                                                                                                                    |
+| `monitoring/`                            | Ukaguzi wa afya, utoaji wa vipimo                                                                                                                                                                                                                                                                                                     |
 | `oauth/`                                 | OAuth/import hutiririka kwa moduli 22 za watoa huduma (agy, antigravity, claude, cline, codebuddy-cn, codex, cursor, devin-desktop, ghe-copilot, github, gitlab-duo, grok-cli-oauth, grok-cli, kilocode, kimi-coding, qoder, kiro, kiroder mwenyeji wa zed, zed)                                                                      |
 | `plugins/`                               | Usajili wa programu-jalizi                                                                                                                                                                                                                                                                                                            |
 | `promptCache/`                           | Viini vya akiba vya haraka vya mtindo wa anthropic                                                                                                                                                                                                                                                                                    |
@@ -242,9 +242,9 @@ src/
 | -------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | `components/`                    | Sehemu ya Dashibodi API: adapta juu ya `packages/ui-kit` — tazama `docs/architecture/DESIGN_SYSTEM.md` |
 | `constants/iconMap.ts`           | `ICON_MAP`: majina ya ikoni yanayotumiwa na skrini → vipengele vya Lucide (`<Icon>`)                   |
-| `constants/providers.ts`         | **381 watoa huduma** na uthibitisho wa Zod (chanzo cha ukweli)                                         |
+| `constants/providers.ts`         | **394 watoa huduma** na uthibitisho wa Zod (chanzo cha ukweli)                                         |
 | `constants/cliTools.ts`          | Usajili wa zana za CLI za nje                                                                          |
-| `constants/routingStrategies.ts` | **Mikakati 20 ya uelekezaji** na vipaumbele                                                            |
+| `constants/routingStrategies.ts` | **Mikakati 22 ya uelekezaji** na vipaumbele                                                            |
 | `constants/publicApiRoutes.ts`   | Njia zinazohitaji Bearer (dhidi ya usimamizi) auth                                                     |
 | `constants/upstreamHeaders.ts`   | Orodha ya kukataa kwa kichwa kwa maombi ya juu ya mkondo                                               |
 | `validation/schemas.ts`          | ~ 80 Zod schemas (chanzo kimoja cha ukweli kwa mikataba ya API )                                       |
@@ -260,40 +260,40 @@ src/
 
 ## `open-sse/` — Nafasi ya Kazi ya Injini ya Utiririshaji
 
-Nafasi tofauti ya kazi ya npm (`@omniroute/open-sse`). Hushughulikia uchakataji wa maombi + utekelezaji wa watoa huduma.
+Tenganisha nafasi ya kazi ya npm (`@omniroute/open-sse`). Hushughulikia uchakataji wa utekelezaji wa mtoa huduma +.
 
 ```
 open-sse/
-├── handlers/            # Faili 16 (vishughulikiaji 12 + visaidizi 4): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, n.k.
-├── executors/           # Moduli 150 za utekelezaji (madarasa yanayopanua BaseExecutor + visaidizi vya kila mtoa huduma)
-├── translator/          # Vigeuzi vya miundo (maombi 9, majibu 9, visaidizi 9)
+├── handlers/            # 16 files (12 handlers + 4 helpers): chatCore, responsesHandler, embeddings, audio, image, video, music, rerank, moderations, search, etc.
+├── executors/           # 163 executor modules (classes extending BaseExecutor + per-provider helpers)
+├── translator/          # Format converters (9 request, 9 response, 9 helpers)
 ├── transformer/         # Responses API ↔ Chat Completions (TransformStream)
-├── services/            # ~Moduli 80+ za huduma (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, n.k.)
-├── mcp-server/          # Seva ya MCP (zana 110, njia 3 za usafirishaji, mawanda 33)
-├── config/              # Rejesta za watoa huduma/miundo, usanidi wa vichwa, lakabu za miundo
-├── utils/               # Kiteja cha TLS, uchotaji/kisambazaji cha proksi, visaidizi vya mtandao
-├── index.ts             # Kiingilio cha nafasi ya kazi
-├── package.json         # Manifesti ya nafasi ya kazi
-├── tsconfig.json        # Usanidi wa TS wa nafasi ya kazi
-└── types.d.ts           # Matangazo ya aina ya nafasi ya kazi
+├── services/            # ~80+ service modules (combo, accountFallback, autoCombo, reasoningCache, claude code/chatgpt stealth, modelDeprecation, taskAwareRouter, workflowFSM, etc.)
+├── mcp-server/          # MCP server (110 tools, 3 transports, 33 scopes)
+├── config/              # Provider/model registries, header config, model aliases
+├── utils/               # TLS client, proxy fetch/dispatcher, network helpers
+├── index.ts             # Workspace entry
+├── package.json         # Workspace manifest
+├── tsconfig.json        # Workspace TS config
+└── types.d.ts           # Workspace type declarations
 ```
 
 ### `open-sse/mcp-server/`
 
-| Njia                        | Kusudi                                                                                                |
-| --------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `server.ts`                 | Mzunguko wa maisha wa seva ya MCP (njia za usafirishaji za stdio + HTTP)                              |
-| `httpTransport.ts`          | Njia za usafirishaji za HTTP Streamable + SSE (`/api/mcp/sse`, `/api/mcp/stream`)                     |
-| `audit.ts`                  | Uwekaji kumbukumbu za ukaguzi kwenye jedwali la `mcp_tool_audit`                                      |
-| `scopeEnforcement.ts`       | Uthibitishaji wa wigo kwa kila zana                                                                   |
-| `runtimeHeartbeat.ts`       | Mpigo wa afya kwenda `DATA_DIR/runtime/mcp-heartbeat.json`                                            |
-| `descriptionCompressor.ts`  | Hubana metadata ya maelezo ya zana ili kuokoa muktadha                                                |
-| `schemas/tools.ts`          | Fasili 36 za msingi za zana + mawanda                                                                 |
-| `tools/advancedTools.ts`    | Utekelezaji wa zana za hali ya juu                                                                    |
-| `tools/memoryTools.ts`      | Zana 3 za kumbukumbu (kutafuta/kuongeza/kufuta)                                                       |
-| `tools/skillTools.ts`       | Zana 4 za ujuzi (kuorodhesha/kuwezesha/kutekeleza/utekelezaji)                                        |
-| `tools/compressionTools.ts` | Zana 5 za ubanaji                                                                                     |
-| `README.md`                 | README ya ndani ya seva ya MCP (iliyounganishwa kwa marejeleo kutoka `docs/frameworks/MCP-SERVER.md`) |
+| Njia                        | Kusudi                                                                               |
+| --------------------------- | ------------------------------------------------------------------------------------ |
+| `server.ts`                 | mzunguko wa maisha wa seva ya MCP (usafirishaji wa stdio + HTTP )                    |
+| `httpTransport.ts`          | HTTP inayoweza kutiririka + SSE husafirisha (`/api/mcp/sse`, `/api/mcp/stream`)      |
+| `audit.ts`                  | Kagua kumbukumbu kwenye jedwali `mcp_tool_audit`                                     |
+| `scopeEnforcement.ts`       | Uthibitishaji wa upeo wa kila chombo                                                 |
+| `runtimeHeartbeat.ts`       | Mapigo ya moyo ya afya kwa `DATA_DIR/runtime/mcp-heartbeat.json`                     |
+| `descriptionCompressor.ts`  | Finyaza metadata ya maelezo ya zana ili kuhifadhi muktadha                           |
+| `schemas/tools.ts`          | 36 msingi zana ufafanuzi + upeo                                                      |
+| `tools/advancedTools.ts`    | Utekelezaji wa zana za hali ya juu                                                   |
+| `tools/memoryTools.ts`      | Zana 3 za kumbukumbu (search/add/clear)                                              |
+| `tools/skillTools.ts`       | Zana 4 za ustadi (list/enable/execute/executions)                                    |
+| `tools/compressionTools.ts` | 5 zana za kukandamiza                                                                |
+| `README.md`                 | Seva ya MCP ya ndani README (iliyounganishwa kutoka `docs/frameworks/MCP-SERVER.md`) |
 
 ---
 
@@ -412,7 +412,7 @@ open-sse/
 | `CLI-TOOLS.md`              | Miunganisho ya CLI ya nje + OmniRoute CLI ya ndani                                             |
 | `I18N.md`                   | i18n usanifu, kuongeza lugha, 67 locales                                                       |
 | `UNINSTALL.md`              | Safisha hatua za kufuta                                                                        |
-| `PROVIDER_REFERENCE.md`     | **Imetolewa kiotomatiki** orodha ya watoa huduma 381 (regen: `npm run gen:provider-reference`) |
+| `PROVIDER_REFERENCE.md`     | **Imetolewa kiotomatiki** orodha ya watoa huduma 394 (regen: `npm run gen:provider-reference`) |
 
 ### Mfumo mdogo wa kupiga mbizi
 
@@ -420,7 +420,7 @@ open-sse/
 | -------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | `MCP-SERVER.md`                              | seva ya MCP : zana 110, usafirishaji 3, wigo 33, ncha REST                                         |
 | `A2A-SERVER.md`                              | A2A v0.3: JSON-RPC, ujuzi 6, wasaidizi wa REST, kadi ya wakala                                     |
-| `AGENT_PROTOCOLS_GUIDE.md`                   | Mwongozo uliounganishwa: A2A dhidi ya ACP dhidi ya Mawakala wa Wingu                               |
+| `AGENT_PROTOCOLS_GUIDE.md`                   | Mwongozo uliounganishwa: A2A vs ACP dhidi ya Mawakala wa Wingu                                     |
 | `CLOUD_AGENT.md`                             | Codex Cloud / Devin / Jules orchestration                                                          |
 | `SKILLS.md`                                  | Mfumo wa ujuzi (skofu la + lililojengwa ndani + SkillsSH + sandbox)                                |
 | `RADAR.md`                                   | Uwekeleaji wa katalogi ya muundo usiolipishwa wa rada (`RADAR_ENABLED`, imezimwa kwa chaguomsingi) |
@@ -433,7 +433,7 @@ open-sse/
 | `AUTHZ_GUIDE.md`                             | Bomba la uidhinishaji (`classify` → `policies` → `enforce`)                                        |
 | `RESILIENCE_GUIDE.md`                        | Kivunja mzunguko + cooldown + mtindo wa kufuli                                                     |
 | `docs/security/STEALTH_GUIDE.md` (git pekee) | alama za vidole za TLS (JA3/JA4), Claude Code CCH, MITM cert                                       |
-| `AUTO-COMBO.md`                              | Injini ya Mchanganyiko Otomatiki (ufungaji wa sababu 16, vifurushi 6 vya hali, kiwanda pepe)       |
+| `AUTO-COMBO.md`                              | Injini ya Mchanganyiko otomatiki (ufungaji wa sababu 16, vifurushi 6 vya hali, kiwanda pepe)       |
 
 ### Mfinyazo
 

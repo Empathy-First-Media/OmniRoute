@@ -44,25 +44,23 @@ haiathiriwi kamwe nayo.
    la mwanachama aliyefaulu mwisho. Majibu mengine ya jopo hayarejeshwi, kwa hivyo
    unalipia miito N na kupokea ukamilishaji mmoja.
 
-## Usanidi
+## Sanidi
 
-1. Fungua **Dashibodi → Hali ya Chaos** (`/dashboard/chaos`).
-2. **Iwashe** — Hali ya Chaos hutolewa ikiwa **imezimwa kwa chaguo-msingi** (`enabled: false` katika
-   `src/lib/chaos/chaosConfig.ts`). Ikiwa imezimwa, `POST /api/chaos/run` hujibu
-   `400 — "Hali ya Chaos haijawashwa. Iwashe katika Dashibodi → Hali ya Chaos."`.
-3. Chagua washiriki na chaguo-msingi (huhifadhiwa kwa kila instansi kupitia hifadhi ya mipangilio):
+1. Fungua** Dashibodi → Mode ya Machafuko** (`/dashboard/chaos`).
+2. Igeuze** juu** — Chaos Mode meli** imezimwa kwa chaguo-msingi** (`enabled: false` katika `src/lib/chaos/chaosConfig.ts`). Wakati imezimwa, `POST /api/chaos/run` inajibu `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Chagua washiriki na chaguo-msingi (zinazoendelea kwa kila mfano kupitia duka la mipangilio):
 
-   | Sehemu              | Maana                                                                       | Chaguo-msingi / vikomo                                   |
-   | ------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------- |
-   | `enabled`           | Swichi kuu                                                                  | `false`                                                  |
-   | `defaultMode`       | `parallel` au `collaborative` (tazama hapa chini)                           | `parallel`                                               |
-   | `providerOverrides` | Ushiriki kwa kila mtoa huduma (`providerId`, `modelId` ya hiari, `enabled`) | tupu = kila mtoa huduma anayetumika, kiwango cha juu 200 |
-   | `systemPrompt`      | Ubatilishaji wa kidokezo cha mfumo cha Chaos kilichojengewa ndani           | hiari, kiwango cha juu herufi 10 000                     |
-   | `timeoutMs`         | Muda wa juu zaidi kwa kila mwito wa modeli                                  | `120000` (5 000–600 000)                                 |
-   | `maxTokens`         | `max_tokens` kwa kila mwito wa modeli                                       | `4096` (256–128 000)                                     |
+   | Shamba              | Maana                                                                   | Chaguo-msingi / mipaka                  |
+   | ------------------- | ----------------------------------------------------------------------- | --------------------------------------- |
+   | `enabled`           | Kubadilisha bwana                                                       | `false`                                 |
+   | `defaultMode`       | `parallel` au `collaborative` (tazama hapa chini)                       | `parallel`                              |
+   | `providerOverrides` | Ushiriki wa kila mtoa huduma (`providerId`, hiari `modelId`, `enabled`) | = tupu kila mtoaji anayetumika, max 200 |
+   | `systemPrompt`      | Batilisha kwa haraka ya mfumo wa Machafuko uliojengewa ndani            | kwa hiari, herufi zisizozidi 10,000     |
+   | `timeoutMs`         | Muda wa juu kwa kila simu ya mfano                                      | `120000` (5 000–600 000)                |
+   | `maxTokens`         | `max_tokens` kwa simu ya mfano                                          | `4096` (256–128 000)                    |
 
-4. Tekeleza **jaribio kutoka kwenye ukurasa wenyewe** — paneli ya matokeo huonyesha jibu,
-   hali na muda wa kila mtoa huduma.
+4. Mpe kila mtoa huduma a** mfano** . Muundo wa mtoa huduma ni `modelId` ya ubatilishaji wake uliowezeshwa kwenye ukurasa wa Modi ya Chaos (inashinda), vinginevyo** mfano chaguo-msingi** ya uhusiano wake. Kitambulisho cha mtoa huduma hakitumiki kamwe kama jina la mfano. Mtoa huduma asiye na chochote** haijaitwa** : inaonekana katika matokeo kama `status: "error"` yenye ujumbe _"Hakuna kielelezo kilichowekwa kwa mtoa huduma huyu. Weka kielelezo chake kwenye ukurasa wa Hali ya Machafuko au kielelezo chaguo-msingi kwenye muunganisho."_ na `modelId` tupu , huku watoa huduma wengine wakitumia kawaida. Ikiwa hakuna mtoa huduma aliyechaguliwa aliye na modeli, utendakazi hautafaulu kabla ya ombi lolote la juu na _"Hakuna mtoa huduma aliye na seti ya muundo. …"_ (HTTP 500 kwenye ncha zote mbili).
+5. Endesha a** jaribu kutoka kwa ukurasa yenyewe** — jopo la matokeo linaonyesha jibu la kila mtoa huduma, hali na muda.
 
 ## Hali za utekelezaji
 
@@ -126,11 +124,9 @@ Njia zote mbili hurudisha muundo uleule:
 }
 ```
 
-## Utatuzi wa matatizo
+## Kutatua matatizo
 
 - **`400 Chaos Mode is not enabled`** — hatua ya 2 hapo juu: swichi ya kimataifa imezimwa.
-- **Ufunguo wa API unakataliwa kwenye `/api/skills/collect/chaos`** — ufunguo hauna ruhusa ya
-  `chaosModeEnabled` ya ufunguo huo (imezimwa kwa chaguo-msingi; huu ni mpangilio, si hitilafu).
-- **Mtoa huduma uliyemtarajia hayupo katika matokeo** — angalia `providerOverrides` kwenye
-  ukurasa wa Hali ya Chaos (ubatilishaji uliozimwa humwondoa) na kama muunganisho wa mtoa huduma
-  unatumika.
+- **ufunguo wa API unakataliwa kwenye `/api/skills/collect/chaos`** — ufunguo hauna ruhusa ya ufunguo wa `chaosModeEnabled` (zimezimwa kwa chaguo-msingi; huu ni mpangilio, sio kosa).
+- **Mtoa huduma anaonyesha `No model set for this provider`** — iliweka kielelezo chake kwenye ukurasa wa Hali ya Machafuko au kielelezo chaguo-msingi kwenye muunganisho wake (ona Kuweka, hatua ya 4).
+- **Mtoa huduma uliyetarajia hayupo kwenye matokeo** — angalia `providerOverrides` kwenye ukurasa wa Hali ya Machafuko (ubatilishaji uliozimwa haujumuishi) na kama muunganisho wa mtoa huduma unatumika.

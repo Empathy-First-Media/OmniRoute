@@ -44,25 +44,23 @@ d'une surface d'exécution multimodèle, et non d'une stratégie de routage : vo
    celle du dernier membre ayant réussi. Les autres réponses du panel ne sont pas renvoyées :
    vous payez donc pour N appels et ne recevez qu'une seule complétion.
 
-## Configuration
+## Installation
 
-1. Ouvrez **Tableau de bord → Mode Chaos** (`/dashboard/chaos`).
-2. **Activez-le** — le Mode Chaos est fourni **désactivé par défaut** (`enabled: false` dans
-   `src/lib/chaos/chaosConfig.ts`). Lorsqu'il est désactivé, `POST /api/chaos/run` renvoie
-   `400 — "Le Mode Chaos n'est pas activé. Activez-le dans Tableau de bord → Mode Chaos."`.
-3. Choisissez les participants et les valeurs par défaut (conservés pour chaque instance via le stockage des paramètres) :
+1. Ouvrir** Tableau de bord → Chaos Mode** (`/dashboard/chaos`).
+2. Tournez-le** sur** Navires — mode Chaos** désactivé par défaut** (`enabled: false` dans `src/lib/chaos/chaosConfig.ts`). Lorsqu'il est désactivé, `POST /api/chaos/run` répond `400 — "Chaos Mode is not enabled. Enable it in Dashboard → Chaos Mode."`.
+3. Choisissez les participants et les valeurs par défaut (conservées par instance via le magasin de paramètres) :
 
-   | Champ               | Signification                                                                 | Valeur par défaut / limites                   |
-   | ------------------- | ----------------------------------------------------------------------------- | --------------------------------------------- |
-   | `enabled`           | Interrupteur principal                                                        | `false`                                       |
-   | `defaultMode`       | `parallel` ou `collaborative` (voir ci-dessous)                               | `parallel`                                    |
-   | `providerOverrides` | Participation par fournisseur (`providerId`, `modelId` facultatif, `enabled`) | vide = tous les fournisseurs actifs, 200 max. |
-   | `systemPrompt`      | Remplacement du prompt système Chaos intégré                                  | facultatif, 10 000 caractères max.            |
-   | `timeoutMs`         | Durée maximale de chaque appel de modèle                                      | `120000` (5 000–600 000)                      |
-   | `maxTokens`         | `max_tokens` par appel de modèle                                              | `4096` (256–128 000)                          |
+   | Champ               | Signification                                                                  | Valeur par défaut/limites                     |
+   | ------------------- | ------------------------------------------------------------------------------ | --------------------------------------------- |
+   | `enabled`           | Interrupteur principal                                                         | `false`                                       |
+   | `defaultMode`       | `parallel` ou `collaborative` (voir ci-dessous)                                | `parallel`                                    |
+   | `providerOverrides` | Participation par fournisseur (`providerId`, `modelId` facultatif , `enabled`) | = vide pour chaque fournisseur actif, max 200 |
+   | `systemPrompt`      | Remplacer l'invite système Chaos intégrée                                      | facultatif, max 10 000 caractères             |
+   | `timeoutMs`         | Durée maximale par appel de modèle                                             | `120000` (5 000–600 000)                      |
+   | `maxTokens`         | `max_tokens` par appel de modèle                                               | `4096` (256–128 000)                          |
 
-4. Lancez un **test directement depuis la page** — le panneau de résultats affiche la réponse,
-   l'état et la durée de chaque fournisseur.
+4. Donnez à chaque fournisseur participant un** modèle** . Le modèle d'un fournisseur est le `modelId` de son remplacement activé sur la page Chaos Mode (il gagne), sinon le** modèle par défaut** de sa connexion. Un identifiant de fournisseur n’est jamais utilisé comme nom de modèle. Un fournisseur sans aucun des deux n'est** pas appelé** : il apparaît dans les résultats sous la forme `status: "error"` avec le message _"Aucun modèle défini pour ce fournisseur. Définissez un modèle pour celui-ci sur la page Chaos Mode ou un modèle par défaut sur la connexion."_ et un `modelId` vide, tandis que les autres fournisseurs fonctionnent normalement. Si aucun fournisseur sélectionné n'a de modèle, l'exécution échoue avant toute requête en amont avec _"Aucun fournisseur n'a de modèle défini. …"_ (HTTP 500 sur les deux points de terminaison).
+5. Exécutez un** tester depuis la page elle-même** — le panneau de résultats affiche la réponse, le statut et la durée de chaque fournisseur.
 
 ## Modes d'exécution
 
@@ -128,9 +126,7 @@ Les deux points de terminaison renvoient la même structure :
 
 ## Dépannage
 
-- **`400 Le Mode Chaos n'est pas activé`** — consultez l'étape 2 ci-dessus : l'interrupteur global est désactivé.
-- **La clé API est rejetée sur `/api/skills/collect/chaos`** — la clé ne dispose pas de l'autorisation
-  `chaosModeEnabled` propre à cette clé (désactivée par défaut ; il s'agit d'un paramètre, pas d'une erreur).
-- **Un fournisseur attendu ne figure pas dans les résultats** — vérifiez `providerOverrides` sur la
-  page Mode Chaos (un remplacement désactivé l'exclut) et assurez-vous que la connexion au fournisseur est
-  active.
+- **`400 Chaos Mode is not enabled`** — étape 2 ci-dessus : le commutateur global est désactivé.
+- **La clé API est rejetée sur `/api/skills/collect/chaos`** — la clé ne dispose pas de l'autorisation `chaosModeEnabled` par clé (désactivée par défaut ; il s'agit d'un paramètre, pas d'une erreur).
+- **Un fournisseur montre `No model set for this provider`** — définit son modèle sur la page Chaos Mode ou un modèle par défaut sur sa connexion (voir Configuration, étape 4).
+- **Un prestataire que vous attendiez est absent des résultats** — vérifie `providerOverrides` sur la page Chaos Mode (un remplacement désactivé l'exclut) et si la connexion du fournisseur est active.
