@@ -1024,8 +1024,14 @@ function BudgetRowExpanded({
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
           <div>
-            <label className="text-[11px] text-text-muted block mb-1">{t("resetInterval")}</label>
+            <label
+              htmlFor={`budget-reset-interval-${row.id}`}
+              className="text-[11px] text-text-muted block mb-1"
+            >
+              {t("resetInterval")}
+            </label>
             <select
+              id={`budget-reset-interval-${row.id}`}
               value={form.resetInterval}
               onChange={(e) =>
                 setForm({ ...form, resetInterval: e.target.value as typeof form.resetInterval })

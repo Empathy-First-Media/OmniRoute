@@ -2,6 +2,7 @@
 import React, { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { getByRole, getByLabelText } from "@testing-library/dom";
 
 vi.mock("@/shared/components", () => ({
   Card: ({ children }: any) => <div>{children}</div>,
@@ -32,11 +33,13 @@ let bulkOk: boolean;
 let analyticsOk: boolean;
 let analyticsEmpty: boolean;
 let requests: string[];
+let multipleKeys: boolean;
 // A separator in the ID catches query interpolation regressions; not a real key.
 const keyId = "fixture&second";
 beforeEach(() => {
   bulkOk = analyticsOk = true;
   analyticsEmpty = false;
+  multipleKeys = false;
   requests = [];
   container = document.createElement("div");
   document.body.append(container);
@@ -48,12 +51,27 @@ beforeEach(() => {
       const url = String(input);
       requests.push(url);
       if (options?.method && options.method !== "GET") throw new Error("Read-only fixture");
-      if (url === "/api/keys") return Response.json({ keys: [{ id: keyId, name: "Fixture key" }] });
+      if (url === "/api/keys")
+        return Response.json({
+          keys: [
+            { id: keyId, name: "Fixture key" },
+            ...(multipleKeys ? [{ id: "fixture-second", name: "Second fixture key" }] : []),
+          ],
+        });
       if (url === "/api/usage/budget/bulk")
         return Response.json(
           bulkOk
             ? {
                 budgets: {
+                  ...(multipleKeys
+                    ? {
+                        "fixture-second": {
+                          totalCostToday: 0,
+                          totalCostMonth: 0,
+                          budgetCheck: { allowed: true },
+                        },
+                      }
+                    : {}),
                   [keyId]: {
                     totalCostToday: 0.002,
                     totalCostMonth: 0.12,
@@ -156,4 +174,32 @@ it("an empty analytics result describes pricing data, not absence of ledger spen
     /no.*(?:pricing|analytics|estimate).*data|no.*estimated.*cost/i
   );
   expect(container.textContent).toContain("$0.12");
+});
+
+it("natively labels Reset Interval with a distinct association for each key", async () => {
+  multipleKeys = true;
+  await mount();
+  await expand();
+  const first = getByRole(container, "combobox", { name: "Reset Interval" });
+  expect(getByLabelText(container, "Reset Interval")).toBe(first);
+  expect(first.id).not.toBe("");
+  expect(container.querySelector<HTMLLabelElement>(`label[for="${first.id}"]`)?.control).toBe(
+    first
+  );
+  const firstId = first.id;
+  // Native BudgetTab permits one expanded row at a time; switch keys rather
+  // than inventing a multi-expand API just for this association regression.
+  const secondTrigger = Array.from(container.querySelectorAll("button")).find((b) =>
+    b.textContent?.includes("Second fixture key")
+  );
+  expect(secondTrigger).toBeTruthy();
+  await act(async () => secondTrigger!.click());
+  await settle();
+  const second = getByRole(container, "combobox", { name: "Reset Interval" });
+  expect(getByLabelText(container, "Reset Interval")).toBe(second);
+  expect(second.id).not.toBe("");
+  expect(second.id).not.toBe(firstId);
+  expect(container.querySelector<HTMLLabelElement>(`label[for="${second.id}"]`)?.control).toBe(
+    second
+  );
 });
