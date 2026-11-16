@@ -8,6 +8,7 @@ import McpDashboardPage from "../endpoint/components/MCPDashboard";
 
 type ServiceStatus = { online: boolean; loading: boolean };
 type McpTransport = "stdio" | "sse" | "streamable-http";
+type McpRegistryCounts = { tools: number; scopes: number };
 
 function ServiceToggle({
   label,
@@ -235,6 +236,7 @@ export default function McpPage() {
   const [mcpTransport, setMcpTransport] = useState<McpTransport>("stdio");
   const [transportSaving, setTransportSaving] = useState(false);
   const [baseUrl, setBaseUrl] = useState("");
+  const [registryCounts, setRegistryCounts] = useState<McpRegistryCounts | null>(null);
 
   useEffect(() => {
     void (async () => {
@@ -249,6 +251,39 @@ export default function McpPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    void (async () => {
+      try {
+        const response = await fetch("/api/mcp/tools");
+        if (!response.ok) return;
+        const data: unknown = await response.json();
+        if (
+          !data ||
+          typeof data !== "object" ||
+          !Array.isArray((data as { tools?: unknown }).tools)
+        ) {
+          return;
+        }
+
+        const tools = (data as { tools: Array<{ scopes?: unknown }> }).tools;
+        const scopes = new Set<string>();
+        for (const tool of tools) {
+          if (!Array.isArray(tool.scopes)) continue;
+          for (const scope of tool.scopes) {
+            if (typeof scope === "string" && scope.trim()) scopes.add(scope.trim());
+          }
+        }
+        if (active) setRegistryCounts({ tools: tools.length, scopes: scopes.size });
+      } catch {
+        // Keep the summary unknown instead of presenting stale hard-coded counts.
+      }
+    })();
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -319,7 +354,11 @@ export default function McpPage() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>
-              {t("mcpIntro", { tools: 37, scopes: 13, transports: 3 })}
+              {t("mcpIntro", {
+                tools: registryCounts?.tools ?? "N/A",
+                scopes: registryCounts?.scopes ?? "N/A",
+                transports: 3,
+              })}
             </p>
             <ol
               className="mt-2 text-sm space-y-0.5 list-decimal list-inside"
@@ -333,8 +372,8 @@ export default function McpPage() {
               <li>{t("mcpStep2")}</li>
               <li>
                 {t.rich("mcpStep3", {
-                  code1: (chunks) => <code className="text-xs">omniroute_get_health</code>,
-                  code2: (chunks) => <code className="text-xs">omniroute_list_combos</code>,
+                  code1: () => <code className="text-xs">omniroute_get_health</code>,
+                  code2: () => <code className="text-xs">omniroute_list_combos</code>,
                 })}
               </li>
             </ol>
