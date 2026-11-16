@@ -10,7 +10,7 @@ export function registerHealth(program) {
     .option("--alerts-only", "Show only components with alerts")
     .action(async (opts, cmd) => {
       const globalOpts = cmd.optsWithGlobals();
-      const exitCode = await runHealthCommand({ ...opts, output: globalOpts.output });
+      const exitCode = await runHealthCommand({ ...opts, ...globalOpts });
       if (exitCode !== 0) process.exit(exitCode);
     });
 
@@ -20,7 +20,7 @@ export function registerHealth(program) {
     .option("--alerts-only", "Show only components with alerts")
     .action(async (opts, cmd) => {
       const globalOpts = cmd.optsWithGlobals();
-      const exitCode = await runHealthComponentsCommand({ ...opts, output: globalOpts.output });
+      const exitCode = await runHealthComponentsCommand({ ...opts, ...globalOpts });
       if (exitCode !== 0) process.exit(exitCode);
     });
 
@@ -41,7 +41,7 @@ export function registerHealth(program) {
 }
 
 export async function runHealthCommand(opts = {}) {
-  const serverUp = await isServerUp();
+  const serverUp = await isServerUp(opts);
   if (!serverUp) {
     console.error(t("health.noServer"));
     return 1;
@@ -49,6 +49,7 @@ export async function runHealthCommand(opts = {}) {
 
   try {
     const res = await apiFetch("/api/monitoring/health", {
+      ...opts,
       retry: false,
       timeout: 5000,
       acceptNotOk: true,
@@ -98,6 +99,7 @@ export async function runHealthCommand(opts = {}) {
 export async function runHealthComponentsCommand(opts = {}) {
   try {
     const res = await apiFetch("/api/monitoring/health", {
+      ...opts,
       retry: false,
       timeout: 5000,
       acceptNotOk: true,

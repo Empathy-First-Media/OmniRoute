@@ -50,6 +50,31 @@ test.after(async () => {
   await new Promise<void>((resolve) => server.close(() => resolve()));
 });
 
+test("health honors a command baseUrl without relying on OMNIROUTE_BASE_URL", async () => {
+  const originalBaseUrl = process.env.OMNIROUTE_BASE_URL;
+  delete process.env.OMNIROUTE_BASE_URL;
+  const originalError = console.error;
+  const originalLog = console.log;
+  const errors: string[] = [];
+  console.error = (...args: unknown[]) => errors.push(args.map(String).join(" "));
+  console.log = () => {};
+
+  let exitCode: number;
+  try {
+    exitCode = await runHealthCommand({ baseUrl });
+  } finally {
+    console.error = originalError;
+    console.log = originalLog;
+    if (originalBaseUrl !== undefined) process.env.OMNIROUTE_BASE_URL = originalBaseUrl;
+  }
+
+  assert.equal(
+    exitCode!,
+    0,
+    `health should use opts.baseUrl for both health requests; stderr: ${errors.join(" | ")}`
+  );
+});
+
 test("GH #6677: omniroute health should succeed against a server that only implements /api/monitoring/health", async () => {
   const originalError = console.error;
   const originalLog = console.log;
