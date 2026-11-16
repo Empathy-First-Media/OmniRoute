@@ -38,6 +38,15 @@ async function mapTextContentAsync(
   return msg;
 }
 
+/** Keep separators owned by prose spans when rejoining preserved literal blocks. */
+function preserveProseBoundaries(original: string, compressed: string): string {
+  const trimmedStart = original.trimStart();
+  if (!trimmedStart) return original;
+  const leading = original.slice(0, original.length - trimmedStart.length);
+  const trailing = original.slice(original.trimEnd().length);
+  return `${leading}${compressed.trim()}${trailing}`;
+}
+
 /**
  * Prune PROSE only. Fenced code, inline code, URLs, CONST_CASE, versions, etc. are
  * tombstoned by `extractPreservedBlocks` and re-stitched verbatim, so the heuristic
@@ -61,7 +70,7 @@ function pruneProseOnly(text: string, rate: number, minScore: number): string {
       if (!part) return "";
       const preserved = placeholderToContent.get(part);
       if (preserved !== undefined) return preserved; // verbatim — never pruned
-      return pruneByScore(part, rate, minScore); // prose only
+      return preserveProseBoundaries(part, pruneByScore(part, rate, minScore)); // prose only
     })
     .join("");
 }
@@ -106,7 +115,7 @@ async function compressProseSlm(text: string, cfg: UltraConfig): Promise<ProseSl
       out.push(preserved); // verbatim — never sent to the model
     } else {
       const seg = await slmOrHeuristic(part, cfg);
-      out.push(seg.text);
+      out.push(preserveProseBoundaries(part, seg.text));
       if (seg.usedSlm) usedSlm = true;
     }
   }
@@ -126,7 +135,10 @@ async function slmOrHeuristic(prose: string, cfg: UltraConfig): Promise<ProseSlm
     });
     return { text, usedSlm: true };
   } catch {
-    return { text: pruneByScore(prose, cfg.compressionRate, cfg.minScoreThreshold), usedSlm: false };
+    return {
+      text: pruneByScore(prose, cfg.compressionRate, cfg.minScoreThreshold),
+      usedSlm: false,
+    };
   }
 }
 

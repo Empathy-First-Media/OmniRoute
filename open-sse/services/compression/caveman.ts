@@ -237,6 +237,11 @@ function cleanupArtifacts(text: string): string {
     .replace(/\n+$/, "");
 }
 
+/** Clean rule-removal artifacts before protected literals are restored. */
+function cleanupFillerPunctuation(text: string): string {
+  return text.replace(/^[ \t]*[,;:]+[ \t]*/gm, "").replace(/([.!?])[ \t]*[,;:]+/g, "$1");
+}
+
 /**
  * #9144: raw (unfenced) multi-line code — e.g. a Copilot `#file` reference — was
  * getting whitespace-collapsed and sentence-recapitalized as if it were prose,
@@ -408,7 +413,7 @@ export function cavemanCompress(
 
       const normalized = isCodeDominantText(rulesApplied)
         ? rulesApplied
-        : recapitalizeSentences(cleanupArtifacts(rulesApplied));
+        : recapitalizeSentences(cleanupFillerPunctuation(cleanupArtifacts(rulesApplied)));
       const cleaned =
         blocks.length > 0
           ? cleanupArtifacts(restorePreservedBlocks(normalized, blocks))

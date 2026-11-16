@@ -149,7 +149,8 @@ export const ultraConfigSchema = z
     compressionRate: z.number().min(0).max(1).optional(),
     minScoreThreshold: z.number().min(0).max(1).optional(),
     slmFallbackToAggressive: z.boolean().optional(),
-    modelPath: z.string().trim().min(1).optional(),
+    // The detail form sends an empty path for heuristic mode and when clearing a local model.
+    modelPath: z.string().trim().optional(),
     maxTokensPerMessage: z.number().int().min(0).max(32768).optional(),
     preserveSystemPrompt: z.boolean().optional(),
   })
