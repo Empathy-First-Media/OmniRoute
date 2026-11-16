@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "Inaonyesha {shown} kati ya safu mlalo {total} zinazolingana (50 bora)."
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "Ubao salama wa kunakili haupatikani. Tumia HTTPS na uruhusu ufikiaji wa ubao wa kunakili.",
     "title": "Endpoint ya API",
     "subtitle": "Tumia endpoint inayooana na OpenAI pamoja na SDK na zana nyingi.",
     "testEndpoint": "Jaribu endpoint →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "Imeshindwa kusoma faili la TOML lililochaguliwa."
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "JSON ya mazungumzo (safu ya ujumbe wenye role/content)",
+    "conversationJsonInvalid": "Weka safu ya JSON ya ujumbe isiyo tupu yenye role na content za aina ya mfuatano wa herufi.",
+    "previewPriorRetrievals": "Uigaji wa urejeshaji wa awali (hakiki pekee)",
+    "isolatedPreviewNotice": "Jaribio lililotengwa. Vitalu vipo kwa hakiki hii pekee; hakuna kuandika kwenye hifadhi inayotumika wala mrejesho wa urejeshaji.",
+    "retrievePreviewBlock": "Rejesha kitalu cha hakiki {hash}",
     "loading": "Inapakia…",
     "loadFailed": "Imeshindwa kupakia maelezo ya injini.",
     "engineNotFound": "Injini \"{engine}\" haijapatikana.",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "Imeshindwa kubadilisha mtiririko"
   },
   "usage": {
+    "budgetDataUnavailable": "Data ya bajeti haipatikani. Matumizi na vikomo havikuweza kupakiwa.",
+    "budgetAccountingNotice": "Matumizi ya bajeti yaliyorekodiwa: ya leo na ya mwezi wa kalenda kwa saa za eneo la seva, kutoka kwenye daftari la bajeti. Hii si bili ya mtoa huduma. Hali inaonyesha vikomo vilivyowekwa, si dhamana kwamba kila njia ya ombi inavitekeleza.",
+    "budgetAnalyticsNotice": "Makadirio ya bei za tokeni kwa ufunguo huu pekee kwa kipindi kinachosogea cha siku 30 zilizopita (usajili wa bei isiyobadilika haujajumuishwa). Haya ni tofauti na matumizi ya daftari la bajeti ya mwezi wa kalenda; si bili ya mtoa huduma.",
+    "budgetBreakdownUnavailable": "Mchanganuo wa uchanganuzi wa bei haupatikani.",
+    "budgetNoAnalyticsData": "Hakuna data ya makadirio ya gharama zaidi ya sifuri katika uchanganuzi wa bei kwa ufunguo na kipindi hiki.",
     "title": "Matumizi",
     "grokExtraUsageCredits": "Mikopo Ya Ziada",
     "grokAutoTopUp": "Kuongeza Otomatikia",

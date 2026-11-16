@@ -161,6 +161,7 @@ export default function BudgetTab() {
 
   const [rows, setRows] = useState<KeyRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [saving, setSaving] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusKey>("all");
@@ -179,7 +180,9 @@ export default function BudgetTab() {
     }
     return DEFAULT_TEMPLATES;
   });
-  const [breakdownCache, setBreakdownCache] = useState<Record<string, ProviderBreakdown[]>>({});
+  const [breakdownCache, setBreakdownCache] = useState<Record<string, ProviderBreakdown[] | null>>(
+    {}
+  );
   const templateName = useCallback(
     (template: Template) => {
       const key = `budgetTemplateNames.${template.id}`;
@@ -194,7 +197,8 @@ export default function BudgetTab() {
         style: "currency",
         currency: "USD",
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        maximumFractionDigits:
+          value && Math.abs(value) < 0.01 ? 6 : value && Math.abs(value) < 1 ? 4 : 2,
       }).format(Number(value || 0)),
     [locale]
   );
@@ -215,6 +219,7 @@ export default function BudgetTab() {
 
   const loadAll = useCallback(async () => {
     setLoading(true);
+    setLoadError(false);
     try {
       // Bulk: one request for the key list + one for every key's budget
       // (was N+1: one budget request per key).
@@ -222,7 +227,8 @@ export default function BudgetTab() {
         fetch("/api/keys"),
         fetch("/api/usage/budget/bulk"),
       ]);
-      const keysData = keysRes.ok ? await keysRes.json() : null;
+      if (!keysRes.ok || !bulkRes.ok) throw new Error("Budget summary unavailable");
+      const keysData = await keysRes.json();
       const keys: ApiKey[] = Array.isArray(keysData) ? keysData : keysData?.keys || [];
 
       const bulkPayload = bulkRes.ok ? await bulkRes.json() : null;
@@ -231,9 +237,11 @@ export default function BudgetTab() {
           ? bulkPayload.budgets
           : {};
 
-      setRows(keys.map((k) => ({ ...k, budget: budgetsMap[k.id] ?? null })));
+      if (keys.some((k) => !budgetsMap[k.id])) throw new Error("Incomplete budget summary");
+      setRows(keys.map((k) => ({ ...k, budget: budgetsMap[k.id] })));
     } catch (err) {
       console.error("[Budget] load failed", err);
+      setLoadError(true);
     } finally {
       setLoading(false);
     }
@@ -247,8 +255,10 @@ export default function BudgetTab() {
   const fetchBreakdown = useCallback(
     async (apiKeyId: string) => {
       try {
-        const r = await fetch(`/api/usage/analytics?range=30d&apiKeyIds=${apiKeyId}`);
-        if (!r.ok) return;
+        const r = await fetch(
+          `/api/usage/analytics?${new URLSearchParams({ range: "30d", apiKeyIds: apiKeyId })}`
+        );
+        if (!r.ok) throw new Error("Breakdown unavailable");
         const data = await r.json();
         const arr = Array.isArray(data?.byProvider) ? data.byProvider : [];
         const total =
@@ -266,7 +276,7 @@ export default function BudgetTab() {
           .sort((a: ProviderBreakdown, b: ProviderBreakdown) => b.cost - a.cost);
         setBreakdownCache((prev) => ({ ...prev, [apiKeyId]: breakdown }));
       } catch {
-        /* breakdown is best-effort */
+        setBreakdownCache((prev) => ({ ...prev, [apiKeyId]: null }));
       }
     },
     [t]
@@ -412,7 +422,8 @@ export default function BudgetTab() {
   // ── Effects ──────────────────────────────────────────────────────────────
 
   useEffect(() => {
-    if (!expandedKeyId || breakdownCache[expandedKeyId]) return;
+    if (!expandedKeyId || Object.prototype.hasOwnProperty.call(breakdownCache, expandedKeyId))
+      return;
     const timer = window.setTimeout(() => void fetchBreakdown(expandedKeyId), 0);
     return () => window.clearTimeout(timer);
   }, [expandedKeyId, breakdownCache, fetchBreakdown]);
@@ -424,6 +435,16 @@ export default function BudgetTab() {
       <div className="flex items-center gap-2 text-text-muted p-8 animate-pulse">
         <span className="material-symbols-outlined text-[20px]">account_balance_wallet</span>
         {t("loadingBudgetData")}
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div role="alert">
+        {t.has("budgetDataUnavailable")
+          ? t("budgetDataUnavailable")
+          : "Budget data unavailable. Usage and limits could not be loaded."}
       </div>
     );
   }
@@ -450,6 +471,11 @@ export default function BudgetTab() {
 
   return (
     <div className="flex flex-col gap-4">
+      <p className="text-sm text-text-muted">
+        {t.has("budgetAccountingNotice")
+          ? t("budgetAccountingNotice")
+          : "Recorded budget spend: today and calendar month in server-local time, from the budget ledger. Not provider billing. Status reflects configured limits, not a guarantee that every request path enforces them."}
+      </p>
       {/* Hero KPIs */}
       <Card className="p-5">
         <div className="flex items-start justify-between gap-3 mb-4">
@@ -475,7 +501,13 @@ export default function BudgetTab() {
             label={t("budgetKpiProjEom")}
             value={formatCurrency(stats.projectionEom)}
             tone={projectionOverBudget ? "amber" : undefined}
-            hint={projectionOverBudget ? t("budgetAboveLimitShort") : t("budgetOnTrackShort")}
+            hint={
+              rows.some((r) => (r.budget?.monthlyLimitUsd || 0) > 0)
+                ? projectionOverBudget
+                  ? t("budgetAboveLimitShort")
+                  : t("budgetOnTrackShort")
+                : t("budgetStatus.no-limit")
+            }
           />
           <KpiBlock
             label={t("budgetKpiBlocked")}
@@ -710,7 +742,7 @@ function BudgetRow({
   onToggleSelect: () => void;
   formatCurrency: (v: number | undefined) => string;
   formatDateTime: (v: number | string | null | undefined) => string;
-  breakdown?: ProviderBreakdown[];
+  breakdown?: ProviderBreakdown[] | null;
   onSave: (payload: any) => void;
   saving: boolean;
 }) {
@@ -842,7 +874,7 @@ function BudgetRowExpanded({
   row: KeyRow;
   month: number;
   monthly: number;
-  breakdown?: ProviderBreakdown[];
+  breakdown?: ProviderBreakdown[] | null;
   formatCurrency: (v: number | undefined) => string;
   formatDateTime: (v: number | string | null | undefined) => string;
   onSave: (payload: any) => void;
@@ -904,12 +936,27 @@ function BudgetRowExpanded({
             </h4>
             <span className="text-[10px] text-text-muted">{t("budgetByProvider")}</span>
           </div>
-          {breakdown === undefined ? (
+          <p className="text-[11px] text-text-muted mb-2">
+            {t.has("budgetAnalyticsNotice")
+              ? t("budgetAnalyticsNotice")
+              : "Key-scoped token-price estimates for the rolling last 30 days (flat-rate subscriptions excluded). Separate from calendar-month budget ledger usage; not provider billing."}
+          </p>
+          {breakdown === null ? (
+            <div role="status">
+              {t.has("budgetBreakdownUnavailable")
+                ? t("budgetBreakdownUnavailable")
+                : "Pricing analytics breakdown unavailable."}
+            </div>
+          ) : breakdown === undefined ? (
             <div className="text-[11px] text-text-muted py-2 animate-pulse">
               {t("budgetLoading")}
             </div>
           ) : breakdown.length === 0 ? (
-            <div className="text-[11px] text-text-muted py-2">{t("noSpendLast30Days")}</div>
+            <div className="text-[11px] text-text-muted py-2">
+              {t.has("budgetNoAnalyticsData")
+                ? t("budgetNoAnalyticsData")
+                : "No positive estimated cost data in pricing analytics for this key and window."}
+            </div>
           ) : (
             <div className="space-y-1.5">
               {breakdown.slice(0, 5).map((b) => (

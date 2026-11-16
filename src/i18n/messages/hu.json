@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Hozzon létre egy belső integrációt itt",
     "notionIntegrationToken": "Notion Belső Integrációs Token",
     "notionNotConnected": "Nincs csatlakoztatva",
-    "notionTokenConfigured": "A token konfigurálva van. A Notion eszközök elérhetők az MCP-n keresztül."
+    "notionTokenConfigured": "A token konfigurálva van. A Notion eszközök elérhetők az MCP-n keresztül.",
+    "apiKeyClipboardFailed": "A biztonságos vágólap nem érhető el. Használjon HTTPS-t, és engedélyezze a vágólaphoz való hozzáférést."
   },
   "endpoints": {
     "tabProxy": "Végpontproxy",
@@ -8701,7 +8702,12 @@
       "aggressive": "Aggresszív",
       "ultra": "Ultra",
       "responsesToolOutput": "Válaszok eszköz kimenete"
-    }
+    },
+    "conversationJsonLabel": "A beszélgetés JSON-ja (role/content mezőket tartalmazó üzenetek tömbje)",
+    "conversationJsonInvalid": "Adjon meg egy nem üres JSON-üzenettömböt, amelyben a role és a content mezők karakterláncok.",
+    "previewPriorRetrievals": "Szimulált korábbi lekérések (csak előnézet)",
+    "isolatedPreviewNotice": "Elkülönített próbaüzem. A blokkok csak ehhez az előnézethez léteznek; nincs írás az éles tárolóba, sem lekérési visszacsatolás.",
+    "retrievePreviewBlock": "A(z) {hash} előnézeti blokk lekérése"
   },
   "contextCombos": {
     "title": "Tömörítési kombinációk",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Frissítve",
     "lastRefreshed": "Legutóbb frissítve",
     "providerQuota": "Szolgáltatói kvóta",
-    "providerQuotaHomeHint": "Élő állapot a csatlakoztatott fiókokban"
+    "providerQuotaHomeHint": "Élő állapot a csatlakoztatott fiókokban",
+    "budgetDataUnavailable": "A költségkeret adatai nem érhetők el. A használatot és a korlátokat nem sikerült betölteni.",
+    "budgetAccountingNotice": "Rögzített keretfelhasználás: a mai napra és a naptári hónapra, a kiszolgáló helyi ideje szerint, a költségkeret-nyilvántartásból. Ez nem a szolgáltató számlázása. Az állapot a beállított korlátokat tükrözi, de nem garantálja azok érvényesítését minden kérésfeldolgozási útvonalon.",
+    "budgetAnalyticsNotice": "Az ehhez a kulcshoz tartozó tokenár-alapú becslések az utolsó 30 nap gördülő időszakára (az átalánydíjas előfizetések nélkül). Elkülönülnek a költségkeret-nyilvántartás naptári havi használatától; nem a szolgáltató számlázását jelentik.",
+    "budgetBreakdownUnavailable": "Az árelemzés részletes bontása nem érhető el.",
+    "budgetNoAnalyticsData": "Az árelemzésben ehhez a kulcshoz és időszakhoz nem állnak rendelkezésre nullánál nagyobb becsült költségadatok."
   },
   "modals": {
     "waitingAuth": "Várakozás az engedélyezésre",

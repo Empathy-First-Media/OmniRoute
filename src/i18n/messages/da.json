@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Opret en intern integration ved",
     "notionIntegrationToken": "Notion Intern Token til Integration",
     "notionNotConnected": "Ikke tilsluttet",
-    "notionTokenConfigured": "Token konfigureret. Notion-værktøjer er tilgængelige via MCP."
+    "notionTokenConfigured": "Token konfigureret. Notion-værktøjer er tilgængelige via MCP.",
+    "apiKeyClipboardFailed": "Den sikre udklipsholder er ikke tilgængelig. Brug HTTPS, og tillad adgang til udklipsholderen."
   },
   "endpoints": {
     "tabProxy": "Slutpunktsproxy",
@@ -8701,7 +8702,12 @@
       "aggressive": "Aggressiv",
       "ultra": "Ultra",
       "responsesToolOutput": "Svarværktøjets output"
-    }
+    },
+    "conversationJsonLabel": "Samtale-JSON (array af beskeder med felterne role/content)",
+    "conversationJsonInvalid": "Indtast et ikke-tomt JSON-array af beskeder, hvor role og content er strenge.",
+    "previewPriorRetrievals": "Simulerede tidligere hentninger (kun forhåndsvisning)",
+    "isolatedPreviewNotice": "Isoleret prøvekørsel. Blokkene findes kun til denne forhåndsvisning; ingen skrivninger til det aktive lager eller feedback om hentninger.",
+    "retrievePreviewBlock": "Hent forhåndsvisningsblok {hash}"
   },
   "contextCombos": {
     "title": "Komprimeringskombinationer",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Opdateret",
     "lastRefreshed": "Sidst opdateret",
     "providerQuota": "Udbyderkvote",
-    "providerQuotaHomeHint": "Livestatus på tværs af tilknyttede konti"
+    "providerQuotaHomeHint": "Livestatus på tværs af tilknyttede konti",
+    "budgetDataUnavailable": "Budgetdata er ikke tilgængelige. Forbrug og grænser kunne ikke indlæses.",
+    "budgetAccountingNotice": "Registreret budgetforbrug: i dag og kalendermåneden i serverens lokale tid, fra budgetregnskabet. Dette er ikke udbyderens fakturering. Status afspejler de konfigurerede grænser, men garanterer ikke, at de håndhæves i alle anmodningsforløb.",
+    "budgetAnalyticsNotice": "Estimater baseret på tokenpriser for denne nøgle for de seneste 30 dage i et rullende vindue (abonnementer med fast pris er udeladt). Adskilt fra kalendermånedens forbrug i budgetregnskabet; ikke udbyderens fakturering.",
+    "budgetBreakdownUnavailable": "Detaljeret opdeling af prisanalysen er ikke tilgængelig.",
+    "budgetNoAnalyticsData": "Prisanalysen indeholder ingen data med estimerede omkostninger over nul for denne nøgle og periode."
   },
   "modals": {
     "waitingAuth": "Venter på autorisation",

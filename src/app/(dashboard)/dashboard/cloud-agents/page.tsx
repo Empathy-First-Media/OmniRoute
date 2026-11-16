@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useId } from "react";
 import { Card, Button, Input, Badge } from "@/shared/components";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -101,6 +101,7 @@ function formatDuration(start: string, end: string) {
 // ── Component ────────────────────────────────────────────────────────────────
 
 export default function CloudAgentsPage() {
+  const settingsId = useId();
   const locale = useLocale();
   const [activeTab, setActiveTab] = useState<TabId>("tasks");
   const t = useTranslations("cloudAgents");
@@ -845,16 +846,22 @@ export default function CloudAgentsPage() {
             {/* Toggle: Enable cloud agents */}
             <div className="flex items-center justify-between py-3 border-b border-border/30">
               <div>
-                <p className="text-sm font-medium text-text-main">
+                <p
+                  id={`${settingsId}-enabled-label`}
+                  className="text-sm font-medium text-text-main"
+                >
                   {t("settingEnableAgents") || "Enable cloud agents"}
                 </p>
-                <p className="text-xs text-text-muted">
+                <p id={`${settingsId}-enabled-description`} className="text-xs text-text-muted">
                   {t("settingEnableAgentsDesc") ||
                     "Master switch for all cloud agent functionality."}
                 </p>
               </div>
               <button
+                type="button"
                 role="switch"
+                aria-labelledby={`${settingsId}-enabled-label`}
+                aria-describedby={`${settingsId}-enabled-description`}
                 aria-checked={settings.enabled}
                 onClick={() => updateSetting("enabled", !settings.enabled)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
@@ -872,16 +879,22 @@ export default function CloudAgentsPage() {
             {/* Toggle: Auto-create PR */}
             <div className="flex items-center justify-between py-3 border-b border-border/30">
               <div>
-                <p className="text-sm font-medium text-text-main">
+                <p
+                  id={`${settingsId}-auto-pr-label`}
+                  className="text-sm font-medium text-text-main"
+                >
                   {t("settingAutoPR") || "Auto-create PR"}
                 </p>
-                <p className="text-xs text-text-muted">
+                <p id={`${settingsId}-auto-pr-description`} className="text-xs text-text-muted">
                   {t("settingAutoPRDesc") ||
                     "Automatically create a pull request when a task completes."}
                 </p>
               </div>
               <button
+                type="button"
                 role="switch"
+                aria-labelledby={`${settingsId}-auto-pr-label`}
+                aria-describedby={`${settingsId}-auto-pr-description`}
                 aria-checked={settings.autoCreatePr}
                 onClick={() => updateSetting("autoCreatePr", !settings.autoCreatePr)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
@@ -899,16 +912,22 @@ export default function CloudAgentsPage() {
             {/* Toggle: Require approval */}
             <div className="flex items-center justify-between py-3">
               <div>
-                <p className="text-sm font-medium text-text-main">
+                <p
+                  id={`${settingsId}-approval-label`}
+                  className="text-sm font-medium text-text-main"
+                >
                   {t("settingRequireApproval") || "Require plan approval"}
                 </p>
-                <p className="text-xs text-text-muted">
+                <p id={`${settingsId}-approval-description`} className="text-xs text-text-muted">
                   {t("settingRequireApprovalDesc") ||
                     "Pause execution until you approve the agent's plan."}
                 </p>
               </div>
               <button
+                type="button"
                 role="switch"
+                aria-labelledby={`${settingsId}-approval-label`}
+                aria-describedby={`${settingsId}-approval-description`}
                 aria-checked={settings.requireApproval}
                 onClick={() => updateSetting("requireApproval", !settings.requireApproval)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${

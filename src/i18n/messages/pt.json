@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Criar uma Integração Interna em",
     "notionIntegrationToken": "Token de Integração Interna do Notion",
     "notionNotConnected": "Não conectado",
-    "notionTokenConfigured": "Token configurado. As ferramentas Notion estão disponíveis através do MCP."
+    "notionTokenConfigured": "Token configurado. As ferramentas Notion estão disponíveis através do MCP.",
+    "apiKeyClipboardFailed": "Área de transferência segura indisponível. Utilize HTTPS e permita o acesso à área de transferência."
   },
   "endpoints": {
     "tabProxy": "Proxy de Endpoint",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agressivo",
       "ultra": "Ultra",
       "responsesToolOutput": "Saída da ferramenta de respostas"
-    }
+    },
+    "conversationJsonLabel": "JSON da conversa (array de mensagens com role/content)",
+    "conversationJsonInvalid": "Introduza um array JSON não vazio de mensagens com role e content do tipo cadeia de caracteres.",
+    "previewPriorRetrievals": "Recuperações anteriores simuladas (apenas pré-visualização)",
+    "isolatedPreviewNotice": "Execução de teste isolada. Os blocos existem apenas nesta pré-visualização; sem escritas no armazenamento ativo nem informação de retorno sobre recuperações.",
+    "retrievePreviewBlock": "Recuperar bloco de pré-visualização {hash}"
   },
   "contextCombos": {
     "title": "Combos de Compressão",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Atualizado",
     "lastRefreshed": "Última atualização",
     "providerQuota": "Quota do fornecedor",
-    "providerQuotaHomeHint": "Estado em tempo real em todas as contas associadas"
+    "providerQuotaHomeHint": "Estado em tempo real em todas as contas associadas",
+    "budgetDataUnavailable": "Dados do orçamento indisponíveis. Não foi possível carregar a utilização e os limites.",
+    "budgetAccountingNotice": "Despesas registadas no orçamento: hoje e no mês civil, na hora local do servidor, a partir do registo contabilístico do orçamento. Não corresponde à faturação do fornecedor. O estado reflete os limites configurados, mas não garante que sejam aplicados em todos os percursos de processamento dos pedidos.",
+    "budgetAnalyticsNotice": "Estimativas baseadas nos preços dos tokens para esta chave no período móvel dos últimos 30 dias (excluindo subscrições de tarifa fixa). Separadas da utilização do mês civil no registo contabilístico do orçamento; não correspondem à faturação do fornecedor.",
+    "budgetBreakdownUnavailable": "Detalhe da análise de preços indisponível.",
+    "budgetNoAnalyticsData": "Não existem dados com custo estimado positivo na análise de preços para esta chave e este período."
   },
   "modals": {
     "waitingAuth": "Aguardando autorização",

@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Ustvarite interno integracijo na",
     "notionIntegrationToken": "Žeton za interno integracijo Notion",
     "notionNotConnected": "Ni povezano",
-    "notionTokenConfigured": "Žeton je konfiguriran. Orodja Notion so na voljo prek MCP."
+    "notionTokenConfigured": "Žeton je konfiguriran. Orodja Notion so na voljo prek MCP.",
+    "apiKeyClipboardFailed": "Varnostno zaščiteno odložišče ni na voljo. Uporabite HTTPS in dovolite dostop do odložišča."
   },
   "endpoints": {
     "tabProxy": "Posrednik končnih točk",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agresivno",
       "ultra": "Ultra",
       "responsesToolOutput": "Izhod orodja Responses"
-    }
+    },
+    "conversationJsonLabel": "JSON pogovora (polje sporočil s poljema role/content)",
+    "conversationJsonInvalid": "Vnesite neprazno polje JSON sporočil s poljema role in content vrste niz.",
+    "previewPriorRetrievals": "Simulirani predhodni priklici (samo predogled)",
+    "isolatedPreviewNotice": "Izoliran poskusni zagon. Bloki obstajajo samo za ta predogled; brez zapisovanja v aktivno shrambo ali povratnih informacij o priklicu.",
+    "retrievePreviewBlock": "Prikliči blok predogleda {hash}"
   },
   "contextCombos": {
     "title": "Kombinacije stiskanja",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Posodobljeno",
     "lastRefreshed": "Nazadnje osveženo",
     "providerQuota": "Kvota ponudnika",
-    "providerQuotaHomeHint": "Stanje povezanih računov v živo"
+    "providerQuotaHomeHint": "Stanje povezanih računov v živo",
+    "budgetDataUnavailable": "Podatki o proračunu niso na voljo. Porabe in omejitev ni bilo mogoče naložiti.",
+    "budgetAccountingNotice": "Zabeleženi proračunski izdatki: danes in v koledarskem mesecu po lokalnem času strežnika, iz proračunske evidence. To ni obračun ponudnika. Stanje odraža nastavljene omejitve, ne zagotavlja pa njihovega uveljavljanja pri vseh poteh obdelave zahtev.",
+    "budgetAnalyticsNotice": "Ocene na podlagi cen žetonov za ta ključ v drsečem obdobju zadnjih 30 dni (naročnine s pavšalno ceno so izključene). Ločeno od porabe za koledarski mesec v proračunski evidenci; to ni obračun ponudnika.",
+    "budgetBreakdownUnavailable": "Podrobna razčlenitev analize cen ni na voljo.",
+    "budgetNoAnalyticsData": "V analizi cen ni podatkov s pozitivnimi ocenjenimi stroški za ta ključ in obdobje."
   },
   "modals": {
     "waitingAuth": "Čakanje na avtorizacijo",

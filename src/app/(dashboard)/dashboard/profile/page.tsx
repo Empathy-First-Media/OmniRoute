@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Card, Badge } from "@/shared/components";
+import { Card, Badge, Modal } from "@/shared/components";
 import { cumulativeXpForLevel, getLevelTier, getLevelTitle } from "@/lib/gamification/xp";
 
 interface UserLevel {
@@ -324,74 +324,64 @@ export default function ProfilePage() {
 
       {/* Badge Detail Modal */}
       {selectedBadge && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-surface border border-border rounded-xl p-6 w-full max-w-md mx-4">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <span className="text-4xl">
-                  <BadgeIcon icon={selectedBadge.icon} earned={earnedIds.has(selectedBadge.id)} />
-                </span>
-                <div>
-                  <h2 className="text-lg font-semibold">{translateBadge(selectedBadge, "name")}</h2>
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded ${RARITY_COLORS[selectedBadge.rarity] || RARITY_COLORS.common} bg-surface`}
-                  >
-                    {translateRarity(selectedBadge.rarity)}
-                  </span>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelectedBadge(null)}
-                className="text-text-muted hover:text-text-main text-xl"
-                aria-label={t("close")}
-              >
-                ×
-              </button>
-            </div>
-
-            {selectedBadge.description && (
-              <p className="text-sm text-text-muted mb-4">
-                {translateBadge(selectedBadge, "description")}
-              </p>
-            )}
-
-            {selectedBadge.category && (
-              <p className="text-xs text-text-muted mb-2">
-                {tg("category")}:{" "}
-                <span className="text-text-main">{translateCategory(selectedBadge.category)}</span>
-              </p>
-            )}
-
-            {selectedBadge.criteria && (
-              <div className="p-3 rounded-lg bg-surface/50 border border-border/50">
-                <p className="text-xs font-medium text-text-muted mb-1">{t("profileHowToEarn")}</p>
-                <p className="text-sm">{translateBadge(selectedBadge, "criteria")}</p>
-              </div>
-            )}
-
-            {earnedIds.has(selectedBadge.id) && (
-              <div className="mt-4 p-3 rounded-lg bg-emerald-500/10 text-emerald-400 text-sm">
-                ✓{" "}
-                {tg("earnedOn", {
-                  date: new Date(
-                    earnedBadges.find((b) => b.badgeId === selectedBadge.id)?.unlockedAt || ""
-                  ).toLocaleDateString(locale),
-                })}
-              </div>
-            )}
-
-            <div className="mt-4 flex justify-end">
-              <button
-                type="button"
-                onClick={() => setSelectedBadge(null)}
-                className="px-4 py-2 text-sm rounded-lg border border-border text-text-muted hover:text-text-main transition-colors"
-              >
-                {t("close")}
-              </button>
-            </div>
+        <Modal
+          isOpen
+          onClose={() => setSelectedBadge(null)}
+          title={translateBadge(selectedBadge, "name")}
+          size="sm"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-4xl">
+              <BadgeIcon icon={selectedBadge.icon} earned={earnedIds.has(selectedBadge.id)} />
+            </span>
+            <span
+              className={`text-xs px-2 py-0.5 rounded ${RARITY_COLORS[selectedBadge.rarity] || RARITY_COLORS.common} bg-surface`}
+            >
+              {translateRarity(selectedBadge.rarity)}
+            </span>
           </div>
-        </div>
+
+          {selectedBadge.description && (
+            <p className="text-sm text-text-muted mb-4">
+              {translateBadge(selectedBadge, "description")}
+            </p>
+          )}
+
+          {selectedBadge.category && (
+            <p className="text-xs text-text-muted mb-2">
+              {tg("category")}:{" "}
+              <span className="text-text-main">{translateCategory(selectedBadge.category)}</span>
+            </p>
+          )}
+
+          {selectedBadge.criteria && (
+            <div className="p-3 rounded-lg bg-surface/50 border border-border/50">
+              <p className="text-xs font-medium text-text-muted mb-1">{t("profileHowToEarn")}</p>
+              <p className="text-sm">{translateBadge(selectedBadge, "criteria")}</p>
+            </div>
+          )}
+
+          {earnedIds.has(selectedBadge.id) && (
+            <div className="mt-4 p-3 rounded-lg bg-emerald-500/10 text-emerald-400 text-sm">
+              ✓{" "}
+              {tg("earnedOn", {
+                date: new Date(
+                  earnedBadges.find((b) => b.badgeId === selectedBadge.id)?.unlockedAt || ""
+                ).toLocaleDateString(locale),
+              })}
+            </div>
+          )}
+
+          <div className="mt-4 flex justify-end">
+            <button
+              type="button"
+              onClick={() => setSelectedBadge(null)}
+              className="px-4 py-2 text-sm rounded-lg border border-border text-text-muted hover:text-text-main transition-colors"
+            >
+              {t("close")}
+            </button>
+          </div>
+        </Modal>
       )}
     </div>
   );

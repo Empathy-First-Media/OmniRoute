@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "Ana nuna layuka {shown} daga cikin {total} masu dacewa (50 na farko)."
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "Allon kwafi mai tsaro ba ya samuwa. Yi amfani da HTTPS kuma ka ba da izinin shiga allon kwafi.",
     "title": "Mahadar API",
     "subtitle": "Yi amfani da mahadar da ta dace da OpenAI tare da yawancin SDKs da kayan aiki.",
     "testEndpoint": "Gwada mahadar →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "An kasa karanta fayil ɗin TOML da aka zaɓa."
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "JSON na tattaunawa (jerin saƙonni masu role/content)",
+    "conversationJsonInvalid": "Shigar da jerin JSON na saƙonni wanda ba fanko ba ne, inda role da content suke rubutu.",
+    "previewPriorRetrievals": "Samfuran maido da bayanai na baya (don samfotin kawai)",
+    "isolatedPreviewNotice": "Gwajin da aka ware. Tubalan suna nan ne don wannan samfotin kawai; babu rubutu zuwa ma’ajiyar da ake amfani da ita ko martanin maido da bayanai.",
+    "retrievePreviewBlock": "Maido da tubalin samfoti {hash}",
     "loading": "Ana lodawa…",
     "loadFailed": "An kasa loda bayanan injin.",
     "engineNotFound": "Ba a sami injin \"{engine}\" ba.",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "An kasa canza rafi"
   },
   "usage": {
+    "budgetDataUnavailable": "Bayanan kasafin kuɗi ba su samuwa. An kasa ɗora bayanan amfani da iyakoki.",
+    "budgetAccountingNotice": "Kuɗin kasafin da aka rubuta: na yau da na watan kalanda bisa lokacin yankin sabar, daga kundin kasafin kuɗi. Wannan ba lissafin biyan kuɗin mai ba da sabis ba ne. Matsayin yana nuna iyakokin da aka saita, ba tabbacin cewa kowace hanyar buƙata tana tilasta su ba.",
+    "budgetAnalyticsNotice": "Ƙiyasin farashin token na wannan maɓalli na kwanaki 30 da suka gabata a kowane lokaci (ba a haɗa rajistar biyan tsayayyen kuɗi ba). Ya bambanta da amfani a kundin kasafin kuɗi na watan kalanda; ba lissafin biyan kuɗin mai ba da sabis ba ne.",
+    "budgetBreakdownUnavailable": "Rarrabuwar nazarin farashi ba ta samuwa.",
+    "budgetNoAnalyticsData": "Babu bayanin ƙiyasin kuɗi da ya fi sifili a nazarin farashi na wannan maɓalli da wa’adin lokaci.",
     "title": "Amfani",
     "grokExtraUsageCredits": "Ƙarin Kuɗaɗen Amfani",
     "grokAutoTopUp": "Ƙara Kuɗi ta Atomatik",

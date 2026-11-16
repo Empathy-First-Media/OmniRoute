@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Vytvorte internú integráciu na",
     "notionIntegrationToken": "Notion Interný Integračný Token",
     "notionNotConnected": "Nie je pripojené",
-    "notionTokenConfigured": "Token je nakonfigurovaný. Nástroje Notion sú dostupné cez MCP."
+    "notionTokenConfigured": "Token je nakonfigurovaný. Nástroje Notion sú dostupné cez MCP.",
+    "apiKeyClipboardFailed": "Zabezpečená schránka nie je dostupná. Použite HTTPS a povoľte prístup do schránky."
   },
   "endpoints": {
     "tabProxy": "Proxy koncového bodu",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agresívny",
       "ultra": "Ultra",
       "responsesToolOutput": "Výstup nástroja odpovedí"
-    }
+    },
+    "conversationJsonLabel": "JSON konverzácie (pole správ s poľami role/content)",
+    "conversationJsonInvalid": "Zadajte neprázdne pole JSON správ s poľami role a content typu reťazec.",
+    "previewPriorRetrievals": "Simulované predchádzajúce načítania (iba ukážka)",
+    "isolatedPreviewNotice": "Izolované skúšobné spustenie. Bloky existujú iba pre túto ukážku; bez zápisu do živého úložiska alebo spätnej väzby o načítaní.",
+    "retrievePreviewBlock": "Načítať blok ukážky {hash}"
   },
   "contextCombos": {
     "title": "Kombinácie kompresie",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Aktualizované",
     "lastRefreshed": "Naposledy obnovené",
     "providerQuota": "Kvóta poskytovateľa",
-    "providerQuotaHomeHint": "Aktuálny stav naprieč pripojenými účtami"
+    "providerQuotaHomeHint": "Aktuálny stav naprieč pripojenými účtami",
+    "budgetDataUnavailable": "Údaje o rozpočte nie sú dostupné. Využitie a limity sa nepodarilo načítať.",
+    "budgetAccountingNotice": "Zaznamenané rozpočtové výdavky: dnes a v kalendárnom mesiaci podľa miestneho času servera, z rozpočtovej evidencie. Nejde o fakturáciu poskytovateľa. Stav odráža nastavené limity, nezaručuje však ich vynucovanie pri každom spôsobe spracovania požiadaviek.",
+    "budgetAnalyticsNotice": "Odhady podľa cien tokenov pre tento kľúč za priebežné obdobie posledných 30 dní (bez paušálnych predplatných). Oddelené od využitia za kalendárny mesiac v rozpočtovej evidencii; nejde o fakturáciu poskytovateľa.",
+    "budgetBreakdownUnavailable": "Podrobný rozpis cenovej analýzy nie je dostupný.",
+    "budgetNoAnalyticsData": "V cenovej analýze nie sú pre tento kľúč a obdobie údaje s kladnými odhadovanými nákladmi."
   },
   "modals": {
     "waitingAuth": "Čaká sa na autorizáciu",

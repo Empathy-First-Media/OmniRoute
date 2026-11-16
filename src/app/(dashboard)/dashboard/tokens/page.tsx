@@ -34,6 +34,19 @@ interface ServerConnection {
   errorMessage: string | null;
 }
 
+function isValidTransferAmount(value: string): boolean {
+  return value.trim() !== "" && Number.isFinite(Number(value)) && Number(value) > 0;
+}
+
+function isHttpUrl(value: string): boolean {
+  try {
+    const url = new URL(value.trim());
+    return (url.protocol === "http:" || url.protocol === "https:") && url.hostname !== "";
+  } catch {
+    return false;
+  }
+}
+
 export default function TokensPage() {
   const t = useTranslations("common");
   const locale = useLocale();
@@ -332,7 +345,7 @@ export default function TokensPage() {
           )}
           <button
             type="submit"
-            disabled={transferLoading || !toApiKeyId || !amount}
+            disabled={transferLoading || !toApiKeyId.trim() || !isValidTransferAmount(amount)}
             className="px-4 py-2 text-sm font-medium rounded-lg bg-violet-500 text-white hover:bg-violet-600 disabled:opacity-50 transition-colors justify-self-start"
           >
             {transferLoading ? t("tokensSending") : t("tokensSendTokens")}
@@ -536,7 +549,9 @@ export default function TokensPage() {
             </div>
             <button
               type="submit"
-              disabled={serverLoading || !serverName || !serverUrl || !serverApiKey}
+              disabled={
+                serverLoading || !serverName.trim() || !isHttpUrl(serverUrl) || !serverApiKey
+              }
               className="px-4 py-2 text-sm font-medium rounded-lg bg-violet-500 text-white hover:bg-violet-600 disabled:opacity-50 transition-colors justify-self-start"
             >
               {serverLoading ? t("tokensConnecting") : t("tokensConnectServer")}

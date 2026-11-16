@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "Ipinapakita ang {shown} sa {total} tumutugmang mga row (nangungunang 50)."
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "Hindi magamit ang ligtas na clipboard. Gumamit ng HTTPS at payagan ang pag-access sa clipboard.",
     "title": "Endpoint ng API",
     "subtitle": "Gamitin ang endpoint na compatible sa OpenAI sa karamihan ng mga SDK at tool.",
     "testEndpoint": "Subukan ang endpoint →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "Hindi mabasa ang napiling TOML file."
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "JSON ng pag-uusap (hanay ng mga mensaheng may role/content)",
+    "conversationJsonInvalid": "Maglagay ng hanay ng mga mensahe sa JSON na may kahit isang elemento, na ang role at content ay mga string.",
+    "previewPriorRetrievals": "Ginayang mga nakaraang pagkuha (para sa paunang tingin lamang)",
+    "isolatedPreviewNotice": "Nakahiwalay na pagsubok. Umiiral lamang ang mga bloke para sa paunang tinging ito; walang pagsusulat sa aktuwal na imbakan o puna mula sa pagkuha.",
+    "retrievePreviewBlock": "Kunin ang bloke ng paunang tingin {hash}",
     "loading": "Naglo-load…",
     "loadFailed": "Hindi na-load ang impormasyon ng engine.",
     "engineNotFound": "Hindi nahanap ang engine na \"{engine}\".",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "Nabigong i-transform ang stream"
   },
   "usage": {
+    "budgetDataUnavailable": "Hindi magamit ang datos ng badyet. Hindi maikarga ang paggamit at mga limitasyon.",
+    "budgetAccountingNotice": "Naitalang gastos sa badyet: para sa araw na ito at sa buwan ng kalendaryo ayon sa lokal na oras ng server, mula sa talaan ng badyet. Hindi ito singil ng provider. Ipinapakita ng katayuan ang mga itinakdang limitasyon, hindi isang garantiya na ipinapatupad ang mga ito sa bawat daluyan ng kahilingan.",
+    "budgetAnalyticsNotice": "Mga pagtatantya batay sa presyo ng token para lamang sa key na ito sa gumugulong na huling 30 araw (hindi kasama ang mga subscription na may takdang singil). Hiwalay ito sa paggamit sa talaan ng badyet para sa buwan ng kalendaryo; hindi ito singil ng provider.",
+    "budgetBreakdownUnavailable": "Hindi magamit ang detalyadong pagsusuri ng presyo.",
+    "budgetNoAnalyticsData": "Walang datos ng tinantyang gastos na higit sa zero sa pagsusuri ng presyo para sa key at saklaw ng oras na ito.",
     "title": "Paggamit",
     "grokExtraUsageCredits": "Karagdagang Paggamit ng Mga Kredito",
     "grokAutoTopUp": "Awtomatikong Pagdaragdag",

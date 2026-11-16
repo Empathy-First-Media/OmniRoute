@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Maak een interne integratie aan bij",
     "notionIntegrationToken": "Notion Interne Integratietoken",
     "notionNotConnected": "Niet verbonden",
-    "notionTokenConfigured": "Token geconfigureerd. Notion-tools zijn beschikbaar via MCP."
+    "notionTokenConfigured": "Token geconfigureerd. Notion-tools zijn beschikbaar via MCP.",
+    "apiKeyClipboardFailed": "Veilig klembord niet beschikbaar. Gebruik HTTPS en sta toegang tot het klembord toe."
   },
   "endpoints": {
     "tabProxy": "Endpointproxy",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agressief",
       "ultra": "Ultra",
       "responsesToolOutput": "Antwoordentool-uitvoer"
-    }
+    },
+    "conversationJsonLabel": "Gespreks-JSON (array van berichten met role/content)",
+    "conversationJsonInvalid": "Voer een niet-lege JSON-array van berichten in met role en content als tekenreeksen.",
+    "previewPriorRetrievals": "Gesimuleerde eerdere ophaalacties (alleen voorvertoning)",
+    "isolatedPreviewNotice": "Geïsoleerde proefrun. Blokken bestaan alleen voor deze voorvertoning; er wordt niets naar de actieve opslag geschreven en geen terugkoppeling over ophaalacties gegeven.",
+    "retrievePreviewBlock": "Voorvertoningsblok {hash} ophalen"
   },
   "contextCombos": {
     "title": "Compressiecombinaties",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Bijgewerkt",
     "lastRefreshed": "Laatst vernieuwd",
     "providerQuota": "Providerquota",
-    "providerQuotaHomeHint": "Live status over verbonden accounts"
+    "providerQuotaHomeHint": "Live status over verbonden accounts",
+    "budgetDataUnavailable": "Budgetgegevens niet beschikbaar. Gebruik en limieten konden niet worden geladen.",
+    "budgetAccountingNotice": "Geregistreerde budgetuitgaven: vandaag en deze kalendermaand in de lokale servertijd, uit de budgetadministratie. Dit is geen facturering door de provider. De status weerspiegelt de ingestelde limieten, maar garandeert niet dat deze via elk aanvraagpad worden afgedwongen.",
+    "budgetAnalyticsNotice": "Schattingen op basis van tokenprijzen voor deze sleutel over de voortschrijdende laatste 30 dagen (abonnementen met een vast tarief uitgesloten). Los van het gebruik in de budgetadministratie per kalendermaand; geen facturering door de provider.",
+    "budgetBreakdownUnavailable": "Uitsplitsing van de prijsanalyse niet beschikbaar.",
+    "budgetNoAnalyticsData": "Geen gegevens met positieve geschatte kosten in de prijsanalyse voor deze sleutel en periode."
   },
   "modals": {
     "waitingAuth": "Wachten op toestemming",

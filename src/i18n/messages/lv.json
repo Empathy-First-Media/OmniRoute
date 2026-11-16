@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Izveidojiet iekšēju integrāciju vietnē",
     "notionIntegrationToken": "Notion iekšējās integrācijas pilnvara",
     "notionNotConnected": "Nav savienots",
-    "notionTokenConfigured": "Pilnvara konfigurēta. Notion rīki ir pieejami, izmantojot MCP."
+    "notionTokenConfigured": "Pilnvara konfigurēta. Notion rīki ir pieejami, izmantojot MCP.",
+    "apiKeyClipboardFailed": "Droša starpliktuve nav pieejama. Izmantojiet HTTPS un atļaujiet piekļuvi starpliktuvei."
   },
   "endpoints": {
     "tabProxy": "Galapunkta starpniekserveris",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agresīvs",
       "ultra": "Ultra",
       "responsesToolOutput": "Responses rīka izvade"
-    }
+    },
+    "conversationJsonLabel": "Sarunas JSON (ziņojumu masīvs ar role/content laukiem)",
+    "conversationJsonInvalid": "Ievadiet netukšu JSON ziņojumu masīvu ar virknes tipa role un content laukiem.",
+    "previewPriorRetrievals": "Simulētas iepriekšējās izgūšanas (tikai priekšskatījumam)",
+    "isolatedPreviewNotice": "Izolēts izmēģinājums. Bloki pastāv tikai šim priekšskatījumam; netiek veikti ieraksti darba datu krātuvē vai sniegta izgūšanas atgriezeniskā saite.",
+    "retrievePreviewBlock": "Izgūt priekšskatījuma bloku {hash}"
   },
   "contextCombos": {
     "title": "Saspiešanas kombinācijas",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Atjaunināts",
     "lastRefreshed": "Pēdējoreiz atsvaidzināts",
     "providerQuota": "Pakalpojuma sniedzēja kvota",
-    "providerQuotaHomeHint": "Pievienoto kontu statuss reāllaikā"
+    "providerQuotaHomeHint": "Pievienoto kontu statuss reāllaikā",
+    "budgetDataUnavailable": "Budžeta dati nav pieejami. Neizdevās ielādēt lietojumu un ierobežojumus.",
+    "budgetAccountingNotice": "Reģistrētie budžeta izdevumi: šodien un kalendārajā mēnesī pēc servera vietējā laika, no budžeta uzskaites reģistra. Tas nav pakalpojumu sniedzēja rēķins. Statuss atspoguļo konfigurētos ierobežojumus, nevis garantē, ka tie tiek piemēroti katrā pieprasījuma apstrādes ceļā.",
+    "budgetAnalyticsNotice": "Šīs atslēgas izmaksu aplēses pēc žetonu cenām slīdošajā pēdējo 30 dienu periodā (abonementi ar fiksētu maksu nav iekļauti). Atsevišķi no kalendārā mēneša lietojuma budžeta uzskaites reģistrā; tas nav pakalpojumu sniedzēja rēķins.",
+    "budgetBreakdownUnavailable": "Cenu analīzes sadalījums nav pieejams.",
+    "budgetNoAnalyticsData": "Cenu analīzē šai atslēgai un periodam nav datu ar pozitīvām aplēstajām izmaksām."
   },
   "modals": {
     "waitingAuth": "Tiek gaidīta autorizācija",

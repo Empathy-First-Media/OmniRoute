@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "İç Entegrasyon Oluşturun at",
     "notionIntegrationToken": "Notion Dahili Entegrasyon Tokeni",
     "notionNotConnected": "Bağlı değil",
-    "notionTokenConfigured": "Token yapılandırıldı. Notion araçları MCP üzerinden mevcuttur."
+    "notionTokenConfigured": "Token yapılandırıldı. Notion araçları MCP üzerinden mevcuttur.",
+    "apiKeyClipboardFailed": "Güvenli pano kullanılamıyor. HTTPS kullanın ve pano erişimine izin verin."
   },
   "endpoints": {
     "tabProxy": "Uç Nokta Proxy",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agresif",
       "ultra": "Ultra",
       "responsesToolOutput": "Yanıtlar aracı çıktısı"
-    }
+    },
+    "conversationJsonLabel": "Konuşma JSON’u (role/content alanlarına sahip mesaj dizisi)",
+    "conversationJsonInvalid": "role ve content alanları dize türünde olan mesajlardan oluşan, boş olmayan bir JSON dizisi girin.",
+    "previewPriorRetrievals": "Simüle edilmiş önceki getirmeler (yalnızca önizleme)",
+    "isolatedPreviewNotice": "Yalıtılmış deneme çalıştırması. Bloklar yalnızca bu önizleme için vardır; canlı depoya yazılmaz ve getirme geri bildirimi oluşturulmaz.",
+    "retrievePreviewBlock": "Önizleme bloğunu getir: {hash}"
   },
   "contextCombos": {
     "title": "Sıkıştırma Kombinasyonları",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Güncellendi",
     "lastRefreshed": "Son yenileme",
     "providerQuota": "Sağlayıcı Kotası",
-    "providerQuotaHomeHint": "Bağlı hesaplar genelinde canlı durum"
+    "providerQuotaHomeHint": "Bağlı hesaplar genelinde canlı durum",
+    "budgetDataUnavailable": "Bütçe verileri kullanılamıyor. Kullanım ve sınırlar yüklenemedi.",
+    "budgetAccountingNotice": "Kaydedilen bütçe harcaması: bütçe defterinden, sunucunun yerel saatine göre bugün ve takvim ayı için. Sağlayıcı faturalandırması değildir. Durum, yapılandırılmış sınırları yansıtır; her istek işleme yolunda bu sınırların uygulanacağını garanti etmez.",
+    "budgetAnalyticsNotice": "Bu anahtar için kayan son 30 günlük dönemde token fiyatlarına dayalı maliyet tahminleri (sabit ücretli abonelikler hariç). Bütçe defterindeki takvim ayı kullanımından ayrıdır; sağlayıcı faturalandırması değildir.",
+    "budgetBreakdownUnavailable": "Fiyatlandırma analizi dökümü kullanılamıyor.",
+    "budgetNoAnalyticsData": "Bu anahtar ve dönem için fiyatlandırma analizinde pozitif tahmini maliyet verisi yok."
   },
   "modals": {
     "waitingAuth": "Yetkilendirme bekleniyor",

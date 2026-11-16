@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Kreirajte Internu Integraciju na",
     "notionIntegrationToken": "Notion Interni Integracijski Token",
     "notionNotConnected": "Nije povezano",
-    "notionTokenConfigured": "Token konfigurisan. Notion alati su dostupni putem MCP-a."
+    "notionTokenConfigured": "Token konfigurisan. Notion alati su dostupni putem MCP-a.",
+    "apiKeyClipboardFailed": "Sigurni međuspremnik nije dostupan. Koristite HTTPS i dozvolite pristup međuspremniku."
   },
   "endpoints": {
     "tabProxy": "Proxy krajnje tačke",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agresivno",
       "ultra": "Ultra",
       "responsesToolOutput": "Odgovori na izlaz alata"
-    }
+    },
+    "conversationJsonLabel": "JSON razgovora (niz poruka s poljima role/content)",
+    "conversationJsonInvalid": "Unesite neprazan JSON niz poruka s poljima role i content tipa tekstualni niz.",
+    "previewPriorRetrievals": "Simulirana prethodna dohvaćanja (samo za pregled)",
+    "isolatedPreviewNotice": "Izolirana probna obrada. Blokovi postoje samo za ovaj pregled; nema upisa u aktivno spremište ni povratnih informacija o dohvaćanju.",
+    "retrievePreviewBlock": "Dohvati blok pregleda {hash}"
   },
   "contextCombos": {
     "title": "Kombinacije kompresije",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Ažurirano",
     "lastRefreshed": "Posljednje osvježavanje",
     "providerQuota": "Kvota provajdera",
-    "providerQuotaHomeHint": "Status uživo kroz povezane račune"
+    "providerQuotaHomeHint": "Status uživo kroz povezane račune",
+    "budgetDataUnavailable": "Podaci o budžetu nisu dostupni. Potrošnju i ograničenja nije bilo moguće učitati.",
+    "budgetAccountingNotice": "Evidentirani budžetski troškovi: za danas i kalendarski mjesec prema lokalnom vremenu servera, iz budžetske evidencije. Ovo nije obračun pružaoca usluge. Status odražava postavljena ograničenja, ali ne garantuje da se ona primjenjuju na svakoj putanji zahtjeva.",
+    "budgetAnalyticsNotice": "Procjene na osnovu cijena tokena za ovaj ključ u pomičnom periodu od posljednjih 30 dana (bez pretplata s fiksnom tarifom). Odvojene su od potrošnje u budžetskoj evidenciji za kalendarski mjesec; nisu obračun pružaoca usluge.",
+    "budgetBreakdownUnavailable": "Raščlanjeni podaci analize cijena nisu dostupni.",
+    "budgetNoAnalyticsData": "U analizi cijena nema podataka o procijenjenom trošku većem od nule za ovaj ključ i period."
   },
   "modals": {
     "waitingAuth": "Čekanje autorizacije",

@@ -10,6 +10,8 @@ import ResultNarrated from "./ResultNarrated";
 import type { AdvancedSlug, FormatId, TranslateMode } from "../types";
 
 interface TranslateTabProps {
+  mode: TranslateMode;
+  onModeChange: (mode: TranslateMode) => void;
   /**
    * F9 integration: tells TranslateTab to open a specific advanced accordion.
    * When null, no accordion is forced open.
@@ -35,7 +37,8 @@ interface TranslateTabProps {
 }
 
 export default function TranslateTab({
-  forceOpenAdvancedSlug = null,
+  mode,
+  onModeChange,
   onAdvancedSlugChange,
   session: sessionProp,
   onInputChange,
@@ -43,7 +46,6 @@ export default function TranslateTab({
   // Internal simple-mode state
   const [source, setSource] = useState<FormatId>("claude");
   const [inputText, setInputText] = useState<string>("");
-  const [mode, setMode] = useState<TranslateMode>("send");
 
   // Unified input change handler — keeps internal state and notifies shell (GAP-NOVO-2)
   const handleInputChange = (text: string) => {
@@ -111,7 +113,7 @@ export default function TranslateTab({
             onTargetChange={setTarget}
             onProviderChange={handleProviderChange}
             onInputChange={handleInputChange}
-            onModeChange={setMode}
+            onModeChange={onModeChange}
             onSubmit={handleSubmit}
             onOpenAdvanced={() => handleOpenAdvanced("rawjson")}
             isLoading={result.status === "translating" || result.status === "sending"}

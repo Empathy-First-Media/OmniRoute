@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import React from "react";
+import { fireEvent } from "@testing-library/react";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -169,6 +170,44 @@ function runCleanup(): void {
 }
 
 describe("RawJsonPanel", () => {
+  it("preserves local input and translation on unchanged results, adopting only new completed JSON", async () => {
+    const { default: RawJsonPanel } =
+      await import("@/app/(dashboard)/dashboard/translator/components/advanced/RawJsonPanel");
+    const container = makeContainer();
+    const root = mountRoot(container);
+    const incoming = '{"completed":"first"}';
+    const local = '{"messages":[{"role":"user","content":"local draft"}]}';
+    await act(async () => root.render(<RawJsonPanel defaultOpen translatedJson={incoming} />));
+    const input = () =>
+      container.querySelector<HTMLTextAreaElement>(
+        '[data-testid="monaco-editor"][data-readonly="false"]'
+      )!;
+    const output = () =>
+      container.querySelector<HTMLTextAreaElement>(
+        '[data-testid="monaco-editor"][data-readonly="true"]'
+      )!;
+    expect(output().value).toBe(incoming);
+    await act(async () => {
+      fireEvent.change(container.querySelector("select")!, { target: { value: "openai" } });
+      fireEvent.change(input(), { target: { value: local } });
+    });
+    const translate = [
+      ...container.querySelectorAll<HTMLButtonElement>('button[data-testid="button"]'),
+    ].find((b) => b.getAttribute("data-icon") === "arrow_forward");
+    expect(translate).toBeTruthy();
+    await act(async () => translate!.click());
+    const localOutput = JSON.stringify(JSON.parse(local), null, 2);
+    expect(output().value).toBe(localOutput);
+    await act(async () => root.render(<RawJsonPanel defaultOpen translatedJson={incoming} />));
+    expect(input().value).toBe(local);
+    expect(output().value).toBe(localOutput);
+    await act(async () => root.render(<RawJsonPanel defaultOpen translatedJson={null} />));
+    expect(output().value).toBe(localOutput);
+    const next = '{"completed":"second"}';
+    await act(async () => root.render(<RawJsonPanel defaultOpen translatedJson={next} />));
+    expect(input().value).toBe(local);
+    expect(output().value).toBe(next);
+  });
   beforeEach(() => {
     (
       globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }
@@ -192,9 +231,10 @@ describe("RawJsonPanel", () => {
     await act(async () => {
       root.render(<RawJsonPanel />);
     });
-    const collapsible = container.querySelector("[data-testid='collapsible']");
-    expect(collapsible).toBeTruthy();
-    expect(collapsible?.getAttribute("data-icon")).toBe("code");
+    const toggle = container.querySelector("button[aria-expanded]");
+    expect(toggle?.getAttribute("aria-expanded")).toBe("false");
+    expect(toggle?.textContent).toContain("Raw JSON");
+    expect(toggle?.textContent).toContain("code");
   });
 
   it("lazy-render: content mounts when defaultOpen=true", async () => {
@@ -348,7 +388,6 @@ describe("RawJsonPanel", () => {
     }
 
     // The rendered error text must NOT include a stack-trace line
-    const errorBanner = container.querySelector("[data-testid='card']");
     const displayedText = container.textContent ?? "";
     expect(displayedText).not.toMatch(/\s+at\s+[A-Za-z]/);
     vi.unstubAllGlobals();
@@ -364,6 +403,7 @@ describe("RawJsonPanel", () => {
     });
     // Swap button has title/aria-label
     const swapBtn = container.querySelector("button[title]");
+    expect(swapBtn?.getAttribute("aria-label")).toBe("Swap formats");
     // There should be at least one swap_horiz icon
     const icons = container.querySelectorAll(".material-symbols-outlined");
     const iconTexts = Array.from(icons).map((el) => el.textContent?.trim());

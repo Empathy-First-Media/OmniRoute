@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Crea un'integrazione interna a",
     "notionIntegrationToken": "Token di integrazione interna di Notion",
     "notionNotConnected": "Non connesso",
-    "notionTokenConfigured": "Token configurato. Gli strumenti di Notion sono disponibili tramite MCP."
+    "notionTokenConfigured": "Token configurato. Gli strumenti di Notion sono disponibili tramite MCP.",
+    "apiKeyClipboardFailed": "Gli appunti sicuri non sono disponibili. Usa HTTPS e consenti l’accesso agli appunti."
   },
   "endpoints": {
     "tabProxy": "Proxy endpoint",
@@ -8701,7 +8702,12 @@
       "aggressive": "Aggressivo",
       "ultra": "Ultra",
       "responsesToolOutput": "Output dello strumento Risposte"
-    }
+    },
+    "conversationJsonLabel": "JSON della conversazione (array di messaggi con campi role/content)",
+    "conversationJsonInvalid": "Inserisci un array JSON non vuoto di messaggi con i campi role e content di tipo stringa.",
+    "previewPriorRetrievals": "Recuperi precedenti simulati (solo anteprima)",
+    "isolatedPreviewNotice": "Esecuzione di prova isolata. I blocchi esistono solo per questa anteprima; nessuna scrittura nell’archivio attivo né feedback sui recuperi.",
+    "retrievePreviewBlock": "Recupera il blocco di anteprima {hash}"
   },
   "contextCombos": {
     "title": "Combinazioni di compressione",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Aggiornato",
     "lastRefreshed": "Ultimo aggiornamento",
     "providerQuota": "Quota del provider",
-    "providerQuotaHomeHint": "Stato in tempo reale tra gli account connessi"
+    "providerQuotaHomeHint": "Stato in tempo reale tra gli account connessi",
+    "budgetDataUnavailable": "Dati del budget non disponibili. Impossibile caricare l’utilizzo e i limiti.",
+    "budgetAccountingNotice": "Spesa del budget registrata: oggi e nel mese di calendario secondo l’ora locale del server, dal registro del budget. Non si tratta della fatturazione del fornitore. Lo stato riflette i limiti configurati, ma non garantisce che vengano applicati in ogni percorso di elaborazione delle richieste.",
+    "budgetAnalyticsNotice": "Stime basate sui prezzi dei token per questa chiave negli ultimi 30 giorni su finestra mobile (abbonamenti a tariffa fissa esclusi). Sono separate dall’utilizzo del mese di calendario nel registro del budget; non si tratta della fatturazione del fornitore.",
+    "budgetBreakdownUnavailable": "La ripartizione dell’analisi dei prezzi non è disponibile.",
+    "budgetNoAnalyticsData": "Nessun dato di costo stimato superiore a zero nell’analisi dei prezzi per questa chiave e questo intervallo."
   },
   "modals": {
     "waitingAuth": "In attesa di autorizzazione",

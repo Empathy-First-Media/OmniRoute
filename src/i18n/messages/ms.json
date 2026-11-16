@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "Memaparkan {shown} daripada {total} baris yang sepadan (50 teratas)."
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "Papan klip selamat tidak tersedia. Gunakan HTTPS dan benarkan akses papan klip.",
     "title": "Titik Akhir API",
     "subtitle": "Gunakan titik akhir yang serasi dengan OpenAI bersama kebanyakan SDK dan alat.",
     "testEndpoint": "Uji titik akhir →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "Tidak dapat membaca fail TOML yang dipilih."
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "JSON perbualan (tatasusunan mesej role/content)",
+    "conversationJsonInvalid": "Masukkan tatasusunan JSON mesej yang tidak kosong dengan role dan content berbentuk rentetan.",
+    "previewPriorRetrievals": "Simulasi pengambilan terdahulu (pratonton sahaja)",
+    "isolatedPreviewNotice": "Ujian terasing. Blok hanya wujud untuk pratonton ini; tiada penulisan ke stor aktif atau maklum balas pengambilan.",
+    "retrievePreviewBlock": "Ambil blok pratonton {hash}",
     "loading": "Memuatkan…",
     "loadFailed": "Gagal memuatkan maklumat enjin.",
     "engineNotFound": "Enjin \"{engine}\" tidak ditemui.",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "Gagal mengubah strim"
   },
   "usage": {
+    "budgetDataUnavailable": "Data belanjawan tidak tersedia. Penggunaan dan had tidak dapat dimuatkan.",
+    "budgetAccountingNotice": "Perbelanjaan belanjawan yang direkodkan: hari ini dan bulan kalendar mengikut waktu tempatan pelayan, daripada lejar belanjawan. Bukan bil penyedia. Status mencerminkan had yang dikonfigurasi, bukan jaminan bahawa setiap laluan permintaan menguatkuasakannya.",
+    "budgetAnalyticsNotice": "Anggaran berdasarkan harga token khusus untuk kunci ini bagi tempoh bergerak 30 hari terakhir (langganan kadar tetap dikecualikan). Berasingan daripada penggunaan lejar belanjawan bulan kalendar; bukan bil penyedia.",
+    "budgetBreakdownUnavailable": "Pecahan analitik harga tidak tersedia.",
+    "budgetNoAnalyticsData": "Tiada data anggaran kos melebihi sifar dalam analitik harga untuk kunci dan tempoh ini.",
     "title": "Penggunaan",
     "grokExtraUsageCredits": "Kredit Penggunaan Tambahan",
     "grokAutoTopUp": "Pengisian Automatik",

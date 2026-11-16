@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "일치하는 {total}개 행 중 {shown}개를 표시합니다(상위 50개)."
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "보안 클립보드를 사용할 수 없습니다. HTTPS를 사용하고 클립보드 접근을 허용하세요.",
     "title": "API 엔드포인트",
     "subtitle": "대부분의 SDK 및 도구에서 OpenAI 호환 엔드포인트를 사용하세요.",
     "testEndpoint": "엔드포인트 테스트 →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "선택한 TOML 파일을 읽을 수 없습니다."
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "대화 JSON (role/content 메시지 배열)",
+    "conversationJsonInvalid": "role과 content가 문자열인 메시지로 구성된 비어 있지 않은 JSON 배열을 입력하세요.",
+    "previewPriorRetrievals": "이전 검색 시뮬레이션 (미리보기 전용)",
+    "isolatedPreviewNotice": "격리된 시험 실행입니다. 블록은 이 미리보기에만 존재하며, 실제 저장소 쓰기나 검색 피드백은 발생하지 않습니다.",
+    "retrievePreviewBlock": "미리보기 블록 {hash} 검색",
     "loading": "로드 중…",
     "loadFailed": "엔진 정보를 로드하지 못했습니다.",
     "engineNotFound": "엔진 \"{engine}\"을(를) 찾을 수 없습니다.",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "스트림 변환 실패"
   },
   "usage": {
+    "budgetDataUnavailable": "예산 데이터를 사용할 수 없습니다. 사용량과 한도를 불러오지 못했습니다.",
+    "budgetAccountingNotice": "기록된 예산 지출: 서버 현지 시간을 기준으로 오늘과 해당 역월의 예산 원장에 기록된 금액입니다. 제공업체의 청구 금액이 아닙니다. 상태는 설정된 한도를 반영하며, 모든 요청 경로에서 해당 한도가 적용된다는 보장은 아닙니다.",
+    "budgetAnalyticsNotice": "이 키에 한정된 최근 30일 이동 기간의 토큰 단가 기반 추정치입니다(정액제 구독 제외). 역월 기준 예산 원장 사용액과는 별개이며 제공업체의 청구 금액이 아닙니다.",
+    "budgetBreakdownUnavailable": "가격 분석 세부 내역을 사용할 수 없습니다.",
+    "budgetNoAnalyticsData": "이 키와 기간의 가격 분석에 0보다 큰 예상 비용 데이터가 없습니다.",
     "title": "사용량",
     "grokExtraUsageCredits": "추가 사용 크레딧",
     "grokAutoTopUp": "자동 충전",

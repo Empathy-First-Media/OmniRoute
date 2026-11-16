@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Quyidagi manzilda ichki integratsiya yarating",
     "notionIntegrationToken": "Notion ichki integratsiya tokeni",
     "notionNotConnected": "Ulanmagan",
-    "notionTokenConfigured": "Token sozlandi. Notion vositalari MCP orqali mavjud."
+    "notionTokenConfigured": "Token sozlandi. Notion vositalari MCP orqali mavjud.",
+    "apiKeyClipboardFailed": "Xavfsiz vaqtinchalik xotira mavjud emas. HTTPS dan foydalaning va vaqtinchalik xotiraga kirishga ruxsat bering."
   },
   "endpoints": {
     "tabProxy": "Endpoint proksisi",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agressiv",
       "ultra": "Ultra",
       "responsesToolOutput": "Responses vositasi chiqishi"
-    }
+    },
+    "conversationJsonLabel": "Suhbat JSON’i (role/content maydonlari bo‘lgan xabarlar massivi)",
+    "conversationJsonInvalid": "role va content maydonlari satr turida bo‘lgan xabarlardan iborat bo‘sh bo‘lmagan JSON massivini kiriting.",
+    "previewPriorRetrievals": "Oldingi olishlarning simulyatsiyasi (faqat oldindan ko‘rish uchun)",
+    "isolatedPreviewNotice": "Ajratilgan sinov ishga tushirilishi. Bloklar faqat shu oldindan ko‘rish uchun mavjud; faol saqlash joyiga yozilmaydi va olish bo‘yicha qayta aloqa yaratilmaydi.",
+    "retrievePreviewBlock": "Oldindan ko‘rish blokini olish: {hash}"
   },
   "contextCombos": {
     "title": "Siqish kombinatsiyalari",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Yangilangan",
     "lastRefreshed": "Oxirgi yangilanish",
     "providerQuota": "Provayder kvotasi",
-    "providerQuotaHomeHint": "Ulangan hisoblar bo‘yicha joriy holat"
+    "providerQuotaHomeHint": "Ulangan hisoblar bo‘yicha joriy holat",
+    "budgetDataUnavailable": "Budjet ma’lumotlari mavjud emas. Foydalanish va cheklovlarni yuklab bo‘lmadi.",
+    "budgetAccountingNotice": "Qayd etilgan budjet xarajatlari: budjet hisob daftaridan, serverning mahalliy vaqti bo‘yicha bugun va kalendar oy uchun. Bu provayderning hisob-kitobi emas. Holat sozlangan cheklovlarni aks ettiradi, ammo ular har bir so‘rovni qayta ishlash yo‘lida qo‘llanishini kafolatlamaydi.",
+    "budgetAnalyticsNotice": "Ushbu kalit uchun oxirgi 30 kunlik siljib boruvchi davrda token narxlariga asoslangan xarajat taxminlari (qat’iy tarifli obunalar bundan mustasno). Budjet hisob daftaridagi kalendar oy bo‘yicha foydalanishdan alohida; bu provayderning hisob-kitobi emas.",
+    "budgetBreakdownUnavailable": "Narxlar tahlilining batafsil taqsimoti mavjud emas.",
+    "budgetNoAnalyticsData": "Narxlar tahlilida ushbu kalit va davr uchun musbat taxminiy xarajat ma’lumotlari yo‘q."
   },
   "modals": {
     "waitingAuth": "Avtorizatsiya kutilmoqda",

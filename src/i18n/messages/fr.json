@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Créer an Internal Integration at",
     "notionIntegrationToken": "Jeton d’intégration interne Notion",
     "notionNotConnected": "Non connecté",
-    "notionTokenConfigured": "Jeton configuré. Les outils Notion sont disponibles via MCP."
+    "notionTokenConfigured": "Jeton configuré. Les outils Notion sont disponibles via MCP.",
+    "apiKeyClipboardFailed": "Le presse-papiers sécurisé est indisponible. Utilisez HTTPS et autorisez l’accès au presse-papiers."
   },
   "endpoints": {
     "tabProxy": "Proxy de point de terminaison",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agressive",
       "ultra": "Ultra",
       "responsesToolOutput": "Sortie d’outil Responses"
-    }
+    },
+    "conversationJsonLabel": "JSON de la conversation (tableau de messages avec les champs role/content)",
+    "conversationJsonInvalid": "Saisissez un tableau JSON non vide de messages dont les champs role et content sont des chaînes de caractères.",
+    "previewPriorRetrievals": "Récupérations antérieures simulées (aperçu uniquement)",
+    "isolatedPreviewNotice": "Exécution à blanc isolée. Les blocs existent uniquement pour cet aperçu ; aucune écriture dans le stockage actif ni aucun retour sur les récupérations.",
+    "retrievePreviewBlock": "Récupérer le bloc d’aperçu {hash}"
   },
   "contextCombos": {
     "title": "Combinaisons de compression",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Mis à jour",
     "lastRefreshed": "Dernière actualisation",
     "providerQuota": "Quota du fournisseur",
-    "providerQuotaHomeHint": "Statut en direct sur les comptes connectés"
+    "providerQuotaHomeHint": "Statut en direct sur les comptes connectés",
+    "budgetDataUnavailable": "Données budgétaires indisponibles. Impossible de charger l’utilisation et les limites.",
+    "budgetAccountingNotice": "Dépenses budgétaires enregistrées : aujourd’hui et sur le mois civil selon l’heure locale du serveur, à partir du registre budgétaire. Il ne s’agit pas de la facturation du fournisseur. Le statut reflète les limites configurées, sans garantir leur application à tous les chemins de traitement des requêtes.",
+    "budgetAnalyticsNotice": "Estimations fondées sur le prix des jetons pour cette clé sur les 30 derniers jours glissants (abonnements à tarif forfaitaire exclus). Elles sont distinctes de l’utilisation du mois civil dans le registre budgétaire ; il ne s’agit pas de la facturation du fournisseur.",
+    "budgetBreakdownUnavailable": "Ventilation de l’analyse des prix indisponible.",
+    "budgetNoAnalyticsData": "Aucune donnée de coût estimé supérieur à zéro dans l’analyse des prix pour cette clé et cette période."
   },
   "modals": {
     "waitingAuth": "En attente d'autorisation",

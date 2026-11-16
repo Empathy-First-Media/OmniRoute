@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Oħloq Integrazzjoni Interna fuq",
     "notionIntegrationToken": "Token tal-Integrazzjoni Interna ta’ Notion",
     "notionNotConnected": "Mhux konness",
-    "notionTokenConfigured": "It-token ġie kkonfigurat. L-għodod ta’ Notion huma disponibbli permezz tal-MCP."
+    "notionTokenConfigured": "It-token ġie kkonfigurat. L-għodod ta’ Notion huma disponibbli permezz tal-MCP.",
+    "apiKeyClipboardFailed": "Il-clipboard sigur mhuwiex disponibbli. Uża HTTPS u ħalli l-aċċess għall-clipboard."
   },
   "endpoints": {
     "tabProxy": "Proxy tal-Endpoint",
@@ -8701,7 +8702,12 @@
       "aggressive": "Aggressiv",
       "ultra": "Ultra",
       "responsesToolOutput": "Output tal-għodda Responses"
-    }
+    },
+    "conversationJsonLabel": "JSON tal-konverżazzjoni (firxa ta’ messaġġi b’role/content)",
+    "conversationJsonInvalid": "Daħħal firxa JSON mhux vojta ta’ messaġġi b’role u content tat-tip string.",
+    "previewPriorRetrievals": "Irkupri preċedenti simulati (għall-previżjoni biss)",
+    "isolatedPreviewNotice": "Prova iżolata. Il-blokok jeżistu biss għal din il-previżjoni; ma jsir ebda kitba fil-ħażna attiva jew rispons dwar l-irkupru.",
+    "retrievePreviewBlock": "Irkupra l-blokka tal-previżjoni {hash}"
   },
   "contextCombos": {
     "title": "Kombinazzjonijiet tal-Kompressjoni",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Aġġornat",
     "lastRefreshed": "Aġġornat l-aħħar darba",
     "providerQuota": "Kwota tal-Fornitur",
-    "providerQuotaHomeHint": "Status f’ħin reali fil-kontijiet konnessi"
+    "providerQuotaHomeHint": "Status f’ħin reali fil-kontijiet konnessi",
+    "budgetDataUnavailable": "Id-dejta tal-baġit mhijiex disponibbli. L-użu u l-limiti ma setgħux jitgħabbew.",
+    "budgetAccountingNotice": "Infiq irreġistrat tal-baġit: illum u fix-xahar kalendarju skont il-ħin lokali tas-server, mir-reġistru tal-baġit. Din mhijiex fatturazzjoni mill-fornitur. L-istatus jirrifletti l-limiti kkonfigurati, mhux garanzija li dawn jiġu infurzati f’kull mogħdija tal-ipproċessar tat-talbiet.",
+    "budgetAnalyticsNotice": "Stimi tal-ispiża bbażati fuq il-prezzijiet tat-tokens għal din iċ-ċavetta, għall-perjodu kontinwu tal-aħħar 30 jum (abbonamenti b’rata fissa esklużi). Separati mill-użu fir-reġistru tal-baġit għax-xahar kalendarju; mhumiex fatturazzjoni mill-fornitur.",
+    "budgetBreakdownUnavailable": "Id-dettall tal-analiżi tal-prezzijiet mhuwiex disponibbli.",
+    "budgetNoAnalyticsData": "M’hemmx dejta bi spiża stmata pożittiva fl-analiżi tal-prezzijiet għal din iċ-ċavetta u dan il-perjodu."
   },
   "modals": {
     "waitingAuth": "Stennija għall-Awtorizzazzjoni",

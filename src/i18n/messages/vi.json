@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "Đang hiển thị {shown} trong tổng số {total} hàng phù hợp (50 hàng đầu)."
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "Không thể dùng bảng nhớ tạm bảo mật. Hãy dùng HTTPS và cho phép truy cập bảng nhớ tạm.",
     "title": "Endpoint API",
     "subtitle": "Dùng endpoint tương thích OpenAI với hầu hết SDK và công cụ.",
     "testEndpoint": "Kiểm tra endpoint →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "Không thể đọc tệp TOML đã chọn."
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "JSON hội thoại (mảng các tin nhắn có role/content)",
+    "conversationJsonInvalid": "Nhập một mảng JSON tin nhắn không rỗng, trong đó role và content là chuỗi.",
+    "previewPriorRetrievals": "Mô phỏng các lần truy xuất trước (chỉ dùng để xem trước)",
+    "isolatedPreviewNotice": "Chạy thử biệt lập. Các khối chỉ tồn tại cho lần xem trước này; không ghi vào kho đang hoạt động hay gửi phản hồi truy xuất.",
+    "retrievePreviewBlock": "Truy xuất khối xem trước {hash}",
     "loading": "Đang tải…",
     "loadFailed": "Không thể tải thông tin bộ máy.",
     "engineNotFound": "Không tìm thấy bộ máy \"{engine}\".",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "Không thể chuyển đổi luồng"
   },
   "usage": {
+    "budgetDataUnavailable": "Không có dữ liệu ngân sách. Không thể tải mức sử dụng và giới hạn.",
+    "budgetAccountingNotice": "Chi tiêu ngân sách đã ghi nhận: hôm nay và tháng dương lịch theo giờ địa phương của máy chủ, lấy từ sổ cái ngân sách. Không phải khoản nhà cung cấp lập hóa đơn. Trạng thái phản ánh các giới hạn đã cấu hình, không bảo đảm rằng mọi luồng yêu cầu đều thực thi các giới hạn đó.",
+    "budgetAnalyticsNotice": "Ước tính theo giá token chỉ dành cho khóa này trong khoảng thời gian trượt 30 ngày gần nhất (không bao gồm thuê bao giá cố định). Tách biệt với mức sử dụng trong sổ cái ngân sách theo tháng dương lịch; không phải khoản nhà cung cấp lập hóa đơn.",
+    "budgetBreakdownUnavailable": "Không có chi tiết phân tích giá.",
+    "budgetNoAnalyticsData": "Không có dữ liệu chi phí ước tính lớn hơn không trong phân tích giá cho khóa và khoảng thời gian này.",
     "title": "Mức sử dụng",
     "grokExtraUsageCredits": "Tín dụng sử dụng bổ sung",
     "grokAutoTopUp": "Tự động nạp thêm",

@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Sukurkite vidinę integraciją adresu",
     "notionIntegrationToken": "Notion vidinės integracijos prieigos raktas",
     "notionNotConnected": "Neprijungta",
-    "notionTokenConfigured": "Raktas sukonfigūruotas. Notion įrankiai pasiekiami per MCP."
+    "notionTokenConfigured": "Raktas sukonfigūruotas. Notion įrankiai pasiekiami per MCP.",
+    "apiKeyClipboardFailed": "Saugi iškarpinė nepasiekiama. Naudokite HTTPS ir leiskite prieigą prie iškarpinės."
   },
   "endpoints": {
     "tabProxy": "Galinio taško proxy",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agresyvus",
       "ultra": "Ultra",
       "responsesToolOutput": "„Responses“ įrankio išvestis"
-    }
+    },
+    "conversationJsonLabel": "Pokalbio JSON (pranešimų su laukais role/content masyvas)",
+    "conversationJsonInvalid": "Įveskite netuščią JSON pranešimų masyvą, kurio laukai role ir content yra eilutės tipo.",
+    "previewPriorRetrievals": "Imituoti ankstesni gavimai (tik peržiūrai)",
+    "isolatedPreviewNotice": "Izoliuotas bandomasis vykdymas. Blokai egzistuoja tik šiai peržiūrai; į veikiančią saugyklą nerašoma ir neteikiamas gavimų grįžtamasis ryšys.",
+    "retrievePreviewBlock": "Gauti peržiūros bloką {hash}"
   },
   "contextCombos": {
     "title": "Glaudinimo deriniai",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Atnaujinta",
     "lastRefreshed": "Paskutinį kartą atnaujinta",
     "providerQuota": "Teikėjo kvota",
-    "providerQuotaHomeHint": "Būsena realiuoju laiku visose prijungtose paskyrose"
+    "providerQuotaHomeHint": "Būsena realiuoju laiku visose prijungtose paskyrose",
+    "budgetDataUnavailable": "Biudžeto duomenys nepasiekiami. Nepavyko įkelti naudojimo ir limitų.",
+    "budgetAccountingNotice": "Užregistruotos biudžeto išlaidos: šiandien ir per kalendorinį mėnesį pagal serverio vietos laiką, iš biudžeto apskaitos žurnalo. Tai nėra teikėjo sąskaitų apskaičiavimas. Būsena atspindi nustatytus limitus, bet negarantuoja, kad jie taikomi visuose užklausų apdorojimo keliuose.",
+    "budgetAnalyticsNotice": "Šio rakto sąnaudų įverčiai pagal žetonų kainas per slenkantį paskutinių 30 dienų laikotarpį (fiksuoto tarifo prenumeratos neįtrauktos). Jie atskirti nuo kalendorinio mėnesio naudojimo biudžeto apskaitos žurnale; tai nėra teikėjo sąskaitų apskaičiavimas.",
+    "budgetBreakdownUnavailable": "Kainų analizės išklotinė nepasiekiama.",
+    "budgetNoAnalyticsData": "Šiam raktui ir laikotarpiui kainų analizėje nėra duomenų apie didesnes už nulį numatomas sąnaudas."
   },
   "modals": {
     "waitingAuth": "Laukiama autorizacijos",

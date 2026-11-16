@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Opprett en intern integrasjon på",
     "notionIntegrationToken": "Notion Intern Integrasjonstoken",
     "notionNotConnected": "Ikke tilkoblet",
-    "notionTokenConfigured": "Token konfigurert. Notion-verktøy er tilgjengelige via MCP."
+    "notionTokenConfigured": "Token konfigurert. Notion-verktøy er tilgjengelige via MCP.",
+    "apiKeyClipboardFailed": "Sikker utklippstavle er utilgjengelig. Bruk HTTPS og tillat tilgang til utklippstavlen."
   },
   "endpoints": {
     "tabProxy": "Endepunktproxy",
@@ -8701,7 +8702,12 @@
       "aggressive": "Aggressiv",
       "ultra": "Ultra",
       "responsesToolOutput": "Svarverktøyutdata"
-    }
+    },
+    "conversationJsonLabel": "Samtale-JSON (liste med meldinger med role/content)",
+    "conversationJsonInvalid": "Skriv inn en ikke-tom JSON-liste med meldinger der role og content er tekststrenger.",
+    "previewPriorRetrievals": "Simulerte tidligere hentinger (kun forhåndsvisning)",
+    "isolatedPreviewNotice": "Isolert prøvekjøring. Blokkene finnes bare for denne forhåndsvisningen; ingen skriving til aktivt datalager eller tilbakemelding om henting.",
+    "retrievePreviewBlock": "Hent forhåndsvisningsblokk {hash}"
   },
   "contextCombos": {
     "title": "Komprimeringskombinasjoner",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Oppdatert",
     "lastRefreshed": "Sist oppdatert",
     "providerQuota": "Leverandørkvote",
-    "providerQuotaHomeHint": "Sanntidsstatus på tvers av tilkoblede kontoer"
+    "providerQuotaHomeHint": "Sanntidsstatus på tvers av tilkoblede kontoer",
+    "budgetDataUnavailable": "Budsjettdata er utilgjengelige. Bruk og grenser kunne ikke lastes inn.",
+    "budgetAccountingNotice": "Registrerte budsjettutgifter: i dag og i kalendermåneden etter serverens lokale tid, fra budsjettregnskapet. Dette er ikke leverandørens fakturering. Statusen gjenspeiler konfigurerte grenser, ikke en garanti for at de håndheves i alle behandlingsløp for forespørsler.",
+    "budgetAnalyticsNotice": "Kostnadsestimater basert på tokenpriser for denne nøkkelen over de siste 30 dagene i en rullerende periode (fastprisabonnementer er utelatt). Atskilt fra kalendermånedens bruk i budsjettregnskapet; ikke leverandørens fakturering.",
+    "budgetBreakdownUnavailable": "Detaljert oppdeling av prisanalysen er utilgjengelig.",
+    "budgetNoAnalyticsData": "Ingen data med positiv estimert kostnad i prisanalysen for denne nøkkelen og perioden."
   },
   "modals": {
     "waitingAuth": "Venter på autorisasjon",

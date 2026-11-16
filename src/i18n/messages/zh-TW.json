@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "正在顯示 {total} 個匹配行中的 {shown} 個（前 50 個）。"
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "安全剪貼簿無法使用。請使用HTTPS並允許存取剪貼簿。",
     "title": "API 端點",
     "subtitle": "搭配大多數 SDK 與工具使用 OpenAI 相容端點。",
     "testEndpoint": "測試端點 →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "無法讀取選取的 TOML 檔案。"
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "對話JSON（包含role/content的訊息陣列）",
+    "conversationJsonInvalid": "請輸入非空的JSON訊息陣列，其中role和content必須是字串。",
+    "previewPriorRetrievals": "模擬先前的檢索（僅供預覽）",
+    "isolatedPreviewNotice": "隔離試執行。區塊僅存在於此次預覽中，不會寫入實際儲存空間或產生檢索回饋。",
+    "retrievePreviewBlock": "檢索預覽區塊 {hash}",
     "loading": "載入中…",
     "loadFailed": "無法載入引擎資訊。",
     "engineNotFound": "找不到引擎「{engine}」。",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "轉換串流失敗"
   },
   "usage": {
+    "budgetDataUnavailable": "預算資料無法使用。無法載入使用量與額度上限。",
+    "budgetAccountingNotice": "已記錄的預算支出：來自預算帳本，依伺服器本地時間統計今天與目前曆月的資料。並非供應商帳單金額。狀態反映已設定的上限，不保證每條請求路徑都會執行這些上限。",
+    "budgetAnalyticsNotice": "僅針對此金鑰、依權杖單價計算的最近30天滾動期間估算值（不含固定費率訂閱）。與曆月預算帳本的使用額分開統計，並非供應商帳單金額。",
+    "budgetBreakdownUnavailable": "價格分析明細無法使用。",
+    "budgetNoAnalyticsData": "此金鑰與時間範圍的價格分析中沒有大於零的估算費用資料。",
     "title": "用量",
     "grokExtraUsageCredits": "額外使用積分",
     "grokAutoTopUp": "自動加值",

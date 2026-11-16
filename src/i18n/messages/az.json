@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "İç İnteqrasiya Yaradın at",
     "notionIntegrationToken": "Notion Daxili İnteqrasiya Tokeni",
     "notionNotConnected": "Bağlı deyil",
-    "notionTokenConfigured": "Token konfiqurasiya edilib. Notion alətləri MCP vasitəsilə mövcuddur."
+    "notionTokenConfigured": "Token konfiqurasiya edilib. Notion alətləri MCP vasitəsilə mövcuddur.",
+    "apiKeyClipboardFailed": "Təhlükəsiz mübadilə buferi əlçatan deyil. HTTPS istifadə edin və mübadilə buferinə girişə icazə verin."
   },
   "endpoints": {
     "tabProxy": "Son nöqtə proksisi",
@@ -8701,7 +8702,12 @@
       "aggressive": "Təcavüzkar",
       "ultra": "Ultra",
       "responsesToolOutput": "Cavablar aləti çıxışı"
-    }
+    },
+    "conversationJsonLabel": "Söhbət JSON-u (role/content sahələri olan mesajlar massivi)",
+    "conversationJsonInvalid": "role və content sahələri sətir tipində olan mesajlardan ibarət boş olmayan JSON massivi daxil edin.",
+    "previewPriorRetrievals": "Simulyasiya edilmiş əvvəlki geri gətirmələr (yalnız önbaxış üçün)",
+    "isolatedPreviewNotice": "Təcrid olunmuş sınaq. Bloklar yalnız bu önbaxış üçün mövcuddur; canlı yaddaşa yazılmır və geri gətirmə əks əlaqəsi verilmir.",
+    "retrievePreviewBlock": "{hash} önbaxış blokunu geri gətir"
   },
   "contextCombos": {
     "title": "Sıxılma kombinasiyaları",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Yeniləndi",
     "lastRefreshed": "Sonuncu dəfə yenilənib",
     "providerQuota": "Provayder kvotası",
-    "providerQuotaHomeHint": "Qoşulmuş hesablar üzrə canlı status"
+    "providerQuotaHomeHint": "Qoşulmuş hesablar üzrə canlı status",
+    "budgetDataUnavailable": "Büdcə məlumatları əlçatan deyil. İstifadə və limitləri yükləmək mümkün olmadı.",
+    "budgetAccountingNotice": "Qeydə alınmış büdcə xərcləri: büdcə uçotundan, serverin yerli vaxtı ilə bu gün və təqvim ayı üçün. Bu, provayderin hesablandırması deyil. Status sazlanmış limitləri əks etdirir, hər sorğu yolunda onların tətbiqinə zəmanət vermir.",
+    "budgetAnalyticsNotice": "Son 30 günlük sürüşən dövr üçün bu açara aid token qiymətləri əsasında təxminlər (sabit tarifli abunəliklər daxil deyil). Təqvim ayı üzrə büdcə uçotundakı istifadədən ayrıdır; provayderin hesablandırması deyil.",
+    "budgetBreakdownUnavailable": "Qiymət analitikasının təfərrüatları əlçatan deyil.",
+    "budgetNoAnalyticsData": "Qiymət analitikasında bu açar və dövr üçün sıfırdan böyük təxmini xərc məlumatı yoxdur."
   },
   "modals": {
     "waitingAuth": "Avtorizasiya gözlənilir",

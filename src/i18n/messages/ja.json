@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "一致する {total} 行のうち {shown} 行を表示しています（上位50件）。"
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "安全なクリップボードを利用できません。HTTPSを使用し、クリップボードへのアクセスを許可してください。",
     "title": "APIエンドポイント",
     "subtitle": "ほとんどのSDKやツールでは、OpenAI互換エンドポイントを使用してください。",
     "testEndpoint": "エンドポイントをテスト →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "選択されたTOMLファイルを読み込めませんでした。"
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "会話JSON（role/contentを持つメッセージの配列）",
+    "conversationJsonInvalid": "roleとcontentが文字列であるメッセージを含む、空でないJSON配列を入力してください。",
+    "previewPriorRetrievals": "過去の取得回数のシミュレーション（プレビューのみ）",
+    "isolatedPreviewNotice": "分離された試行です。ブロックはこのプレビュー内にのみ存在し、本番ストアへの書き込みや取得フィードバックは行われません。",
+    "retrievePreviewBlock": "プレビューブロック {hash} を取得",
     "loading": "読み込み中…",
     "loadFailed": "エンジン情報の読み込みに失敗しました。",
     "engineNotFound": "エンジン「{engine}」が見つかりません。",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "ストリームの変換に失敗しました"
   },
   "usage": {
+    "budgetDataUnavailable": "予算データを利用できません。使用量と上限を読み込めませんでした。",
+    "budgetAccountingNotice": "記録済みの予算支出：サーバーのローカル時間に基づく本日および暦月の値で、予算台帳から取得しています。プロバイダーの請求額ではありません。ステータスは設定された上限を反映しており、すべてのリクエスト経路でその上限が適用されることを保証するものではありません。",
+    "budgetAnalyticsNotice": "このキーを対象とした、直近30日間の移動期間におけるトークン単価に基づく推定額です（定額制サブスクリプションは除外）。暦月単位の予算台帳の使用額とは別であり、プロバイダーの請求額ではありません。",
+    "budgetBreakdownUnavailable": "料金分析の内訳を利用できません。",
+    "budgetNoAnalyticsData": "このキーと期間の料金分析には、ゼロを超える推定費用のデータがありません。",
     "title": "使用法",
     "grokExtraUsageCredits": "追加の使用クレジット",
     "grokAutoTopUp": "自動チャージ",

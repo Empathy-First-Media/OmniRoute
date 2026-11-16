@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Creează o integrare internă la",
     "notionIntegrationToken": "Token Intern de Integrare Notion",
     "notionNotConnected": "Neconectat",
-    "notionTokenConfigured": "Token configurat. Instrumentele Notion sunt disponibile prin MCP."
+    "notionTokenConfigured": "Token configurat. Instrumentele Notion sunt disponibile prin MCP.",
+    "apiKeyClipboardFailed": "Clipboardul securizat nu este disponibil. Folosiți HTTPS și permiteți accesul la clipboard."
   },
   "endpoints": {
     "tabProxy": "Proxy pentru endpointuri",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agresiv",
       "ultra": "Ultra",
       "responsesToolOutput": "Ieșirea instrumentului de răspunsuri"
-    }
+    },
+    "conversationJsonLabel": "JSON al conversației (tablou de mesaje cu role/content)",
+    "conversationJsonInvalid": "Introduceți un tablou JSON nevid de mesaje cu role și content de tip șir de caractere.",
+    "previewPriorRetrievals": "Preluări anterioare simulate (doar previzualizare)",
+    "isolatedPreviewNotice": "Rulare de probă izolată. Blocurile există doar pentru această previzualizare; fără scrieri în stocarea activă sau feedback privind preluarea.",
+    "retrievePreviewBlock": "Preia blocul de previzualizare {hash}"
   },
   "contextCombos": {
     "title": "Combinații de compresie",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Actualizat",
     "lastRefreshed": "Ultima reîmprospătare",
     "providerQuota": "Cotă furnizor",
-    "providerQuotaHomeHint": "Stare în timp real pentru conturile conectate"
+    "providerQuotaHomeHint": "Stare în timp real pentru conturile conectate",
+    "budgetDataUnavailable": "Datele bugetului nu sunt disponibile. Utilizarea și limitele nu au putut fi încărcate.",
+    "budgetAccountingNotice": "Cheltuieli bugetare înregistrate: astăzi și în luna calendaristică, după ora locală a serverului, din registrul bugetar. Nu reprezintă facturarea furnizorului. Starea reflectă limitele configurate, nu garantează că acestea sunt aplicate pe fiecare cale de procesare a cererilor.",
+    "budgetAnalyticsNotice": "Estimări bazate pe prețurile tokenurilor pentru această cheie în intervalul mobil al ultimelor 30 de zile (abonamentele cu tarif fix sunt excluse). Separate de utilizarea lunii calendaristice din registrul bugetar; nu reprezintă facturarea furnizorului.",
+    "budgetBreakdownUnavailable": "Detalierea analizei de prețuri nu este disponibilă.",
+    "budgetNoAnalyticsData": "Nu există date cu cost estimat pozitiv în analiza de prețuri pentru această cheie și acest interval."
   },
   "modals": {
     "waitingAuth": "În așteptarea autorizației",

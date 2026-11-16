@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Utwórz integrację wewnętrzną w",
     "notionIntegrationToken": "Token Integracji Wewnętrznej Notion",
     "notionNotConnected": "Nie połączono",
-    "notionTokenConfigured": "Token skonfigurowany. Narzędzia Notion są dostępne przez MCP."
+    "notionTokenConfigured": "Token skonfigurowany. Narzędzia Notion są dostępne przez MCP.",
+    "apiKeyClipboardFailed": "Bezpieczny schowek jest niedostępny. Użyj HTTPS i zezwól na dostęp do schowka."
   },
   "endpoints": {
     "tabProxy": "Proxy punktu końcowego",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agresywny",
       "ultra": "Ultra",
       "responsesToolOutput": "Wynik narzędzia odpowiedzi"
-    }
+    },
+    "conversationJsonLabel": "JSON rozmowy (tablica wiadomości z polami role/content)",
+    "conversationJsonInvalid": "Wprowadź niepustą tablicę JSON wiadomości z polami role i content typu tekstowego.",
+    "previewPriorRetrievals": "Symulowane wcześniejsze pobrania (tylko podgląd)",
+    "isolatedPreviewNotice": "Izolowane uruchomienie próbne. Bloki istnieją tylko na potrzeby tego podglądu; bez zapisu w magazynie produkcyjnym ani informacji zwrotnej dotyczącej pobierania.",
+    "retrievePreviewBlock": "Pobierz blok podglądu {hash}"
   },
   "contextCombos": {
     "title": "Combos kompresji",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Zaktualizowano",
     "lastRefreshed": "Ostatnio odświeżono",
     "providerQuota": "Limit dostawcy",
-    "providerQuotaHomeHint": "Status na żywo na połączonych kontach"
+    "providerQuotaHomeHint": "Status na żywo na połączonych kontach",
+    "budgetDataUnavailable": "Dane budżetu są niedostępne. Nie udało się wczytać zużycia i limitów.",
+    "budgetAccountingNotice": "Zarejestrowane wydatki budżetu: dzisiaj i w miesiącu kalendarzowym według lokalnego czasu serwera, z rejestru budżetu. Nie jest to rozliczenie dostawcy. Status odzwierciedla skonfigurowane limity, ale nie gwarantuje ich egzekwowania na każdej ścieżce obsługi żądań.",
+    "budgetAnalyticsNotice": "Szacunkowe koszty według cen tokenów dla tego klucza w ruchomym okresie ostatnich 30 dni (bez subskrypcji ryczałtowych). Niezależne od zużycia za miesiąc kalendarzowy w rejestrze budżetu; nie jest to rozliczenie dostawcy.",
+    "budgetBreakdownUnavailable": "Szczegółowy podział analizy cen jest niedostępny.",
+    "budgetNoAnalyticsData": "Brak danych z dodatnim szacowanym kosztem w analizie cen dla tego klucza i okresu."
   },
   "modals": {
     "waitingAuth": "Oczekiwanie na autoryzację",

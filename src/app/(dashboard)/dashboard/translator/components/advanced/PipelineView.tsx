@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Card, Badge } from "@/shared/components";
-import Collapsible from "@/shared/components/Collapsible";
+import Collapsible from "./TranslatorDetailsAccordion";
 import { FORMAT_META } from "../../exampleTemplates";
 import type { AdvancedAccordionProps, FormatId } from "../../types";
 
@@ -171,7 +171,8 @@ export default function PipelineView({
       title={tr("advancedPipelineTitle", "Pipeline OpenAI intermediário")}
       subtitle={tr("advancedPipelineSubtitle", "Visualize cada passo da tradução (hub-and-spoke).")}
       icon="route"
-      defaultOpen={defaultOpen || forceOpen}
+      open={open}
+      onOpenChange={handleOpenChange}
       className="border-black/5 dark:border-white/5"
     >
       {/* D7 lazy-render container */}

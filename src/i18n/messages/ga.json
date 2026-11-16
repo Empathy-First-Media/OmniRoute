@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Cruthaigh Comhtháthú Inmheánach ag",
     "notionIntegrationToken": "Tóicín Comhtháthaithe Inmheánaigh Notion",
     "notionNotConnected": "Níl sé ceangailte",
-    "notionTokenConfigured": "Tóicín cumraithe. Tá uirlisí Notion ar fáil trí MCP."
+    "notionTokenConfigured": "Tóicín cumraithe. Tá uirlisí Notion ar fáil trí MCP.",
+    "apiKeyClipboardFailed": "Níl an ghearrthaisce shlán ar fáil. Úsáid HTTPS agus ceadaigh rochtain ar an ngearrthaisce."
   },
   "endpoints": {
     "tabProxy": "Seachfhreastalaí Críochphointe",
@@ -8701,7 +8702,12 @@
       "aggressive": "Ionsaitheach",
       "ultra": "Sár",
       "responsesToolOutput": "Aschur na huirlise Responses"
-    }
+    },
+    "conversationJsonLabel": "JSON an chomhrá (eagar teachtaireachtaí le réimsí role/content)",
+    "conversationJsonInvalid": "Cuir isteach eagar JSON nach bhfuil folamh de theachtaireachtaí a bhfuil teaghráin sna réimsí role agus content acu.",
+    "previewPriorRetrievals": "Aisghabhálacha roimhe seo insamhlaithe (réamhamharc amháin)",
+    "isolatedPreviewNotice": "Rith trialach leithlisithe. Níl na bloic ann ach don réamhamharc seo; ní dhéantar aon scríobh chuig an stór beo ná aon aiseolas aisghabhála.",
+    "retrievePreviewBlock": "Aisghabh bloc réamhamhairc {hash}"
   },
   "contextCombos": {
     "title": "Comhcheangail chomhbhrúcháin",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Nuashonraithe",
     "lastRefreshed": "Athnuachan deireanach",
     "providerQuota": "Cuóta Soláthraí",
-    "providerQuotaHomeHint": "Stádas beo trasna na gcuntas nasctha"
+    "providerQuotaHomeHint": "Stádas beo trasna na gcuntas nasctha",
+    "budgetDataUnavailable": "Níl sonraí buiséid ar fáil. Níorbh fhéidir an úsáid ná na teorainneacha a lódáil.",
+    "budgetAccountingNotice": "Caiteachas buiséid taifeadta: don lá inniu agus don mhí féilire de réir am áitiúil an fhreastalaí, ón mórleabhar buiséid. Ní billeáil an tsoláthraí é seo. Léiríonn an stádas na teorainneacha cumraithe, ach ní ráthaíonn sé go gcuirtear i bhfeidhm iad ar gach conair iarratais.",
+    "budgetAnalyticsNotice": "Meastacháin bunaithe ar phraghsanna tóicíní don eochair seo thar na 30 lá is déanaí i bhfuinneog rollach (gan síntiúis ar ráta comhréidh san áireamh). Tá siad ar leithligh ó úsáid na míosa féilire sa mhórleabhar buiséid; ní billeáil an tsoláthraí iad.",
+    "budgetBreakdownUnavailable": "Níl miondealú na hanailíse praghsála ar fáil.",
+    "budgetNoAnalyticsData": "Níl sonraí faoi chostas measta os cionn nialais san anailís praghsála don eochair seo agus don tréimhse seo."
   },
   "modals": {
     "waitingAuth": "Ag fanacht le húdarú",

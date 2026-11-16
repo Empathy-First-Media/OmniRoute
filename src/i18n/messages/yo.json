@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "Ń ṣàfihàn {shown} nínú {total} ìlà tó bá mu (àwọn 50 tó ga jù)."
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "Pátákó àdàkọ tó ní ààbò kò sí nílẹ̀. Lo HTTPS kí o sì gba àyè láti lo pátákó àdàkọ.",
     "title": "Ibi Ìparí API",
     "subtitle": "Lo ibi ìparí tó bá OpenAI mu pẹ̀lú ọ̀pọ̀lọpọ̀ SDK àti irinṣẹ́.",
     "testEndpoint": "Dán ibi ìparí wò →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "Kò ṣeé ṣe láti ka fáìlì TOML tí a yàn."
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "JSON ìjíròrò (àkójọpọ̀ àwọn ìfiránṣẹ́ role/content)",
+    "conversationJsonInvalid": "Tẹ àkójọpọ̀ àwọn ìfiránṣẹ́ JSON tí kò ṣófo sílẹ̀, tí role àti content sì jẹ́ ọ̀rọ̀.",
+    "previewPriorRetrievals": "Àwọn àfarawé ìmúpadàbọ̀ dátà tó ti kọjá (fún àwòtẹ́lẹ̀ nìkan)",
+    "isolatedPreviewNotice": "Ìdánwò tí a yà sọ́tọ̀. Àwọn búlọ́ọ̀kì wà fún àwòtẹ́lẹ̀ yìí nìkan; kò sí kíkọ sínú ibi ìpamọ́ tí a ń lò tàbí èsì ìmúpadàbọ̀ dátà.",
+    "retrievePreviewBlock": "Mú búlọ́ọ̀kì àwòtẹ́lẹ̀ {hash} padà",
     "loading": "Ń gbé wọlé…",
     "loadFailed": "Kò ṣeé ṣe láti gbé ìwífún ẹ́ńjìnnì wọlé.",
     "engineNotFound": "A kò rí ẹ́ńjìnnì \"{engine}\".",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "Yíyí ṣiṣàn padà kùnà"
   },
   "usage": {
+    "budgetDataUnavailable": "Àwọn dátà ìnáwó ètò kò sí nílẹ̀. A kò lè ṣí dátà lílò àti àwọn ààlà.",
+    "budgetAccountingNotice": "Ìnáwó ètò tí a ti kọ sílẹ̀: ti òní àti ti oṣù kàlẹ́ńdà ní àkókò agbègbè ẹ̀rọ ìpèsè, láti inú ìwé àkọsílẹ̀ ètò ìnáwó. Kì í ṣe owó tí olùpèsè ń béèrè pé kí a san. Ipò náà fi àwọn ààlà tí a ṣètò hàn, kì í ṣe ìdánilójú pé gbogbo ọ̀nà ìbéèrè ló ń fipá mú wọn ṣiṣẹ́.",
+    "budgetAnalyticsNotice": "Àwọn ìṣírò iye owó token fún kọ́kọ́rọ́ yìí nìkan ní àkókò ọjọ́ 30 tó kọjá tí ń yí pẹ̀lú àkókò (àwọn ìforúkọsílẹ̀ owó tí kò yí padà kò sí lára rẹ̀). Ó yàtọ̀ sí lílò inú ìwé àkọsílẹ̀ ètò ìnáwó ti oṣù kàlẹ́ńdà; kì í ṣe owó tí olùpèsè ń béèrè pé kí a san.",
+    "budgetBreakdownUnavailable": "Àlàyé ìpín ìtúpalẹ̀ iye owó kò sí nílẹ̀.",
+    "budgetNoAnalyticsData": "Kò sí dátà ìṣírò iye owó tí ó ju òdo lọ nínú ìtúpalẹ̀ iye owó fún kọ́kọ́rọ́ àti àkókò yìí.",
     "title": "Ìlò",
     "grokExtraUsageCredits": "Àwọn Kírẹ́díìtì Ìlò Àfikún",
     "grokAutoTopUp": "Ìfikún Owó Aládàáṣe",

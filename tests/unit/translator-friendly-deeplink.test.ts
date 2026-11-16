@@ -38,11 +38,9 @@ function parseDeepLink(searchString: string): TranslateDeepLink {
   const advanced = params.get("advanced");
   return {
     tab: VALID_TABS.has(tab as TranslatorTab) ? (tab as TranslatorTab) : "translate",
-    mode: VALID_MODES.has(mode as TranslateMode) ? (mode as TranslateMode) : "send",
+    mode: VALID_MODES.has(mode as TranslateMode) ? (mode as TranslateMode) : "preview",
     advanced:
-      advanced && VALID_ADVANCED.has(advanced as AdvancedSlug)
-        ? (advanced as AdvancedSlug)
-        : null,
+      advanced && VALID_ADVANCED.has(advanced as AdvancedSlug) ? (advanced as AdvancedSlug) : null,
   };
 }
 
@@ -62,17 +60,17 @@ function applyPatch(
 // ─────────────────────────────────────────────────────────────────────────────
 
 describe("parseDeepLink — defaults", () => {
-  it("empty string → translate / send / null", () => {
+  it("empty string → translate / preview / null", () => {
     const state = parseDeepLink("");
     assert.equal(state.tab, "translate");
-    assert.equal(state.mode, "send");
+    assert.equal(state.mode, "preview");
     assert.equal(state.advanced, null);
   });
 
   it("missing params → all defaults", () => {
     const state = parseDeepLink("foo=bar");
     assert.equal(state.tab, "translate");
-    assert.equal(state.mode, "send");
+    assert.equal(state.mode, "preview");
     assert.equal(state.advanced, null);
   });
 });
@@ -142,9 +140,9 @@ describe("parseDeepLink — invalid / out-of-enum values fall back to default", 
     assert.equal(state.tab, "translate");
   });
 
-  it("mode=live → send", () => {
+  it("mode=live → preview", () => {
     const state = parseDeepLink("mode=live");
-    assert.equal(state.mode, "send");
+    assert.equal(state.mode, "preview");
   });
 
   it("advanced=unknown → null", () => {
@@ -202,7 +200,13 @@ describe("applyPatch (setTab / setMode / setAdvanced simulation)", () => {
 describe("all enum values are covered", () => {
   const tabs: TranslatorTab[] = ["translate", "monitor"];
   const modes: TranslateMode[] = ["preview", "send"];
-  const slugs: AdvancedSlug[] = ["rawjson", "pipeline", "streamtransform", "testbench", "compression"];
+  const slugs: AdvancedSlug[] = [
+    "rawjson",
+    "pipeline",
+    "streamtransform",
+    "testbench",
+    "compression",
+  ];
 
   for (const tab of tabs) {
     it(`tab=${tab} round-trips`, () => {

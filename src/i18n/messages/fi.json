@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Luo sisäinen integraatio kohdassa",
     "notionIntegrationToken": "Notionin sisäinen integraatiotunnus",
     "notionNotConnected": "Ei yhdistetty",
-    "notionTokenConfigured": "Token on määritetty. Notion-työkalut ovat saatavilla MCP:n kautta."
+    "notionTokenConfigured": "Token on määritetty. Notion-työkalut ovat saatavilla MCP:n kautta.",
+    "apiKeyClipboardFailed": "Suojattu leikepöytä ei ole käytettävissä. Käytä HTTPS-yhteyttä ja salli leikepöydän käyttö."
   },
   "endpoints": {
     "tabProxy": "Päätepisteen välityspalvelin",
@@ -8701,7 +8702,12 @@
       "aggressive": "Aggressiivinen",
       "ultra": "Ultra",
       "responsesToolOutput": "Vastaustyökalun tuloste"
-    }
+    },
+    "conversationJsonLabel": "Keskustelun JSON (taulukko viesteistä, joissa on role/content-kentät)",
+    "conversationJsonInvalid": "Anna epätyhjä JSON-taulukko viesteistä, joiden role- ja content-kentät ovat merkkijonoja.",
+    "previewPriorRetrievals": "Simuloidut aiemmat haut (vain esikatselu)",
+    "isolatedPreviewNotice": "Eristetty koeajo. Lohkot ovat olemassa vain tätä esikatselua varten; käytössä olevaan tietovarastoon ei kirjoiteta eikä hauista anneta palautetta.",
+    "retrievePreviewBlock": "Hae esikatselulohko {hash}"
   },
   "contextCombos": {
     "title": "Pakkausyhdistelmät",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Päivitetty",
     "lastRefreshed": "Viimeksi päivitetty",
     "providerQuota": "Tarjoajan kiintiö",
-    "providerQuotaHomeHint": "Reaaliaikainen tila yhdistetyissä tileissä"
+    "providerQuotaHomeHint": "Reaaliaikainen tila yhdistetyissä tileissä",
+    "budgetDataUnavailable": "Budjettitiedot eivät ole saatavilla. Käyttöä ja rajoja ei voitu ladata.",
+    "budgetAccountingNotice": "Kirjatut budjettimenot: tänään ja kalenterikuukauden aikana palvelimen paikallisajan mukaan, budjettikirjanpidosta. Tämä ei ole palveluntarjoajan laskutus. Tila kuvaa määritettyjä rajoja, mutta ei takaa niiden noudattamista jokaisella pyynnön käsittelyreitillä.",
+    "budgetAnalyticsNotice": "Tämän avaimen tokenihintoihin perustuvat arviot viimeisten 30 päivän liukuvalta ajanjaksolta (kiinteähintaiset tilaukset eivät sisälly). Erillään budjettikirjanpidon kalenterikuukauden käytöstä; ei palveluntarjoajan laskutus.",
+    "budgetBreakdownUnavailable": "Hinta-analyysin erittely ei ole saatavilla.",
+    "budgetNoAnalyticsData": "Hinta-analyysissä ei ole tietoja nollaa suuremmista arvioiduista kustannuksista tälle avaimelle ja ajanjaksolle."
   },
   "modals": {
     "waitingAuth": "Odotetaan valtuutusta",

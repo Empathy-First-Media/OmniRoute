@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "正在显示 {total} 个匹配行中的 {shown} 个（前 50 个）。"
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "安全剪贴板不可用。请使用HTTPS并允许访问剪贴板。",
     "title": "API 端点",
     "subtitle": "可将 OpenAI 兼容端点与大多数 SDK 和工具配合使用。",
     "testEndpoint": "测试端点 →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "无法读取选定的 TOML 文件。"
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "对话JSON（包含role/content的消息数组）",
+    "conversationJsonInvalid": "请输入非空的JSON消息数组，其中role和content必须是字符串。",
+    "previewPriorRetrievals": "模拟此前的检索（仅用于预览）",
+    "isolatedPreviewNotice": "隔离试运行。数据块仅存在于此次预览中，不会写入实际存储或产生检索反馈。",
+    "retrievePreviewBlock": "检索预览数据块 {hash}",
     "loading": "正在加载…",
     "loadFailed": "加载引擎信息失败。",
     "engineNotFound": "未找到引擎 \"{engine}\"。",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "转换流失败"
   },
   "usage": {
+    "budgetDataUnavailable": "预算数据不可用。无法加载使用量和限额。",
+    "budgetAccountingNotice": "已记录的预算支出：来自预算账本，按服务器本地时间统计今天和当前自然月的数据。并非提供商账单金额。状态反映已配置的限额，不保证每条请求路径都会执行这些限额。",
+    "budgetAnalyticsNotice": "仅针对该密钥、按令牌单价计算的最近30天滚动期间估算值（不包括固定费率订阅）。与自然月预算账本中的使用额分开统计，并非提供商账单金额。",
+    "budgetBreakdownUnavailable": "价格分析明细不可用。",
+    "budgetNoAnalyticsData": "该密钥和时间范围的价格分析中没有大于零的估算费用数据。",
     "title": "用量",
     "grokExtraUsageCredits": "额外使用积分",
     "grokAutoTopUp": "自动充值",

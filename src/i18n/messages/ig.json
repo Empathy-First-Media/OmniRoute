@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "Na-egosi ahịrị {shown} n'ime {total} dabara (50 kachasị elu)."
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "Bọdụ nnomi echekwara adịghị. Jiri HTTPS ma nye ohere ịbanye na bọdụ nnomi.",
     "title": "Ebe njedebe API",
     "subtitle": "Jiri ebe njedebe kwekọrọ na OpenAI mee ihe na ọtụtụ n'ime SDK na ngwaọrụ.",
     "testEndpoint": "Nwalee ebe njedebe →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "Enweghị ike ịgụ faịlụ TOML ahọpụtara."
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "JSON mkparịta ụka (usoro ozi nwere role/content)",
+    "conversationJsonInvalid": "Tinye usoro ozi JSON na-adịghị efu, nke role na content ya bụ ederede.",
+    "previewPriorRetrievals": "Nṅomi iweghachite data ndị gara aga (maka nlele mbụ naanị)",
+    "isolatedPreviewNotice": "Nnwale e kewapụrụ iche. Blọk ndị a dị naanị maka nlele mbụ a; enweghị ide ihe na nchekwa a na-eji arụ ọrụ ma ọ bụ nzaghachi iweghachite data.",
+    "retrievePreviewBlock": "Weghachite blọk nlele mbụ {hash}",
     "loading": "Na-ebunye…",
     "loadFailed": "Nbudata ozi injin dara ada.",
     "engineNotFound": "Ahụghị injin \"{engine}\".",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "Enweghị ike ịgbanwe iyi ahụ"
   },
   "usage": {
+    "budgetDataUnavailable": "Data mmefu ego adịghị. Enweghị ike ibunye data ojiji na oke.",
+    "budgetAccountingNotice": "Mmefu ego e dekọrọ: nke taa na nke ọnwa kalenda dịka oge mpaghara sava si dị, site n’akwụkwọ ndekọ mmefu ego. Nke a abụghị ụgwọ onye na-enye ọrụ chọrọ ka a kwụọ. Ọnọdụ a na-egosi oke a haziri, ọ bụghị nkwa na ụzọ arịrịọ ọ bụla na-amanye oke ndị ahụ.",
+    "budgetAnalyticsNotice": "Atụmatụ ọnụ ahịa token maka naanị igodo a n’ime ụbọchị 30 gara aga, nke oge ya na-aga n’ihu (ewepụla ndebanye aha a na-akwụ otu ego mgbe niile). Nke a dị iche na ojiji ọnwa kalenda dị n’akwụkwọ ndekọ mmefu ego; ọ bụghị ụgwọ onye na-enye ọrụ chọrọ ka a kwụọ.",
+    "budgetBreakdownUnavailable": "Nkọwa nkewa nyocha ọnụ ahịa adịghị.",
+    "budgetNoAnalyticsData": "Enweghị data atụmatụ mmefu karịrị efu na nyocha ọnụ ahịa maka igodo a na oge a.",
     "title": "Ojiji",
     "grokExtraUsageCredits": "Kredit maka ojiji ọzọ",
     "grokAutoTopUp": "Ngbakwunye Akpaka",

@@ -148,17 +148,6 @@ const EXPLORER_GROUP_OPTIONS: Array<{
   { value: "serviceTier", labelKey: "groupServiceTier" },
 ];
 
-const CHART_COLORS = [
-  "#10b981",
-  "#06b6d4",
-  "#f59e0b",
-  "#8b5cf6",
-  "#ef4444",
-  "#14b8a6",
-  "#6366f1",
-  "#ec4899",
-];
-
 const SHORT_WEEKDAY_INDEX: Record<string, number> = {
   Sun: 0,
   Mon: 1,
@@ -980,7 +969,6 @@ function CostExplorerCard({
   onSort: (sortKey: CostExplorerSortKey) => void;
 }) {
   const t = useTranslations("costs");
-  const currencyFormatter = useMemo(() => createCurrencyFormatter(locale), [locale]);
   const numberFormatter = useMemo(() => new Intl.NumberFormat(locale), [locale]);
   const compactFormatter = useMemo(
     () => new Intl.NumberFormat(locale, { notation: "compact" }),
@@ -1119,7 +1107,7 @@ function CostExplorerCard({
                     </td>
                     <td className="py-3 text-right font-mono text-text-muted">
                       {row.avgCostPerRequest > 0
-                        ? currencyFormatter.format(row.avgCostPerRequest)
+                        ? formatCurrencyCost(locale, row.avgCostPerRequest)
                         : "—"}
                     </td>
                     <td className="py-3 text-right">

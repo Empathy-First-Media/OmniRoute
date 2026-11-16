@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Crear una Integración Interna en",
     "notionIntegrationToken": "Token de Integración Interna de Notion",
     "notionNotConnected": "No conectado",
-    "notionTokenConfigured": "Token configurado. Las herramientas de Notion están disponibles a través de MCP."
+    "notionTokenConfigured": "Token configurado. Las herramientas de Notion están disponibles a través de MCP.",
+    "apiKeyClipboardFailed": "El portapapeles seguro no está disponible. Utiliza HTTPS y permite el acceso al portapapeles."
   },
   "endpoints": {
     "tabProxy": "Proxy de endpoints",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agresivo",
       "ultra": "Ultra",
       "responsesToolOutput": "Salida de la herramienta de respuestas"
-    }
+    },
+    "conversationJsonLabel": "JSON de la conversación (matriz de mensajes con campos role/content)",
+    "conversationJsonInvalid": "Introduce una matriz JSON no vacía de mensajes cuyos campos role y content sean cadenas de texto.",
+    "previewPriorRetrievals": "Recuperaciones anteriores simuladas (solo vista previa)",
+    "isolatedPreviewNotice": "Ejecución de prueba aislada. Los bloques solo existen para esta vista previa; no se escribe en el almacén activo ni se envían datos de retroalimentación de las recuperaciones.",
+    "retrievePreviewBlock": "Recuperar bloque de vista previa {hash}"
   },
   "contextCombos": {
     "title": "Combinaciones de compresión",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Actualizado",
     "lastRefreshed": "Última actualización",
     "providerQuota": "Cuota del proveedor",
-    "providerQuotaHomeHint": "Estado en tiempo real de las cuentas conectadas"
+    "providerQuotaHomeHint": "Estado en tiempo real de las cuentas conectadas",
+    "budgetDataUnavailable": "Datos del presupuesto no disponibles. No se pudieron cargar el uso ni los límites.",
+    "budgetAccountingNotice": "Gasto presupuestario registrado: hoy y el mes natural según la hora local del servidor, a partir del registro presupuestario. No es la facturación del proveedor. El estado refleja los límites configurados, pero no garantiza que se apliquen en todas las rutas de las solicitudes.",
+    "budgetAnalyticsNotice": "Estimaciones basadas en los precios de los tokens para esta clave durante los últimos 30 días en una ventana móvil (se excluyen las suscripciones de tarifa fija). Son independientes del uso del mes natural en el registro presupuestario; no son la facturación del proveedor.",
+    "budgetBreakdownUnavailable": "El desglose del análisis de precios no está disponible.",
+    "budgetNoAnalyticsData": "No hay datos de costes estimados superiores a cero en el análisis de precios para esta clave y este periodo."
   },
   "modals": {
     "waitingAuth": "Esperando autorización",

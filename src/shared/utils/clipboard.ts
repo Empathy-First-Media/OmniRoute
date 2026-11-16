@@ -1,16 +1,26 @@
 /**
  * Clipboard utility with HTTP/HTTPS fallback.
  * navigator.clipboard.writeText() requires HTTPS (secure context).
- * For HTTP deployments, falls back to execCommand('copy').
+ * For HTTP deployments, falls back to execCommand('copy') by default.
+ * Sensitive copies can opt out of the temporary DOM fallback.
  */
 
+export interface CopyToClipboardOptions {
+  /** Disable for credentials that must never enter a temporary textarea. */
+  allowFallback?: boolean;
+}
+
 /**
- * Copy text to clipboard with automatic HTTPS/HTTP fallback.
+ * Copy text to clipboard with optional HTTPS/HTTP fallback.
  * Works in both secure (HTTPS) and non-secure (HTTP) contexts.
  * @param text - Text to copy to clipboard
+ * @param options - Set allowFallback to false for Clipboard-API-only sensitive copies
  * @returns true if copy succeeded, false otherwise
  */
-export async function copyToClipboard(text: string): Promise<boolean> {
+export async function copyToClipboard(
+  text: string,
+  { allowFallback = true }: CopyToClipboardOptions = {}
+): Promise<boolean> {
   // Method 1: Clipboard API
   // Works on HTTPS, localhost (treated as secure context), and some browsers
   // even on HTTP. Try unconditionally — the catch handles failures.
@@ -22,6 +32,8 @@ export async function copyToClipboard(text: string): Promise<boolean> {
       // Fall through to execCommand fallback
     }
   }
+
+  if (!allowFallback) return false;
 
   // Method 2: Legacy execCommand fallback (works on HTTP)
   if (typeof document !== "undefined" && document.body) {

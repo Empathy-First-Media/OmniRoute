@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Card, Button, Select, Badge } from "@/shared/components";
-import Collapsible from "@/shared/components/Collapsible";
+import Collapsible from "./TranslatorDetailsAccordion";
 import Editor from "@/shared/components/MonacoEditor";
 import { getExampleTemplates, FORMAT_META, FORMAT_OPTIONS } from "../../exampleTemplates";
 import type { AdvancedAccordionProps } from "../../types";
@@ -11,6 +11,7 @@ import type { AdvancedAccordionProps } from "../../types";
 /** Props specific to RawJsonPanel (extends shared accordion props). */
 export interface RawJsonPanelProps extends Omit<AdvancedAccordionProps, "slug"> {
   slug?: AdvancedAccordionProps["slug"];
+  translatedJson?: string | null;
 }
 
 /**
@@ -25,6 +26,7 @@ export interface RawJsonPanelProps extends Omit<AdvancedAccordionProps, "slug"> 
  * mounted through subsequent open/close cycles (preserving editor state).
  */
 export default function RawJsonPanel({
+  translatedJson = null,
   forceOpen = false,
   onOpenChange,
   defaultOpen = false,
@@ -68,7 +70,14 @@ export default function RawJsonPanel({
   const [sourceFormat, setSourceFormat] = useState("claude");
   const [targetFormat, setTargetFormat] = useState("openai");
   const [inputContent, setInputContent] = useState("");
-  const [outputContent, setOutputContent] = useState("");
+  const [outputContent, setOutputContent] = useState(translatedJson ?? "");
+  const [previousTranslatedJson, setPreviousTranslatedJson] = useState(translatedJson);
+  // Adopt only a new completed result, not every parent render: local edits and
+  // local translations remain intact until the incoming result actually changes.
+  if (previousTranslatedJson !== translatedJson) {
+    setPreviousTranslatedJson(translatedJson);
+    if (translatedJson !== null) setOutputContent(translatedJson);
+  }
   const [intermediateContent, setIntermediateContent] = useState("");
   const [translationPath, setTranslationPath] = useState("");
   const [detectedFormat, setDetectedFormat] = useState<string | null>(null);
@@ -245,7 +254,8 @@ export default function RawJsonPanel({
         "Cole um request JSON; o formato é detectado automaticamente."
       )}
       icon="code"
-      defaultOpen={defaultOpen || forceOpen}
+      open={open}
+      onOpenChange={handleOpenChange}
       className="border-black/5 dark:border-white/5"
     >
       {/* Internal open-state control — Collapsible owns its own open state,

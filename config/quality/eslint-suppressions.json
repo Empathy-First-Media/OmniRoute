@@ -760,11 +760,6 @@
       "count": 6
     }
   },
-  "src/app/(dashboard)/dashboard/costs/CostOverviewTab.tsx": {
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
   "src/app/(dashboard)/dashboard/costs/costExplorerUtils.ts": {
     "no-restricted-syntax": {
       "count": 1
@@ -966,16 +961,6 @@
     }
   },
   "src/app/(dashboard)/dashboard/translator/components/ResultNarrated.tsx": {
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
-  "src/app/(dashboard)/dashboard/translator/components/SimpleControls.tsx": {
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
-  "src/app/(dashboard)/dashboard/translator/components/TranslateTab.tsx": {
     "@typescript-eslint/no-unused-vars": {
       "count": 1
     }
@@ -4969,16 +4954,6 @@
     }
   },
   "tests/unit/translator-friendly-page-client.test.tsx": {
-    "@typescript-eslint/no-unused-vars": {
-      "count": 1
-    }
-  },
-  "tests/unit/translator-friendly-raw-json-panel.test.tsx": {
-    "@typescript-eslint/no-unused-vars": {
-      "count": 2
-    }
-  },
-  "tests/unit/translator-friendly-translate-tab.test.tsx": {
     "@typescript-eslint/no-unused-vars": {
       "count": 1
     }

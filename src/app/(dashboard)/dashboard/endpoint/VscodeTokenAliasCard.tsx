@@ -9,9 +9,6 @@ import { Card } from "@/shared/components";
 
 type EndpointApiKeySummary = {
   id: string;
-  key: string;
-  rawKey?: string;
-  isActive?: boolean;
 };
 
 export default function VscodeTokenAliasCard({
@@ -22,6 +19,8 @@ export default function VscodeTokenAliasCard({
   const [cliApiKeys, setCliApiKeys] = useState<EndpointApiKeySummary[]>([]);
   const [keysLoading, setKeysLoading] = useState(true);
   const [keysError, setKeysError] = useState(false);
+  const [copyError, setCopyError] = useState<string | null>(null);
+  const [copying, setCopying] = useState(false);
   const { copied, copy } = useCopyToClipboard();
   const displayBaseUrl = useDisplayBaseUrl();
 
@@ -33,14 +32,31 @@ export default function VscodeTokenAliasCard({
       setKeysError(false);
 
       try {
-        const res = await fetch("/api/cli-tools/keys");
+        const res = await fetch("/api/keys?limit=100", { credentials: "same-origin" });
         if (!res.ok) {
           throw new Error("Failed to load CLI keys");
         }
 
-        const data = await res.json();
+        const data: unknown = await res.json();
+        const rows: unknown[] = Array.isArray(data)
+          ? data
+          : data && typeof data === "object" && "keys" in data && Array.isArray(data.keys)
+            ? data.keys
+            : [];
         if (!cancelled) {
-          setCliApiKeys(data.keys || []);
+          // Keep only active key identities. Rendering must never load or retain raw keys.
+          setCliApiKeys(
+            rows.flatMap((row) => {
+              if (!row || typeof row !== "object") return [];
+              const key = row as Record<string, unknown>;
+              return typeof key.id === "string" &&
+                key.id.length > 0 &&
+                key.isActive !== false &&
+                key.isBanned !== true
+                ? [{ id: key.id }]
+                : [];
+            })
+          );
         }
       } catch {
         if (!cancelled) {
@@ -67,39 +83,96 @@ export default function VscodeTokenAliasCard({
     }
 
     const storedCopilotKeyId =
-      typeof window !== "undefined" ? window.localStorage.getItem("omniroute-cli-key-copilot") : null;
+      typeof window !== "undefined"
+        ? window.localStorage.getItem("omniroute-cli-key-copilot")
+        : null;
 
     return (
       (storedCopilotKeyId ? cliApiKeys.find((key) => key.id === storedCopilotKeyId) : null) ??
-      cliApiKeys.find((key) => key.isActive !== false) ??
       cliApiKeys[0] ??
       null
     );
   }, [cliApiKeys]);
 
-  const tokenSegment = preferredCliApiKey?.rawKey || "{token}";
-  const hasRealToken = Boolean(preferredCliApiKey?.rawKey);
+  const hasSelectedKey = Boolean(preferredCliApiKey);
   const translationToken = { token: "{token}" };
-  const baseUrl = `${displayBaseUrl}/api/v1/vscode/${tokenSegment}`;
+  const baseUrl = `${displayBaseUrl}/api/v1/vscode/{token}`;
   const vscodeTokenizedUrls = [
     {
       label: t("vscodeAliasBaseLabel"),
       url: `${baseUrl}/`,
+      suffix: "/",
       key: "vscode_token_base",
     },
     {
       label: t("vscodeAliasModelsLabel"),
       url: `${baseUrl}/models`,
+      suffix: "/models",
       key: "vscode_token_models",
     },
     {
       label: t("vscodeAliasChatLabel"),
       url: `${baseUrl}/chat/completions`,
+      suffix: "/chat/completions",
       key: "vscode_token_chat",
     },
   ];
 
-  const description = hasRealToken
+  const copyEndpoint = async (suffix: string, copyKey: string) => {
+    setCopyError(null);
+    if (!preferredCliApiKey) {
+      await copy(`${baseUrl}${suffix}`, copyKey);
+      return;
+    }
+
+    setCopying(true);
+    try {
+      // The native owner checks management auth and ALLOW_API_KEY_REVEAL for this gesture.
+      const res = await fetch(`/api/keys/${encodeURIComponent(preferredCliApiKey.id)}/reveal`, {
+        credentials: "same-origin",
+      });
+      if (!res.ok) {
+        setCopyError(
+          res.status === 403
+            ? t("apiKeyRevealDisabled")
+            : t("apiKeyRevealFailed", { status: res.status })
+        );
+        return;
+      }
+      const data: unknown = await res.json();
+      if (
+        !data ||
+        typeof data !== "object" ||
+        !("key" in data) ||
+        typeof data.key !== "string" ||
+        !data.key.trim()
+      ) {
+        setCopyError(t("apiKeyRevealInvalid"));
+        return;
+      }
+      // Raw credentials live only in this copy operation, never in state or rendered URLs.
+      const copiedSuccessfully = await copy(
+        `${displayBaseUrl}/api/v1/vscode/${encodeURIComponent(data.key)}${suffix}`,
+        copyKey,
+        { allowFallback: false }
+      );
+      if (!copiedSuccessfully) {
+        setCopyError(t("apiKeyClipboardFailed"));
+      }
+    } catch {
+      setCopyError(t("apiKeyRevealFailed", { status: 0 }));
+    } finally {
+      setCopying(false);
+    }
+  };
+
+  const copyErrorMessage = copyError ? (
+    <p role="alert" className="mt-2 text-xs text-red-500">
+      {copyError}
+    </p>
+  ) : null;
+
+  const description = hasSelectedKey
     ? t("vscodeAliasDescriptionReady", translationToken)
     : keysError
       ? t("vscodeAliasDescriptionError")
@@ -126,15 +199,18 @@ export default function VscodeTokenAliasCard({
 
         <div className="px-4 py-3">
           <p className="text-xs text-text-muted">{description}</p>
+          {copyErrorMessage}
 
           <div className="mt-3 flex flex-col gap-2">
-            {vscodeTokenizedUrls.map(({ label, url, key }) => (
+            {vscodeTokenizedUrls.map(({ label, url, suffix, key }) => (
               <CopyableEndpointRow
                 key={key}
                 label={label}
                 url={url}
                 copyKey={key}
-                copy={(text, copyKey) => void copy(text, copyKey)}
+                onCopy={() => void copyEndpoint(suffix, key)}
+                copyLabel={`${t("copyUrl")}: ${label}`}
+                disabled={keysLoading || copying}
                 copied={copied}
                 variant="catalog"
               />
@@ -159,14 +235,17 @@ export default function VscodeTokenAliasCard({
         </Link>
       </div>
 
+      {copyErrorMessage}
       <div className="mt-3 flex flex-col gap-2">
-        {vscodeTokenizedUrls.map(({ label, url, key }) => (
+        {vscodeTokenizedUrls.map(({ label, url, suffix, key }) => (
           <CopyableEndpointRow
             key={key}
             label={label}
             url={url}
             copyKey={key}
-            copy={(text, copyKey) => void copy(text, copyKey)}
+            onCopy={() => void copyEndpoint(suffix, key)}
+            copyLabel={`${t("copyUrl")}: ${label}`}
+            disabled={keysLoading || copying}
             copied={copied}
             variant="highlight"
           />
@@ -180,14 +259,18 @@ function CopyableEndpointRow({
   label,
   url,
   copyKey,
-  copy,
+  onCopy,
+  copyLabel,
+  disabled = false,
   copied,
   variant = "highlight",
 }: Readonly<{
   label: string;
   url: string;
   copyKey: string;
-  copy: (text: string, key?: string) => void;
+  onCopy: () => void;
+  copyLabel: string;
+  disabled?: boolean;
   copied?: string | null;
   variant?: "highlight" | "catalog";
 }>) {
@@ -201,10 +284,13 @@ function CopyableEndpointRow({
       <span className="w-24 shrink-0 text-[11px] font-medium text-text-muted">{label}</span>
       <code className="flex-1 min-w-0 truncate text-[11px] font-mono text-text-main">{url}</code>
       <button
-        onClick={() => copy(url, copyKey)}
-        className="shrink-0 flex items-center gap-1 rounded border border-border/70 px-2 py-1 text-text-muted transition-colors hover:text-text"
+        type="button"
+        onClick={onCopy}
+        aria-label={copyLabel}
+        disabled={disabled}
+        className="shrink-0 flex items-center gap-1 rounded border border-border/70 px-2 py-1 text-text-muted transition-colors hover:text-text disabled:opacity-50"
       >
-        <span className="material-symbols-outlined text-[12px]">
+        <span aria-hidden="true" className="material-symbols-outlined text-[12px]">
           {copied === copyKey ? "check" : "content_copy"}
         </span>
       </button>

@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Skapa en Intern Integration på",
     "notionIntegrationToken": "Notion Interna Integrations Token",
     "notionNotConnected": "Inte ansluten",
-    "notionTokenConfigured": "Token konfigurerad. Notion-verktyg är tillgängliga via MCP."
+    "notionTokenConfigured": "Token konfigurerad. Notion-verktyg är tillgängliga via MCP.",
+    "apiKeyClipboardFailed": "Säkert urklipp är inte tillgängligt. Använd HTTPS och tillåt åtkomst till urklipp."
   },
   "endpoints": {
     "tabProxy": "Slutpunktsproxy",
@@ -8701,7 +8702,12 @@
       "aggressive": "Aggressiv",
       "ultra": "Ultra",
       "responsesToolOutput": "Svar verktygets utdata"
-    }
+    },
+    "conversationJsonLabel": "Konversationens JSON (array av meddelanden med role/content)",
+    "conversationJsonInvalid": "Ange en icke-tom JSON-array av meddelanden där role och content är strängar.",
+    "previewPriorRetrievals": "Simulerade tidigare hämtningar (endast förhandsvisning)",
+    "isolatedPreviewNotice": "Isolerad provkörning. Blocken finns bara för denna förhandsvisning; ingen skrivning till aktivt datalager eller återkoppling om hämtningar.",
+    "retrievePreviewBlock": "Hämta förhandsvisningsblock {hash}"
   },
   "contextCombos": {
     "title": "Komprimeringskombinationer",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Uppdaterad",
     "lastRefreshed": "Senast uppdaterad",
     "providerQuota": "Leverantörskvot",
-    "providerQuotaHomeHint": "Livestatus för anslutna konton"
+    "providerQuotaHomeHint": "Livestatus för anslutna konton",
+    "budgetDataUnavailable": "Budgetdata är inte tillgängliga. Användning och gränser kunde inte läsas in.",
+    "budgetAccountingNotice": "Registrerade budgetutgifter: i dag och under kalendermånaden enligt serverns lokala tid, från budgetbokföringen. Detta är inte leverantörens fakturering. Statusen återspeglar inställda gränser, men garanterar inte att de upprätthålls i varje behandlingsväg för förfrågningar.",
+    "budgetAnalyticsNotice": "Uppskattningar baserade på tokenpriser för denna nyckel under de rullande senaste 30 dagarna (abonnemang med fast avgift undantagna). Separata från kalendermånadens användning i budgetbokföringen; inte leverantörens fakturering.",
+    "budgetBreakdownUnavailable": "Detaljerad uppdelning av prisanalysen är inte tillgänglig.",
+    "budgetNoAnalyticsData": "Inga data med positiv uppskattad kostnad i prisanalysen för denna nyckel och period."
   },
   "modals": {
     "waitingAuth": "Väntar på auktorisering",

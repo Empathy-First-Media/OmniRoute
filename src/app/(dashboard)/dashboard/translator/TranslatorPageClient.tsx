@@ -33,7 +33,7 @@ function TranslatorLoading() {
 function TranslatorPageClientInner() {
   const t = useTranslations("translator");
   const [sharedInputContent, setSharedInputContent] = useState("");
-  const { state, setTab, setAdvanced } = useTranslateDeepLink();
+  const { state, setTab, setMode, setAdvanced } = useTranslateDeepLink();
 
   // Lift session to shell so PipelineView can receive real steps
   const session = useTranslateSession();
@@ -129,6 +129,7 @@ function TranslatorPageClientInner() {
     <AdvancedSection forceOpenSlug={state.advanced}>
       <RawJsonPanel
         slug="rawjson"
+        translatedJson={session.result.translatedJson}
         forceOpen={state.advanced === "rawjson"}
         onOpenChange={makeOpenHandler("rawjson")}
       />
@@ -178,6 +179,8 @@ function TranslatorPageClientInner() {
 
       {state.tab === "translate" && (
         <TranslateTab
+          mode={state.mode}
+          onModeChange={setMode}
           forceOpenAdvancedSlug={state.advanced}
           onAdvancedSlugChange={(slug) => setAdvanced(slug)}
           session={session}

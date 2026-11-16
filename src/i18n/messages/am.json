@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "ከ{total} ተዛማጅ ረድፎች {shown} እየታዩ ነው (ከፍተኛዎቹ 50)።"
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "ደህንነቱ የተጠበቀ ቅንጥብ ሰሌዳ አይገኝም። HTTPS ይጠቀሙ እና የቅንጥብ ሰሌዳ መዳረሻን ይፍቀዱ።",
     "title": "API መገናኛ ነጥብ",
     "subtitle": "ከአብዛኛዎቹ SDKs እና መሣሪያዎች ጋር OpenAI-ተኳሃኝ መገናኛ ነጥቡን ይጠቀሙ።",
     "testEndpoint": "መገናኛ ነጥቡን ይፈትሹ →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "የተመረጠውን TOML ፋይል ማንበብ አልተቻለም።"
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "የውይይት JSON (role እና content ያላቸው መልዕክቶች ድርድር)",
+    "conversationJsonInvalid": "ባዶ ያልሆነ የመልዕክቶች JSON ድርድር ያስገቡ፤ በእያንዳንዱ መልዕክት ውስጥ ያሉት role እና content እሴቶች ሕብረቁምፊዎች መሆን አለባቸው።",
+    "previewPriorRetrievals": "የተመሰሉ ቀደምት መልሶ ማግኘቶች (ለቅድመ ዕይታ ብቻ)",
+    "isolatedPreviewNotice": "የተለየ የሙከራ ማስኬድ። ብሎኮች ያሉት ለዚህ ቅድመ ዕይታ ብቻ ነው፤ ወደ ቀጥታ ማከማቻው መጻፍም ሆነ የመልሶ ማግኘት ግብረመልስ የለም።",
+    "retrievePreviewBlock": "የቅድመ ዕይታ ብሎክ {hash} መልሰው ያግኙ",
     "loading": "በመጫን ላይ…",
     "loadFailed": "የሞተር መረጃን መጫን አልተሳካም።",
     "engineNotFound": "ሞተር \"{engine}\" አልተገኘም።",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "ዥረቱን መለወጥ አልተሳካም"
   },
   "usage": {
+    "budgetDataUnavailable": "የበጀት ውሂብ አይገኝም። አጠቃቀምን እና ገደቦችን መጫን አልተቻለም።",
+    "budgetAccountingNotice": "የተመዘገበ የበጀት ወጪ፦ በአገልጋዩ አካባቢያዊ ሰዓት መሠረት የዛሬ እና የቀን መቁጠሪያ ወር ወጪ፣ ከበጀት ሂሳብ መዝገብ የተወሰደ። ይህ የአቅራቢው ክፍያ ስሌት አይደለም። ሁኔታው የተዋቀሩ ገደቦችን ያሳያል፤ በሁሉም የጥያቄ መንገዶች ላይ እንደሚተገበሩ ዋስትና አይሰጥም።",
+    "budgetAnalyticsNotice": "ለዚህ ቁልፍ ብቻ የተወሰኑ፣ በቶከን ዋጋ ላይ የተመሠረቱ፣ ለተንሸራታቹ ያለፉት 30 ቀናት ግምቶች (በቋሚ ተመን የሚከፈሉ ደንበኝነቶች አይካተቱም)። ከቀን መቁጠሪያ ወር የበጀት ሂሳብ መዝገብ አጠቃቀም የተለዩ ናቸው፤ የአቅራቢው ክፍያ ስሌት አይደሉም።",
+    "budgetBreakdownUnavailable": "የዋጋ ትንታኔ ዝርዝር አይገኝም።",
+    "budgetNoAnalyticsData": "ለዚህ ቁልፍ እና የጊዜ ክልል በዋጋ ትንታኔው ውስጥ ከዜሮ በላይ የሆነ የተገመተ ወጪ ውሂብ የለም።",
     "title": "አጠቃቀም",
     "grokExtraUsageCredits": "ተጨማሪ የአጠቃቀም ክሬዲቶች",
     "grokAutoTopUp": "ራስ-ሰር ሂሳብ መሙላት",

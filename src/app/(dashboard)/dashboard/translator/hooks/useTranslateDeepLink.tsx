@@ -31,7 +31,7 @@ export function useTranslateDeepLink(): UseTranslateDeepLinkReturn {
     const advanced = params.get("advanced");
     return {
       tab: VALID_TABS.has(tab as TranslatorTab) ? (tab as TranslatorTab) : "translate",
-      mode: VALID_MODES.has(mode as TranslateMode) ? (mode as TranslateMode) : "send",
+      mode: VALID_MODES.has(mode as TranslateMode) ? (mode as TranslateMode) : "preview",
       advanced:
         advanced && VALID_ADVANCED.has(advanced as AdvancedSlug)
           ? (advanced as AdvancedSlug)

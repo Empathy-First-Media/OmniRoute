@@ -4226,7 +4226,8 @@
     "notionIntegrationHelp": "Loo sisemine integratsioon aadressil",
     "notionIntegrationToken": "Notioni sisemise integratsiooni tunnusluba",
     "notionNotConnected": "Ühendus puudub",
-    "notionTokenConfigured": "Tunnusluba on seadistatud. Notioni tööriistad on saadaval MCP kaudu."
+    "notionTokenConfigured": "Tunnusluba on seadistatud. Notioni tööriistad on saadaval MCP kaudu.",
+    "apiKeyClipboardFailed": "Turvaline lõikelaud pole saadaval. Kasutage HTTPS-i ja lubage juurdepääs lõikelauale."
   },
   "endpoints": {
     "tabProxy": "Lõpp-punkti puhverserver",
@@ -8701,7 +8702,12 @@
       "aggressive": "Agressiivne",
       "ultra": "Ultra",
       "responsesToolOutput": "Responses-tööriista väljund"
-    }
+    },
+    "conversationJsonLabel": "Vestluse JSON (role/content väljadega sõnumite massiiv)",
+    "conversationJsonInvalid": "Sisestage mittetühi JSON-sõnumimassiiv, mille väljad role ja content on stringid.",
+    "previewPriorRetrievals": "Simuleeritud varasemad päringuga toomised (ainult eelvaates)",
+    "isolatedPreviewNotice": "Isoleeritud proovikäivitus. Plokid eksisteerivad ainult selle eelvaate jaoks; aktiivsesse hoidlasse ei kirjutata ega edastata toomiste tagasisidet.",
+    "retrievePreviewBlock": "Too eelvaateplokk {hash}"
   },
   "contextCombos": {
     "title": "Tihenduskombinatsioonid",
@@ -9795,7 +9801,12 @@
     "updatedShort": "Uuendatud",
     "lastRefreshed": "Viimati värskendatud",
     "providerQuota": "Teenusepakkuja kvoot",
-    "providerQuotaHomeHint": "Ühendatud kontode reaalajas olek"
+    "providerQuotaHomeHint": "Ühendatud kontode reaalajas olek",
+    "budgetDataUnavailable": "Eelarveandmed pole saadaval. Kasutust ja piiranguid ei õnnestunud laadida.",
+    "budgetAccountingNotice": "Registreeritud eelarvekulud: tänase päeva ja kalendrikuu kohta serveri kohaliku aja järgi, eelarve arvestusregistrist. See ei ole teenusepakkuja arveldus. Olek kajastab seadistatud piiranguid, kuid ei taga nende jõustamist igal päringu töötlemisteel.",
+    "budgetAnalyticsNotice": "Selle võtme tokenihindadel põhinevad hinnangud viimase 30 päeva liikuva ajavahemiku kohta (fikseeritud tasuga tellimused on välistatud). Eraldi eelarve arvestusregistri kalendrikuu kasutusest; see ei ole teenusepakkuja arveldus.",
+    "budgetBreakdownUnavailable": "Hinnaanalüüsi üksikasjalik jaotus pole saadaval.",
+    "budgetNoAnalyticsData": "Hinnaanalüüsis pole selle võtme ja ajavahemiku kohta nullist suurema hinnangulise kulu andmeid."
   },
   "modals": {
     "waitingAuth": "Autoriseerimise ootel",

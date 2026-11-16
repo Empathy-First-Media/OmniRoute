@@ -27,7 +27,6 @@ interface SimpleControlsProps {
 
 export default function SimpleControls({
   source,
-  target,
   provider,
   inputText,
   mode,
@@ -110,7 +109,10 @@ export default function SimpleControls({
 
   const exampleSelectOptions = [
     ...examples.map((ex) => ({ value: ex.id, label: ex.name })),
-    { value: "__custom__", label: tr("simpleStartWithCustomOption", "Paste your request (advanced)") },
+    {
+      value: "__custom__",
+      label: tr("simpleStartWithCustomOption", "Paste your request (advanced)"),
+    },
   ];
 
   const sourceOptions = FORMAT_OPTIONS;
@@ -124,7 +126,12 @@ export default function SimpleControls({
             <span className="text-sm font-medium text-text-main">
               {tr("simpleAppUsesLabel", "My app uses")}
             </span>
-            <InfoTooltip text={tr("simpleAppUsesHint", "The API format your app speaks (e.g. Anthropic SDK = claude).")} />
+            <InfoTooltip
+              text={tr(
+                "simpleAppUsesHint",
+                "The API format your app speaks (e.g. Anthropic SDK = claude)."
+              )}
+            />
           </div>
           <Select
             aria-label={tr("simpleAppUsesLabel", "My app uses")}
@@ -135,7 +142,10 @@ export default function SimpleControls({
         </div>
 
         <div className="hidden items-center pt-8 sm:flex">
-          <span className="material-symbols-outlined text-[20px] text-text-muted" aria-hidden="true">
+          <span
+            className="material-symbols-outlined text-[20px] text-text-muted"
+            aria-hidden="true"
+          >
             arrow_forward
           </span>
         </div>
@@ -145,11 +155,18 @@ export default function SimpleControls({
             <span className="text-sm font-medium text-text-main">
               {tr("simpleSendToLabel", "Send to")}
             </span>
-            <InfoTooltip text={tr("simpleSendToHint", "Where to actually send the request (a provider connected in OmniRoute).")} />
+            <InfoTooltip
+              text={tr(
+                "simpleSendToHint",
+                "Where to actually send the request (a provider connected in OmniRoute)."
+              )}
+            />
           </div>
           <Select
             aria-label={tr("simpleSendToLabel", "Send to")}
-            options={providerOptions.length > 0 ? providerOptions : [{ value: provider, label: provider }]}
+            options={
+              providerOptions.length > 0 ? providerOptions : [{ value: provider, label: provider }]
+            }
             value={provider}
             onChange={handleProviderChange}
             disabled={loading}
@@ -173,9 +190,7 @@ export default function SimpleControls({
 
       {/* Row 3: mode segmented control */}
       <div className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-text-main">
-          {tr("simpleModeLabel", "Mode")}
-        </span>
+        <span className="text-sm font-medium text-text-main">{tr("simpleModeLabel", "Mode")}</span>
         <SegmentedControl
           options={modeOptions}
           value={mode}
@@ -206,7 +221,11 @@ export default function SimpleControls({
           onClick={onSubmit}
           disabled={!inputText.trim() || isLoading}
           loading={isLoading}
-          aria-label={tr("simpleModeSend", "Send and see response")}
+          aria-label={
+            mode === "preview"
+              ? tr("simpleModePreview", "Preview translation only")
+              : tr("simpleModeSend", "Send and see response")
+          }
         >
           {mode === "preview"
             ? tr("simpleModePreview", "Preview translation only")
@@ -219,7 +238,9 @@ export default function SimpleControls({
           aria-label={tr("simpleAdvancedToggle", "Advanced")}
           className="inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-sm text-text-muted transition-colors hover:bg-black/5 hover:text-text-main dark:hover:bg-white/5"
         >
-          <span className="material-symbols-outlined text-[16px]" aria-hidden="true">tune</span>
+          <span className="material-symbols-outlined text-[16px]" aria-hidden="true">
+            tune
+          </span>
           {tr("simpleAdvancedToggle", "Advanced")}
         </button>
       </div>

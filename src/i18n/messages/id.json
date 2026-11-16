@@ -3915,6 +3915,7 @@
     "showingTopCostRows": "Menampilkan {shown} dari {total} baris yang cocok (50 teratas)."
   },
   "endpoint": {
+    "apiKeyClipboardFailed": "Papan klip aman tidak tersedia. Gunakan HTTPS dan izinkan akses papan klip.",
     "title": "Titik Akhir API",
     "subtitle": "Gunakan endpoint yang kompatibel dengan OpenAI dengan sebagian besar SDK dan alat.",
     "testEndpoint": "Uji endpoint →",
@@ -8542,6 +8543,11 @@
     "tomlFileReadError": "Tidak dapat membaca file TOML yang dipilih."
   },
   "compressionEngineConfig": {
+    "conversationJsonLabel": "JSON percakapan (larik pesan role/content)",
+    "conversationJsonInvalid": "Masukkan larik JSON pesan yang tidak kosong dengan role dan content berupa string.",
+    "previewPriorRetrievals": "Simulasi pengambilan sebelumnya (hanya pratinjau)",
+    "isolatedPreviewNotice": "Uji coba terisolasi. Blok hanya ada untuk pratinjau ini; tidak ada penulisan ke penyimpanan aktif atau umpan balik pengambilan.",
+    "retrievePreviewBlock": "Ambil blok pratinjau {hash}",
     "loading": "Memuat…",
     "loadFailed": "Gagal memuat informasi engine.",
     "engineNotFound": "Engine \"{engine}\" tidak ditemukan.",
@@ -9346,6 +9352,11 @@
     "streamTransformFailed": "Gagal mentransformasi stream"
   },
   "usage": {
+    "budgetDataUnavailable": "Data anggaran tidak tersedia. Penggunaan dan batas tidak dapat dimuat.",
+    "budgetAccountingNotice": "Pengeluaran anggaran tercatat: hari ini dan bulan kalender menurut waktu lokal server, dari buku besar anggaran. Bukan tagihan penyedia. Status mencerminkan batas yang dikonfigurasi, bukan jaminan bahwa setiap jalur permintaan menerapkannya.",
+    "budgetAnalyticsNotice": "Estimasi berdasarkan harga token khusus kunci ini untuk periode bergulir 30 hari terakhir (langganan tarif tetap tidak disertakan). Terpisah dari penggunaan buku besar anggaran bulan kalender; bukan tagihan penyedia.",
+    "budgetBreakdownUnavailable": "Rincian analitik harga tidak tersedia.",
+    "budgetNoAnalyticsData": "Tidak ada data estimasi biaya di atas nol dalam analitik harga untuk kunci dan rentang waktu ini.",
     "title": "Penggunaan",
     "grokExtraUsageCredits": "Kredit Penggunaan Ekstra",
     "grokAutoTopUp": "Isi Ulang Otomatis",
