@@ -170,6 +170,44 @@ function runCleanup(): void {
 }
 
 describe("RawJsonPanel", () => {
+  it("copies already-visible JSON using the native HTTP fallback when Clipboard API is absent", async () => {
+    const clipboardDescriptor = Object.getOwnPropertyDescriptor(navigator, "clipboard");
+    const commandDescriptor = Object.getOwnPropertyDescriptor(document, "execCommand");
+    const visibleJson = '{"messages":[{"role":"user","content":"already visible"}]}';
+    const fallback = vi.fn((command: string) => {
+      expect(command).toBe("copy");
+      const temporary = [...document.querySelectorAll("textarea")].find(
+        (el) => el.style.position === "fixed"
+      );
+      expect(temporary?.value).toBe(visibleJson);
+      return true;
+    });
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value: undefined });
+    Object.defineProperty(document, "execCommand", { configurable: true, value: fallback });
+    try {
+      const { default: RawJsonPanel } =
+        await import("@/app/(dashboard)/dashboard/translator/components/advanced/RawJsonPanel");
+      const container = makeContainer();
+      const root = mountRoot(container);
+      await act(async () => root.render(<RawJsonPanel defaultOpen translatedJson={visibleJson} />));
+      const copyButton = container.querySelector<HTMLButtonElement>(
+        'button[aria-label="Copy output JSON"]'
+      );
+      expect(copyButton).toBeTruthy();
+      await act(async () => {
+        copyButton!.click();
+      });
+      expect(fallback).toHaveBeenCalledExactlyOnceWith("copy");
+      expect(
+        [...document.querySelectorAll("textarea")].filter((el) => el.style.position === "fixed")
+      ).toHaveLength(0);
+    } finally {
+      if (clipboardDescriptor) Object.defineProperty(navigator, "clipboard", clipboardDescriptor);
+      else Reflect.deleteProperty(navigator, "clipboard");
+      if (commandDescriptor) Object.defineProperty(document, "execCommand", commandDescriptor);
+      else Reflect.deleteProperty(document, "execCommand");
+    }
+  });
   it("preserves local input and translation on unchanged results, adopting only new completed JSON", async () => {
     const { default: RawJsonPanel } =
       await import("@/app/(dashboard)/dashboard/translator/components/advanced/RawJsonPanel");

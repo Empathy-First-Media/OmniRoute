@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { Button, Card } from "@/shared/components";
-import { copyToClipboard } from "@/shared/utils/clipboard";
+import { useCopyToClipboard } from "@/shared/hooks/useCopyToClipboard";
 import { cn } from "@/shared/utils/cn";
 
 // ─── Sample payloads ──────────────────────────────────────────────────────────
@@ -167,18 +167,12 @@ export default function StreamTransformerAccordion({
   const [rawSse, setRawSse] = useState(SAMPLE_TEXT);
   const [transformedSse, setTransformedSse] = useState("");
   const [loading, setLoading] = useState(false);
-  const [copiedField, setCopiedField] = useState<string | null>(null);
+  const { copied: copiedField, copy: handleCopy } = useCopyToClipboard();
   const [error, setError] = useState<string | null>(null);
 
   const transformedFrames = useMemo(() => parseSseFrames(transformedSse), [transformedSse]);
   const eventCount = transformedFrames.length;
   const uniqueEventCount = new Set(transformedFrames.map((frame) => frame.event)).size;
-
-  const handleCopy = useCallback(async (value: string, field: string) => {
-    await copyToClipboard(value);
-    setCopiedField(field);
-    setTimeout(() => setCopiedField(null), 2000);
-  }, []);
 
   const runTransform = useCallback(async () => {
     setLoading(true);

@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { useCopyToClipboard } from "@/shared/hooks/useCopyToClipboard";
 import { Card, Button, Select, Badge } from "@/shared/components";
 import Collapsible from "./TranslatorDetailsAccordion";
 import Editor from "@/shared/components/MonacoEditor";
@@ -211,13 +212,7 @@ export default function RawJsonPanel({
   };
 
   // ── Copy helper ────────────────────────────────────────────────────────────
-  const handleCopy = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      /* silent — clipboard API can fail in non-secure contexts */
-    }
-  };
+  const { copy: handleCopy } = useCopyToClipboard();
 
   // ── Swap formats ───────────────────────────────────────────────────────────
   const handleSwapFormats = () => {

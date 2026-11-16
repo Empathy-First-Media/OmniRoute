@@ -36,9 +36,7 @@ vi.mock("@/shared/components", () => ({
       {children}
     </button>
   ),
-  Card: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="card">{children}</div>
-  ),
+  Card: ({ children }: { children: React.ReactNode }) => <div data-testid="card">{children}</div>,
 }));
 
 vi.mock("@/shared/utils/clipboard", () => ({
@@ -72,9 +70,8 @@ function findButtonByLabel(container: HTMLElement, label: string): HTMLButtonEle
 async function renderAccordion(
   props: { forceOpen?: boolean; onOpenChange?: (open: boolean) => void } = {}
 ): Promise<HTMLElement> {
-  const { default: StreamTransformerAccordion } = await import(
-    "@/app/(dashboard)/dashboard/translator/components/advanced/StreamTransformerAccordion"
-  );
+  const { default: StreamTransformerAccordion } =
+    await import("@/app/(dashboard)/dashboard/translator/components/advanced/StreamTransformerAccordion");
   const container = makeContainer();
   const root = createRoot(container);
   await act(async () => {
@@ -86,6 +83,44 @@ async function renderAccordion(
 // ─── Test suite ───────────────────────────────────────────────────────────────
 
 describe("StreamTransformerAccordion", () => {
+  it("does not show a success marker when the clipboard utility returns false", async () => {
+    const { copyToClipboard } = await import("@/shared/utils/clipboard");
+    vi.mocked(copyToClipboard).mockResolvedValueOnce(false);
+    const container = await renderAccordion({ forceOpen: true });
+    const copyButton = findButtonByLabel(container, "Copy input");
+    expect(copyButton).toBeTruthy();
+    await act(async () => {
+      copyButton!.click();
+    });
+    expect(copyToClipboard).toHaveBeenCalled();
+    expect(copyButton!.textContent).toContain("content_copy");
+    expect(copyButton!.textContent).not.toContain("check");
+  });
+
+  it("uses the native copy owner's default two-second success feedback", async () => {
+    vi.useFakeTimers();
+    try {
+      const { copyToClipboard } = await import("@/shared/utils/clipboard");
+      vi.mocked(copyToClipboard).mockResolvedValueOnce(true);
+      const container = await renderAccordion({ forceOpen: true });
+      const copyButton = findButtonByLabel(container, "Copy input");
+      expect(copyButton).toBeTruthy();
+      await act(async () => {
+        copyButton!.click();
+      });
+      expect(copyButton!.textContent).toContain("check");
+      await act(async () => {
+        vi.advanceTimersByTime(1999);
+      });
+      expect(copyButton!.textContent).toContain("check");
+      await act(async () => {
+        vi.advanceTimersByTime(1);
+      });
+      expect(copyButton!.textContent).toContain("content_copy");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
   beforeEach(() => {
     (
       globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }
@@ -107,9 +142,8 @@ describe("StreamTransformerAccordion", () => {
   // ── 1. Smoke render ────────────────────────────────────────────────────────
 
   it("exports a default function component", async () => {
-    const mod = await import(
-      "@/app/(dashboard)/dashboard/translator/components/advanced/StreamTransformerAccordion"
-    );
+    const mod =
+      await import("@/app/(dashboard)/dashboard/translator/components/advanced/StreamTransformerAccordion");
     expect(typeof mod.default).toBe("function");
   });
 
@@ -165,11 +199,15 @@ describe("StreamTransformerAccordion", () => {
     const toggleBtn = container.querySelector("button[aria-expanded]") as HTMLButtonElement | null;
 
     // Open
-    await act(async () => { toggleBtn?.click(); });
+    await act(async () => {
+      toggleBtn?.click();
+    });
     expect(container.querySelector("[data-testid='raw-sse-input']")).toBeTruthy();
 
     // Close
-    await act(async () => { toggleBtn?.click(); });
+    await act(async () => {
+      toggleBtn?.click();
+    });
     expect(toggleBtn?.getAttribute("aria-expanded")).toBe("false");
     // Content still in DOM (hidden class applied, not unmounted).
     expect(container.querySelector(".hidden")).toBeTruthy();
@@ -191,7 +229,9 @@ describe("StreamTransformerAccordion", () => {
     const container = await renderAccordion({ onOpenChange });
     const toggleBtn = container.querySelector("button[aria-expanded]") as HTMLButtonElement | null;
 
-    await act(async () => { toggleBtn?.click(); });
+    await act(async () => {
+      toggleBtn?.click();
+    });
 
     expect(onOpenChange).toHaveBeenCalledWith(true);
   });
@@ -201,7 +241,9 @@ describe("StreamTransformerAccordion", () => {
     const container = await renderAccordion({ forceOpen: true, onOpenChange });
     const toggleBtn = container.querySelector("button[aria-expanded]") as HTMLButtonElement | null;
 
-    await act(async () => { toggleBtn?.click(); });
+    await act(async () => {
+      toggleBtn?.click();
+    });
 
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
@@ -216,7 +258,9 @@ describe("StreamTransformerAccordion", () => {
     const loadTextBtn = findButtonByLabel(container, "Load text sample");
     expect(loadTextBtn).toBeTruthy();
 
-    await act(async () => { loadTextBtn?.click(); });
+    await act(async () => {
+      loadTextBtn?.click();
+    });
 
     const textarea = container.querySelector(
       "[data-testid='raw-sse-input']"
@@ -232,7 +276,9 @@ describe("StreamTransformerAccordion", () => {
     const loadToolBtn = findButtonByLabel(container, "Load tool-call sample");
     expect(loadToolBtn).toBeTruthy();
 
-    await act(async () => { loadToolBtn?.click(); });
+    await act(async () => {
+      loadToolBtn?.click();
+    });
 
     const textarea = container.querySelector(
       "[data-testid='raw-sse-input']"
@@ -255,7 +301,9 @@ describe("StreamTransformerAccordion", () => {
     const transformBtn = findButtonByLabel(container, "Transform to Responses");
     expect(transformBtn).toBeTruthy();
 
-    await act(async () => { transformBtn?.click(); });
+    await act(async () => {
+      transformBtn?.click();
+    });
 
     expect(mockFetch).toHaveBeenCalledOnce();
     const [url, options] = mockFetch.mock.calls[0] as [string, RequestInit];
@@ -270,7 +318,7 @@ describe("StreamTransformerAccordion", () => {
 
   it("renders the transformed output in the pre element on success", async () => {
     const transformedPayload =
-      "data: {\"type\":\"response.output_text.delta\",\"delta\":\"Hello\"}\n\ndata: [DONE]\n";
+      'data: {"type":"response.output_text.delta","delta":"Hello"}\n\ndata: [DONE]\n';
 
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
@@ -283,7 +331,9 @@ describe("StreamTransformerAccordion", () => {
     const transformBtn = findButtonByLabel(container, "Transform to Responses");
     expect(transformBtn).toBeTruthy();
 
-    await act(async () => { transformBtn?.click(); });
+    await act(async () => {
+      transformBtn?.click();
+    });
 
     const output = container.querySelector("[data-testid='transformed-output']");
     expect(output).toBeTruthy();
@@ -305,7 +355,9 @@ describe("StreamTransformerAccordion", () => {
     const transformBtn = findButtonByLabel(container, "Transform to Responses");
     expect(transformBtn).toBeTruthy();
 
-    await act(async () => { transformBtn?.click(); });
+    await act(async () => {
+      transformBtn?.click();
+    });
 
     const errorEl = container.querySelector("[data-testid='error-display']");
     expect(errorEl).toBeTruthy();
@@ -331,7 +383,9 @@ describe("StreamTransformerAccordion", () => {
     const transformBtn = findButtonByLabel(container, "Transform to Responses");
     expect(transformBtn).toBeTruthy();
 
-    await act(async () => { transformBtn?.click(); });
+    await act(async () => {
+      transformBtn?.click();
+    });
 
     const errorEl = container.querySelector("[data-testid='error-display']");
     expect(errorEl).toBeTruthy();
@@ -355,7 +409,9 @@ describe("StreamTransformerAccordion", () => {
     const container = await renderAccordion({ forceOpen: true });
 
     const transformBtn = findButtonByLabel(container, "Transform to Responses");
-    await act(async () => { transformBtn?.click(); });
+    await act(async () => {
+      transformBtn?.click();
+    });
 
     // Timeline table should contain "done" in the event-type column.
     const cells = container.querySelectorAll("td.font-mono");
@@ -364,7 +420,7 @@ describe("StreamTransformerAccordion", () => {
   });
 
   it("parseSseFrames handles malformed JSON in data frames gracefully", async () => {
-    const weirdPayload = "data: not-json\n\ndata: {\"valid\":true}\n";
+    const weirdPayload = 'data: not-json\n\ndata: {"valid":true}\n';
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({ success: true, transformed: weirdPayload }),
@@ -377,7 +433,9 @@ describe("StreamTransformerAccordion", () => {
 
     // Should NOT throw.
     await expect(
-      act(async () => { transformBtn?.click(); })
+      act(async () => {
+        transformBtn?.click();
+      })
     ).resolves.not.toThrow();
 
     // Some frames should appear in the timeline (not empty).
